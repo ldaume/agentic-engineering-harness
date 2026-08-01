@@ -1,0 +1,151 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
+    ":configMigration",
+    "abandonments:recommended",
+    "security:minimumReleaseAgeNpm",
+    ":maintainLockFilesWeekly",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":automergeMinor"
+  ],
+  "dependencyDashboardApproval": false,
+  "labels": ["dependencies"],
+  "timezone": "Europe/Berlin",
+  "ignoreDeps": ["__ROOT_PACKAGE_NAME__"],
+  "prCreation": "immediate",
+  "rebaseWhen": "behind-base-branch",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "automerge": true
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
+  "packageRules": [
+    {
+      "description": "Major version updates - require manual approval",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major"]
+    },
+    {
+      "description": "pnpm major updates are manual toolchain migrations",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["pnpm"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "npm supply-chain cooldown",
+      "matchManagers": ["npm"],
+      "minimumReleaseAge": "5 days"
+    },
+    {
+      "description": "Docker image cooldown",
+      "matchDatasources": ["docker"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "CI actions cooldown",
+      "matchManagers": ["github-actions", "gitea-actions"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Quality toolchain - group non-major updates",
+      "groupName": "quality toolchain",
+      "groupSlug": "quality",
+      "matchPackageNames": [
+        "@types/node",
+        "knip",
+        "lint-staged",
+        "prettier",
+        "simple-git-hooks",
+        "typescript"
+      ],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Testing tools - group non-major updates",
+      "groupName": "testing tools",
+      "groupSlug": "testing",
+      "matchPackageNames": ["@playwright/test", "playwright", "vitest"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Node runtime images - group non-major container updates",
+      "groupName": "node runtime images",
+      "groupSlug": "node-runtime",
+      "matchManagers": ["dockerfile", "github-actions", "gitea-actions"],
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "CI actions - group non-major action updates",
+      "groupName": "ci actions",
+      "groupSlug": "ci-actions",
+      "matchManagers": ["github-actions", "gitea-actions"],
+      "matchPackageNames": ["actions/checkout", "actions/upload-artifact"],
+      "matchUpdateTypes": ["minor", "patch", "digest"]
+    },
+    {
+      "description": "Renovate self-update",
+      "groupName": "renovate self-update",
+      "groupSlug": "renovate-self",
+      "matchPackageNames": ["ghcr.io/renovatebot/renovate"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "@types/node major follows Node Active LTS",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "/^__NODE_MAJOR__\\./"
+    },
+    {
+      "description": "Keep caret ranges in sync with resolved versions",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "rangeStrategy": "replace"
+    },
+    {
+      "description": "pnpm overrides in pnpm-workspace.yaml must refresh lockfile overrides metadata",
+      "matchFileNames": ["pnpm-workspace.yaml"],
+      "postUpgradeTasks": {
+        "commands": [
+          "corepack enable",
+          "corepack prepare pnpm@__PNPM_VERSION__ --activate",
+          "pnpm install --lockfile-only"
+        ],
+        "fileFilters": ["pnpm-lock.yaml"],
+        "executionMode": "branch"
+      }
+    }
+  ],
+  "customManagers": [
+    {
+      "description": "Keep pnpm version in sync across package.json and CI workflows",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^package\\.json$/",
+        "/^__CI_DIR_ESCAPED__/.*\\.ya?ml$/"
+      ],
+      "matchStrings": ["pnpm@(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "depNameTemplate": "pnpm",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "vulnerabilityFixStrategy": "lowest"
+  },
+  "branchConcurrentLimit": 10,
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 6
+}

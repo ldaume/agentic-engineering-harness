@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@__PNPM_VERSION__",
+  "engines": {
+    "node": ">=__NODE_MAJOR__ <__NODE_MAJOR_NEXT__",
+    "pnpm": ">=__PNPM_VERSION__"
+  },
+  "scripts": {
+    "dev": "pnpm --filter <primary-app> dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter <primary-app> test:e2e",
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deadcode": "knip",
+    "verify": "pnpm format:check && pnpm typecheck && pnpm deadcode && pnpm test",
+    "precommit": "sh scripts/pre-commit.sh",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "sh scripts/pre-commit.sh"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,tsx,astro,json,jsonc,md,css,yml,yaml}": "prettier --write"
+  },
+  "devDependencies": {
+    "@types/node": "^__NODE_MAJOR__.0.0",
+    "knip": "^__KNIP_VERSION__",
+    "lint-staged": "^__LINT_STAGED_VERSION__",
+    "prettier": "^__PRETTIER_VERSION__",
+    "simple-git-hooks": "^__SIMPLE_GIT_HOOKS_VERSION__",
+    "typescript": "^__TYPESCRIPT_VERSION__"
+  }
+}

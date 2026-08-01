@@ -1,0 +1,132 @@
+# Substitute __CI_DIR__ (e.g. .gitea/workflows or .github/workflows), digests, and versions before commit.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - __CI_DIR__/ci.yml
+      - .node-version
+      - .nvmrc
+      - apps/**
+      - packages/**
+      - scripts/**
+      - knip.jsonc
+      - renovate.json
+      - package.json
+      - pnpm-workspace.yaml
+      - pnpm-lock.yaml
+      - tsconfig.base.json
+  push:
+    branches: [main]
+    paths:
+      - __CI_DIR__/ci.yml
+      - .node-version
+      - .nvmrc
+      - apps/**
+      - packages/**
+      - scripts/**
+      - knip.jsonc
+      - renovate.json
+      - package.json
+      - pnpm-workspace.yaml
+      - pnpm-lock.yaml
+      - tsconfig.base.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: __RUNNER_LABEL__
+    outputs:
+      current: ${{ steps.current.outputs.current }}
+    container:
+      image: node:__NODE_MAJOR__-alpine@__NODE_ALPINE_DIGEST__
+    steps:
+      - name: Install git
+        run: apk add --no-cache git
+
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+        with:
+          fetch-depth: 1
+
+      - name: Check current main revision
+        id: current
+        run: |
+          if [ "$GITHUB_EVENT_NAME" != "push" ] || [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "current=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          LATEST_MAIN="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          if [ "$LATEST_MAIN" = "$GITHUB_SHA" ]; then
+            echo "current=true" >> $GITHUB_OUTPUT
+          else
+            echo "current=false" >> $GITHUB_OUTPUT
+            echo "Skipping stale CI run: $GITHUB_SHA is no longer current main ($LATEST_MAIN)."
+          fi
+
+  verify:
+    needs: [preflight]
+    if: needs.preflight.outputs.current == 'true'
+    runs-on: __RUNNER_LABEL__
+    container: node:__NODE_MAJOR__-bookworm@__NODE_BOOKWORM_DIGEST__
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+        with:
+          fetch-depth: 1
+
+      - name: Enable corepack
+        run: corepack enable && corepack prepare pnpm@__PNPM_VERSION__ --activate
+
+      - name: Check Node LTS runtime
+        run: node -e "if (!process.version.startsWith('v__NODE_MAJOR__.')) process.exit(1)"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify
+        run: pnpm verify
+
+      - name: Build
+        run: pnpm build
+
+  e2e:
+    needs: [verify]
+    runs-on: __RUNNER_LABEL__
+    container:
+      image: mcr.microsoft.com/playwright:v__PLAYWRIGHT_VERSION__-noble@__PLAYWRIGHT_IMAGE_DIGEST__
+      options: --user root
+    env:
+      CI: "true"
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+    steps:
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+        with:
+          fetch-depth: 1
+
+      - name: Enable corepack
+        run: corepack enable && corepack prepare pnpm@__PNPM_VERSION__ --activate
+
+      - name: Check Node LTS runtime
+        run: node -e "if (!process.version.startsWith('v__NODE_MAJOR__.')) process.exit(1)"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build app for E2E
+        run: pnpm --filter __PRIMARY_APP_FILTER__ build
+
+      - name: Run E2E tests
+        run: pnpm test:e2e
+
+      # Optional: re-enable when your Gitea act_runner resolves actions/upload-artifact@<sha>.
+      # Some runners fail with "reference not found" on pinned artifact SHAs; rely on Playwright
+      # github reporter + test-results/ in the job log until then.

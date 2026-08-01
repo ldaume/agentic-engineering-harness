@@ -1,0 +1,77 @@
+# Substitute __CI_DIR__, __RENOVATE_PLATFORM__, image digest, git author, runner label.
+name: renovate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - __CI_DIR__/renovate.yml
+      - renovate.json
+  issues:
+    types:
+      - edited
+  schedule:
+    - cron: "17 5 * * *"
+
+concurrency:
+  group: renovate-${{ github.repository }}
+  cancel-in-progress: true
+
+jobs:
+  renovate:
+    if: |
+      github.event_name != 'issues' ||
+      (
+        startsWith(github.event.issue.title, 'Dependency Dashboard') &&
+        github.event.issue.user.login == '__RENOVATE_BOT_LOGIN__'
+      )
+    runs-on: __RUNNER_LABEL__
+    container: ghcr.io/renovatebot/renovate:__RENOVATE_IMAGE_TAG__@__RENOVATE_IMAGE_DIGEST__
+    env:
+      LOG_LEVEL: info
+      RENOVATE_PLATFORM: __RENOVATE_PLATFORM__
+      RENOVATE_ENDPOINT: __RENOVATE_ENDPOINT__
+      RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+      RENOVATE_GITHUB_COM_TOKEN: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
+      RENOVATE_REPOSITORIES: ${{ github.repository }}
+      RENOVATE_ONBOARDING: "false"
+      # Global-only Renovate option; must not live in renovate.json (self-hosted bot).
+      RENOVATE_ALLOWED_COMMANDS: '["^corepack enable$", "^corepack prepare pnpm@\\d+\\.\\d+\\.\\d+ --activate$", "^pnpm install --lockfile-only$"]'
+      RENOVATE_GIT_AUTHOR: __RENOVATE_BOT_LOGIN__ <__RENOVATE_BOT_EMAIL__>
+      RENOVATE_HOST_RULES: >-
+        [{"matchHost":"docker.io","hostType":"docker","username":"${{ secrets.DOCKERHUB_USERNAME }}","password":"${{ secrets.DOCKERHUB_TOKEN }}"}]
+      GIT_AUTHOR_NAME: __RENOVATE_BOT_LOGIN__
+      GIT_AUTHOR_EMAIL: __RENOVATE_BOT_EMAIL__
+      GIT_COMMITTER_NAME: __RENOVATE_BOT_LOGIN__
+      GIT_COMMITTER_EMAIL: __RENOVATE_BOT_EMAIL__
+    steps:
+      - name: Validate renovate token
+        run: |
+          if [ -z "${RENOVATE_TOKEN}" ]; then
+            echo "Missing repository/organization secret: RENOVATE_TOKEN"
+            echo "Create a PAT for __RENOVATE_BOT_LOGIN__ with read/write on this repo and issues."
+            exit 1
+          fi
+          if [ "__RENOVATE_PLATFORM__" = "gitea" ]; then
+            node --input-type=module -e "
+              const res = await fetch(
+                process.env.RENOVATE_ENDPOINT + 'repos/' + process.env.RENOVATE_REPOSITORIES,
+                { headers: { Authorization: 'token ' + process.env.RENOVATE_TOKEN } },
+              );
+              if (res.status === 200) process.exit(0);
+              console.error(
+                'RENOVATE_TOKEN cannot read ' + process.env.RENOVATE_REPOSITORIES + ' (HTTP ' + res.status + ').',
+              );
+              process.exit(1);
+            "
+          fi
+
+      - name: Configure git identity
+        run: |
+          git config --global user.name "${GIT_AUTHOR_NAME}"
+          git config --global user.email "${GIT_AUTHOR_EMAIL}"
+
+      - name: Run renovate
+        run: renovate

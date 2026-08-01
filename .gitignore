@@ -1,0 +1,53 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor and IDE state
+.idea/
+.vscode/
+.serena/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+*.local
+.local/
+AGENTS.override.md
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Skill CLI test installs and packaged bundles
+.agents/*
+!.agents/rules/
+.agents/rules/*
+!.agents/rules/harness.md
+.claude/skills/
+*.zip
+*.tar
+*.tar.gz
+*.tgz

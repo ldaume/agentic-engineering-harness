@@ -1,0 +1,167 @@
+{
+  "version": 2,
+  "skills": {
+    "agent-sync": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/agent-sync/SKILL.md",
+      "version": "1.8.0"
+    },
+    "ansible-automation": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/ansible-automation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "api-design": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/backend/api-design/SKILL.md",
+      "version": "1.0.0"
+    },
+    "backend-craft": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/backend/backend-craft/SKILL.md",
+      "version": "1.0.0"
+    },
+    "build-autonomous-agents": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/build-autonomous-agents/SKILL.md",
+      "version": "1.0.0"
+    },
+    "coding-discipline": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/coding-discipline/SKILL.md",
+      "version": "1.2.1"
+    },
+    "completion-gate": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/completion-gate/SKILL.md",
+      "version": "1.1.0"
+    },
+    "documentation-and-adrs": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
+      "version": "1.0.1"
+    },
+    "frontend-craft": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/frontend/frontend-craft/SKILL.md",
+      "version": "1.0.1"
+    },
+    "gitea-actions": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/gitea-actions/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gitea-tea": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/gitea-tea/SKILL.md",
+      "version": "1.0.0"
+    },
+    "grill-harness-with-docs": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/grill-harness-with-docs/SKILL.md",
+      "version": "1.0.1"
+    },
+    "integrate-product-compliance": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/product/integrate-product-compliance/SKILL.md",
+      "version": "1.1.0"
+    },
+    "learn-agentic-engineering": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/learn-agentic-engineering/SKILL.md",
+      "version": "1.1.0"
+    },
+    "meilisearch": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/backend/meilisearch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "multi-stage-dockerfile": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/multi-stage-dockerfile/SKILL.md",
+      "version": "1.0.0"
+    },
+    "playwright-best-practices": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/testing/playwright-best-practices/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pnpm": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/pnpm/SKILL.md",
+      "version": "1.0.0"
+    },
+    "product-craft": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/product/product-craft/SKILL.md",
+      "version": "1.2.0"
+    },
+    "run-product-engineering": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/product/run-product-engineering/SKILL.md",
+      "version": "1.1.0"
+    },
+    "scaffold-distributed-context": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/scaffold-distributed-context/SKILL.md",
+      "version": "1.2.0"
+    },
+    "scaffold-harness": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
+      "version": "1.16.0"
+    },
+    "scaffold-monorepo": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/scaffold-monorepo/SKILL.md",
+      "version": "1.2.0"
+    },
+    "secure-linux-web-hosting": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/secure-linux-web-hosting/SKILL.md",
+      "version": "1.1.0"
+    },
+    "testing-strategies": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/testing/testing-strategies/SKILL.md",
+      "version": "1.1.0"
+    },
+    "update-harness": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/update-harness/SKILL.md",
+      "version": "1.1.0"
+    },
+    "write-a-skill": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/write-a-skill/SKILL.md",
+      "version": "1.1.0"
+    }
+  }
+}
