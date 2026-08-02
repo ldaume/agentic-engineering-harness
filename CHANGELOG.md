@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- Added honest Now/Next/Later/Never investment horizons, value-defined issue
+  rules, and explicit milestone and date semantics to `product-craft` and the
+  generated harness baseline.
+- Connected the public README to Lenny and the future GitHub installation path.
 - Documented the nested task, procedure, repository, workflow, value-stream,
   and product loops and their relationship to L1-L7 delegation.
 - Defined public, private organization or team, coordinator, project-local, and

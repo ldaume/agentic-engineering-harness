@@ -551,6 +551,32 @@ hardening investment. Use vertical TDD for behavior intended to survive. Pull
 the next slice from current value, risk, and system constraints instead of
 attempting to pre-plan a complete solution.
 
+### Keep Roadmaps Honest
+
+Use horizons as investment decisions, not schedule theater:
+
+| Horizon | Meaning | Artifact discipline |
+|---|---|---|
+| Now | Current funded outcome, risk reduction, or next evidence decision | Limit work in progress, name the owner and investment boundary, and record displaced work |
+| Next | Evidence-supported candidate without a delivery commitment | Keep enough context to compare it; promote only when evidence, capacity, and dependencies justify focus |
+| Later | Deliberately coarse option | Do not elaborate detailed specs, estimates, or ticket sets while important uncertainty remains |
+| Never | Explicit non-investment under current conditions | Record rationale, decision evidence, and a concrete trigger for reconsideration |
+
+Raw signal, incident, request, or finding records may remain in the existing
+intake system for provenance and triage; they are not investment commitments.
+Only sufficiently sharp Now or Next work becomes a decision or delivery issue.
+A decision or learning issue resolves one consequential unknown. A production
+issue creates one observable vertical behavior change. A bug or control issue
+may express value as a restored invariant or reduced risk, cost, support
+burden, or blocked flow; it does not need a fake user story. Later remains
+option space, and Never remains a decision record.
+
+Horizons never imply dates. Distinguish an external deadline, observation or
+review date, forecast, and commitment. Record the source and owner of a real
+constraint and the assumptions, confidence, and reforecast trigger of a
+forecast. Use milestones only for real coordination, external, release, or
+outcome boundaries - not arbitrary bundles of hoped-for features.
+
 ### Phase-by-Phase Human and Agent Collaboration
 
 The operating level determines how much of this loop is delegated. The phase

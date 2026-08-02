@@ -113,7 +113,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/product-craft/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.3.0"
     },
     "run-product-engineering": {
       "source": "local",
@@ -131,7 +131,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "1.17.0"
+      "version": "1.18.0"
     },
     "scaffold-monorepo": {
       "source": "local",

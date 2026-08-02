@@ -104,6 +104,15 @@ investment.
 If a backlog exists, keep it as a small pull queue for current decisions. It is
 not a commitment inventory or evidence that future items create value.
 
+For product work that uses shared investment or issue tracking, at any level,
+use Now/Next/Later/Never as an investment view. Now is the current funded focus
+or evidence decision; Next is a candidate without a commitment; Later stays
+coarse; Never records a deliberate non-investment with rationale and a revisit
+trigger. Horizons are not dates, and only sufficiently sharp Now or Next work
+becomes a decision or delivery issue. Raw intake records may remain without
+becoming commitments. The level determines who maintains and approves these
+decisions, not whether the semantics apply.
+
 ## Repository Map and Checks
 
 - Agent entry: `AGENTS.md`

@@ -1,7 +1,8 @@
 # Agentic Engineering Skills & Harness
 
-These are the Agent Skills and harness patterns I use to make agent work
-reliable across product, engineering, delivery, and operations.
+I am [Leonard "Lenny" Daume](https://www.daume.dev). These are the Agent Skills
+and harness patterns I use to make agent work reliable across product,
+engineering, delivery, and operations.
 
 They encode a practical operating model for work under uncertainty: learn
 through small experiments, evolve domain models with DDD, build vertical slices
@@ -17,9 +18,10 @@ proven controls allow.
 
 | Goal | Start with |
 |---|---|
-| Inspect the catalog | `npx skills add . --list` from a local clone |
+| Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
+| Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
 
@@ -63,8 +65,12 @@ changes the next decision.
 A specification is a current boundary or hypothesis, not a promise that the
 problem and solution are completely known. A backlog, when useful, is a small
 pull queue for the next decisions - not an inventory of assumed future value.
-The detailed guide shows the product loop, the learning and delivery loops
-inside it, and which loop is enough at each delegation level.
+For larger product decisions, Now/Next/Later/Never is an investment view rather
+than a date promise: Later stays coarse, Never is explicit, and only sharp Now
+or Next work becomes a decision or delivery issue. Raw signal records may stay
+in the intake system without becoming commitments. The detailed guide shows the
+product loop, the learning and delivery loops inside it, and which loop is
+enough at each delegation level.
 
 The detailed guide explains [L1-L7 delegation, topology, review, memory,
 compliance, and host portability](./MULTI-REPO-HARNESS.md).
@@ -132,13 +138,13 @@ Browse by category:
 
 ## Install
 
-From a local clone, review the source and requested scope before a global
-installation. Installed Skills run through an agent with that agent's
-permissions, and `-y` skips the Skills CLI confirmation.
+Review the source and requested scope before a global installation. Installed
+Skills run through an agent with that agent's permissions, and `-y` skips the
+Skills CLI confirmation.
 
 ```bash
-npx skills add . --list
-npx skills add . \
+npx skills add ldaume/agentic-engineering-harness --list
+npx skills add ldaume/agentic-engineering-harness \
   --skill scaffold-harness \
   --skill agent-sync \
   --skill update-harness \
@@ -154,7 +160,7 @@ to the work.
 To install one Skill into the current project:
 
 ```bash
-npx skills add /path/to/this-repository \
+npx skills add /path/to/agentic-engineering-harness \
   --skill coding-discipline \
   --agent codex \
   --copy -y

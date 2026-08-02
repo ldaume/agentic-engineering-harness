@@ -118,8 +118,10 @@ a bounded workload is ready for implementation.
 
 Use **run-product-engineering** when an L5-L7 delegated unit spans product
 signals, delivery, production feedback, incidents, outcomes, or investment
-decisions. Use **integrate-product-compliance** only for confirmed security,
-contractual, certification, TISAX, PCI, or other control scope.
+decisions. Use **product-craft** when the target needs value-defined issues or
+an honest Now/Next/Later/Never investment view. Use
+**integrate-product-compliance** only for confirmed security, contractual,
+certification, TISAX, PCI, or other control scope.
 
 ## 5. Apply
 
@@ -218,6 +220,13 @@ contractual, certification, TISAX, PCI, or other control scope.
 - At L6-L7, close the product loop from attributable signals through delivery,
   production observation, incident and bug feedback, outcome review, and an
   explicit next decision. Release alone is not completion.
+- For product work that uses shared investment or issue tracking, at any level,
+  treat Now/Next/Later/Never as investment decisions rather than date promises.
+  Keep Later coarse, record Never with rationale and a revisit trigger, and
+  create decision or delivery issues only for sufficiently sharp Now or Next
+  work. Raw intake records may remain without becoming commitments. The
+  delegation level determines who maintains and approves these decisions, not
+  whether the semantics apply.
 - For product engineering, reject specification -> implementation -> testing ->
   deployment as a handoff pipeline. Use **run-product-engineering** for
   pull-based learning cycles, evolutionary DDD, bounded spikes, vertical TDD,

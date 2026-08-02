@@ -139,6 +139,13 @@ Product work is a closed learning loop, not a specification -> implementation
   or make an explicit production investment; never promote them silently.
 - Use vertical TDD for production behavior and feed bugs, incidents, adoption,
   control effectiveness, cost, and outcome evidence back into triage.
+- For product work that uses shared investment or issue tracking, at any level,
+  keep an outcome-oriented Now/Next/Later/Never investment view. Horizons are
+  not dates; keep Later coarse, record Never with rationale and a revisit
+  trigger, and create decision or delivery issues only for sharp Now or Next
+  work. Raw intake records may remain without becoming commitments. The level
+  determines who maintains and approves these decisions, not whether the
+  semantics apply.
 - Prefer Git-owned decisions, controls, and generated evidence. Preserve any
   official form or assurance path required by the applicable authority.
 

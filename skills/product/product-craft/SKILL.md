@@ -1,6 +1,6 @@
 ---
 name: product-craft
-description: Aligns AI-native product strategy, discovery, UX, architecture, delivery, and learning around outcomes rather than backlog volume. Use when shaping SaaS features, turning signals into bets, planning product work, defining AI-assisted operating models, or coordinating product and engineering trade-offs.
+description: Shapes evidence-driven product investments, value-defined issues, honest Now/Next/Later/Never roadmaps, discovery, UX, architecture, delivery, and learning. Use when turning signals into bets, deciding whether or when work deserves investment, planning product work, or coordinating product and engineering trade-offs without backlog or milestone theater.
 ---
 
 # Product Craft
@@ -48,28 +48,13 @@ Before acting in a repo, read current local sources instead of trusting memory:
 Pair with `coding-discipline` for implementation, `completion-gate` before
 claiming done, and `agent-sync` after durable learnings.
 
-## Progressive SaaS Flow
+## Product Decision Loop
 
-Replace the classic flow:
-
-```text
-Idea -> Backlog -> Refinement -> Ready -> Sprint -> QA -> Done
-```
-
-with:
-
-```text
-Signal
--> Triage
--> Problem Framing
--> Opportunity Space
--> Discovery / Risk Burn-down
--> Candidate Bet
--> Prioritized Focus
--> Build / Validate / Release
--> Adoption / Outcome Review
--> Learning Memory
-```
+Do not replace one mandatory delivery pipeline with another. Use
+**run-product-engineering** as the canonical branching loop. At each decision,
+choose whether to discard, observe, investigate, contain, experiment, deliver,
+or stop. A release happens only when current evidence justifies production
+investment, and production evidence changes the next decision.
 
 Keep these things separate:
 
@@ -81,10 +66,9 @@ Keep these things separate:
 - outcome
 - learning
 
-Use **run-product-engineering** when the task is to operate this flow through
-delivery, production observation, incidents, outcome review, and evolution.
-This Skill owns product framing and decision quality; it does not duplicate the
-end-to-end operating procedure.
+This Skill owns product framing, investment horizons, and issue quality. Use
+**run-product-engineering** when the task spans delivery, production
+observation, incidents, outcome review, or evolution.
 
 ## AI-Native Work Loop
 
@@ -124,6 +108,55 @@ load the [Problem Brief template](./TEMPLATES.md#problem-brief).
 
 Use when a problem may deserve focused investment. If the repository has no
 equivalent, load the [Bet Brief template](./TEMPLATES.md#bet-brief).
+
+## Investment Horizons
+
+Treat a roadmap as a current investment view, not a delivery promise:
+
+- **Now** - the currently funded outcome, risk reduction, or next evidence
+  decision. Limit work in progress and name what this focus displaces.
+- **Next** - an evidence-supported candidate without a delivery commitment.
+  Promote it only when evidence, capacity, and dependencies justify focus.
+- **Later** - a deliberately coarse option. Do not elaborate it into detailed
+  specifications or ticket sets while important uncertainty remains.
+- **Never** - an explicit non-investment decision with rationale, decision
+  evidence, and a concrete trigger that would justify reconsideration.
+
+Signals may also be discarded without entering a roadmap. If the repository
+has no equivalent view, load the
+[Outcome Roadmap template](./TEMPLATES.md#outcome-roadmap).
+
+Horizons are not dates. Distinguish an external deadline, observation or
+review date, forecast, and commitment. Record the source, owner, assumptions,
+confidence, and reforecast trigger for any forecast. Use a milestone only for
+a real coordination, external, release, or outcome boundary - never as an
+arbitrary batch of hoped-for features.
+
+## Value-Defined Issues
+
+Create a decision or delivery work issue only when the next decision or action
+is bounded and sharp enough to own. Use the target's existing tracker and
+format:
+
+- a **decision or learning issue** resolves one consequential unknown
+- a **production value-slice issue** creates one observable vertical behavior
+  change across the relevant public seam
+- a **bug or control issue** restores an invariant or reduces verified risk,
+  cost, support burden, or blocked flow; do not invent a fake user story
+
+Raw signal, incident, request, or finding records may remain in the existing
+intake system for provenance and triage; their existence is not an investment
+decision. Only sufficiently sharp Now or Next work becomes a decision or
+delivery issue. Later remains an option or fog; Never remains a decision
+record. Preserve the linked problem or bet, affected actor and bounded context,
+expected value, evidence, unknowns, smallest decision or behavior change,
+examples, signals, non-goals, genuine blockers, and owner. If the repository
+has no equivalent, load the
+[Value-Defined Issue template](./TEMPLATES.md#value-defined-issue).
+
+Draft or create tracker state only when the target repository and authority are
+clear. Creating an issue does not grant product priority or implementation
+authority.
 
 ## Decision Rules
 
