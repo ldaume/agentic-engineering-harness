@@ -48,6 +48,29 @@ Before changing code:
 - Self-check: _Would a senior engineer call this overcomplicated?_ If yes,
   simplify.
 
+## End-to-end architecture
+
+- Start from the product outcome, domain language, constraints, failure modes,
+  and required qualities. Frontend, backend, data, infrastructure, and
+  operations are one change system, not handoff departments.
+- Treat languages, frameworks, database families, CQRS, and hexagonal or other
+  architecture styles as tools. Select them for the current context and
+  evidence, not as maturity badges.
+- Keep user interfaces thin: presentation, interaction, local UI state, and
+  feedback stay close to the user; domain policy and durable decisions stay at
+  the strongest reusable boundary.
+- Prefer task-shaped read models and intent-shaped mutation or command models
+  when generic CRUD or database repositories would hide domain language,
+  authorization, concurrency, transaction, or query semantics.
+- Preserve cheap change through explicit boundaries and public contracts. Do
+  not pre-build speculative flexibility in the name of avoiding future
+  lock-in.
+- When a material technology choice remains uncertain, run the smallest
+  disposable comparison with representative data shape and volume,
+  concurrency, failures, latency, memory, I/O, recovery, and operating cost.
+  Record the decision and discard the spike unless production hardening is an
+  explicit next investment.
+
 ## Language
 
 - Follow the target repository's language and audience rules.
@@ -80,6 +103,10 @@ slices - one behavior test, minimal implementation, repeat. If the repo has a
 **tdd** skill, follow it.
 
 - Test through **public interfaces** (API routes, package exports, user-visible behavior).
+- Express each behavior with Given/When/Then semantics: preconditions and
+  context, one relevant stimulus, then an externally observable outcome. Use
+  the target framework's names and structure; comments or a GWT library are
+  not required.
 - Name behavior in the target's domain language; keep examples, tests, code,
   and public contracts aligned.
 - Do not mock internals; do not test private helpers in isolation.

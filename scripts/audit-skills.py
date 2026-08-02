@@ -45,7 +45,7 @@ AMBIGUOUS_UNICODE = {
     0xFEFF: "BOM",
 }
 TEXT_EXTS = {".md", ".py", ".yml", ".yaml", ".json", ".txt", ".sh", ".toml"}
-SKIP_DIRS = {".git", ".local", ".serena"}
+SKIP_DIRS = {".git", ".local", ".serena", "node_modules"}
 PROSE_SLOP_PATTERNS = {
     "stock model verb": re.compile(r"\bdelv(?:e|es|ed|ing) into\b", re.IGNORECASE),
     "empty friction claim": re.compile(
@@ -186,7 +186,7 @@ def validate_skill(path: Path, errors: list[str]) -> str | None:
 def validate_markdown_links(errors: list[str]) -> None:
     root = ROOT.resolve()
     for path in sorted(ROOT.rglob("*.md")):
-        if ".git" in path.parts:
+        if any(part in SKIP_DIRS for part in path.parts):
             continue
         text = path.read_text(encoding="utf-8")
         relative = path.relative_to(ROOT)

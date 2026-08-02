@@ -42,6 +42,14 @@ Before planning tests:
 ## Rules
 
 - Test through public interfaces.
+- Give behavioral tests explicit Given/When/Then semantics: Given states the
+  relevant preconditions, When applies one meaningful stimulus, and Then
+  asserts observable behavior. Express this through test names, structure, or
+  local helpers; mandatory comments and framework-specific GWT libraries add
+  no value.
+- Apply the same semantics to contract, property, migration, load, recovery,
+  and end-to-end tests: controlled context, action or disturbance, observable
+  result or invariant.
 - Keep test data explicit and local to the test where possible.
 - Mock internals only when the boundary is genuinely external or expensive.
 - Add regression tests before bug fixes when feasible.

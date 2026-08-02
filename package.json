@@ -1,0 +1,7 @@
+{
+  "name": "agentic-engineering-harness",
+  "private": true,
+  "devDependencies": {
+    "skills": "1.5.21"
+  }
+}

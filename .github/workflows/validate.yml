@@ -10,21 +10,25 @@ permissions:
 jobs:
   catalog:
     runs-on: ubuntu-latest
-    container: node:22-bookworm@sha256:7725a5c2c83eed1d36258c66efae14b1ceccd021db9ed1d9559d3335ed3d68ed
     timeout-minutes: 15
     env:
-      # Verified from the npm registry on 2026-07-30. Re-check on CLI updates.
-      SKILLS_CLI_VERSION: "1.5.21"
       SKILLS_SOURCE: ${{ github.workspace }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Install Python
-        run: |
-          set -eu
-          apt-get update
-          apt-get install -y --no-install-recommends python3
+      - name: Use latest Node LTS
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Use current stable Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+
+      - name: Install pinned catalog tooling
+        run: npm ci
 
       - name: Audit catalog
         run: python3 scripts/audit-skills.py
@@ -42,7 +46,7 @@ jobs:
             mkdir -p "$target"
             (
               cd "$target"
-              npx --yes "skills@$SKILLS_CLI_VERSION" add "$SKILLS_SOURCE" \
+              "$SKILLS_SOURCE/node_modules/.bin/skills" add "$SKILLS_SOURCE" \
                 --skill '*' \
                 --agent "$agent" \
                 --copy \

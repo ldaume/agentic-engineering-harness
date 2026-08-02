@@ -606,7 +606,18 @@ investment. It is never silently promoted.
 
 Production behavior grows through vertical TDD at a public seam: concrete
 domain example, failing behavior test, minimal implementation, refactor, and
-observable rollout. Testing is design feedback, not a phase after coding.
+observable rollout. Behavior tests use Given/When/Then semantics without
+requiring a particular test framework or comment style. Testing is design
+feedback, not a phase after coding.
+
+End-to-end craft does not mean one giant generalist Skill. `frontend-craft`
+and `backend-craft` remain independently installable profiles, while
+`coding-discipline` owns their shared method. UIs stay thin, read models are
+shaped for the task, and mutations express intent instead of leaking storage
+records. Hexagonal architecture, CQRS, languages, frameworks, and relational,
+document, graph, or other databases remain tools. Consequential choices earn
+their place through bounded spikes with representative data, concurrency,
+failure, resource, recovery, and cost evidence.
 
 The canonical procedure is
 [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md).
@@ -714,6 +725,13 @@ Triggers include host or provider changes, model availability or behavior,
 plugin/Skill/Rule/Hook/MCP precedence changes, major client updates, changed
 standards or assurance routes, and local quality, latency, retry, or spend
 thresholds.
+
+Dependency automation tracks the ecosystems actually in use. Prefer the latest
+supported stable LTS runtime line where one exists and the current stable line
+otherwise. Routine updates wait through a short supply-chain cooldown;
+security updates do not. Actions and images stay pinned where integrity or
+reproducibility requires it. Deprecation and forced-runtime annotations fail
+the currentness loop instead of being suppressed.
 
 A currentness review may retain, modify, remove, supersede, or rebuild the
 harness owner. Existing structure has no right to survive when replacement is

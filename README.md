@@ -130,11 +130,18 @@ The core contains methods that transfer across stacks:
   [`api-design`](./skills/backend/api-design/SKILL.md),
   [`testing-strategies`](./skills/testing/testing-strategies/SKILL.md)
 
+`frontend-craft` and `backend-craft` stay separate, standalone Skills. They can
+be installed directly without the full harness and retain the detail that
+makes each surface useful. Shared end-to-end craft lives in
+`coding-discipline`: thin UIs, task-shaped read models, intent-shaped
+mutations, context-driven architecture, and representative fail-fast spikes.
+
 Opinionated profiles and adapters carry real stack knowledge where generic
-advice would be weaker: TypeScript backend and React frontend craft, pnpm
+advice would be weaker: frontend experience, backend and data boundaries, pnpm
 monorepos, Meilisearch, Playwright, Gitea, Docker, Ansible, and secure Linux
-hosting. I add another language or framework only after repeated use provides
-examples, checks, and a maintenance owner.
+hosting. Languages, frameworks, databases, and architecture styles are tools
+selected for the product and evidence. I add another specific profile only
+after repeated use provides examples, checks, and a maintenance owner.
 
 Browse by category:
 

@@ -139,6 +139,12 @@ Product work is a closed learning loop, not a specification -> implementation
   or make an explicit production investment; never promote them silently.
 - Use vertical TDD for production behavior and feed bugs, incidents, adoption,
   control effectiveness, cost, and outcome evidence back into triage.
+- Express behavioral tests with Given/When/Then semantics using the target
+  framework's normal structure. Do not require comments or a GWT library.
+- Keep UIs thin and use task-shaped reads plus intent-shaped mutations when
+  they expose the domain more clearly than persistence-shaped CRUD. Treat
+  architecture styles, languages, frameworks, and databases as context-bound
+  tools; settle consequential uncertainty with bounded representative spikes.
 - For product work that uses shared investment or issue tracking, at any level,
   keep an outcome-oriented Now/Next/Later/Never investment view. Horizons are
   not dates; keep Later coarse, record Never with rationale and a revisit
@@ -194,6 +200,14 @@ do not silent-ignore:
 Supply-chain cooldowns (`minimumReleaseAge` and related Renovate settings) are
 config, not a substitute for this review.
 
+Use the latest supported stable LTS runtime line where the ecosystem offers
+one; use the current stable release otherwise. Pin exact versions, action
+commits, and image digests where reproducibility or supply-chain integrity
+requires it, then let the configured dependency bot propose updates after its
+routine cooldown. Security updates bypass routine cooldowns. A deprecation or
+forced-runtime annotation is a currentness failure: update the owning action,
+runtime, or adapter instead of suppressing the warning.
+
 ## Uncertainty
 
 - Investigate discoverable facts from repository and primary sources.
@@ -221,6 +235,11 @@ durable routing decision exists. Expired evidence becomes stale and is refreshed
 when a decision or active adapter consumes it; adapter mismatch is an immediate
 trigger. Every significant harness review may keep, change, remove, supersede,
 or rebuild an owner; preserve no structure merely because it already exists.
+
+Keep update automation configured for every dependency ecosystem actually in
+use. Cooldowns reduce fresh-release risk but do not justify unattended merges:
+inspect the jump, run the repository gates, then merge or record why it is
+deferred.
 
 ## Agent Context Architecture
 

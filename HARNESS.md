@@ -162,6 +162,13 @@ placement, selection, and evaluation method.
   a PR comment with rationale and unblock criteria. Never silent-merge or
   silent-ignore.
 
+Use the latest supported stable LTS runtime line where one exists and the
+current stable line otherwise. Keep actions and images pinned where integrity
+or reproducibility requires it, and let the configured updater propose routine
+changes after a short cooldown. Security updates bypass that cooldown. Treat
+deprecation or forced-runtime annotations as failures to fix, never warnings to
+suppress.
+
 Each review must end in an action or an explicit no-change result. Do not add
 ceremony that cannot change the next action. Narrow reversible work may rely on
 the target's Fast Check and Full Gates. Material resolved work receives

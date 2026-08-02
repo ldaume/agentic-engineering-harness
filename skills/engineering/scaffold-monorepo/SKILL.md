@@ -37,6 +37,10 @@ follow the Version resolution section in [REFERENCE.md](./REFERENCE.md):
 - Latest **pnpm** -> `packageManager`, `corepack prepare`, Renovate regex manager
 - Latest **knip**, **prettier**, **typescript**, **lint-staged**, **simple-git-hooks**
 - Pin **container digests** for `node:*`, Playwright image (if E2E), `renovatebot/renovate`, `actions/checkout`, `actions/upload-artifact`
+- Replace both `__ACTIONS_CHECKOUT_SHA__` and
+  `__ACTIONS_CHECKOUT_VERSION__` from the same current stable release after
+  the configured cooldown; do not leave a stale version comment beside a new
+  digest.
 - `@types/node` major must match Node LTS (not npm's latest major)
 
 ### 2. Resolve once

@@ -1,6 +1,8 @@
 # Backend skills
 
-Backend, TypeScript, data, AI workflow, queue, security, and platform skills.
+Backend, data, AI workflow, queue, security, and platform skills. The
+standalone craft profile treats frameworks, architecture styles, and databases
+as context-bound tools and preserves task-shaped read and mutation boundaries.
 
 | Skill                                     | Triggers                                                                                           |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------- |

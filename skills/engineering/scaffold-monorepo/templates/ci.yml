@@ -51,7 +51,7 @@ jobs:
       - name: Install git
         run: apk add --no-cache git
 
-      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # __ACTIONS_CHECKOUT_VERSION__
         with:
           fetch-depth: 1
 
@@ -79,7 +79,7 @@ jobs:
     env:
       CI: "true"
     steps:
-      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # __ACTIONS_CHECKOUT_VERSION__
         with:
           fetch-depth: 1
 
@@ -108,7 +108,7 @@ jobs:
       CI: "true"
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
     steps:
-      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # v6
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # __ACTIONS_CHECKOUT_VERSION__
         with:
           fetch-depth: 1
 

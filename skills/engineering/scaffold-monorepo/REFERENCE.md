@@ -26,7 +26,7 @@ At scaffold time, never hardcode versions from an old project.
 | `node:24-bookworm` digest | `docker pull node:24-bookworm` then `docker inspect --format='{{index .RepoDigests 0}}'` |
 | Playwright CI image | Match `@playwright/test` version: `mcr.microsoft.com/playwright:v<ver>-noble` + digest |
 | Renovate image | `ghcr.io/renovatebot/renovate:<tag>` - use latest stable tag + digest from GHCR |
-| `actions/checkout`, `actions/upload-artifact` | Pin to commit SHA (Renovate `helpers:pinGitHubActionDigests`) |
+| `actions/checkout`, `actions/upload-artifact` | Use current supported stable releases, pin commit SHAs, keep same-line release comments accurate, and let Renovate update them after the configured cooldown |
 
 Run [scripts/print-toolchain-hints.sh](./scripts/print-toolchain-hints.sh) for a quick npm-registry snapshot.
 

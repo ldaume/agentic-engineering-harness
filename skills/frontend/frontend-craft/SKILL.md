@@ -44,7 +44,26 @@ Before designing or changing UI:
 5. Accessibility, i18n, and design-system conventions already present
 
 Pair with `coding-discipline` for implementation and `completion-gate` before
-claiming done.
+claiming done when those Skills are available. This Skill remains usable on its
+own.
+
+## Thin UI, full product behavior
+
+- Keep domain policy, authorization decisions, durable workflow state, and
+  persistence semantics out of UI components and framework glue.
+- Keep presentation, input handling, accessibility, immediate feedback,
+  latency masking, and genuinely local interaction state in the UI.
+- Consume task-shaped read models and send intent-shaped mutations or commands
+  when they make the user's job and the system contract clearer than generic
+  CRUD forms over persistence records.
+- Build and test vertical behavior through the real public boundary. Do not
+  split ownership into frontend and backend handoffs when one end-to-end slice
+  gives faster evidence.
+- Choose rendering, state, caching, and component patterns for this product and
+  its measured constraints. Framework patterns are tools, not the design.
+- Challenge the surface with slow networks, large or awkward data, repeated
+  actions, multiple clients or tabs, partial failure, and narrow or low-power
+  devices where those conditions are plausible.
 
 ## Experience Contract
 

@@ -5,6 +5,16 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- Kept `frontend-craft` and `backend-craft` independently installable while
+  adding shared end-to-end discipline for thin UIs, task-shaped reads,
+  intent-shaped mutations, context-driven architecture, and representative
+  technology spikes.
+- Made Given/When/Then semantics the framework-neutral default for behavioral
+  tests without requiring comments or a GWT library.
+- Added latest-supported-LTS or current-stable runtime policy, routine update
+  cooldowns, security bypass, pinned action guidance, and deprecation
+  annotation failure handling for current and future harnesses.
+- Added `.serena/` to the future harness ignore baseline.
 - Made shared understanding and proportional grilling universal: autonomous
   fact-finding, fresh-agent critique for resolved material work, and human
   grilling only for genuinely unresolved branches while explicit authorization

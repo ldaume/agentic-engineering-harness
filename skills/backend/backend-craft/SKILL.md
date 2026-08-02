@@ -46,7 +46,8 @@ Before changing backend code:
 5. Provider, queue, workflow, and deployment runbooks when relevant
 
 Pair with `coding-discipline` for implementation and `completion-gate` before
-claiming done.
+claiming done when those Skills are available. This Skill remains usable on its
+own.
 
 ## Architecture Defaults
 
@@ -60,6 +61,29 @@ claiming done.
 - Make expected errors explicit and typed; unexpected errors are bugs.
 - Persist provenance for AI or background actions when user trust depends on the
   result.
+
+## End-to-end boundaries and data shape
+
+- Keep user interfaces thin without turning them into passive renderers. The
+  UI owns interaction and feedback; the backend owns reusable domain policy,
+  authorization, durable decisions, and system invariants.
+- Prefer task-shaped read models and intent-shaped mutation or command models
+  over exposing persistence records or forcing every use case through generic
+  CRUD.
+- Do not add a generic repository abstraction by default. Keep domain language,
+  query shape, authorization, concurrency, transactions, migrations, and
+  observability visible at the boundary that owns them.
+- Use hexagonal architecture, ports and adapters, CQRS, event-driven designs,
+  or direct framework code only when the context benefits. None is a maturity
+  requirement.
+- Choose relational, document, graph, vector, or other storage from actual
+  access patterns and operating constraints. Product vision matters, but do
+  not buy speculative flexibility before evidence needs it.
+- For a consequential choice, timebox a disposable spike and drive it with
+  representative data volume and shape, concurrent clients, hot queries,
+  retries and failures, memory, CPU, I/O, latency, recovery, migration, and
+  cost. Keep the candidate only when the evidence and production hardening
+  justify it.
 
 ## TypeScript Boundary Discipline
 

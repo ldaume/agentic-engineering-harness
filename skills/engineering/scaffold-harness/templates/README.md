@@ -99,7 +99,7 @@ expand agent execution only after the transition gate passes.
 | Signal and observation | Set objectives, allowed sources, privacy boundaries, and accountable outcomes | Collect, attribute, deduplicate, and relate customer, product, operational, security, and commercial evidence | Provenance, currentness, access control, and telemetry; signals are evidence, not requirements | Breadth and traceability improve without turning noise into priority |
 | Triage and domain framing | Decide priority, authority, risk appetite, and material semantics | Map the problem, bounded context, examples, invariants, dependencies, uncertainty, and assurance needs | DDD discovery, hypotheses, and Shift-left risk, security, compliance, accessibility, and testing | The smallest valuable decision is found before implementation hardens assumptions |
 | Spike, prototype, or experiment | Approve the question, budget, data boundary, and success or stop criteria | Build and measure the cheapest isolated learning vehicle; record discard, iterate, or harden evidence | Timebox, isolation, approved data, and no silent production promotion | Uncertainty is retired cheaply instead of hidden in speculative specifications |
-| Production slice | Own material trade-offs and acceptance boundaries | Evolve examples, model, contracts, tests, code, telemetry, controls, and recovery in one vertical slice | DDD, TDD, agile testing, Fast Check, and self-review | Design, implementation, and assurance share one fast feedback loop |
+| Production slice | Own material trade-offs and acceptance boundaries | Evolve examples, model, contracts, tests, code, telemetry, controls, and recovery in one vertical slice | DDD, GWT behavior examples, TDD, agile testing, Fast Check, and self-review | Design, implementation, and assurance share one fast feedback loop |
 | Integration and release | Handle policy exceptions and unusually critical release decisions | Run Full Gates, fresh-context review for resolved material work, compatibility checks, staged rollout, rollback proof, audit evidence, commit, and push | Continuous delivery, least privilege, small batches, and canary or feature control | Routine delivery becomes autonomous while blast radius stays bounded |
 | Operation, incident, and bug learning | Own objectives, incident authority, risk acceptance, and external communication | Observe outcomes and controls; detect, contain, reproduce, root-fix, recover, and route learning to context and checks | Observability, runbooks, rollback, regression TDD, and causal learning | Production reality becomes the next design input |
 | Outcome and next decision | Decide keep, change, pivot, stop, or invest | Compare expected and observed value, reliability, risk, cost, adoption, and control effectiveness; propose the next bounded bet | Outcome evals, decision trail, budgets, and kill criteria | Output is not mistaken for customer or business value |
@@ -109,6 +109,12 @@ handoff. Specifications, DDD models, tests, security, compliance, operability,
 and delivery are feedback activities. Prototypes and technical spikes are
 learning artifacts: discard them after learning or make an explicit production
 investment.
+
+Frontend and backend craft remain usable as separate Skills. Their shared
+method is end-to-end: keep UIs thin, shape reads for the task, express mutation
+intent, and choose architecture, language, framework, and data tools from the
+current domain and operating evidence. Use representative spikes to resolve
+consequential uncertainty before a narrow choice becomes expensive.
 
 If a backlog exists, keep it as a small pull queue for current decisions. It is
 not a commitment inventory or evidence that future items create value.

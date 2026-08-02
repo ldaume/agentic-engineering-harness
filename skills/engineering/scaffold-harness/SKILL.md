@@ -100,6 +100,8 @@ For every proposed artifact state:
 - why a reference or existing control is insufficient
 
 Use templates only for missing artifacts. Create optional artifacts lazily.
+Merge `.serena/` into the target `.gitignore`; never commit Serena's local
+project state and never overwrite existing ignore rules.
 
 Read [CURRENTNESS.md](./CURRENTNESS.md) before proposing model routing,
 multi-agent orchestration, provider features, or a community Golden Path.
@@ -234,6 +236,10 @@ certification, TISAX, PCI, or other control scope.
   deployment as a handoff pipeline. Use **run-product-engineering** for
   pull-based learning cycles, evolutionary DDD, bounded spikes, vertical TDD,
   shift-left security/operability, production feedback, and repeated evolution.
+- Keep frontend and backend craft independently installable and useful. Route
+  shared end-to-end discipline through **coding-discipline**, while each craft
+  Skill retains its own thin-UI, boundary, data, operability, and experience
+  guidance.
 - Integrate compliance through target-owned risk, controls, evidence, and
   release policy. Agents do not infer scope, accept risk, or make assurance
   claims.
@@ -309,6 +315,7 @@ The scaffold is complete only when:
 | Member/coordinator sync | [templates/SYNC.md](./templates/SYNC.md) |
 | Tool entrypoints | [templates/TOOLS.md](./templates/TOOLS.md) |
 | Project Skills | [templates/skills-README.md](./templates/skills-README.md) |
+| Local tool state ignore | [templates/.gitignore](./templates/.gitignore) |
 
 ## Related Skills
 
