@@ -71,8 +71,11 @@ each proposed addition are explicit.
 
 ## 3. Resolve Decisions
 
-Use **grill-harness-with-docs** for unresolved intent, ownership, architecture,
-governance, risk, or oversight transitions.
+Establish shared understanding for significant work. Use
+**grill-harness-with-docs** for unresolved intent, semantics, ownership,
+architecture, governance, consequential trade-offs, risk, or oversight
+transitions in any topic. Route resolved material decisions and changes through
+fresh-context agent critique.
 
 Research facts first. Put genuine decisions to the human one at a time with
 options, trade-offs, reversibility, evidence, and a recommendation. Wait before
@@ -272,7 +275,10 @@ The scaffold is complete only when:
 - a real Fast Check and Full Gates are named,
 - uncertainty and escalation behavior are defined,
 - cross-session learning has one durable owner,
-- review loops have triggers, stop conditions, and an action when they fail,
+- shared understanding has an explicit entry and exit frame,
+- review loops route resolved material work to fresh-agent critique and genuine
+  unresolved decisions to a human, with triggers, stop conditions, and an
+  action when they fail,
   including evidence-gated dependency-bot PR handling (inspect jump, run
   checks, merge or comment - never silent-merge or silent-ignore),
 - model and worker routing is either live-discovered or explicitly absent,
@@ -306,7 +312,7 @@ The scaffold is complete only when:
 
 ## Related Skills
 
-- **grill-harness-with-docs** - resolve uncertain harness decisions
+- **grill-harness-with-docs** - ground, critique, and resolve material decisions
 - **agent-sync** - evolve the harness from evidence across sessions
 - **scaffold-distributed-context** - establish domain context and contracts
   across repositories

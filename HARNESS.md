@@ -133,11 +133,23 @@ keeping any compression layer.
 `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns the detailed
 placement, selection, and evaluation method.
 
+## Shared Understanding and Grilling
+
+- Start significant work by aligning outcome, scope, non-goals, authoritative
+  sources, decision rights, assumptions, unknowns, checks, stop conditions,
+  and recovery.
+- Investigate discoverable facts and test bounded reversible hypotheses before
+  asking a human.
+- Use `grill-harness-with-docs` when intent, semantics, authority,
+  consequential trade-offs, or material risk remain unresolved.
+- Close with the same frame so another human or agent can independently state
+  what is true, what changed, why it is complete, and what remains open.
+
 ## Review Triggers
 
 - Self-review significant changes before completion.
-- Request fresh-context review for material risk, high coupling, public skill
-  semantics, weak failure detection, or cross-repository integration.
+- Request fresh-context review for every resolved material decision or change,
+  including public methods and Skill semantics.
 - Review the harness after repeated friction, a failed instruction, ownership
   ambiguity, or a harness change.
 - Review current sources when model, pricing, platform, security, or community
@@ -151,10 +163,10 @@ placement, selection, and evaluation method.
   silent-ignore.
 
 Each review must end in an action or an explicit no-change result. Do not add
-ceremony that cannot change the next action. Prefer the target's Fast Check and
-Full Gates over a standing second-agent gate. Add independent review or a new
-deterministic script only when escaped defects show the current loops are
-insufficient.
+ceremony that cannot change the next action. Narrow reversible work may rely on
+the target's Fast Check and Full Gates. Material resolved work receives
+fresh-context review; add new standing reviewers or deterministic scripts only
+when escaped defects show the current loops are insufficient.
 
 When evidence should change future work, prefer updating the hard owner
 (instructions, Skill, test, CI) over appending soft memory. Route learnings to
@@ -199,7 +211,8 @@ target-specific truth into this repository.
 - `skills/engineering/agent-sync/` owns continuous evidence routing.
 - `skills/engineering/update-harness/` owns explicit versioned dependency and
   currentness updates.
-- `skills/engineering/grill-harness-with-docs/` owns unresolved decisions.
+- `skills/engineering/grill-harness-with-docs/` owns shared understanding,
+  material critique, and unresolved decisions.
 - `skills/product/run-product-engineering/` owns the closed product lifecycle
   from signals through production evidence and evolution.
 - `skills/product/integrate-product-compliance/` owns the procedure for

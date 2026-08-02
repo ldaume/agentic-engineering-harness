@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- Made shared understanding and proportional grilling universal: autonomous
+  fact-finding, fresh-agent critique for resolved material work, and human
+  grilling only for genuinely unresolved branches while explicit authorization
+  remains at named external-risk boundaries.
+- Defined one-owner learning routes for portable public methods, shared private
+  procedures, cross-repository coordination, and member-local truth.
 - Added honest Now/Next/Later/Never investment horizons, value-defined issue
   rules, and explicit milestone and date semantics to `product-craft` and the
   generated harness baseline.

@@ -149,13 +149,25 @@ Product work is a closed learning loop, not a specification -> implementation
 - Prefer Git-owned decisions, controls, and generated evidence. Preserve any
   official form or assurance path required by the applicable authority.
 
+## Shared Understanding and Grilling
+
+- Start significant work by aligning outcome, scope, non-goals, authoritative
+  sources, decision rights, assumptions, unknowns, checks, stop conditions,
+  and recovery.
+- Investigate discoverable facts and test bounded reversible hypotheses before
+  asking a human.
+- Use `grill-harness-with-docs` when intent, semantics, authority,
+  consequential trade-offs, or material risk remain unresolved.
+- Close with the same frame so another human or agent can independently state
+  what is true, what changed, why it is complete, and what remains open.
+
 ## Review Loops
 
 - Select and run the applicable review loop without asking the human to choose
   the reviewer; human escalation remains governed by `AGENTS.md` boundaries.
 - Self-review significant work and run the relevant deterministic checks.
-- Use fresh-context independent review for material risk, integration, high
-  coupling, or weak failure detection.
+- Use fresh-context independent review for every resolved material decision or
+  change, including public methods and Skill semantics.
 - Review the harness after repeated friction or a harness change.
 - Refresh volatile model, pricing, platform, or community evidence when a
   decision consumes it or an active adapter no longer matches observed host

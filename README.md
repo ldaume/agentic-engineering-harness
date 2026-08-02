@@ -81,6 +81,14 @@ The three central views are:
 - [the nested product engineering loops](./MULTI-REPO-HARNESS.md#product-engineering-loop)
 - [public, private, coordinator, project, and global Skill ownership](./MULTI-REPO-HARNESS.md#skill-architecture)
 
+Every significant topic starts and ends with shared understanding. Agents
+ground facts and test safe hypotheses autonomously, fresh agents critique
+resolved material work, and human grilling is reserved for genuinely
+unresolved intent, semantics, authority, consequential trade-offs, or material
+risk. Explicit authorization and veto remain at named external-risk
+boundaries. The detailed guide explains why this avoids both permission theater
+and unsupervised guesswork.
+
 ## Working principles
 
 1. **One product loop.** Signal, discovery, implementation, delivery,
@@ -93,6 +101,9 @@ The three central views are:
    checks, observability, recovery, and representative results justify them.
 5. **Git-owned truth.** Decisions, controls, checks, and evidence stay concise,
    versioned, reviewable, and close to the work.
+6. **Shared understanding before scale.** Significant work has explicit
+   outcomes, boundaries, sources, decision rights, assumptions, checks, and
+   stop conditions before autonomy or blast radius expands.
 
 ## Core Skills and technology profiles
 
@@ -148,12 +159,13 @@ npx skills add ldaume/agentic-engineering-harness \
   --skill scaffold-harness \
   --skill agent-sync \
   --skill update-harness \
+  --skill grill-harness-with-docs \
   --agent codex \
   --copy -g -y
 ```
 
 Replace `codex` with a client supported by the installed Skills CLI. Install
-only the three bootstrap Skills globally. Project and domain Skills normally
+only the four bootstrap Skills globally. Project and domain Skills normally
 belong in the target repository so they remain visible, reviewable, and scoped
 to the work.
 

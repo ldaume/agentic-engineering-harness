@@ -42,6 +42,15 @@ safe level; installed models or tools do not prove maturity.
 Use the lowest level that closes the real loop. Graduate one decision domain at
 a time only after its specific evidence gate passes:
 
+Every significant topic starts and ends with shared understanding: outcome,
+boundaries, sources, decision rights, assumptions, unknowns, checks, stop
+conditions, and recovery. Agents investigate facts and test safe hypotheses
+autonomously. A fresh agent critiques resolved material work; a human is
+grilled one decision at a time only when intent, semantics, authority,
+consequential trade-offs, or material risk remain genuinely unresolved. This
+keeps people accountable without turning routine stewardship into permission
+theater.
+
 | Transition | Evidence required before delegation expands |
 |---|---|
 | L1 to L2 | A versioned procedure outperforms unstructured prompting on representative examples under supervision |
@@ -91,7 +100,7 @@ expand agent execution only after the transition gate passes.
 | Triage and domain framing | Decide priority, authority, risk appetite, and material semantics | Map the problem, bounded context, examples, invariants, dependencies, uncertainty, and assurance needs | DDD discovery, hypotheses, and Shift-left risk, security, compliance, accessibility, and testing | The smallest valuable decision is found before implementation hardens assumptions |
 | Spike, prototype, or experiment | Approve the question, budget, data boundary, and success or stop criteria | Build and measure the cheapest isolated learning vehicle; record discard, iterate, or harden evidence | Timebox, isolation, approved data, and no silent production promotion | Uncertainty is retired cheaply instead of hidden in speculative specifications |
 | Production slice | Own material trade-offs and acceptance boundaries | Evolve examples, model, contracts, tests, code, telemetry, controls, and recovery in one vertical slice | DDD, TDD, agile testing, Fast Check, and self-review | Design, implementation, and assurance share one fast feedback loop |
-| Integration and release | Handle policy exceptions and unusually critical release decisions | Run Full Gates, risk-triggered independent review, compatibility checks, staged rollout, rollback proof, audit evidence, commit, and push | Continuous delivery, least privilege, small batches, and canary or feature control | Routine delivery becomes autonomous while blast radius stays bounded |
+| Integration and release | Handle policy exceptions and unusually critical release decisions | Run Full Gates, fresh-context review for resolved material work, compatibility checks, staged rollout, rollback proof, audit evidence, commit, and push | Continuous delivery, least privilege, small batches, and canary or feature control | Routine delivery becomes autonomous while blast radius stays bounded |
 | Operation, incident, and bug learning | Own objectives, incident authority, risk acceptance, and external communication | Observe outcomes and controls; detect, contain, reproduce, root-fix, recover, and route learning to context and checks | Observability, runbooks, rollback, regression TDD, and causal learning | Production reality becomes the next design input |
 | Outcome and next decision | Decide keep, change, pivot, stop, or invest | Compare expected and observed value, reliability, risk, cost, adoption, and control effectiveness; propose the next bounded bet | Outcome evals, decision trail, budgets, and kill criteria | Output is not mistaken for customer or business value |
 

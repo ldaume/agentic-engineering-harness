@@ -5,7 +5,7 @@
 | Skill | Use |
 |---|---|
 | `scaffold-harness` | Audit or establish the repository harness |
-| `grill-harness-with-docs` | Resolve uncertain harness decisions |
+| `grill-harness-with-docs` | Ground, critique, and resolve material decisions |
 | `agent-sync` | Evolve durable artifacts across sessions |
 | `coding-discipline` | Make minimal implementation changes |
 | `completion-gate` | Verify before completion |

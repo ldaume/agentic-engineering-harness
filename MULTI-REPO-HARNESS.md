@@ -647,6 +647,24 @@ Human-on-the-loop operation requires:
 
 The human retains veto and accountability for consequential decisions.
 
+### Shared Understanding and Grilling
+
+Every significant topic starts by aligning the outcome, scope, non-goals,
+authoritative sources, decision rights, assumptions, unknowns, checks, stop
+conditions, and recovery. The same frame closes the topic so a fresh human or
+agent can independently state what is true, what changed, why it is complete,
+and what remains open.
+
+Agents investigate discoverable facts and test bounded reversible hypotheses
+without asking for permission. Resolved material decisions and changes receive
+fresh-context agent critique. Humans are grilled one dependent decision at a
+time only when intent, semantics, authority, consequential trade-offs, or
+material risk remain genuinely unresolved. This loop applies to product,
+domain, engineering, architecture, operations, security, compliance, and the
+harness itself. Narrow reversible work may close through grounding,
+self-review, and deterministic checks; always having a loop does not mean
+always creating reviewer theater.
+
 ## Git and Worktree Stewardship
 
 Before editing, inspect `git status` and available worktrees. Dirty paths and
@@ -672,8 +690,8 @@ Git history provides review, comparison, audit, rollback, and session survival.
 Reviews exist only when they can change an action:
 
 - self-review plus deterministic checks for significant changes
-- fresh-context independent review for material risk, high coupling,
-  integration, weak failure detection, or public Skill semantics
+- fresh-context independent review for every resolved material decision or
+  change, including public methods and Skill semantics
 - harness review after friction, drift, failed instructions, or harness changes
 - currentness review when a decision consumes volatile evidence or an active
   adapter no longer matches observed behavior

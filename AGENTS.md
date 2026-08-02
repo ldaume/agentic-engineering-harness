@@ -25,8 +25,9 @@ blueprints. It does not depend on a private coordinator or another repository.
   still requires explicit authority.
 - Ask when consequential intent, ownership, semantics, security, sensitive
   data, legal meaning, or blast radius cannot be resolved from evidence.
-- Use fresh-context review for material public Skill semantics, security,
-  high coupling, weak failure detection, or changes to authority.
+- Establish shared understanding for significant work. Use fresh-context
+  review for every resolved material decision or change, and
+  `grill-harness-with-docs` for genuinely unresolved material branches.
 - Communicate with the user in their preferred language when known. Write
   persistent repository artifacts in US English unless the user explicitly
   requests another language.

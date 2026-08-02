@@ -22,7 +22,8 @@
 - Before finish: ask whether durable lessons must manifest in this harness
   and, if portable, also in the upstream `scaffold-harness` templates /
   `agent-sync` so future harnesses inherit them.
-- Use `grill-harness-with-docs` for unresolved harness decisions.
+- Establish shared understanding for significant work. Use
+  `grill-harness-with-docs` for unresolved material decisions in any topic.
 - Keep stable instructions here and reference detailed sources.
 
 ## Commands

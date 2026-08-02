@@ -13,7 +13,8 @@ Learning lives in Git-tracked owning artifacts, not chat history.
 2. Map local equivalents before introducing preferred filenames.
 3. Use existing sources of truth and preserve repository conventions.
 4. Run **scaffold-harness** when the repository lacks a reliable baseline.
-5. Use **grill-harness-with-docs** for unresolved harness decisions.
+5. Establish shared understanding for significant work. Use
+   **grill-harness-with-docs** for unresolved material decisions in any topic.
 
 ## Session Start
 
@@ -88,10 +89,12 @@ Before claiming done, ask and answer in the same loop:
 Run only loops that can change the next action:
 
 1. **Work review:** self-review significant changes and run deterministic checks.
-2. **Independent review:** use a fresh-context agent for material risk,
-   integration, high coupling, or weak failure detection. Use an installed
-   upstream `code-review` Skill when it owns the review procedure. Run the
-   selected review directly; do not ask the human whether to spawn a reviewer.
+2. **Independent review:** use a fresh-context agent for every resolved
+   material decision or change, including public methods and Skill semantics.
+   Give it the shared-understanding frame, authoritative sources, diff or
+   proposal, checks, and non-goals. Use an installed upstream `code-review`
+   Skill when it owns the review procedure. Run the selected review directly;
+   do not ask the human whether to spawn a reviewer.
 3. **Harness review:** assess ownership, duplication, effectiveness, blast
    radius, and removal after harness friction or change.
 4. **Currentness review:** use
@@ -138,10 +141,18 @@ future behavior.
 | Repeated probabilistic workflow | Skill |
 | Scoped behavioral guidance | Rule or agent instruction |
 | Deterministic event or enforcement | Hook, CI, test, platform control |
+| Portable public method or default | Public Skill or scaffold upstream |
+| Shared non-public organization or team procedure | Private Skill catalog |
 | Durable evidence-backed observation | Learning log in the owning repository |
 | Cross-repository membership, contracts, coordinator policy | Coordinating repository owners (map, harness, learnings) |
 | Member-local product or ops observation | That member's owners; create `LEARNINGS.md` lazily |
 | Human understanding of purpose, cycle, or where to work | Human `README.md` in the owning or coordinating repo |
+
+Route a lesson once by audience and authority. Portable practice belongs in
+the public upstream; shared confidential procedure belongs in the private
+catalog; cross-repository relationship or policy belongs in the coordinator;
+product, domain, service, or sensitive truth belongs in its local owner.
+Reference that owner from consumers instead of copying the lesson.
 
 Prefer a hard adaptation of the owning artifact when the lesson is a rule.
 Use a learning entry when evidence should survive sessions but is not yet

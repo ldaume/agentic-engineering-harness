@@ -13,8 +13,9 @@ Core workflow skills for AI-assisted development. Use together:
 7. **agent-sync** - evolve the harness during significant work
 8. **update-harness** - check or apply explicit harness and Skill updates
 
-Use **grill-harness-with-docs** only when evidence cannot resolve a material
-harness decision.
+Use **grill-harness-with-docs** to establish shared understanding, route
+resolved material work through fresh-agent critique, and keep a human in the
+loop only when evidence cannot resolve a material decision.
 
 | Skill                                                       | Triggers                                                   |
 | ----------------------------------------------------------- | ---------------------------------------------------------- |
@@ -26,7 +27,7 @@ harness decision.
 | [update-harness](./update-harness/SKILL.md)                 | resolve, install, update, clean Skill scopes, Renovate PR   |
 | [scaffold-harness](./scaffold-harness/SKILL.md)             | bootstrap, audit, local/MCP context, context economy, cross-repo harness |
 | [scaffold-distributed-context](./scaffold-distributed-context/SKILL.md) | bounded contexts, contracts, projections, Graphify |
-| [grill-harness-with-docs](./grill-harness-with-docs/SKILL.md) | unclear harness decision, human oversight, options       |
+| [grill-harness-with-docs](./grill-harness-with-docs/SKILL.md) | shared understanding, material critique, unresolved decision |
 | [write-a-skill](./write-a-skill/SKILL.md)                   | create skill, SKILL.md, skill frontmatter, skills CLI      |
 | [documentation-and-adrs](./documentation-and-adrs/SKILL.md) | ADRs, runbooks, public API docs, durable decisions         |
 | [pnpm](./pnpm/SKILL.md)                                     | pnpm workspaces, lockfiles, Corepack, overrides, patches   |

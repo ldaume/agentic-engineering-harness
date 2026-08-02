@@ -37,8 +37,9 @@ grants private membership, permissions, or autonomy.
 2. Read its instruction hierarchy and discover existing sources, commands,
    boundaries, permissions, Fast Check, and Full Gates.
 3. Invoke `scaffold-harness` to assess the current and justified target level.
-4. Use `grill-harness-with-docs` only for decisions that evidence cannot
-   resolve.
+4. Use `grill-harness-with-docs` to establish shared understanding, critique
+   resolved material work, and grill a human only for decisions evidence
+   cannot resolve.
 5. Apply the smallest upgrade in the target repository.
 6. Use `agent-sync` during and at the end of work.
 7. Verify target-local references and checks before handoff.
@@ -48,8 +49,9 @@ Example agent prompt:
 ```text
 Use scaffold-harness to audit and evolve this repository to the lowest
 delegation level that makes the current work reliable. Preserve local truth,
-name the real Fast Check and Full Gates, use grill-harness-with-docs for
-unresolved material decisions, and run agent-sync before completion.
+name the real Fast Check and Full Gates, use grill-harness-with-docs for shared
+understanding, material critique, and unresolved decisions, and run agent-sync
+before completion.
 ```
 
 ## Multiple Repositories
