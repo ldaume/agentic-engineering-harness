@@ -1,6 +1,6 @@
 ---
 name: update-harness
-description: Checks, installs, updates, and cleans repository or cross-repository harness Skills across project, user, and global scopes. Use for Skill installation, updates, synchronization, duplicate or conflicting Skill cleanup, missing public complements, Renovate Skill changes, or stale harness dependencies and platform assumptions.
+description: Checks, installs, updates, and cleans repository or cross-repository harness Skills across project, private organization or team, public, user, and global scopes. Use for Skill installation, updates, synchronization, duplicate or conflicting Skill cleanup, missing public complements, Renovate Skill changes, source federation, or stale harness dependencies and platform assumptions.
 ---
 
 # Update Harness
@@ -34,6 +34,8 @@ Inventory:
 
 - effective project, workspace, user, and global Skill scopes and host
   precedence
+- private organization or team catalogs, public upstreams, coordinator policy,
+  and the exact source authority for each managed Skill
 - duplicate names, conflicting versions, invalid packages, and unnecessary
   copies across the roots each active host actually loads
 - managed Skills, source repositories, exact refs, content digests, and targets
@@ -51,17 +53,29 @@ only when the target actually manages external Skills or harness components.
 Keep one intentional owner for each effective Skill:
 
 1. Keep repository-specific procedures and adaptations project-locally.
-2. Keep only a small reusable bootstrap globally when it is useful across
+2. Keep genuinely shared non-public procedures, approved pins, and internal
+   adapters in a private organization or team catalog.
+3. Keep portable generic procedures in their public upstream and consume them
+   through immutable refs instead of copying their lifecycle into private
+   policy repositories.
+4. Let a private coordinator own placement, compatibility, and shared policy;
+   it does not become the source owner for public or project-local Skill text.
+5. Keep only a small reusable bootstrap globally when it is useful across
    repositories.
-3. Treat a host-required client copy as intentional only when that host cannot
+6. Treat a host-required client copy as intentional only when that host cannot
    load the shared source without it.
-4. Preserve system, bundled, plugin-managed, and unrelated installations.
-5. Compare content and precedence before moving a duplicate; do not infer
+7. Preserve system, bundled, plugin-managed, and unrelated installations.
+8. Compare content and precedence before moving a duplicate; do not infer
    ownership from the Skill name alone.
-6. Quarantine obsolete, conflicting, or mis-scoped user installations with an
+9. Quarantine obsolete, conflicting, or mis-scoped user installations with an
    inventory and rollback path. Global cleanup requires explicit user intent.
-7. Install a missing selected complement project-locally and invoke it in the
+10. Install a missing selected complement project-locally and invoke it in the
    current loop.
+
+Do not confuse semantic ownership with host load precedence. Inspect what the
+active host actually loads, then ensure the project-local owner or wrapper
+supplies target semantics and exactly one managed private or public dependency
+supplies the reusable procedure.
 
 Complete hygiene when every active host resolves the intended version without
 collisions, global context contains only justified reusable Skills, local

@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- Documented the nested task, procedure, repository, workflow, value-stream,
+  and product loops and their relationship to L1-L7 delegation.
+- Defined public, private organization or team, coordinator, project-local, and
+  global Skill source ownership without moving target authority.
 - Prepared a standalone public repository with a fresh Git history.
 - Added GitHub validation, contribution, security, licensing, and publication
   boundaries.

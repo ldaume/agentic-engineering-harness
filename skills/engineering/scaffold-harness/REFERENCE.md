@@ -197,6 +197,25 @@ coordinating control plane for target product or private-system work. Edit
 Skill source files in the catalog; decide multi-member Skill placement and
 system policy in the coordinator.
 
+### Skill and Policy Sources
+
+Keep source ownership explicit across layers:
+
+- public upstream: portable methods, releases, provenance, public compatibility
+- private organization or team catalog: shared non-public procedures, approved
+  pins, internal adapters, and organization controls
+- private coordinator: membership, policy, placement, compatibility, and
+  cross-repository evidence
+- project repository: local semantics, commands, wrappers, project-only Skills,
+  checks, and permissions
+- user or global scope: small discovery and maintenance bootstrap only
+
+These layers form a dependency and authority graph, not a universal filesystem
+precedence. Inspect the active host. Project-local semantics outrank generic
+procedure text; managed private or public content stays pinned and separate
+from local wrappers. Select one owner per workflow and do not copy portable
+source into a coordinator merely because several members consume it.
+
 The coordinating harness never overrides repository-local instructions or
 promotes inferred product semantics into shared truth.
 

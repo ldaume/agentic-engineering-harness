@@ -24,6 +24,7 @@
 | How is domain context coordinated across repositories? | `skills/engineering/scaffold-distributed-context/SKILL.md` |
 | How is durable evidence routed during work? | `skills/engineering/agent-sync/SKILL.md` |
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |
+| How do public, private, coordinator, project-local, and global Skill sources interact? | `MULTI-REPO-HARNESS.md` / `HARNESS-OPERATIONS.md` |
 | How are unresolved harness decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
 | Which durable findings should change future work? | `LEARNINGS.md` |
 | How can people contribute or report a vulnerability? | `CONTRIBUTING.md` / `SECURITY.md` |

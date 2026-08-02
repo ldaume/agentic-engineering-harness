@@ -63,6 +63,20 @@ signal or intent
 -> keep, change, remove, pivot, or stop
 ```
 
+Use only the loop needed by the current delegated decision:
+
+| Level | Loop |
+|---|---|
+| L1 | bounded task: inspect -> change -> check |
+| L2 | repeatable procedure: input -> action -> evidence -> improve |
+| L3-L4 | repository: intent -> context -> change -> gates -> durable learning |
+| L5 | workflow: state -> step -> evaluate -> retry, recover, or stop |
+| L6 | value stream: signal -> frame -> experiment or slice -> release when warranted -> production evidence -> next decision |
+| L7 | product: trusted signals -> bets and experiments -> outcomes -> investment decision |
+
+Higher loops wrap smaller proven loops; they do not make every task traverse
+the whole product system. Topology follows ownership, not level.
+
 ### Phase Responsibilities
 
 The rows below describe the whole product loop, not blanket authorization. In
@@ -86,6 +100,9 @@ handoff. Specifications, DDD models, tests, security, compliance, operability,
 and delivery are feedback activities. Prototypes and technical spikes are
 learning artifacts: discard them after learning or make an explicit production
 investment.
+
+If a backlog exists, keep it as a small pull queue for current decisions. It is
+not a commitment inventory or evidence that future items create value.
 
 ## Repository Map and Checks
 

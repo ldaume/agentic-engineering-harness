@@ -419,15 +419,47 @@ The source-routing model is detailed in
 The Skills repository is a portable capability catalog, not the control plane
 for a target system.
 
-Effective routing order is normally:
+Skill source and policy authority are separate. A public repository can own a
+portable method without learning anything about a private product. A private
+coordinator can decide which version its members use without becoming the
+source of every Skill. A project-local adapter can add domain language and real
+commands without forking the generic lifecycle.
 
-1. repository-local Skill or adapter
-2. small installed global bootstrap
-3. shared or project-installed catalog Skill
-4. current public complement selected for the target stack
+```mermaid
+flowchart TB
+    Public["Public Skill upstream<br/>portable methods and releases"]
+    Org["Private organization or team catalog<br/>non-public shared methods and approved pins"]
+    Coordinator["Private coordinating harness<br/>membership, policy, placement, contracts"]
+    Project["Project repository<br/>local instructions, Skills, adapters, checks"]
+    Bootstrap["Small user or global bootstrap<br/>discovery and maintenance only"]
+    Session["Agent session in the owning project"]
 
-One Skill owns each generic workflow. Local adapters add target schemas,
-vocabulary, commands, or policy without duplicating the lifecycle.
+    Public -->|"versioned dependency"| Org
+    Public -->|"direct pinned dependency"| Project
+    Org -->|"approved private dependency"| Project
+    Coordinator -->|"policy and source routing"| Project
+    Bootstrap -->|"find and maintain"| Session
+    Project -->|"local authority"| Session
+```
+
+The arrows show supply and routing, not blanket override order. The active
+host's real precedence must be inspected. Semantic ownership follows the work:
+
+| Layer | Owns | Must not own |
+|---|---|---|
+| Public upstream | Portable generic procedures, release tags, provenance, public compatibility | Private membership, product facts, credentials, or organization policy |
+| Private organization or team catalog | Shared non-public procedures, approved versions, internal adapters, organization-specific controls | Every project's domain model or implementation truth |
+| Private coordinating harness | Member relationships, shared policy, Skill placement, compatibility, cross-repository state and evidence | Portable upstream source or member-local product truth |
+| Project repository | Local instructions, domain language, commands, wrappers, project-only Skills, checks, and permissions | A duplicate copy of every upstream procedure |
+| User or global scope | A small reusable bootstrap and host-managed capabilities | Target policy, broad workflow collections, or hidden project dependencies |
+
+Resolve the goal in the owning project first. Use a project-local Skill or
+adapter for target semantics, then an explicitly managed private or public
+dependency for the generic procedure. Keep only the bootstrap global. Pin
+shared dependencies to an immutable version and resolved commit, preserve
+local wrappers outside managed directories, and select one owner for each
+workflow. Public availability grants neither private-system membership nor
+additional autonomy.
 
 The global bootstrap stays intentionally small:
 
@@ -441,16 +473,83 @@ and compatibility are verified.
 
 ## Product Engineering Loop
 
-The product lifecycle is a closed learning system:
+The product lifecycle is one closed value loop containing smaller learning,
+delivery, operation, and stewardship loops. Evidence crosses the loop
+boundaries; work does not wait for a phase-complete handoff.
 
-```text
-signal
--> triage and domain/problem framing
--> smallest decisive experiment or production slice
--> release and observe
--> outcome, bug, incident, control, cost, and adoption evidence
--> update language, model, implementation, and next decision
+```mermaid
+flowchart TB
+    Signal["Signal"] --> Frame["Triage and domain framing"]
+    Frame --> Route{"Next evidence decision"}
+    Route -->|"discard, stop, or observe"| Decide["Outcome and next decision"]
+    Route -->|"investigate or experiment"| Learn["Experiment or prototype"]
+    Learn -->|"evidence"| Route
+    Route -->|"explicit production investment"| Slice["Production slice"]
+    Slice --> Release["Release"]
+    Release --> Observe["Production observation"]
+    Observe --> Decide
+    Decide --> Signal
+
+    Observe -->|"bug, incident, or control failure"| Recover["Contain, diagnose, and reframe"]
+    Recover --> Frame
+
+    subgraph Delivery["Vertical delivery loop"]
+        Example["Domain example"] --> Failing["Failing check"]
+        Failing --> Minimum["Minimum coherent behavior"]
+        Minimum --> Refactor["Refactor while green"]
+        Refactor --> Example
+    end
+
+    subgraph Stewardship["Harness learning loop"]
+        Friction["Observed friction"] --> Adapt["Change smallest owner"]
+        Adapt --> Verify["Verify and retain or remove"]
+        Verify --> Friction
+    end
+
+    Slice -.->|uses| Delivery
+    Decide -.->|updates| Stewardship
 ```
+
+### Use Only the Loop the Decision Needs
+
+Higher levels wrap smaller proven loops; they do not make every task a product
+initiative. Topology is independent: one repository can own a complete value
+stream, while a multi-repository system can still operate at L3.
+
+| Delegation level | Smallest useful loop | Typical boundary | Human involvement |
+|---|---|---|---|
+| L1 | Inspect -> change -> check | One bounded task | Direct framing and review |
+| L2 | Input -> procedure -> evidence -> improve | One recurring method | Select and supervise the procedure |
+| L3-L4 | Intent -> local context -> change -> repository gates -> durable learning | Usually one repository; controlled external sources at L4 | Own semantics, authority, and material trade-offs |
+| L5 | State -> next step -> evaluation -> retry, recover, or stop | One stable workflow across one or more repositories | Design boundaries and handle exceptions |
+| L6 | Signal -> frame -> experiment or slice -> release when warranted -> production evidence -> next decision | One governed value stream, regardless of repository count | Govern goals and risk; intervene on exceptions |
+| L7 | Trusted signals -> bounded bets -> experiments -> outcomes -> investment decision | One accountable product or portfolio decision domain | Own strategy, budgets, kill criteria, and stop authority |
+
+A single-repository L3 harness therefore needs only repository context, checks,
+and learning. It does not need portfolio machinery. A multi-repository L5
+workflow needs a coordinator for relationships and state, but not L6 release
+authority. Select the loop from the delegated decision, then select the
+topology from ownership.
+
+### Pull Work from Evidence, Not from Inventory
+
+Signals are not automatically backlog items. Triage decides whether to discard,
+observe, investigate, contain, experiment, or deliver. A backlog can be useful
+as a short visible pull queue, but it is neither a commitment ledger nor proof
+of value. Large queues of elaborated work increase aging assumptions and make
+finishing the plan look more important than learning.
+
+Specifications, plans, and domain models are working boundaries. Write enough
+to make the next decision, example, risk, or experiment testable. Revise them
+when prototypes, implementation, users, or production expose new meaning. A
+planning or specification Skill may support that bounded decision; it must not
+turn the loop into specification -> implementation -> testing -> deployment.
+
+Use a prototype or spike when it buys decisive knowledge more cheaply than
+production design. End it with discard, another experiment, or an explicit
+hardening investment. Use vertical TDD for behavior intended to survive. Pull
+the next slice from current value, risk, and system constraints instead of
+attempting to pre-plan a complete solution.
 
 ### Phase-by-Phase Human and Agent Collaboration
 

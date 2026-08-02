@@ -29,10 +29,10 @@ target manages copied Skills, use a concise `harness-skills.yaml`:
 version: 1
 skills:
   - name: update-harness
-    source: https://gitea.example.com/owner/skills.git
+    source: https://github.com/owner/skills.git
     path: skills/engineering/update-harness
     target: .agents/skills/update-harness
-    # renovate: datasource=gitea-tags depName=update-harness packageName=owner/skills versioning=regex:^update-harness-v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)$ registryUrl=https://gitea.example.com
+    # renovate: datasource=github-tags depName=update-harness packageName=owner/skills versioning=regex:^update-harness-v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)$
     ref: update-harness-v1.0.0
     commit: 0123456789abcdef0123456789abcdef01234567
 ```
@@ -55,18 +55,28 @@ The annotation above can be extracted with a regex custom manager:
       "customType": "regex",
       "managerFilePatterns": ["/(^|/)harness-skills\\.ya?ml$/"],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) packageName=(?<packageName>\\S+) versioning=(?<versioning>\\S+) registryUrl=(?<registryUrl>\\S+)\\s+ref:\\s+(?<currentValue>\\S+)"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) packageName=(?<packageName>\\S+) versioning=(?<versioning>\\S+)(?: registryUrl=(?<registryUrl>\\S+))?\\s+ref:\\s+(?<currentValue>\\S+)"
       ]
     }
   ]
 }
 ```
 
-For Forgejo, use the current Forgejo datasource instead of assuming Gitea
-compatibility. Verify the configuration against the deployed Renovate version:
+Choose the datasource from the source host:
+
+| Source host | Datasource | Registry URL |
+|---|---|---|
+| GitHub.com | `github-tags` | omit; use the default GitHub registry |
+| Gitea | `gitea-tags` | set the instance base URL |
+| Forgejo | `forgejo-tags` | set the instance base URL |
+
+Do not assume Gitea, Forgejo, and GitHub are interchangeable. Verify the
+configuration against the deployed Renovate version:
 
 - [Renovate regex manager](https://docs.renovatebot.com/modules/manager/regex/)
+- [Renovate GitHub tags datasource](https://docs.renovatebot.com/modules/datasource/github-tags/)
 - [Renovate Gitea tags datasource](https://docs.renovatebot.com/modules/datasource/gitea-tags/)
+- [Renovate Forgejo tags datasource](https://docs.renovatebot.com/modules/datasource/forgejo-tags/)
 
 Renovate updates the declared ref. An agent or repository-owned update command
 must still synchronize the managed files, resolve the commit, and run checks in

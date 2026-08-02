@@ -13,6 +13,11 @@ deployment handoffs. Domain discovery, examples, tests, security, operability,
 delivery, and production learning advance together in the smallest useful
 cycles.
 
+Run only the loop the current decision needs. A task loop may sit inside a
+repository loop, which may sit inside a stateful workflow or governed value
+stream. Higher delegation wraps proven smaller loops; it does not require every
+task to traverse a portfolio process.
+
 For one isolated implementation or bug fix with no lifecycle decision, use the
 relevant craft Skill, upstream **diagnosing-bugs**, **coding-discipline**, and
 **completion-gate** directly.
@@ -41,6 +46,10 @@ cadence when the existing system already exposes the required state.
 Treat ideas, requests, telemetry, bugs, incidents, security findings, compliance
 constraints, operational pain, and strategic opportunities as signals. Do not
 promote a signal directly into delivery.
+
+A backlog, when the target uses one, is a short visible pull queue for current
+decisions. It is not a commitment inventory or a substitute for signal
+provenance, triage, outcome evidence, or kill criteria.
 
 Triage enough to establish:
 

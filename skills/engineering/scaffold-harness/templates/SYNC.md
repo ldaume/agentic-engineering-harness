@@ -24,6 +24,16 @@ does not grant unattended autonomy.
 
 A Skills catalog is a capability supplier, not this control plane.
 
+## Shared capability sources
+
+The coordinator owns approved public and private organization or team sources,
+compatibility and adoption policy, and allowed version ranges when needed.
+Each consuming project owns its exact ref and resolved commit in its target
+manifest; the source catalog owns release metadata. The coordinator does not
+copy Skill text. Projects retain local wrappers, domain semantics, commands,
+checks, and permissions. Keep only a small bootstrap global and let the active
+host's verified precedence determine how sources are loaded.
+
 ## Admit or graduate a member
 
 Compose member-local `scaffold-harness` with coordinator inventory:

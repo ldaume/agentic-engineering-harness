@@ -245,8 +245,14 @@ Reference the owner instead of duplicating its content.
   Skills.
 - Select one owning Skill and only the complements needed for the current
   stage.
-- Resolve project-local Skills first, then installed user or global Skills,
-  then trusted public candidates, subject to the host's actual precedence.
+- Resolve target semantics from project-local Skills or wrappers, then use the
+  explicitly managed private organization, team, or public dependency. Keep
+  installed user or global Skills to the small bootstrap and discovery role.
+  Inspect the host's actual load precedence separately.
+- Keep project semantics local, organization procedures in their private
+  catalog, portable methods in their public upstream, and only the small
+  bootstrap global. A coordinator owns placement and policy, not every Skill's
+  source text.
 - When a required public complement is missing, verify its source,
   technology-version fit, permissions, maintenance, license, and overlap.
   Install it project-locally only when harness changes are authorized, then

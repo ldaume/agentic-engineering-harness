@@ -60,8 +60,20 @@ specification is handed to development and tests appear at the end. Concepts
 evolve through evidence. Prototypes may be discarded. Production behavior
 changes the next decision.
 
+A specification is a current boundary or hypothesis, not a promise that the
+problem and solution are completely known. A backlog, when useful, is a small
+pull queue for the next decisions - not an inventory of assumed future value.
+The detailed guide shows the product loop, the learning and delivery loops
+inside it, and which loop is enough at each delegation level.
+
 The detailed guide explains [L1-L7 delegation, topology, review, memory,
 compliance, and host portability](./MULTI-REPO-HARNESS.md).
+
+The three central views are:
+
+- [human and agent work by L1-L7 delegation level](./MULTI-REPO-HARNESS.md#human-and-agent-operating-model-by-delegation-level)
+- [the nested product engineering loops](./MULTI-REPO-HARNESS.md#product-engineering-loop)
+- [public, private, coordinator, project, and global Skill ownership](./MULTI-REPO-HARNESS.md#skill-architecture)
 
 ## Working principles
 

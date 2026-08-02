@@ -10,13 +10,16 @@
 | `coding-discipline` | Make minimal implementation changes |
 | `completion-gate` | Verify before completion |
 
-Install from the shared Skills repository:
+Install one selected Skill from the approved public or private source:
 
 ```bash
-npx skills add /path/to/local/skills --agent <tool> --copy
+npx skills add <approved-source> --skill <skill-name> --agent <tool> --copy
 ```
 
-Add repository-specific Skills here only for repeated local workflows.
+This command is a targeted install, not a reproducible dependency contract.
+For repeated managed dependencies, record the immutable ref and resolved commit
+in the target-owned manifest and update it through `update-harness`. Add
+repository-specific Skills here only for repeated local workflows.
 
 ## Goal Routing
 
@@ -34,12 +37,16 @@ useful loop. Users do not need to name Skills.
 | Confirmed control scope | `integrate-product-compliance` inside the product loop |
 | Autonomous workload | runtime gate -> `build-autonomous-agents` |
 
-Resolve project-local Skills first, then installed user or global Skills, then
-trusted public candidates. For a missing public candidate, include the target
-technology and major version in discovery, inspect compatibility and
-permissions, and install project-locally only when harness changes are
-authorized. Use an installed upstream `find-skills` or `npx skills find` when
-no named complement fits. Compare overlapping workflow collections and select
-one owner per procedure. Optional style guardrails such as upstream `ponytail`
-are not additional delivery stages. Do not copy public Skill text into the
-repository.
+Resolve target semantics from project-local Skills or wrappers. Consume shared
+non-public procedures from an approved organization or team catalog and
+portable methods from a pinned public upstream. Keep only the discovery and
+maintenance bootstrap global. Inspect the active host's real precedence and
+select one owner per procedure.
+
+For a missing public candidate, include the target technology and major version
+in discovery, inspect compatibility and permissions, and install it
+project-locally only when harness changes are authorized. Use an installed
+upstream `find-skills` or `npx skills find` when no named complement fits.
+Optional style guardrails such as upstream `ponytail` are not additional
+delivery stages. Keep local wrappers outside managed dependencies and do not
+copy public Skill text into the repository.

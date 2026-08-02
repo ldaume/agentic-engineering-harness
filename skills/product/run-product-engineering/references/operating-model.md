@@ -3,6 +3,7 @@
 ## Contents
 
 - [Closed Loop](#closed-loop)
+- [Nested Loops](#nested-loops)
 - [Pull-Based Learning Cycles](#pull-based-learning-cycles)
 - [Stage Contract](#stage-contract)
 - [Exceptional Paths](#exceptional-paths)
@@ -18,13 +19,20 @@ Signal
 -> Triage
 -> Problem Framing
 -> Opportunity and Risk Burn-down
--> Candidate Bet
--> Prioritized Focus
--> Build, Validate, and Release
--> Production Observation
--> Adoption and Outcome Review
+-> next evidence decision:
+   - discard, stop, or observe -> Outcome Review
+   - investigate, prototype, or experiment -> evidence -> Problem Framing
+   - explicit production investment -> Candidate Bet -> Prioritized Focus
+     -> Build, Validate, and Release -> Production Observation
+-> Outcome Review
 -> Learning and Evolution
 -> new or changed Signal
+
+Production bug, incident, or control failure
+-> contain and restore as required
+-> diagnose and reframe
+-> smallest regression or recovery loop
+-> Production Observation and Outcome Review
 ```
 
 Work may enter through a product idea, customer request, bug, incident,
@@ -32,12 +40,31 @@ security finding, operational constraint, or compliance obligation. The stages
 separate evidence, decision, intervention, outcome, and learning; they are not a
 mandatory ticket ceremony.
 
+## Nested Loops
+
+Use the smallest loop that can settle the current decision:
+
+| Loop | Question it settles | Typical evidence |
+|---|---|---|
+| Task | Did this bounded change work? | Diff and focused check |
+| Procedure | Does this repeated method work reliably? | Repeated examples and evals |
+| Repository | Can work survive sessions and integrate safely? | Context, Fast Check, Full Gates, Git learning |
+| Workflow | Can the bounded process resume, recover, and stop? | State, retries, telemetry, outcome eval |
+| Value stream | Did delivery create value safely in production? | Release, reliability, incident, adoption, cost, and outcome evidence |
+| Product | Which bounded problem or investment should run next? | Trusted signals, experiments, budgets, and kill criteria |
+
+Higher loops consume evidence from smaller loops. They do not require every
+small change to repeat broad planning or portfolio ceremony.
+
 ## Pull-Based Learning Cycles
 
 The states are decision lenses, not sequential departments. Pull the smallest
 valuable or risk-burning work just in time. A slice may revisit problem,
 language, examples, design, tests, and rollout several times before and after a
 release.
+
+Treat any backlog as a short pull queue, not a commitment inventory. Do not
+elaborate speculative work merely to make a future plan look complete.
 
 When FaST fits the organization, let the collective visualize current work,
 self-organize around the most useful next slice, work in the shortest sensible

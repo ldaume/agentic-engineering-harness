@@ -20,7 +20,9 @@ Inspect before proposing files:
 - actual Fast Check and Full Gates
 - repository boundaries, public integration contracts, owners, and consumers
 - existing Skills, Rules, Hooks, MCP configuration, memory, and evals
-- effective project, user, and global Skill roots, precedence, and collisions
+- effective project and workspace roots, coordinator placement policy, managed
+  private organization or team catalogs, public upstreams, user and global
+  bootstrap roots, host precedence, and collisions
 - live agent-host capabilities, available model controls, orchestration support,
   and the freshness of any model, pricing, feature, or community guidance
 
@@ -151,21 +153,27 @@ contractual, certification, TISAX, PCI, or other control scope.
   local equivalent exists, and keep it accurate when purpose, cycle,
   membership, working-root rules, or delegated operating level change. It must
   explain the current human and agent roles by product phase and operating
-  level, technical controls, engineering method, why that allocation fits the
-  evidence, and the trigger for wider delegation without duplicating the agent
-  control plane.
+  level, the smaller loops nested inside the current delegated unit, technical
+  controls, engineering method, why that allocation fits the evidence, and the
+  trigger for wider delegation without duplicating the agent control plane.
 - Design canonical instructions, context, state, contracts, and failures for
   agent comprehension first. Keep README and reference views legible for
   humans, but do not reproduce human ceremony in the agent control plane.
 - Add ADRs only for accepted consequential trade-offs.
 - Use Skills for repeated probabilistic procedures.
 - Route from the goal and current lifecycle stage to one owning Skill plus only
-  the needed local or installed public complements. Do not require the user to
-  name Skills or prescribe a permanent Skill stack.
-- Resolve the host's effective project, user, and global Skill scopes. When a
-  selected loop needs a missing public complement, follow `CURRENTNESS.md` to
-  discover, evaluate, install project-locally, and invoke it. Never claim an
-  uninstalled Skill was used.
+  the needed local or managed private or public complements. Do not require the
+  user to name Skills or prescribe a permanent Skill stack.
+- Distinguish project-local semantics, private organization or team catalogs,
+  private coordinator policy, public upstream Skills, and the small user or
+  global bootstrap. Inspect host precedence, pin managed dependencies, and keep
+  one semantic owner per workflow; public availability never grants private
+  authority.
+- Resolve the host's effective project, workspace, managed private and public,
+  user, global, bundled, and plugin Skill scopes. When a selected loop needs a
+  missing complement, prefer an approved managed source; for a new public
+  candidate, follow `CURRENTNESS.md` to discover, evaluate, install
+  project-locally, and invoke it. Never claim an uninstalled Skill was used.
 - Use **update-harness** in hygiene mode to keep repository-specific Skills
   local, retain only justified reusable global Skills, preserve host-managed
   packages, and reconcile duplicate or conflicting effective installations.

@@ -14,6 +14,23 @@ target work because that would weaken local instruction discovery and increase
 context leakage and blast radius. Do not coordinate other members' product or
 ops work from a skills session.
 
+## Choose Capability Sources Without Moving Authority
+
+- Keep target-specific instructions, domain procedures, commands, and wrappers
+  in the project that owns them.
+- Use a private organization or team catalog for genuinely shared non-public
+  procedures, approved pins, and internal adapters.
+- Use the public catalog for portable generic Skills and immutable releases.
+- Keep only the small discovery and maintenance bootstrap in user or global
+  scope.
+- Let a private coordinator own placement, compatibility, and shared policy;
+  it does not become the source of project-local truth or public Skill content.
+
+Inspect the active host's real precedence. Select one semantic owner per
+workflow, manage copied dependencies by exact source, ref, and resolved commit,
+and keep local wrappers outside managed directories. Public availability never
+grants private membership, permissions, or autonomy.
+
 ## One Target Repository
 
 1. Open or activate the target as the working root.
