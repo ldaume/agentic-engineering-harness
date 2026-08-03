@@ -192,6 +192,11 @@ certification, TISAX, PCI, or other control scope.
   missing complement, prefer an approved managed source; for a new public
   candidate, follow `CURRENTNESS.md` to discover, evaluate, install
   project-locally, and invoke it. Never claim an uninstalled Skill was used.
+- Derive the actual stack and major versions from target evidence. Keep core
+  craft methods separate from technology profiles, and use `update-harness`
+  for the stack capability loop: reuse an owned profile, pilot a current public
+  candidate, work directly for a one-off gap, or create the smallest
+  project-local Skill only after repeated need provides examples and checks.
 - Use **update-harness** in hygiene mode to keep repository-specific Skills
   local, retain only justified reusable global Skills, preserve host-managed
   packages, and reconcile duplicate or conflicting effective installations.

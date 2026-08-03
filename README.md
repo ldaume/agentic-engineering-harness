@@ -151,6 +151,21 @@ hosting. Languages, frameworks, databases, and architecture styles are tools
 selected for the product and evidence. I add another specific profile only
 after repeated use provides examples, checks, and a maintenance owner.
 
+That specificity is intentional. A public catalog should not turn a working
+pnpm monorepo, Playwright, Docker, or TypeScript procedure into vague advice to
+look universal. The portable part is the selection and lifecycle contract:
+agents inspect the target stack, combine core craft with the smallest relevant
+profiles, and keep unsupported technology assumptions out of the common path.
+
+When coverage is missing, the harness resolves it without asking a person to
+curate framework prompts. It reuses an owned project, private, public, bundled,
+or plugin Skill; searches and pilots a current public candidate; works directly
+for a one-off; or uses `write-a-skill` to create a project-local profile after
+repeated need supplies real examples and checks. Reuse and provenance decide
+whether that profile later moves to a public or private catalog. Human grilling
+is reserved for unresolved architecture, adoption, authority, security, cost,
+or risk decisions.
+
 Browse by category:
 
 - [Engineering](./skills/engineering/README.md)

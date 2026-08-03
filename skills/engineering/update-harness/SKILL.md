@@ -114,6 +114,22 @@ an installed upstream `find-skills` or
 `npx skills find "<technology> <major-version> <task>"`, then inspect the exact
 candidate rather than trusting its ranking.
 
+If no candidate passes source, version, license, permission, overlap,
+maintenance, and representative-task checks:
+
+- complete a one-off task directly without creating a Skill
+- when repeated work exposes the gap, use managed `write-a-skill` to create the
+  smallest project-local profile from real examples and checks
+- promote that profile only after reuse proves a wider audience: portable
+  generic behavior to its public upstream, shared non-public behavior to the
+  private organization or team catalog, and target semantics to a local
+  wrapper
+
+Research stack facts and test reversible candidates autonomously. Use
+`grill-harness-with-docs` only when architecture, adoption, authority,
+security, cost, or another consequential branch remains unresolved; route a
+resolved material selection through fresh-context critique.
+
 Use upstream release notes, source diffs, and current primary documentation
 when behavior, platform support, pricing, model routing, security, or community
 practice may have changed. Mark missing or ambiguous compatibility evidence.
