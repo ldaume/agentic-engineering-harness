@@ -208,6 +208,32 @@ workflow state, and cross-cutting verification.
 Follow `HARNESS-OPERATIONS.md` to choose the correct working root. Never copy
 target-specific truth into this repository.
 
+## Website Projection
+
+Every change in this repository must end with a website projection result.
+Inspect the local sibling [`../website-astro`](../website-astro) first. When it
+is unavailable, inspect the
+[Gitea repository](https://gitea.daume.dev/lenny/website-astro) before deciding
+that no update is needed.
+
+Check the website when a change affects:
+
+- repository purpose, positioning, name, public scope, or audience
+- installation, first-use guidance, supported hosts, or public links
+- Skill catalog contents, public releases, versions, counts, or examples
+- harness topology, operating model, capabilities, autonomy, or human roles
+- claims, proof, or project descriptions already projected on the website
+
+The website repository owns its copy, pages, components, and checks. This
+repository owns the public Skills and harness source. Follow the website's
+instructions before changing it and commit each repository separately. When
+the current task does not authorize a required website change, report the
+owning file and needed handoff instead of copying website content here.
+
+Completion requires one explicit result: website update applied and verified,
+named website handoff required, or no website change needed with the inspected
+source and reason.
+
 ## Canonical Method
 
 - `skills/engineering/scaffold-harness/` owns harness assessment and upgrades.

@@ -96,6 +96,9 @@ For each new or materially changed Skill:
 ## Completion
 
 - Run relevant checks and review the final diff.
+- Run the **Website Projection** check in `HARNESS.md` for every change and
+  finish with an applied and verified website update, a named handoff, or an
+  explicit evidence-backed no-change result.
 - Route durable evidence to the smallest owning artifact. Use `LEARNINGS.md`
   only for public, reproducible evidence that changes future work.
 - Update `scaffold-harness` or `agent-sync` when a portable harness lesson must

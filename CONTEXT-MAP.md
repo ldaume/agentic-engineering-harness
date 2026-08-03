@@ -27,6 +27,7 @@
 | How are portable Skills created, revised, packaged, and verified across hosts? | `skills/engineering/write-a-skill/SKILL.md` |
 | How do public, private, coordinator, project-local, and global Skill sources interact? | `MULTI-REPO-HARNESS.md` / `HARNESS-OPERATIONS.md` |
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
+| Does a repository change require an update to the public website projection? | [`HARNESS.md`](HARNESS.md#website-projection) owns the trigger, routing, authority, and completion result |
 | Which durable findings should change future work? | `LEARNINGS.md` |
 | How can people contribute or report a vulnerability? | `CONTRIBUTING.md` / `SECURITY.md` |
 | What are a target's product facts, commands, and permissions? | The target repository and its local instruction hierarchy |
