@@ -11,6 +11,9 @@
 - Discover the active host and effective instruction, Skill, plugin, Rule,
   Hook, MCP, permission, model, and isolation behavior before relying on a
   host-specific adapter.
+- Before creating or changing a Skill, resolve and follow the managed
+  `write-a-skill` Skill. Use a host-native creator only for native metadata,
+  scaffolding, or validation after the portable behavior contract is clear.
 - Before editing: follow **Git Working Tree Hygiene** in `HARNESS.md`
   (`git status`, worktree list, no silent overwrite of foreign WIP).
 - Use existing repository conventions and commands before adding new ones.

@@ -8,11 +8,20 @@ description: Creates, refactors, packages, and verifies portable Agent Skills. U
 A useful Skill narrows execution variance for a recurring class of work. Keep
 the contract small, observable, and portable.
 
+This Skill owns the portable authoring workflow. A host-bundled creator,
+scaffolder, command, or plugin may add native metadata or validation after this
+contract is established; it never replaces the portable owner.
+
 ## 1. Ground the Repository
 
 Read the repository instructions, root and category indexes, lockfile, target
 `SKILL.md`, and its directly referenced resources. Detect the install targets,
 validation commands, naming conventions, and public-source policy.
+
+Identify every agent host that must discover or execute the Skill. Inspect its
+effective project, user, global, bundled, and plugin scopes rather than
+assuming the active host represents Claude Code, Codex, Cursor, Gemini, Pi,
+CI, or a later runtime.
 
 Map existing behavior before choosing a preferred structure. Preserve local
 names and packaging unless the task requires a migration.
@@ -52,6 +61,8 @@ For portable Skills, `name` and `description` are the discovery contract:
 - include each distinct trigger branch once
 - keep the description concise enough to coexist with the full catalog
 - keep client-specific invocation controls in target-local wrappers
+- preserve the portable contract when a host offers extra frontmatter,
+  commands, UI metadata, or a native creator
 
 Do not duplicate the description as a metadata trigger list. Use metadata only
 for information a real client or repository consumer reads.
@@ -125,7 +136,8 @@ Then:
 7. Remove temporary install artifacts.
 
 The change is complete when repository validation passes, installation works,
-and fresh-context evidence supports the intended activation and behavior.
+every declared host resolves the intended owner without collision, and
+fresh-context evidence supports the intended activation and behavior.
 
 ## Sources and Complements
 
@@ -134,5 +146,8 @@ and fresh-context evidence supports the intended activation and behavior.
   portable format.
 - If the upstream
   [`writing-great-skills`](https://github.com/mattpocock/skills/tree/main/skills/productivity/writing-great-skills)
-  Skill is installed, use it as an optional conceptual review. Reference or
-  install it; do not vendor its text into this repository.
+  Skill is installed and compatible with the active host, use it as an
+  optional conceptual review for predictability, information hierarchy,
+  completion criteria, and pruning. Reference or install it; do not vendor its
+  text or make its host-specific invocation metadata part of the portable
+  contract.

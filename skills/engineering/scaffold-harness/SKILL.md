@@ -20,6 +20,8 @@ Inspect before proposing files:
 - actual Fast Check and Full Gates
 - repository boundaries, public integration contracts, owners, and consumers
 - existing Skills, Rules, Hooks, MCP configuration, memory, and evals
+- the portable Skill-authoring owner and any host-bundled creator, scaffolder,
+  command, plugin, or validator that may overlap it
 - effective project and workspace roots, coordinator placement policy, managed
   private organization or team catalogs, public upstreams, user and global
   bootstrap roots, host precedence, and collisions
@@ -168,6 +170,15 @@ certification, TISAX, PCI, or other control scope.
   humans, but do not reproduce human ceremony in the agent control plane.
 - Add ADRs only for accepted consequential trade-offs.
 - Use Skills for repeated probabilistic procedures.
+- Install `write-a-skill` with the managed bootstrap in every effective host
+  scope when agents may create or change Skills. Treat a platform-bundled
+  creator as a thin adapter for native metadata, scaffolding, or validation;
+  it does not own portable Skill behavior. Do not infer cross-host discovery
+  from a successful Codex, Claude Code, Cursor, Gemini, Pi, or CI session.
+- When copied bootstrap Skills are managed, create or update the target-owned
+  dependency manifest with the exact public source, immutable per-Skill tag,
+  resolved commit, and effective host targets. A one-off Skills CLI install is
+  a pilot, not the reproducible dependency contract.
 - Route from the goal and current lifecycle stage to one owning Skill plus only
   the needed local or managed private or public complements. Do not require the
   user to name Skills or prescribe a permanent Skill stack.
@@ -269,7 +280,12 @@ certification, TISAX, PCI, or other control scope.
 1. Run the documented Fast Check and relevant Full Gates.
 2. Verify every referenced local file and command exists.
 3. Confirm each active host resolves the intended Skill versions without
-   collisions and agent instructions remain concise.
+   collisions and agent instructions remain concise. When Skill authoring is
+   in scope, verify that `write-a-skill` is the resolved portable owner and any
+   native creator remains an adapter.
+   The public catalog currently install-tests Codex, Cursor, Claude Code, and
+   Gemini CLI. Treat Pi, CI, and later runtimes as candidate hosts until the
+   target has a native adapter and a representative bootstrap check.
 4. Review the diff for overwritten local truth, speculative layers, and
    customer or product assumptions.
 5. Verify volatile claims have a source, check date, and re-check trigger; do
@@ -286,6 +302,8 @@ The scaffold is complete only when:
   non-interactive adapter that loads `AGENTS.md`,
 - every listed repository has a local session entrypoint and safe coordinator
   fallback, independent of its autonomy level,
+- every declared host can discover the managed bootstrap, including
+  `write-a-skill` wherever agents may maintain Skills,
 - a human README or local equivalent explains where to start, the current
   operating envelope, phase responsibilities, rationale, and graduation gates,
 - domain facts and decisions have explicit owners,

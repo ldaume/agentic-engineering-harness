@@ -28,6 +28,8 @@ Read only what the task needs:
   permission, model, and isolation precedence needed by the task
 - relevant context map, domain context, status, ADRs, and recent learnings
 - Skills explicitly triggered by the task
+- the managed `write-a-skill` owner before Skill creation or revision, plus
+  only the active host's native authoring adapter when needed
 - actual Fast Check and Full Gates
 - volatile model, pricing, platform, or Golden Path evidence only when the task
   depends on it
@@ -143,6 +145,7 @@ future behavior.
 | Current workflow or engagement state | Status document |
 | Accepted consequential trade-off | ADR |
 | Repeated probabilistic workflow | Skill |
+| Portable Skill authoring behavior | Managed public `write-a-skill`; native host creator stays an adapter |
 | Scoped behavioral guidance | Rule or agent instruction |
 | Deterministic event or enforcement | Hook, CI, test, platform control |
 | Portable public method or default | Public Skill or scaffold upstream |

@@ -7,6 +7,8 @@
 | `scaffold-harness` | Audit or establish the repository harness |
 | `grill-harness-with-docs` | Ground, critique, and resolve material decisions |
 | `agent-sync` | Evolve durable artifacts across sessions |
+| `update-harness` | Reconcile managed versions, scopes, and collisions |
+| `write-a-skill` | Create and revise portable Skills across agent hosts |
 | `coding-discipline` | Make minimal implementation changes |
 | `completion-gate` | Verify before completion |
 
@@ -20,6 +22,24 @@ This command is a targeted install, not a reproducible dependency contract.
 For repeated managed dependencies, record the immutable ref and resolved commit
 in the target-owned manifest and update it through `update-harness`. Add
 repository-specific Skills here only for repeated local workflows.
+
+Install the five bootstrap Skills - `scaffold-harness`, `agent-sync`,
+`update-harness`, `grill-harness-with-docs`, and `write-a-skill` - into the
+effective scope of every agent host used in this repository. Do not assume one
+shared directory or one successful host session proves discovery everywhere.
+When the host bundles its own Skill creator, keep `write-a-skill` as the
+portable owner and use the bundled capability only as a native adapter.
+
+Before calling the bootstrap managed, create or update the target-owned
+dependency manifest described by the installed `update-harness` reference.
+Record one entry per bootstrap Skill with the exact public source, immutable
+per-Skill tag, resolved commit, and effective host targets. Use an equivalent
+native lock only when it preserves those guarantees. The one-off command above
+is an installation pilot, not the reproducible dependency contract.
+
+The public catalog currently install-tests Codex, Cursor, Claude Code, and
+Gemini CLI. Add Pi, CI, or a later runtime to the declared host matrix only
+after its native adapter and a representative bootstrap check pass.
 
 ## Goal Routing
 
