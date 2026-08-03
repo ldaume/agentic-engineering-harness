@@ -22,8 +22,10 @@ blueprints. It does not depend on a private coordinator or another repository.
   autonomously. Do not ask for permission at every implementation step.
 - Commit and push coherent ready work when relevant checks pass and repository
   policy or the current task already grants that authority. Do not ask again
-  for an authorized routine push. Creating a remote, first publication,
-  release, deploy, force-push, permission increase, or irreversible operation
+  for an authorized routine push. A matching GitHub Release for a newly created
+  per-Skill tag that completed `VERSIONING.md` is routine completion. Historical
+  release backfill, remote creation, a repo-wide release, a new publication
+  channel, deploy, force-push, permission increase, or irreversible operation
   still requires explicit authority.
 - Ask when consequential intent, ownership, semantics, security, sensitive
   data, legal meaning, or blast radius cannot be resolved from evidence.

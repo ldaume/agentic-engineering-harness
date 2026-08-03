@@ -195,10 +195,12 @@ member, the coordinator, or this catalog-not all three.
 Routine, reversible maintenance within documented repository scope is
 autonomous. Commit and push coherent ready work when checks pass and repository
 policy or the current task already grants that authority. Do not ask again for
-an authorized routine push. Keep a human in the loop for unresolved intent,
-consequential Skill semantics, remote creation, first publication, release,
-deploy, force-push, destructive operations, sensitive data, broader
-permissions, or material changes to oversight.
+an authorized routine push. Creating the matching GitHub Release for a newly
+created per-Skill tag that completed `VERSIONING.md` is routine completion.
+Keep a human in the loop for unresolved intent, consequential Skill semantics,
+historical release backfill, remote creation, repo-wide releases, new
+publication channels, deploy, force-push, destructive operations, sensitive
+data, broader permissions, or material changes to oversight.
 
 For such a branch, present two or three options, evidence, trade-offs,
 reversibility, blast radius, and a recommendation. Do not execute the dependent

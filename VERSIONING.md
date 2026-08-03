@@ -29,17 +29,29 @@ require version bumps for unrelated Skills.
 
 1. Review the changed Skill's behavior contract and provenance.
 2. Update only its version in `skills-lock.json`.
-3. Run `python3 scripts/audit-skills.py`.
-4. Let the repository validation workflow install-test the catalog for every
-   supported client, and run representative activation checks when behavior
-   changed.
-5. Commit the coherent release state.
-6. Create the matching per-Skill tag on that commit.
-7. Push the commit before or with its tags.
+3. Run `python3 scripts/audit-skills.py` plus the required provenance, install,
+   and representative activation checks for the change.
+4. Commit and push the coherent release state.
+5. Wait for the validation workflow to pass on that exact commit for every
+   supported client.
+6. Create and push the matching per-Skill tag on that commit.
+7. Verify the remote tag resolves to the validated commit.
+8. Create the matching GitHub Release from that tag with concise notes covering
+   behavior changes, upgrade impact, and the exact install or pin reference.
 
 Do not create or move a tag for an uncommitted tree. Add catalog-wide releases
 only if evidence shows real bulk consumers; independent Skill tags are the
 default.
+
+The tag and `skills-lock.json` are the technical release sources. The GitHub
+Release is their human-readable projection. Do not backfill historical tags
+only to populate the Releases page; maintain this projection for new per-Skill
+releases from `scaffold-harness-v1.27.0` onward.
+
+If tag publication succeeds but GitHub Release creation fails, keep the tag
+immutable and retry the missing projection. Before completion, verify an
+existing Release targets the same tag; never move or recreate the tag as
+recovery.
 
 ## Consumers
 
