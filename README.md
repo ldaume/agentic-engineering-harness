@@ -104,6 +104,10 @@ and unsupervised guesswork.
 6. **Shared understanding before scale.** Significant work has explicit
    outcomes, boundaries, sources, decision rights, assumptions, checks, and
    stop conditions before autonomy or blast radius expands.
+7. **Cost-aware delegation.** Spawn the least expensive model proven for the
+   bounded role, then use stronger integration or review only where consequence
+   or ambiguity warrants it. Count retries, review, latency, and failure impact,
+   not token price alone.
 
 ## Core Skills and technology profiles
 

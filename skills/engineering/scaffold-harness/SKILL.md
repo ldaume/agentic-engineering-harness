@@ -210,10 +210,17 @@ certification, TISAX, PCI, or other control scope.
 - Use a capable current parent model for decomposition and integration. Route
   bounded worker tasks to the least expensive current model that passes
   representative checks; never optimize token price independently of retries,
-  review cost, latency, and failure impact.
+  review cost, latency, and failure impact. Default repeated subagents to the
+  current Balanced tier, use the Fast tier for clear mechanical work, and
+  reserve Frontier for ambiguity, consequential integration, or material
+  critique. A fresh Frontier reviewer can close material work produced by
+  cheaper workers; routine review stays on the least expensive proven tier.
 - Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
   cross-repository coordination. Discover live runtime controls before writing
-  host-specific configuration.
+  host-specific configuration. For Codex, configure
+  `agents.default_subagent_model` and role-specific project agents only after
+  resolving the current model map through
+  [CURRENTNESS.md](./CURRENTNESS.md).
 - Add an agent runtime only for a bounded repeated workload. Prefer existing CI
   and scheduler controls, open-source self-hostable components, explicit
   isolation, budgets, cancellation, evals, and target-owned telemetry.
