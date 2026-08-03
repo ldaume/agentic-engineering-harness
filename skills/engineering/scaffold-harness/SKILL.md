@@ -233,6 +233,12 @@ certification, TISAX, PCI, or other control scope.
   residual problem.
 - Add event-triggered self-review, independent review, currentness review, and
   autonomy review only where their evidence can change a decision.
+- When a recurring bounded workflow has a justified human-on-the-loop target,
+  make the smallest missing promotion gate part of each qualifying run. Keep
+  the promotion index in the target's existing state owner, link authoritative
+  evidence, prevent a changed gate from certifying itself, and present a ready
+  promote-or-hold decision immediately. Fail closed to human-in-the-loop after
+  a boundary, observability, or recovery failure.
 - Use a capable current parent model for decomposition and integration. Route
   bounded worker tasks to the least expensive current model that passes
   representative checks; never optimize token price independently of retries,

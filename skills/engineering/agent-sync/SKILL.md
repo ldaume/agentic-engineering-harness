@@ -59,6 +59,16 @@ Diagnose before changing. Update the smallest owning artifact when evidence
 justifies a reversible in-scope improvement. Leave the harness unchanged when
 no durable signal exists.
 
+When a recurring bounded workflow has a justified human-on-the-loop target,
+make the smallest missing promotion gate part of each qualifying run. Keep the
+promotion index in the target's existing workflow-state owner and link each
+authoritative check, review, audit, incident, and outcome record. A run that
+changes a gate cannot certify itself: require fresh-context critique and a
+negative proof for the failure that gate owns. Once the evidence covers
+repeated runs in one declared class, its variability and meaningful failure
+modes, recovery, observability, outcomes, and veto, present the accountable
+human one immediate promote-or-hold decision.
+
 Route a repeated missing-stack failure through `update-harness`: reuse an
 existing project, private, public, bundled, or plugin profile, or pilot an
 approved current public candidate first. Use `write-a-skill` for the smallest
@@ -124,6 +134,10 @@ Run only loops that can change the next action:
    mode with authority, scope, pilot, and exit path.
 6. **Autonomy review:** require controls, independent critique, and the
    applicable human decision before increasing delegation or oversight mode.
+   Promote only the evidenced change or risk class. After a scope breach,
+   unobservable failure, failed recovery, or unresolved material decision,
+   immediately return it to human-in-the-loop, record the hold reason, and
+   reset its evidence before any new promotion run.
 7. **Dependency bot PR:** when Renovate (or similar) opens an update PR, inspect
    the version jump for this repo's usage, run Fast Check / Full Gates (plus
    feature smoke if runtime behavior is touched), and merge only with safety
