@@ -20,6 +20,7 @@ proven controls allow.
 |---|---|
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
+| Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
