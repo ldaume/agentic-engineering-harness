@@ -413,13 +413,22 @@ routine review stays on the least expensive tier that preserves quality.
 Independence comes from fresh context, different failure modes, and evidence -
 not from a more expensive model name alone.
 
+The tiers are portable; their adapters are not. Codex can use project defaults
+and role-specific agents. Claude Code can select rolling aliases or IDs in agent
+definitions or per invocation. Cursor custom subagents can carry their own model
+selection. Gemini CLI custom subagents inherit the main-session model by
+default, while built-in or explicitly overridden agents may route differently;
+use per-agent configuration when a stable tier matters. Pi, CI agents, SDKs,
+and later hosts get the same treatment only after their live controls are
+verified.
+
 For Codex, official guidance checked on 2026-08-03 maps Luna to clear repeatable
-work, Terra to the everyday workhorse, and Sol to complex open-ended work.
-Project configuration can set a Balanced default subagent model and
-role-specific `.codex/agents/*.toml` overrides. Other hosts need their own live
-mapping. Record model IDs, reasoning effort, representative results, checked
-date, and re-check trigger in `ORCHESTRATION.md`; do not copy provider price
-tables into repository instructions.
+work, Terra to the everyday workhorse, and Sol to complex open-ended work. Those
+names are one dated adapter, not the policy. Record requested and resolved model,
+reasoning effort, representative results, checked date, and re-check trigger in
+`ORCHESTRATION.md`. When a new model appears, evaluate it as a candidate before
+promotion and update every affected active host separately. Do not copy provider
+price tables into repository instructions.
 
 ## Artifact Ownership
 

@@ -75,6 +75,27 @@ latency, and failure impact.
 Current does not mean newest preview. Prefer the latest approved stable
 candidate that passes local evals; pilot previews behind an explicit fallback.
 
+## Model Lifecycle
+
+Keep the task tiers stable while models and hosts change:
+
+1. **Discover:** a live catalog, allowlist, host release, deprecation, price
+   change, or measured failure exposes a candidate.
+2. **Pilot:** run representative tasks with the same tools, context, checks,
+   retry accounting, and consequence boundary as the current route.
+3. **Decide:** promote, retain as fallback, hold, reject, or remove. A newer or
+   cheaper model is not automatically better for the completed task.
+4. **Observe:** record requested and resolved models, quality, total cost,
+   latency, retries, and escaped failures when the host exposes them.
+5. **Re-route:** update each active host adapter independently. Do not leave a
+   Claude Code, Cursor, Gemini CLI, Codex, Pi, SDK, or CI route stale because a
+   different host was updated.
+
+Use rolling family aliases when they intentionally follow the provider's newest
+compatible model. Use exact IDs when reproducibility or regulated evidence
+requires them. Automatic fallback is acceptable only inside the task's proven
+minimum tier; an unverified downgrade stops or re-routes material work.
+
 ## Review Triggers
 
 Refresh relevant evidence:
@@ -124,11 +145,12 @@ ungrounded output is not economical.
 Use current model names only as a dated starting point. Inspect the live host
 and official sources before configuration:
 
-| Host | Parent starting point checked 2026-07-30 | Bounded worker policy |
+| Host | Parent starting point checked 2026-08-03 | Bounded worker policy |
 |---|---|---|
 | Claude Code | Opus 5 with `high` effort; Fable 5 for long-running or unusually ambiguous work when available | Sonnet 5 or a cheaper model only after the task class passes representative checks |
 | Cursor | Auto **Intelligence**; use a manually selected current frontier model when reproducibility matters | Auto **Balance** or **Cost** only for bounded work with checks |
 | Codex | GPT-5.6 Sol for complex, open-ended, or high-value integration; use the default effort first and raise it only when evidence requires more | GPT-5.6 Terra for everyday bounded workers and normal review; GPT-5.6 Luna for clear, repeatable, high-volume work; use Sol for material critique when correlated failure or consequence justifies it |
+| Gemini CLI | Current Auto or Pro route after checking plan and live model selection | Flash or Flash-Lite for bounded work; set an explicit per-agent model or `modelConfig` when the route must not inherit or vary by built-in agent |
 
 If the named option is unavailable, select the current host-equivalent at the
 same capability tier and record the evidence. If no candidate meets the floor,
@@ -151,10 +173,15 @@ Instruction-entry baseline checked 2026-08-01:
 Treat these as adapters, not independent policy owners. Re-check when a host
 changes context discovery, rule precedence, or project-root behavior.
 
-- **Claude Code:** Inspect the current CLI and subagent schema. Subagents can
-  inherit or select allowed model aliases or IDs, with runtime precedence rules.
+- **Claude Code:** Inspect the current CLI and subagent schema. Official docs
+  checked 2026-08-03 support rolling aliases or full IDs in agent frontmatter,
+  per-invocation selection, and `CLAUDE_CODE_SUBAGENT_MODEL`, subject to the
+  organization allowlist and documented precedence. Verify the resolved model;
+  a global environment override can otherwise defeat role-specific routing.
 - **Cursor:** Inspect the model selector, Auto behavior, plan usage, background
-  or cloud agent controls, and current models/pricing. Provider API price and
+  or cloud agent controls, and current models/pricing. Official releases checked
+  2026-08-03 support custom subagent models and rolling general model names.
+  Verify the installed version and resolved model because provider API price and
   Cursor plan consumption are not interchangeable.
 - **Codex:** Inspect the current runtime tool schema and available model
   overrides before delegating. Confirm model guidance and the applicable Codex
@@ -165,7 +192,11 @@ changes context discovery, rule precedence, or project-root behavior.
   Balanced workers as the default and to make Fast or Frontier routes explicit.
 - **Gemini CLI or successor:** Inspect current model routing precedence,
   subagent overrides, host migration notices, and the applicable API or plan
-  pricing before configuring workers.
+  pricing before configuring workers. Official docs checked 2026-08-03 expose
+  a per-agent `model` and `agents.overrides.*.modelConfig`. A custom subagent
+  defaults to `inherit`; built-in or explicitly overridden agents may route
+  differently. Configure the role explicitly when a stable tier matters and
+  verify the resolved model.
 - **Google Antigravity:** Inspect the current Antigravity product surface in
   use (application, IDE, CLI, or SDK), its instruction and Skill loading,
   customizations, MCP support, agent controls, permissions, and migration
@@ -183,7 +214,7 @@ not in this portable Skill.
 
 ## Official Source Registry
 
-Checked on 2026-08-01. Re-open at use:
+Checked on 2026-08-03. Re-open at use:
 
 - OpenAI model guidance: <https://developers.openai.com/api/docs/guides/latest-model>
 - OpenAI API pricing: <https://openai.com/api/pricing/>
@@ -195,6 +226,9 @@ Checked on 2026-08-01. Re-open at use:
 - Claude Code subagents: <https://code.claude.com/docs/en/sub-agents>
 - Claude Code changelog: <https://code.claude.com/docs/en/changelog>
 - Cursor documentation: <https://cursor.com/docs>
+- Cursor subagents: <https://cursor.com/docs/subagents>
+- Cursor subagent release: <https://cursor.com/changelog/2-4>
+- Cursor rolling subagent aliases: <https://cursor.com/changelog/page/5>
 - Cursor CLI instruction loading: <https://docs.cursor.com/en/cli/using>
 - Cursor pricing: <https://cursor.com/pricing>
 - Cursor changelog: <https://cursor.com/changelog>
@@ -204,6 +238,7 @@ Checked on 2026-08-01. Re-open at use:
 - Gemini CLI context files: <https://geminicli.com/docs/cli/gemini-md/>
 - Gemini CLI model routing: <https://geminicli.com/docs/cli/model-routing/>
 - Gemini CLI subagents: <https://github.com/google-gemini/gemini-cli/blob/main/docs/core/subagents.md>
+- Gemini CLI model selection: <https://geminicli.com/docs/cli/model/>
 - Gemini CLI release notes: <https://github.com/google-gemini/gemini-cli/blob/main/docs/changelogs/index.md>
 - Google Antigravity IDE codelab: <https://codelabs.developers.google.com/getting-started-agy-ide>
 - Google Antigravity Skills codelab: <https://codelabs.developers.google.com/getting-started-with-antigravity-skills>

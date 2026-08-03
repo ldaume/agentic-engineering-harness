@@ -101,9 +101,13 @@ Run only loops that can change the next action:
    [`../scaffold-harness/CURRENTNESS.md`](../scaffold-harness/CURRENTNESS.md)
    when volatile model, cost, feature, tool, or community evidence affects a
    decision or an active adapter no longer matches observed host behavior.
-   Expired evidence is stale but triggers research only when consumed. The
-   result may keep, change, remove, supersede, or rebuild the affected harness
-   owner.
+   Keep stable task tiers separate from replaceable provider models. A new,
+   deprecated, unavailable, repriced, or behaviorally changed model triggers a
+   representative candidate evaluation and an update to every affected active
+   host adapter - Codex, Claude Code, Cursor, Gemini CLI, Pi, SDK, CI, or a later
+   host - rather than a Codex-only rename. Expired evidence is stale but
+   triggers research only when consumed. The result may keep, change, remove,
+   supersede, or rebuild the affected harness owner.
 5. **Capability gate:** use
    [`../scaffold-harness/CAPABILITY-GATES.md`](../scaffold-harness/CAPABILITY-GATES.md)
    when sessions lose continuity, re-explore code wastefully, flood context,

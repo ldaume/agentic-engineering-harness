@@ -108,6 +108,10 @@ and unsupervised guesswork.
    bounded role, then use stronger integration or review only where consequence
    or ambiguity warrants it. Count retries, review, latency, and failure impact,
    not token price alone.
+8. **Provider-neutral routing.** Keep Fast, Balanced, and Frontier roles stable;
+   map them through separate live Codex, Claude Code, Cursor, Gemini CLI, Pi,
+   CI, or later-host adapters. New models earn promotion through representative
+   work instead of replacing a proven route by name alone.
 
 ## Core Skills and technology profiles
 
