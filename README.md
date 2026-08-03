@@ -175,14 +175,22 @@ npx skills add ldaume/agentic-engineering-harness \
   --skill agent-sync \
   --skill update-harness \
   --skill grill-harness-with-docs \
-  --agent codex \
+  --skill write-a-skill \
+  --agent codex cursor claude-code gemini-cli \
   --copy -g -y
 ```
 
-Replace `codex` with a client supported by the installed Skills CLI. Install
-only the four bootstrap Skills globally. Project and domain Skills normally
-belong in the target repository so they remain visible, reviewable, and scoped
-to the work.
+Replace the example client list with every agent host you actually use. Install
+only the five bootstrap Skills globally. The shared `.agents/skills` location
+is useful where clients support it, but a harness must verify effective
+discovery per host instead of assuming one installation covers every runtime.
+Project and domain Skills normally belong in the target repository so they
+remain visible, reviewable, and scoped to the work.
+
+`write-a-skill` is the portable owner whenever an agent creates or changes a
+Skill. Codex, Claude Code, Cursor, Gemini, Pi, CI, and later hosts may provide
+native creators, commands, metadata, or validators; those capabilities remain
+thin adapters around the same behavior contract.
 
 To install one Skill into the current project:
 
@@ -197,7 +205,9 @@ The validation workflow install-tests the complete catalog for Codex, Cursor,
 Claude Code, and Gemini CLI. Thin `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and
 Antigravity bridges make repository instructions discoverable. Packaging
 compatibility does not guarantee identical runtime behavior; representative
-workloads and target-local checks remain the evidence.
+workloads and target-local checks remain the evidence. Pi, CI, and later
+runtimes need a target-owned adapter and bootstrap check before a harness
+declares them supported.
 
 ## Repository maintenance
 

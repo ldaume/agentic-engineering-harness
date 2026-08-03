@@ -66,14 +66,17 @@ Keep one intentional owner for each effective Skill:
    it does not become the source owner for public or project-local Skill text.
 5. Keep only a small reusable bootstrap globally when it is useful across
    repositories.
-6. Treat a host-required client copy as intentional only when that host cannot
+6. For harnesses whose agents may maintain Skills, keep `write-a-skill` in the
+   managed bootstrap of every active host. Treat bundled or plugin-provided
+   Skill creators as host adapters, not as portable semantic owners.
+7. Treat a host-required client copy as intentional only when that host cannot
    load the shared source without it.
-7. Preserve system, bundled, plugin-managed, and unrelated installations.
-8. Compare content and precedence before moving a duplicate; do not infer
+8. Preserve system, bundled, plugin-managed, and unrelated installations.
+9. Compare content and precedence before moving a duplicate; do not infer
    ownership from the Skill name alone.
-9. Quarantine obsolete, conflicting, or mis-scoped user installations with an
+10. Quarantine obsolete, conflicting, or mis-scoped user installations with an
    inventory and rollback path. Global cleanup requires explicit user intent.
-10. Install a missing selected complement project-locally and invoke it in the
+11. Install a missing selected complement project-locally and invoke it in the
    current loop.
 
 Do not confuse semantic ownership with host load precedence. Inspect what the

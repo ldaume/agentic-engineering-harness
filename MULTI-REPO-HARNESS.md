@@ -502,6 +502,16 @@ The global bootstrap stays intentionally small:
 - `scaffold-harness` establishes or repairs the work system
 - `agent-sync` routes durable evidence and keeps it current
 - `update-harness` reconciles versions, scopes, and collisions
+- `grill-harness-with-docs` resolves material ambiguity and critiques resolved work
+- `write-a-skill` owns portable Skill creation and revision
+
+Install this bootstrap into the effective scope of every agent host that runs
+sessions in the system. A shared Skill directory is useful only where the host
+actually loads it. The public catalog currently install-tests Codex, Claude
+Code, Cursor, and Gemini. Pi, CI, and later hosts remain candidates until a
+target-owned adapter and representative bootstrap check pass. A host-bundled
+Skill creator may supply native metadata, scaffolding, or validation, but it
+does not replace `write-a-skill` as the portable owner.
 
 Project-specific Skills stay project-local. Public complements are installed
 only when the current task needs them and their source, version, permissions,

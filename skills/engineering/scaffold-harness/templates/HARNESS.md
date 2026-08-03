@@ -302,6 +302,9 @@ Reference the owner instead of duplicating its content.
   Skills.
 - Select one owning Skill and only the complements needed for the current
   stage.
+- Use managed `write-a-skill` as the portable owner for Skill creation and
+  revision. Host-native creators, commands, and plugins are adapters only;
+  verify discovery independently for every declared host.
 - Resolve target semantics from project-local Skills or wrappers, then use the
   explicitly managed private organization, team, or public dependency. Keep
   installed user or global Skills to the small bootstrap and discovery role.
