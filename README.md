@@ -205,6 +205,8 @@ The core contains methods that transfer across stacks:
 - Product system: [`product-craft`](./skills/product/product-craft/SKILL.md),
   [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md),
   [`integrate-product-compliance`](./skills/product/integrate-product-compliance/SKILL.md)
+- Infrastructure system:
+  [`manage-infrastructure-as-code`](./skills/infrastructure/manage-infrastructure-as-code/SKILL.md)
 - Harness and agents: [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md),
   [`scaffold-distributed-context`](./skills/engineering/scaffold-distributed-context/SKILL.md),
   [`agent-sync`](./skills/engineering/agent-sync/SKILL.md),

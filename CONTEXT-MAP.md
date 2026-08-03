@@ -21,6 +21,7 @@
 | How is Agentic Engineering learned or taught from immediate questions through L7? | `skills/engineering/learn-agentic-engineering/SKILL.md` |
 | How is the product-engineering loop run from signal through production evidence and evolution? | `skills/product/run-product-engineering/SKILL.md` |
 | How is confirmed ISO/IEC 27001, TISAX, PCI DSS, or contractual control scope integrated? | `skills/product/integrate-product-compliance/SKILL.md` |
+| How are IaC, GitOps or GitOps-near, infrastructure state, plans, and drift managed? | `skills/infrastructure/manage-infrastructure-as-code/SKILL.md` |
 | How is domain context coordinated across repositories? | `skills/engineering/scaffold-distributed-context/SKILL.md` |
 | How is durable evidence routed during work? | `skills/engineering/agent-sync/SKILL.md` |
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |

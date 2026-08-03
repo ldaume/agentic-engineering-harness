@@ -154,6 +154,14 @@ Product work is a closed learning loop, not a specification -> implementation
   semantics apply.
 - Prefer Git-owned decisions, controls, and generated evidence. Preserve any
   official form or assurance path required by the applicable authority.
+- Keep repeatable infrastructure desired state in version control and route
+  changes through reviewable plans, policy checks, protected state, controlled
+  apply, drift detection, runtime verification, and credible recovery. Name
+  GitOps, GitOps-near, or bounded IaC honestly; do not add a controller only to
+  improve the label.
+- Encode stable enforceable controls as tested policy close to their inputs and
+  enforcement point. Named humans retain interpretation, scope, risk acceptance,
+  exceptions, and assurance claims.
 
 ## Shared Understanding and Grilling
 
@@ -318,6 +326,8 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Repeated probabilistic procedure | Skill |
 | Portable future-harness defaults | upstream `scaffold-harness` / `agent-sync` |
 | Deterministic enforcement | Test, Hook, CI, or platform control |
+| Infrastructure desired state and drift | Target infrastructure repository and platform owners |
+| Compliance scope and policy semantics | Target ISMS or GRC system and named control owners |
 
 Reference the owner instead of duplicating its content.
 

@@ -1,6 +1,6 @@
 ---
 name: integrate-product-compliance
-description: Integrates confirmed security, trust, and compliance scope into product engineering through risk, control impact, evidence, release policy, and effectiveness review. Use when work touches ISO/IEC 27001, TISAX or VDA ISA, PCI DSS, customer security commitments, regulated or sensitive data, payment flows, compliance scope, audit evidence, control exceptions, or risk-based delivery.
+description: Integrates confirmed security, trust, and compliance scope into product engineering through risk, controls and policy as code, evidence, release policy, and effectiveness review. Use when work touches ISO/IEC 27001, TISAX or VDA ISA, PCI DSS, customer security commitments, regulated or sensitive data, payment flows, compliance as code, policy as code, machine-readable controls, audit evidence, control exceptions, or risk-based delivery.
 ---
 
 # Integrate Product Compliance
@@ -67,7 +67,32 @@ Do not copy copyrighted standards into the repository. Reference licensed
 sources and record only the target's interpretation, implementation, and
 evidence.
 
-## 4. Integrate the Product Loop
+## 4. Encode Enforceable Controls
+
+Turn a control into code only when its meaning, inputs, owner, and expected
+decision are stable enough to test. The named control owner retains the policy
+semantics. An agent may implement the approved rule; it must not translate an
+entire standard, contract, or policy into enforcement by inference.
+
+For each executable control keep:
+
+- the owned requirement, interpretation, control ID, version, and owner
+- the structured input and the system or change boundary it covers
+- the executable decision or invariant plus conforming and violating examples
+- the enforcement point, failure behavior, exception path, and expiry
+- the policy, data, engine, and test versions that produced the result
+- the evidence destination and a check that the control runs where claimed
+
+Use the target's existing schema validator, test framework, linter, CI gate, or
+platform control first. A small deterministic check is enough for a local
+invariant. Add a policy engine only when shared structured decisions, reuse, or
+runtime enforcement justify its operation and removal cost.
+
+Machine-readable control and evidence formats may improve interchange and
+traceability when the target or assessor supports them. They do not prove
+applicability, effectiveness, or compliance by themselves.
+
+## 5. Integrate the Product Loop
 
 Use **run-product-engineering** and add compliance where it changes a decision:
 
@@ -83,7 +108,7 @@ Use **run-product-engineering** and add compliance where it changes a decision:
 Use threat modeling, abuse cases, data-flow review, architecture evidence,
 security testing, and assessor input only when the risk justifies them.
 
-## 5. Generate Evidence from the System
+## 6. Generate Evidence from the System
 
 Prefer evidence emitted by normal work:
 
@@ -110,7 +135,7 @@ it according to sensitivity and retention policy. An agent may assemble an
 evidence view but must not fabricate missing evidence or declare control
 effectiveness from file presence.
 
-## 6. Apply Risk-Based Release and Exceptions
+## 7. Apply Risk-Based Release and Exceptions
 
 Use the target's existing risk classes. If none exist, propose a minimal model
 for human approval; do not silently impose a universal table.
@@ -127,7 +152,7 @@ complete post-change review and remediation.
 Only the named risk owner may accept an exception. Record reason, scope,
 compensating controls, expiry, review trigger, and approval.
 
-## 7. Review Effectiveness and Currentness
+## 8. Review Effectiveness and Currentness
 
 Feed control failures, incidents, false positives, audit findings, customer
 requirements, supplier changes, standard updates, and operational evidence back
@@ -156,4 +181,13 @@ and no agent-generated claim exceeds verified assurance.
 - **scaffold-harness** - assess governance and L5-L7 autonomy evidence
 - **coding-discipline** and **completion-gate** - implement and verify controls
 - **build-autonomous-agents** - constrain agent runtime data, tools, and effects
+- **manage-infrastructure-as-code** - plan, policy-check, apply, and reconcile
+  infrastructure desired state
 - **documentation-and-adrs** - record accepted consequential trade-offs
+
+## Sources
+
+- [NIST OSCAL](https://pages.nist.gov/OSCAL/) - machine-readable control,
+  implementation, assessment, and result models
+- [Open Policy Agent in CI/CD](https://www.openpolicyagent.org/docs/cicd) -
+  executable policy checks for configuration and infrastructure data
