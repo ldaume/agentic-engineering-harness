@@ -27,6 +27,22 @@ Use the least expensive worker that meets the required quality. Include retry,
 review, latency, and failure impact in total cost. Do not delegate when
 coordination costs more than the work.
 
+Map provider models to three roles from current evidence:
+
+- **Fast:** clear, repeatable, high-volume extraction, mapping, or mechanical
+  checks.
+- **Balanced:** bounded implementation, research, debugging, and normal review
+  that still need sound reasoning and tools.
+- **Frontier:** ambiguous decomposition, consequential synthesis, or material
+  critique where a weaker result would create meaningful rework or risk.
+
+Default spawned workers to Fast or Balanced rather than inheriting the parent's
+Frontier model. Escalate after a representative failure or when the task crosses
+the documented risk boundary. A Frontier reviewer may critique material output
+from cheaper workers; routine green-path review does not require Frontier by
+default. Independence still requires fresh context and evidence, not merely a
+different model name.
+
 ## Review and Integration
 
 - Self-review: `<trigger and check>`

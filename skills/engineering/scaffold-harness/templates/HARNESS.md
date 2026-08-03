@@ -182,6 +182,13 @@ Product work is a closed learning loop, not a specification -> implementation
 - Treat dependency-bot PRs (Renovate or similar) as evidence-gated merges - never
   merge on green CI alone. See **Dependency bot PRs** below.
 
+Route subagents by task evidence, not by the parent's model. Use the least
+expensive current model that passes representative work for the role; reserve a
+frontier model for ambiguous integration, consequential decisions, or material
+review. Count retries, review, latency, and failure impact in total cost. Keep
+provider-specific aliases and checked dates in `ORCHESTRATION.md` or a thin
+host adapter.
+
 Every review ends with keep, change, remove, supersede, rebuild, or no action.
 
 ### Dependency bot PRs
@@ -207,6 +214,11 @@ requires it, then let the configured dependency bot propose updates after its
 routine cooldown. Security updates bypass routine cooldowns. A deprecation or
 forced-runtime annotation is a currentness failure: update the owning action,
 runtime, or adapter instead of suppressing the warning.
+
+A future LTS candidate may run in a separate preview lane before promotion.
+Keep that lane non-production and non-blocking unless the repository explicitly
+accepts the risk. Promote it only after upstream marks the line LTS, the used
+ecosystem passes representative checks, and the normal cooldown has elapsed.
 
 ## Uncertainty
 

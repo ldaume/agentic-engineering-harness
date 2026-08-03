@@ -34,6 +34,10 @@ Run [scripts/print-toolchain-hints.sh](./scripts/print-toolchain-hints.sh) and
 follow the Version resolution section in [REFERENCE.md](./REFERENCE.md):
 
 - Node **Active LTS** major -> `engines`, `.node-version`, `.nvmrc`, CI `node -e` guard
+- If the next major is an announced future LTS candidate, decide whether a
+  separate non-production preview lane buys useful compatibility evidence. Do
+  not make it the package, build, deployment, or production default before
+  upstream marks it LTS.
 - Latest **pnpm** -> `packageManager`, `corepack prepare`, Renovate regex manager
 - Latest **knip**, **prettier**, **typescript**, **lint-staged**, **simple-git-hooks**
 - Pin **container digests** for `node:*`, Playwright image (if E2E), `renovatebot/renovate`, `actions/checkout`, `actions/upload-artifact`
@@ -79,6 +83,9 @@ Copy templates from [templates/](./templates/), substitute placeholders (`__NODE
 
 - [ ] `preflight` - skip stale main pushes
 - [ ] `verify` - `pnpm verify` + `pnpm build`
+- [ ] `compatibility-preview` - optional non-blocking verification on the
+  announced future LTS candidate; pin its image digest and report failures
+  without weakening the LTS gate
 - [ ] `e2e` - optional; Playwright image pinned
 - [ ] Path filters include `__CI_DIR__/`, lockfile, workspaces
 

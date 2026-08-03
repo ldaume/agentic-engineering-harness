@@ -394,6 +394,33 @@ idempotency, recovery, deterministic gates, telemetry, and retained evidence.
 The runtime selection gate lives in
 [`RUNTIMES.md`](./skills/engineering/scaffold-harness/RUNTIMES.md).
 
+## Cost-Aware Model Routing
+
+Model routing follows the work, not the parent session. Keep three capability
+tiers in the canonical policy and map current provider models in the local
+adapter:
+
+| Tier | Use | Default review |
+|---|---|---|
+| Fast | Clear, repeatable extraction, inventory, formatting, or mechanical checks | Deterministic checks or bounded sampling |
+| Balanced | Everyday implementation, research, debugging, and normal code review | Fresh context plus target checks |
+| Frontier | Ambiguous decomposition, consequential integration, high-risk decisions, or material critique | Human boundary and independent evidence as the risk requires |
+
+Default spawned workers to Fast or Balanced. Escalate a worker only after a
+representative failure or when the task crosses a documented consequence
+boundary. A Frontier reviewer can critique material output from cheaper workers;
+routine review stays on the least expensive tier that preserves quality.
+Independence comes from fresh context, different failure modes, and evidence -
+not from a more expensive model name alone.
+
+For Codex, official guidance checked on 2026-08-03 maps Luna to clear repeatable
+work, Terra to the everyday workhorse, and Sol to complex open-ended work.
+Project configuration can set a Balanced default subagent model and
+role-specific `.codex/agents/*.toml` overrides. Other hosts need their own live
+mapping. Record model IDs, reasoning effort, representative results, checked
+date, and re-check trigger in `ORCHESTRATION.md`; do not copy provider price
+tables into repository instructions.
+
 ## Artifact Ownership
 
 | Concern | Typical owner |
@@ -732,6 +759,11 @@ otherwise. Routine updates wait through a short supply-chain cooldown;
 security updates do not. Actions and images stay pinned where integrity or
 reproducibility requires it. Deprecation and forced-runtime annotations fail
 the currentness loop instead of being suppressed.
+
+Run a future LTS candidate only in a separate preview lane until upstream marks
+it LTS. Keep that lane non-production and non-blocking unless the repository
+explicitly accepts the risk. Promotion requires representative ecosystem checks
+and the normal cooldown after the stable LTS release.
 
 A currentness review may retain, modify, remove, supersede, or rebuild the
 harness owner. Existing structure has no right to survive when replacement is

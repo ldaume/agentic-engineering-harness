@@ -20,6 +20,7 @@ At scaffold time, never hardcode versions from an old project.
 | Artifact | How to resolve |
 |----------|----------------|
 | Node Active LTS | [nodejs.org/en/about/releases](https://nodejs.org/en/about/releases) - use **Active LTS** major |
+| Future Node LTS candidate | The same official release page and release announcement - preview only while status is `Current`; promote only after official LTS status, representative checks, and cooldown |
 | pnpm | `npm view pnpm version` - set `packageManager` and CI `corepack prepare` |
 | TypeScript, knip, prettier, vitest, playwright | `npm view <pkg> version` |
 | `@types/node` | major = Node LTS major (`^24.` when on Node 24) - use `npm view @types/node@<LTS-major> version`, **not** `npm view @types/node version` (latest major tracks next Node line) |
@@ -30,11 +31,36 @@ At scaffold time, never hardcode versions from an old project.
 
 Run [scripts/print-toolchain-hints.sh](./scripts/print-toolchain-hints.sh) for a quick npm-registry snapshot.
 
+### Future LTS preview lane
+
+Add this only when a future LTS candidate exists and early compatibility
+evidence is worth the CI cost. Keep the stable LTS job authoritative:
+
+```yaml
+  compatibility-preview:
+    continue-on-error: true
+    runs-on: __RUNNER_LABEL__
+    container: node:__NODE_PREVIEW_MAJOR__-bookworm@__NODE_PREVIEW_BOOKWORM_DIGEST__
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@__ACTIONS_CHECKOUT_SHA__ # __ACTIONS_CHECKOUT_VERSION__
+      - run: corepack enable && corepack prepare pnpm@__PNPM_VERSION__ --activate
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+      - run: pnpm build
+```
+
+Do not deploy from this job. Promote the candidate by changing the primary LTS
+pins only after the official status change, local compatibility evidence, and
+the configured cooldown.
+
 ## Placeholder substitution
 
 | Placeholder | Example |
 |-------------|---------|
 | `__NODE_MAJOR__` | `24` |
+| `__NODE_PREVIEW_MAJOR__` | Announced future LTS candidate, for example `26` while it remains `Current` |
 | `__PNPM_VERSION__` | `11.5.2` |
 | `__CI_DIR__` | `.gitea/workflows` or `.github/workflows` |
 | `__RENOVATE_PLATFORM__` | `gitea` or `github` |

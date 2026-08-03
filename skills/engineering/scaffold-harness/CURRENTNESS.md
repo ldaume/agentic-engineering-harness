@@ -128,7 +128,7 @@ and official sources before configuration:
 |---|---|---|
 | Claude Code | Opus 5 with `high` effort; Fable 5 for long-running or unusually ambiguous work when available | Sonnet 5 or a cheaper model only after the task class passes representative checks |
 | Cursor | Auto **Intelligence**; use a manually selected current frontier model when reproducibility matters | Auto **Balance** or **Cost** only for bounded work with checks |
-| Codex | GPT-5.6 Sol with `high` reasoning | A cheaper current Codex model only for bounded work after representative checks |
+| Codex | GPT-5.6 Sol for complex, open-ended, or high-value integration; use the default effort first and raise it only when evidence requires more | GPT-5.6 Terra for everyday bounded workers and normal review; GPT-5.6 Luna for clear, repeatable, high-volume work; use Sol for material critique when correlated failure or consequence justifies it |
 
 If the named option is unavailable, select the current host-equivalent at the
 same capability tier and record the evidence. If no candidate meets the floor,
@@ -159,6 +159,10 @@ changes context discovery, rule precedence, or project-root behavior.
 - **Codex:** Inspect the current runtime tool schema and available model
   overrides before delegating. Confirm model guidance and the applicable Codex
   rate card; capabilities can differ across app, CLI, API, and workspace plan.
+  The Codex subagent guide checked 2026-08-03 supports a project
+  `[agents].default_subagent_model`, per-agent model and reasoning overrides,
+  and project-scoped `.codex/agents/*.toml` files. Use those controls to keep
+  Balanced workers as the default and to make Fast or Frontier routes explicit.
 - **Gemini CLI or successor:** Inspect current model routing precedence,
   subagent overrides, host migration notices, and the applicable API or plan
   pricing before configuring workers.
@@ -184,6 +188,7 @@ Checked on 2026-08-01. Re-open at use:
 - OpenAI model guidance: <https://developers.openai.com/api/docs/guides/latest-model>
 - OpenAI API pricing: <https://openai.com/api/pricing/>
 - OpenAI Codex rate card: <https://help.openai.com/en/articles/20001106-codex-rate-card>
+- OpenAI Codex subagents: <https://learn.chatgpt.com/docs/agent-configuration/subagents>
 - OpenAI Codex `AGENTS.md` loader: <https://github.com/openai/codex/blob/main/codex-rs/core/src/agents_md.rs>
 - Anthropic model overview: <https://platform.claude.com/docs/en/about-claude/models/overview>
 - Anthropic pricing: <https://platform.claude.com/docs/en/about-claude/pricing>
