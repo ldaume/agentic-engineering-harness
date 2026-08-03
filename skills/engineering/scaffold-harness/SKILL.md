@@ -151,6 +151,12 @@ certification, TISAX, PCI, or other control scope.
 - Add a harness operating contract for proactive, evidence-backed evolution.
 - Add domain context only when confirmed language or invariants exist.
 - Add a context map only for multiple contexts, repositories, or source routes.
+- In a cross-repository context map, record every non-local remote as a full
+  canonical HTTPS discovery URL including its host. It need not match a
+  credentialed Git `origin`. Never infer a host from an `owner/repository`
+  shorthand, another row, or local Git configuration. Use `local / no origin`
+  only when no remote exists, and make the coordinator Fast Check reject
+  ambiguous remote values.
 - Add learnings when a durable evidence loop is needed.
 - Add `STATUS.md` when cross-session or cross-repo work needs mid-flight state.
 - Add a sync protocol and thin member pointers when several repositories must
@@ -284,6 +290,8 @@ certification, TISAX, PCI, or other control scope.
 
 1. Run the documented Fast Check and relevant Full Gates.
 2. Verify every referenced local file and command exists.
+   For every mapped repository, verify the recorded remote is either a full
+   canonical HTTPS discovery URL or the explicit `local / no origin` marker.
 3. Confirm each active host resolves the intended Skill versions without
    collisions and agent instructions remain concise. When Skill authoring is
    in scope, verify that `write-a-skill` is the resolved portable owner and any
@@ -307,6 +315,7 @@ The scaffold is complete only when:
   non-interactive adapter that loads `AGENTS.md`,
 - every listed repository has a local session entrypoint and safe coordinator
   fallback, independent of its autonomy level,
+- every listed repository remote is host-explicit or explicitly local-only,
 - every declared host can discover the managed bootstrap, including
   `write-a-skill` wherever agents may maintain Skills,
 - a human README or local equivalent explains where to start, the current

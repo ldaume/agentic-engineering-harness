@@ -5,6 +5,12 @@
 - [`CONTEXT.md`](CONTEXT.md) - confirmed shared domain language.
 - `<path-or-repository>` - purpose, owning team or role, and authority boundary.
 
+For every non-local repository, record a full canonical HTTPS discovery URL
+including its host. It need not match a credentialed Git `origin`. Never use an
+`owner/repository` shorthand or infer a host from local Git configuration. Use
+`local / no origin` only when no remote exists, and make the coordinator Fast
+Check reject ambiguous remote values.
+
 ## Relationships
 
 - **Provider -> Consumer**: public contract, provider and consumer owners,

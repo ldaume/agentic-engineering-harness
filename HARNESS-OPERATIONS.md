@@ -57,9 +57,11 @@ workspace/
 ```
 
 The directory names are not a contract. The coordinator's context map records
-the real paths, remotes, owners, relationships, and checks. Repositories do not
-need to share a parent directory, but sibling checkouts make local discovery
-fast and work offline.
+the real paths, full canonical HTTPS discovery URLs, owners, relationships, and
+checks. A discovery URL need not match a credentialed Git `origin`. Use
+`local / no origin` when no remote exists; never infer a host from an
+`owner/repository` shorthand. Repositories do not need to share a parent
+directory, but sibling checkouts make local discovery fast and work offline.
 
 This public Skill catalog is a capability source. Do not use it as the
 coordinator for another system.
@@ -158,7 +160,8 @@ dependency order, shared workflow state, policy, or integration verification.
    [What Lives Where](#what-lives-where).
 4. Establish a safe local harness and real checks in every member.
 5. Add every member to the coordinator `CONTEXT-MAP.md` with its role, owner,
-   path, remote, status, local checks, relationships, and authority boundary.
+   path, full canonical HTTPS discovery URL or `local / no origin`, status,
+   local checks, relationships, and authority boundary.
 6. Add the thin coordinator pointer below to every member `AGENTS.md` and the
    required host bridges.
 7. Record shared capability sources and policy in the coordinator. Record each
