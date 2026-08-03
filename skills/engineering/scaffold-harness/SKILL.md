@@ -16,7 +16,9 @@ Inspect before proposing files:
   `.cursor/rules/`, or local equivalents
 - repository and domain sources: `README.md`, `CONTEXT.md`, ADRs, specs,
   architecture docs, code, and tests
-- package manager, scripts, CI, deployment, observability, and security controls
+- package manager, scripts, CI, infrastructure desired state and state backend,
+  deployment, drift detection, observability, security controls, compliance
+  policy, and evidence
 - actual Fast Check and Full Gates
 - repository boundaries, public integration contracts, owners, and consumers
 - existing Skills, Rules, Hooks, MCP configuration, memory, and evals
@@ -128,7 +130,9 @@ signals, delivery, production feedback, incidents, outcomes, or investment
 decisions. Use **product-craft** when the target needs value-defined issues or
 an honest Now/Next/Later/Never investment view. Use
 **integrate-product-compliance** only for confirmed security, contractual,
-certification, TISAX, PCI, or other control scope.
+certification, TISAX, PCI, or other control scope. Use
+**manage-infrastructure-as-code** when agents create, change, provision, or
+reconcile infrastructure desired state.
 
 ## 5. Apply
 
@@ -216,6 +220,12 @@ certification, TISAX, PCI, or other control scope.
   validation, security, accessibility, data integrity, recovery, or necessary
   error handling.
 - Use Hooks, CI, tests, and platform controls for deterministic enforcement.
+- Keep repeatable infrastructure desired state in version control. Route
+  infrastructure changes through **manage-infrastructure-as-code** for plan,
+  policy checks, protected state, controlled apply, drift, and recovery. Treat
+  emergency console work as an incident action that must be reconciled or
+  reversed, not as a second configuration source. Name GitOps, GitOps-near, or
+  bounded IaC honestly; do not add a controller only to improve the label.
 - Keep canonical semantics host-neutral. Use `AGENTS.md` as the portable owner
   and install the thin baseline bridges for Claude Code (`CLAUDE.md` import),
   Gemini CLI (`GEMINI.md` import), and Google Antigravity
@@ -284,8 +294,9 @@ certification, TISAX, PCI, or other control scope.
   Skill retains its own thin-UI, boundary, data, operability, and experience
   guidance.
 - Integrate compliance through target-owned risk, controls, evidence, and
-  release policy. Agents do not infer scope, accept risk, or make assurance
-  claims.
+  release policy. Encode stable enforceable controls as tested policy through
+  **integrate-product-compliance**; keep interpretation, scope, risk acceptance,
+  and assurance claims with named humans.
 - For cross-repository work, preserve repository-local truth and coordinate
   through public contracts, owners, compatibility checks, and shared evals.
   Use **scaffold-distributed-context** when shared domain language, projections,
@@ -349,6 +360,9 @@ The scaffold is complete only when:
   and preserves required evidence,
 - scheduled or service execution has bounded authority, cost, isolation,
   recovery, cancellation, and observability,
+- infrastructure automation has an owned desired state, reviewable plan,
+  protected state, policy gates, drift path, runtime verification, and credible
+  recovery,
 - all introduced artifacts have a demonstrated purpose,
 - multi-team systems expose decision rights, contract ownership, compatibility
   checks, escalation, and team-local authority,
@@ -384,5 +398,7 @@ The scaffold is complete only when:
 - **run-product-engineering** - operate a closed signal-to-outcome value stream
 - **integrate-product-compliance** - integrate confirmed control scope and
   evidence
+- **manage-infrastructure-as-code** - manage desired state, plans, state,
+  policy checks, apply, drift, and recovery
 - **coding-discipline** - make minimal implementation changes
 - **completion-gate** - verify before claiming completion

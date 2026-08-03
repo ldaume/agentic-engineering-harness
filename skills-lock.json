@@ -77,13 +77,19 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/integrate-product-compliance/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     "learn-agentic-engineering": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/learn-agentic-engineering/SKILL.md",
       "version": "1.1.0"
+    },
+    "manage-infrastructure-as-code": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/infrastructure/manage-infrastructure-as-code/SKILL.md",
+      "version": "1.0.0"
     },
     "meilisearch": {
       "source": "local",
@@ -131,7 +137,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "1.28.0"
+      "version": "1.29.0"
     },
     "scaffold-monorepo": {
       "source": "local",

@@ -42,6 +42,10 @@ Higher delegation is useful only when the lower level is reliable.
 - Treat product engineering as pull-based domain and risk learning from signal
   through production evidence. Specifications, tests, security, operability,
   and deployment are feedback activities, not downstream departments.
+- Represent repeatable deterministic state as versioned code or structured
+  configuration when this makes review, checks, reconciliation, and recovery
+  stronger. Keep unresolved meaning and accountable decisions with their named
+  owners.
 
 ## Artifact Ownership
 
@@ -61,6 +65,8 @@ Higher delegation is useful only when the lower level is reliable.
 | Outcome and regression signal | Eval, test, observability |
 | Signal-to-outcome product lifecycle | Target product operating system; `run-product-engineering` supplies the procedure |
 | Compliance scope, risks, controls, and evidence | Target ISMS or GRC system and named control owners |
+| Infrastructure desired state, state backend, and drift | Target infrastructure repository and named platform owners; `manage-infrastructure-as-code` supplies the procedure |
+| Executable control policy and tests | Target repository or policy system under the named control owner; `integrate-product-compliance` supplies the procedure |
 
 Use the repository's existing equivalent when it already owns the concern.
 Reference owners from consumers instead of copying the same truth.
@@ -78,6 +84,9 @@ A reliable repository-level harness has:
 - Git-backed decisions and learnings, with Git history as the audit,
   comparison, and rollback path
 - a documented escalation path
+- versioned desired state and executable policy for repeatable infrastructure
+  or control changes, with an explicit GitOps, GitOps-near, or bounded IaC
+  reconciliation model, protected runtime state, and human-owned semantics
 - only the Skills, Rules, Hooks, and tools justified by observed work
 
 ## Delegation Levels and Evidence
