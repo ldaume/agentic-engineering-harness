@@ -151,6 +151,10 @@ certification, TISAX, PCI, or other control scope.
 - Add a harness operating contract for proactive, evidence-backed evolution.
 - Add domain context only when confirmed language or invariants exist.
 - Add a context map only for multiple contexts, repositories, or source routes.
+- Keep repository membership, discovery, relationships, source authority, and
+  checks in that one context map. Do not add a parallel `HARNESS-MAP.md`. Route
+  every member to the coordinator sync document, and route that document to the
+  context map through a local path plus a stable remote fallback.
 - In a cross-repository context map, record every non-local remote as a full
   canonical HTTPS discovery URL including its host. It need not match a
   credentialed Git `origin`. Never infer a host from an `owner/repository`
@@ -292,6 +296,8 @@ certification, TISAX, PCI, or other control scope.
 2. Verify every referenced local file and command exists.
    For every mapped repository, verify the recorded remote is either a full
    canonical HTTPS discovery URL or the explicit `local / no origin` marker.
+   Trace one member's local and remote discovery path through the coordinator
+   sync document to the canonical context map.
 3. Confirm each active host resolves the intended Skill versions without
    collisions and agent instructions remain concise. When Skill authoring is
    in scope, verify that `write-a-skill` is the resolved portable owner and any
@@ -316,6 +322,8 @@ The scaffold is complete only when:
 - every listed repository has a local session entrypoint and safe coordinator
   fallback, independent of its autonomy level,
 - every listed repository remote is host-explicit or explicitly local-only,
+- every member can resolve the canonical context map locally or through its
+  stable remote fallback without a second relationship map,
 - every declared host can discover the managed bootstrap, including
   `write-a-skill` wherever agents may maintain Skills,
 - a human README or local equivalent explains where to start, the current

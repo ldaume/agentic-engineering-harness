@@ -89,6 +89,10 @@ If the coordinator is unavailable locally and remotely, continue only
 reversible member-local work. Do not infer shared state, cross-repository
 authority, or a higher autonomy level.
 
+`CONTEXT-MAP.md` is the single repository relationship and discovery map.
+Keep a local route and stable remote fallback in the coordinator sync document;
+do not add a parallel `HARNESS-MAP.md`.
+
 ## What Lives Where
 
 Create artifacts only when they have a consumer and a check. Use an existing

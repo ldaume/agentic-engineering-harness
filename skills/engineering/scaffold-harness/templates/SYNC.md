@@ -9,6 +9,12 @@ Each listed member `AGENTS.md`, including experiments, should point at this
 coordinator and require a read of its `HARNESS.md` (and sync doc) before
 substantial work. Keep the pointer thin; do not paste full policy into members.
 
+This sync document is the stable member route to the coordinator's canonical
+`CONTEXT-MAP.md`. Before a member selects another working root, shared source
+owner, or cross-repository scope, route it to the local map and a stable remote
+fallback such as `<stable-coordinator-context-map-url>`. Do not add a parallel
+`HARNESS-MAP.md`.
+
 When members share a canonical Private system snippet, Full Gates should detect
 drift between that snippet and every listed member section. Session discovery
 does not grant unattended autonomy.
@@ -50,7 +56,8 @@ Compose member-local `scaffold-harness` with coordinator inventory:
 
 Keep the member map truthful. Coordinator verify should fail on missing mapped
 paths and on unlisted repo-like siblings beside the coordinator. Member
-sessions deep-dive siblings only when work crosses repositories.
+sessions read the context map before choosing another repository, then
+deep-dive siblings only when work crosses repositories.
 
 ## Fan-out checklist (same loop)
 

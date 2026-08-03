@@ -1,5 +1,10 @@
 # Context Map
 
+This is the single canonical map for repository membership, discovery,
+relationships, source authority, and checks. Do not create a parallel
+`HARNESS-MAP.md`. Member sessions reach this map through the coordinator sync
+document, using a local path first and a stable remote fallback when needed.
+
 ## Contexts
 
 - [`CONTEXT.md`](CONTEXT.md) - confirmed shared domain language.
