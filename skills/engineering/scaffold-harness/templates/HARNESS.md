@@ -245,6 +245,25 @@ For a material human-in-the-loop branch, present two or three options,
 including no change when meaningful, with evidence, trade-offs, blast radius,
 reversibility, and a recommendation. The human may veto the branch.
 
+For each active promotion candidate:
+
+1. Name one bounded change or risk class, its owner, and its exclusions.
+2. Make the smallest missing promotion gate part of each qualifying run.
+3. Use the existing workflow-state owner as the promotion index. Record the
+   durable change and check result, scope, recovery, and outcome there while
+   linking authoritative checks, reviews, audit logs, and incidents.
+4. Do not let a gate-changing run count until fresh critique and a negative
+   proof show that the gate catches the failure it owns.
+5. After at least two successful runs in the same class, including an exercised
+   recovery or rollback path, run the autonomy review only when the evidence
+   covers declared variability and meaningful failure modes. Two runs are a
+   floor; require more when coverage or risk warrants it.
+6. Present a ready promote-or-hold decision immediately. Promote only the
+   demonstrated class; retain human veto, incident authority, and accountability.
+7. On a boundary, observability, or recovery failure, immediately return the
+   workflow to human-in-the-loop, record the hold reason, and reset its evidence
+   before any new promotion run.
+
 ## Currentness
 
 Do not freeze volatile model catalogs, prices, or platform features here.
