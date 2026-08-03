@@ -267,6 +267,12 @@ smallest authoritative source, process large raw output outside the active
 context when supported, load branch-specific reference only when needed, and
 pass bounded evidence rather than chat transcripts.
 
+Treat the applicable repository agent instructions, including any nearest
+scoped instructions, as the only unconditional repository payload. Load README,
+harness, context, status, learning, template, and Skill owners only when the
+active branch needs them; route to a section or query before reading a full
+large file.
+
 Keep stable session-critical routing and truth local. Use MCP for required live
 information or external actions; it does not replace source authority,
 freshness, persistence, or context selection.

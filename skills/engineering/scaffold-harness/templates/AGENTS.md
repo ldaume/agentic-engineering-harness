@@ -2,7 +2,9 @@
 
 ## Start
 
-- Read `README.md`, `CONTEXT-MAP.md` when present, and the sources it routes to.
+- Use `CONTEXT-MAP.md` when present to select only the sources needed for the
+  current task. Load `README.md` for human orientation, not as an unconditional
+  agent prerequisite.
 - Follow the nearest scoped agent instructions.
 - Communicate in the current human's preferred collaboration language. Infer
   it from explicit preference or conversation evidence; if still unclear, ask
@@ -14,14 +16,16 @@
 - Before creating or changing a Skill, resolve and follow the managed
   `write-a-skill` Skill. Use a host-native creator only for native metadata,
   scaffolding, or validation after the portable behavior contract is clear.
-- Before editing: follow **Git Working Tree Hygiene** in `HARNESS.md`
-  (`git status`, worktree list, no silent overwrite of foreign WIP).
+- Before editing: run `git status --short --branch` and, when available,
+  `git worktree list`; preserve foreign WIP. Load the detailed **Git Working
+  Tree Hygiene** section in `HARNESS.md` only when isolation or cleanup needs it.
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness
 
-- Follow `HARNESS.md`; improve the smallest owning artifact when current work
-  provides evidence.
+- Load the relevant `HARNESS.md` sections when work touches stewardship,
+  authority, review, context architecture, or completion; improve the smallest
+  owning artifact when current work provides evidence.
 - Before finish: ask whether durable lessons must manifest in this harness
   and, if portable, also in the upstream `scaffold-harness` templates /
   `agent-sync` so future harnesses inherit them.

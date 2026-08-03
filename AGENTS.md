@@ -5,8 +5,10 @@ blueprints. It does not depend on a private coordinator or another repository.
 
 ## Start
 
-- Read `CONTEXT-MAP.md`, `HARNESS.md`, and the sources they route to for the
-  current task.
+- Use `CONTEXT-MAP.md` to select only the sources needed for the current task.
+  Load the relevant `HARNESS.md` sections when the task touches stewardship,
+  authority, review, context architecture, or completion; do not preload every
+  routed source.
 - Read `VOICE.md` before writing or materially revising repository prose.
 - When changing a Skill, read its complete `SKILL.md`, the nearby category
   `README.md`, `VERSIONING.md`, and `skills/engineering/write-a-skill/SKILL.md`.

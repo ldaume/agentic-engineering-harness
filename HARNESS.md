@@ -134,6 +134,12 @@ measured request-context problem that remains after the baseline is sound.
 Pilot quality, cache behavior, retrieval, privacy, routing, and recovery before
 keeping any compression layer.
 
+Treat the applicable repository agent instructions, including any nearest
+scoped instructions, as the only unconditional repository payload. Load README,
+harness, context, status, learning, template, and Skill owners only when the
+active branch needs them; route to a section or query before reading a full
+large file.
+
 `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns the detailed
 placement, selection, and evaluation method.
 
