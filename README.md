@@ -25,13 +25,86 @@ proven controls allow.
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
 
-A useful first prompt is:
+## Choose a first prompt
+
+Start the agent inside the authority boundary it should change. This catalog
+supplies the capabilities; it is not the control plane for another system.
+
+| Scope | Start the session in |
+|---|---|
+| One repository | The target repository root |
+| Several repositories | The existing coordinating repository, or a workspace containing the intended repositories as siblings |
+| Several teams | A dedicated federated coordinating repository with access to the participating repositories |
+
+### One repository
 
 ```text
+First verify that the working root is the target repository root. If it is not,
+stop and name the correct working root before installing or changing anything.
+
+Use the Skills from
+https://github.com/ldaume/agentic-engineering-harness.
+
+Inspect that source. If any Skill named in this prompt is unavailable, install
+only that missing Skill project-locally for the active agent host. Do not
+install globally or expand permissions without explicit authority.
+
 Use scaffold-harness to assess this repository and add only the context,
 capabilities, feedback, and governance it needs. Preserve local truth, use the
-lowest reliable delegation level, and verify the result with real repository
-checks.
+lowest reliable delegation level, name the real Fast Check and Full Gates, and
+verify the result with those repository checks. Use grill-harness-with-docs
+for shared understanding, material critique, and unresolved decisions, and
+run agent-sync before completion.
+```
+
+### Several repositories
+
+```text
+First verify that the working root is an existing coordinating repository or
+a workspace containing the intended repositories as siblings. Discover
+candidate repositories, but do not infer membership from proximity alone.
+If this is only a workspace and no coordinator exists, resolve coordinator
+placement and authority before installing or changing anything.
+
+Use the Skills from
+https://github.com/ldaume/agentic-engineering-harness.
+
+Inspect that source. If any Skill named in this prompt is unavailable, install
+only that missing Skill project-locally in the authority-bearing repository
+for the active agent host. Do not install globally or expand permissions
+without explicit authority.
+
+Use scaffold-harness to establish or evolve the smallest reliable
+cross-repository harness. Treat every member as the authority for its local
+truth. Keep only relationships, public contracts, shared workflow state, and
+cross-cutting verification in the coordinator. Present options with a
+recommendation before creating a coordinator or expanding autonomy when
+ownership or authority is unresolved. Run the real member and integration
+checks, and run agent-sync before completion.
+```
+
+### Several teams
+
+```text
+First verify that the working root is a dedicated federated coordinating
+repository with access to the participating repositories. If it is not, stop
+and name the correct working root before installing or changing anything.
+
+Use the Skills from
+https://github.com/ldaume/agentic-engineering-harness.
+
+Inspect that source. If any Skill named in this prompt is unavailable, install
+only that missing Skill project-locally for the active agent host. Do not
+install globally or expand permissions without explicit authority.
+
+Use scaffold-harness and scaffold-distributed-context to establish or evolve a
+multi-team harness.
+Preserve each team's local authority. Map bounded contexts, public contracts,
+compatibility policy, risk, release, and autonomy decisions to named owners.
+Define cross-team checks and escalation without creating a central product or
+domain authority. Present unresolved decision rights one at a time with a
+recommendation, run the real team-local and cross-team checks, and run
+agent-sync before completion.
 ```
 
 ## What is in this repository
