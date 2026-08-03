@@ -187,7 +187,14 @@ expensive current model that passes representative work for the role; reserve a
 frontier model for ambiguous integration, consequential decisions, or material
 review. Count retries, review, latency, and failure impact in total cost. Keep
 provider-specific aliases and checked dates in `ORCHESTRATION.md` or a thin
-host adapter.
+host adapter. Maintain one adapter for every active host that can route models;
+Codex configuration is not a substitute for Claude Code, Cursor, Gemini CLI,
+Pi, CI, or later host controls. Re-evaluate a route when a model, alias,
+allowlist, plan, price, host fallback, or representative quality result changes.
+New models enter a measured candidate lane before they replace a proven route.
+Before the first delegated task in a session, resolve the active host adapter.
+If it is absent, stale, or unenforceable, inspect the live controls and either
+refresh the adapter or keep the task with the capable parent.
 
 Every review ends with keep, change, remove, supersede, rebuild, or no action.
 

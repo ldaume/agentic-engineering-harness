@@ -217,10 +217,14 @@ certification, TISAX, PCI, or other control scope.
   cheaper workers; routine review stays on the least expensive proven tier.
 - Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
   cross-repository coordination. Discover live runtime controls before writing
-  host-specific configuration. For Codex, configure
-  `agents.default_subagent_model` and role-specific project agents only after
-  resolving the current model map through
-  [CURRENTNESS.md](./CURRENTNESS.md).
+  host-specific configuration. Keep the role contract provider-neutral and
+  create a thin native adapter for every active host that supports model
+  routing. Resolve the current model map through
+  [CURRENTNESS.md](./CURRENTNESS.md): Codex project agents, Claude Code agent
+  definitions or per-invocation controls, Cursor custom subagents, Gemini CLI
+  agent overrides, and later hosts remain separate adapters. When a host cannot
+  enforce the route, record inheritance or use a separate bounded runtime
+  instead of pretending the optimization is active.
 - Add an agent runtime only for a bounded repeated workload. Prefer existing CI
   and scheduler controls, open-source self-hostable components, explicit
   isolation, budgets, cancellation, evals, and target-owned telemetry.
