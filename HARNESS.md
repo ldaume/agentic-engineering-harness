@@ -93,10 +93,14 @@ Skills:
    `npx skills find` to discover candidates. Treat popularity as a signal, not
    proof; inspect current upstream content, maintenance, security, license,
    overlap, and representative-task behavior before adoption.
-6. Compare overlapping workflow collections and select one owner for each
+6. If no candidate passes, complete a one-off directly, even when it is
+   difficult or risky. Only repeated work with real examples and checks earns
+   a project-local profile through `write-a-skill`; promote it only after reuse
+   proves a wider audience and owner.
+7. Compare overlapping workflow collections and select one owner for each
    procedure. Do not stack equivalent planning, TDD, debugging, review, or
    style instructions by default.
-7. Sequence implementation, checks, outcome evidence, and recovery as required.
+8. Sequence implementation, checks, outcome evidence, and recovery as required.
    Re-route after a lifecycle transition, failed check, new signal, or changed
    authority.
 

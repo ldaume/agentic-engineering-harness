@@ -59,6 +59,12 @@ Diagnose before changing. Update the smallest owning artifact when evidence
 justifies a reversible in-scope improvement. Leave the harness unchanged when
 no durable signal exists.
 
+Route a repeated missing-stack failure through `update-harness`: reuse an
+existing project, private, public, bundled, or plugin profile, or pilot an
+approved current public candidate first. Use `write-a-skill` for the smallest
+project-local profile only when repeated work supplies real examples and
+checks. One-off stack work stays direct work.
+
 Do not return an authorized routine decision to the human as a confirmation
 question. Close it through the repository policy and available evidence, or
 escalate a named conflict, authority gap, or material risk.

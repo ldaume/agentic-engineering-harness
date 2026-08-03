@@ -70,3 +70,26 @@ upstream `find-skills` or `npx skills find` when no named complement fits.
 Optional style guardrails such as upstream `ponytail` are not additional
 delivery stages. Keep local wrappers outside managed dependencies and do not
 copy public Skill text into the repository.
+
+## Stack Capability Loop
+
+Agents own routine stack resolution; users do not need to select Skills or
+translate the repository into framework prompts.
+
+1. Derive the technologies and major versions from manifests, lockfiles,
+   runtime output, code, and existing checks.
+2. Combine the stack-neutral craft owner with only the technology profiles the
+   current task needs. Keep explicit profiles such as pnpm, Playwright, Docker,
+   or a monorepo scaffold specific enough to remain useful.
+3. Reuse an existing project, private, public, bundled, or plugin Skill when
+   its source and behavior fit. Otherwise use `update-harness` to find and
+   pilot a current public candidate project-locally.
+4. If no candidate passes, complete a one-off directly, even when it is
+   difficult or risky. Only repeated work with real examples and checks earns
+   a project-local profile through `write-a-skill`.
+5. Promote only after reuse proves the audience and provenance: portable
+   behavior public, shared non-public behavior private, target semantics local.
+
+Research and reversible pilots stay autonomous. Use fresh-agent critique for
+a resolved material choice and human grilling only for unresolved product,
+architecture, adoption, authority, security, cost, or risk decisions.

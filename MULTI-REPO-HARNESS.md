@@ -517,6 +517,15 @@ Project-specific Skills stay project-local. Public complements are installed
 only when the current task needs them and their source, version, permissions,
 and compatibility are verified.
 
+Stack portability comes from an acquisition loop, not from stripping useful
+detail out of every Skill. Agents derive the target stack, combine common craft
+with explicit technology profiles, reuse or pilot an owned capability, work
+directly for a one-off gap, and create a project-local Skill only when repeated
+work supplies examples and checks. Promotion follows audience and provenance:
+portable behavior public, shared non-public behavior private, and target
+semantics local. Humans decide only genuinely unresolved consequential
+adoption, architecture, authority, security, cost, or risk branches.
+
 ## Product Engineering Loop
 
 The product lifecycle is one closed value loop containing smaller learning,

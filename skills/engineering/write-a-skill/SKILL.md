@@ -23,6 +23,12 @@ effective project, user, global, bundled, and plugin scopes rather than
 assuming the active host represents Claude Code, Codex, Cursor, Gemini, Pi,
 CI, or a later runtime.
 
+Before creating a new Skill, use `update-harness` to check project, private,
+public, bundled, and plugin owners. Create only when no suitable owned
+capability exists and repeated work supplies real examples and checks. Complete
+a one-off task directly, even when it is difficult or risky. Use a local
+wrapper instead of a fork when only target semantics differ.
+
 Map existing behavior before choosing a preferred structure. Preserve local
 names and packaging unless the task requires a migration.
 
@@ -32,7 +38,7 @@ and verification commands; target-specific deltas stay in target-local
 wrappers.
 
 Grounding is complete when the current invocation surface, consumers,
-resources, verification path, and ownership are known.
+resources, verification path, ownership, and creation evidence are known.
 
 ## 2. Define the Behavior Contract
 
