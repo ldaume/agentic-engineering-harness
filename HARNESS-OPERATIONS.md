@@ -33,6 +33,22 @@ The complete system may use these scopes:
 Both Skill catalogs and the user or global bootstrap are optional capability
 sources. A single repository does not need a coordinator.
 
+## Golden Path and Known Alternatives
+
+The golden path is the default for this operating model, not a claim that one
+shape fits every system. Use an alternative when its named conditions apply,
+and record the reason where future humans and agents will find it.
+
+| Decision | Golden path and why | Known alternative and when it fits |
+|---|---|---|
+| Local authority | Each member owns its product, domain, code, permissions, and checks. This keeps truth beside the system that can verify it. | Central ownership fits a genuinely centralized system with one accountable owner. Do not centralize only to make agent navigation easier. |
+| Coordinator | Add one only for durable cross-repository relationships, contracts, state, or checks. This keeps coordination visible without turning it into product authority. | No coordinator is simpler for one repository or loosely related repositories. A shared folder alone does not justify one. |
+| Membership | Record explicit members, owners, paths, and full canonical discovery URLs. Proximity and Git remotes are useful evidence, not authority. | Automatic discovery may propose candidates in a dynamic fleet, but an owner or governed registry must confirm membership. |
+| Relationship map | Keep one coordinator `CONTEXT-MAP.md`, reached through `SYNC.md` with a local route and stable remote fallback. One source is fast locally, location-independent remotely, and mechanically verifiable. | A separate `HARNESS-MAP.md` duplicates relationships and can drift. A member-to-member pointer mesh becomes incomplete as membership grows. See [ADR 0001](docs/decisions/0001-one-canonical-cross-repository-discovery-map.md). |
+| Reusable capabilities | Keep portable procedures in provenance-checked Skill catalogs and target-specific truth in the owning repository. This permits reuse without importing another repository's authority. | Copying or global unpinned installation can be convenient for experiments, but it obscures provenance and update boundaries. |
+| Coordination record | Prefer Git-owned contracts, decisions, state, and executable checks. They survive sessions and can be reviewed with the code they affect. | Chat and meetings remain useful for resolving ambiguity, but they are not durable system authority until the outcome is written back. |
+| Autonomy | Set autonomy per decision domain from permissions, checks, recovery, observability, and evidence. Topology alone says nothing about safe delegation. | One system-wide autonomy label is simpler to announce, but hides where controls or decision rights differ. |
+
 ## Choose the Topology and Working Root
 
 This table selects the root for harness setup or shared coordination. Start a

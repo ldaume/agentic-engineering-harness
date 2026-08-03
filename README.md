@@ -21,6 +21,7 @@ proven controls allow.
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
+| Understand the recommended defaults and alternatives | [`Golden Path and Known Alternatives`](./HARNESS-OPERATIONS.md#golden-path-and-known-alternatives) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
@@ -78,7 +79,10 @@ without explicit authority.
 Use scaffold-harness to establish or evolve the smallest reliable
 cross-repository harness. Treat every member as the authority for its local
 truth. Keep only relationships, public contracts, shared workflow state, and
-cross-cutting verification in the coordinator. Present options with a
+cross-cutting verification in the coordinator. Use one coordinator
+`CONTEXT-MAP.md` as the canonical repository relationship and discovery map,
+reached through `SYNC.md` with a local route and stable remote fallback. Do not
+create a parallel `HARNESS-MAP.md`. Present options with a
 recommendation before creating a coordinator or expanding autonomy when
 ownership or authority is unresolved. Run the real member and integration
 checks, and run agent-sync before completion.
@@ -101,9 +105,12 @@ install globally or expand permissions without explicit authority.
 Use scaffold-harness and scaffold-distributed-context to establish or evolve a
 multi-team harness.
 Preserve each team's local authority. Map bounded contexts, public contracts,
-compatibility policy, risk, release, and autonomy decisions to named owners.
-Define cross-team checks and escalation without creating a central product or
-domain authority. Present unresolved decision rights one at a time with a
+compatibility policy, risk, release, and autonomy decisions to named owners. Use
+one federated coordinator `CONTEXT-MAP.md` as the canonical repository
+relationship and discovery map, reached through `SYNC.md` with local routes and
+stable remote fallbacks. Do not create a parallel `HARNESS-MAP.md`. Define
+cross-team checks and escalation without creating a central product or domain
+authority. Present unresolved decision rights one at a time with a
 recommendation, run the real team-local and cross-team checks, and run
 agent-sync before completion.
 ```
