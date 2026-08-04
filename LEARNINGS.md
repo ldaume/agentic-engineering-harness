@@ -18,6 +18,20 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Worktree placement and fan-out branch hygiene
+
+- Signal: Nested or `.worktrees/` checkouts broke sibling discovery via
+  `ROOT.parent`; fan-out onto foreign WIP left member `main` stale.
+- Evidence: Full Gates false failures during branch-gate roll-out; snippet
+  commits on leftover product tips; Prettier drift required re-sync.
+- Decision or change: Prefer `../.worktrees/<repo>-<task>/` beside the primary
+  checkout; run Full Gates from the primary checkout when parent is wrong;
+  fan-out on dedicated branches from `main` and re-verify after formatters.
+  Harden scaffold `HARNESS.md` / `SYNC.md` templates accordingly. Patch-bump
+  `scaffold-harness` to 1.32.3.
+- Re-check trigger: In-repo nested worktrees again; fan-out on `codex/` or
+  product WIP; green claimed without primary Full Gates.
+
 ## 2026-08-04 - Skill audit must skip local worktrees
 
 - Signal: Live `.worktrees/` checkouts made `audit-skills.py` fail on

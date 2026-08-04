@@ -51,9 +51,11 @@ Leave the harness unchanged when the signal is transient or speculative.
 
 Before edits: confirm the correct branch or create one with an ordinary name
 (no `codex/` / `claude-` / similar agent path or name prefixes), default to a
-worktree, claim it with `.agent-lease` + STATUS lease, preserve foreign WIP, and
-never delete or move another agent's live worktree. Never auto-delete foreign
-orphans. The reusable baseline lives in
+worktree beside the primary checkout (not nested inside the repo), claim it
+with `.agent-lease` + STATUS lease, preserve foreign WIP, and never delete or
+move another agent's live worktree. Never auto-delete foreign orphans. When
+the active checkout's parent is not the workspace sibling root, run Full Gates
+from the primary checkout. The reusable baseline lives in
 `skills/engineering/scaffold-harness/templates/HARNESS.md`.
 
 ## Always-On Skill Quality
