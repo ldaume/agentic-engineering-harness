@@ -45,7 +45,7 @@ AMBIGUOUS_UNICODE = {
     0xFEFF: "BOM",
 }
 TEXT_EXTS = {".md", ".py", ".yml", ".yaml", ".json", ".txt", ".sh", ".toml"}
-SKIP_DIRS = {".git", ".local", ".serena", "node_modules"}
+SKIP_DIRS = {".git", ".local", ".serena", "node_modules", ".worktrees", "worktrees"}
 PROSE_SLOP_PATTERNS = {
     "stock model verb": re.compile(r"\bdelv(?:e|es|ed|ing) into\b", re.IGNORECASE),
     "empty friction claim": re.compile(

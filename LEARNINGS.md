@@ -18,6 +18,19 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Skill audit must skip local worktrees
+
+- Signal: Live `.worktrees/` checkouts made `audit-skills.py` fail on
+  incomplete nested trees (missing sibling links), even when ignored by Git.
+- Evidence: Repeated Fast Check failures during harness sessions while a leased
+  or leftover worktree existed under `.worktrees/`.
+- Decision or change: Add `.worktrees` and `worktrees` to audit `SKIP_DIRS`.
+  Ignore rules alone are not enough because the audit walks the filesystem.
+  Also ignore `.agent-lease` in catalog and scaffold `.gitignore`. Patch-bump
+  `scaffold-harness` to 1.32.2.
+- Re-check trigger: Audit fails again because of a local worktree path; new
+  isolation directory names appear outside the skip set.
+
 ## 2026-08-04 - Worktree leases over runtime registries
 
 - Signal: Concurrent agents destroyed each other's live worktrees; owner
