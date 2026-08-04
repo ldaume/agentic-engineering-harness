@@ -18,6 +18,18 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Same-loop Skill release is routine completion
+
+- Signal: skills-lock bumps reached main without tags/Releases, so consumers
+  stayed on stale pins.
+- Evidence: Owner instruction that agents must finish this autonomously;
+  Release Sequence already routine for matching GitHub Releases.
+- Decision or change: Completion and VERSIONING forbid claiming done after a
+  lock bump until the validated commit has its per-Skill tag and GitHub
+  Release, or a named blocker is recorded.
+- Re-check trigger: Version bump lands without tag/Release; agents ask for
+  confirmation to publish a routine per-Skill Release.
+
 ## 2026-08-04 - Consume-only for third-party harnesses
 
 - Signal: Scaffold stewardship told consumer agents to update "this public

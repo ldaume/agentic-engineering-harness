@@ -39,9 +39,11 @@ require version bumps for unrelated Skills.
 8. Create the matching GitHub Release from that tag with concise notes covering
    behavior changes, upgrade impact, and the exact install or pin reference.
 
-Do not create or move a tag for an uncommitted tree. Add catalog-wide releases
-only if evidence shows real bulk consumers; independent Skill tags are the
-default.
+Do not create or move a tag for an uncommitted tree. Do not claim done after a
+`skills-lock.json` version bump until steps 5-8 are finished for every bumped
+Skill on the validated commit, or a named blocker is recorded in `STATUS.md`.
+Add catalog-wide releases only if evidence shows real bulk consumers;
+independent Skill tags are the default.
 
 The tag and `skills-lock.json` are the technical release sources. The GitHub
 Release is their human-readable projection. Do not backfill historical tags

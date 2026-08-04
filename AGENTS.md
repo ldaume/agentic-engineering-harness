@@ -115,6 +115,9 @@ For each new or materially changed Skill:
   lesson. That port is maintainer work in this catalog. Consumer harnesses
   must not write back here. Ask only when public vs private placement is
   ambiguous or the port would leak private authority.
+- When `skills-lock.json` versions change, finish `VERSIONING.md` through the
+  matching per-Skill tag and GitHub Release on the validated commit before
+  claiming done. Do not leave bumped Skills unreleased.
 - Finish the Git footprint: integrate coherent ready work, clean up only
   session-created worktrees, and report foreign orphans without deleting them.
 - Complete the authorized routine Git footprint. Do not create a remote or
