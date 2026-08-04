@@ -84,15 +84,18 @@ Before claiming done, ask and answer in the same loop:
 1. **Manifest here?** Does this evidence belong in the current repository
    harness owner (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill, STATUS,
    LEARNINGS)? Prefer a hard adaptation when the same mistake would recur.
-2. **Port to future harnesses?** After every harness change, decide in the
-   same loop whether a generalized portable variant belongs in this Skill's
-   public catalog (or its configured public upstream). If yes, update the
-   catalog owner without waiting for a separate prompt - typically
-   `scaffold-harness` templates or this Skill - so newly scaffolded harnesses
-   inherit it from day one. Explicit no-port is valid when the change is
-   target- or org-private. Ask only when public vs private placement is
-   ambiguous or the port would leak private authority. Do not leave portable
-   harness rules only in one live repository.
+2. **Port within your authority?** After every harness change, decide in the
+   same loop whether a generalized portable variant belongs in a catalog you
+   own or are authorized to change. If yes, update that owner without waiting
+   for a separate prompt - typically that catalog's `scaffold-harness`
+   templates or this Skill. Do not push, open a pull request, or otherwise
+   write back to an external public upstream you only consume - including
+   `https://github.com/ldaume/agentic-engineering-harness` - unless you are
+   that upstream's maintainer with explicit write authority for this change.
+   Explicit no-port is valid when the change is target-private or when you
+   have no owned shared catalog - harden locally instead; still never write
+   back to a foreign public upstream. Ask only when placement is ambiguous or
+   a port would leak private authority.
 3. **Fan-out live members?** If a coordinator `SYNC.md` fan-out checklist
    applies: pointer-only policy needs no sibling edits; discovery/snippet
    changes refresh every listed member Private system section, including
@@ -162,7 +165,7 @@ future behavior.
 | Domain term or invariant | Domain context |
 | Source, context, or repository relationship | Context map |
 | Harness oversight or evolution rule | Harness contract |
-| Portable harness default for future scaffolds | `scaffold-harness` templates and/or this Skill |
+| Portable harness default for future scaffolds | Catalog you own or are authorized to change (`scaffold-harness` templates and/or this Skill there); never a foreign public upstream you only consume |
 | Live member discovery / snippet fan-out | Coordinator `SYNC.md` + `MEMBER-AGENTS-SNIPPET.md` |
 | Git working-tree start/finish hygiene | Harness contract (Git Working Tree Hygiene) |
 | Dependency-bot PR merge or defer | Harness contract (Dependency bot PRs) + PR comment |
@@ -173,18 +176,19 @@ future behavior.
 | Portable Skill authoring behavior | Managed public `write-a-skill`; native host creator stays an adapter |
 | Scoped behavioral guidance | Rule or agent instruction |
 | Deterministic event or enforcement | Hook, CI, test, platform control |
-| Portable public method or default | Public Skill or scaffold upstream |
+| Portable public method or default | Public Skill or scaffold upstream only when you maintain that upstream; otherwise keep the method local or in your owned catalog |
 | Shared non-public organization or team procedure | Private Skill catalog |
 | Durable evidence-backed observation | Learning log in the owning repository |
 | Cross-repository membership, contracts, coordinator policy | Coordinating repository owners (map, harness, learnings) |
 | Member-local product or ops observation | That member's owners; create `LEARNINGS.md` lazily |
 | Human understanding of purpose, cycle, or where to work | Human `README.md` in the owning or coordinating repo |
 
-Route a lesson once by audience and authority. Portable practice belongs in
-the public upstream; shared confidential procedure belongs in the private
-catalog; cross-repository relationship or policy belongs in the coordinator;
-product, domain, service, or sensitive truth belongs in its local owner.
-Reference that owner from consumers instead of copying the lesson.
+Route a lesson once by audience and authority. Portable practice belongs in a
+catalog you own or are authorized to change; do not write it back to a foreign
+public upstream you only consume. Shared confidential procedure belongs in the
+private catalog; cross-repository relationship or policy belongs in the
+coordinator; product, domain, service, or sensitive truth belongs in its local
+owner. Reference that owner from consumers instead of copying the lesson.
 
 Prefer a hard adaptation of the owning artifact when the lesson is a rule.
 Use a learning entry when evidence should survive sessions but is not yet

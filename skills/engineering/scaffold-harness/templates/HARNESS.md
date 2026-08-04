@@ -23,15 +23,18 @@ answer in the same loop:
    this repository's harness (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill,
    STATUS, LEARNINGS)? Prefer a hard adaptation when the same mistake would
    otherwise recur. Explicit no-change is valid when the signal is transient.
-2. **Port to future harnesses?** After every harness change, decide in the
-   same loop whether a generalized portable variant belongs in this public
-   catalog (or its configured public upstream). If yes, update the owning
-   catalog artifact without waiting for a separate prompt - typically
-   `scaffold-harness` templates or `agent-sync` - so the next scaffolded
-   harness inherits it from day one. Explicit no-port is valid when the
-   change is target- or org-private. Ask only when public vs private
-   placement is ambiguous or the port would leak private authority. Do not
-   leave portable harness rules only in one live repository.
+2. **Port within your authority?** After every harness change, decide in the
+   same loop whether a generalized portable variant belongs in a catalog you
+   own or are authorized to change (for example your org or team Skill
+   catalog). If yes, update that owner without waiting for a separate prompt.
+   Do not push, open a pull request, or otherwise write back to an external
+   public upstream you only consume - including
+   `https://github.com/ldaume/agentic-engineering-harness` - unless you are
+   that upstream's maintainer with explicit write authority for this change.
+   Explicit no-port is valid when the change is target-private or when you
+   have no owned shared catalog - harden locally instead; still never write
+   back to a foreign public upstream. Ask only when placement is ambiguous or
+   a port would leak private authority.
 3. **Fan-out live members?** If this repository coordinates members, follow
    the fan-out checklist in `SYNC.md`: pointer-only policy needs no sibling
    edits; discovery/snippet changes refresh every listed member, including
@@ -328,7 +331,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |
-| Portable future-harness defaults | upstream `scaffold-harness` / `agent-sync` |
+| Portable shared defaults | Your org/team catalog if you own one; never a foreign public upstream |
 | Deterministic enforcement | Test, Hook, CI, or platform control |
 | Infrastructure desired state and drift | Target infrastructure repository and platform owners |
 | Compliance scope and policy semantics | Target ISMS or GRC system and named control owners |

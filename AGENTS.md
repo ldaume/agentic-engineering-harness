@@ -45,6 +45,10 @@ blueprints. It does not depend on a private coordinator or another repository.
   repositories.
 - Portable does not mean stack-neutral. Keep generic methods in core Skills and
   make technology-specific assumptions explicit in profiles or adapters.
+- This catalog is published for consumption. Third-party consumers adapt in
+  their own repositories; they must not push, open pull requests, or otherwise
+  write back here as part of harness stewardship. Maintainer sessions working
+  in this repository remain the only supported path to change it.
 - Do not copy public/community Skills into this repository as original work.
   Reference or install upstream capabilities and verify provenance.
 - Treat Git-tracked repository sources as memory. Chat is not a durable source
@@ -108,8 +112,9 @@ For each new or materially changed Skill:
 - After every harness change here, decide whether a generalized portable
   variant belongs in `scaffold-harness` or `agent-sync`, and update those
   owners in the same loop when portable so future repositories inherit the
-  lesson. Ask only when public vs private placement is ambiguous or the port
-  would leak private authority.
+  lesson. That port is maintainer work in this catalog. Consumer harnesses
+  must not write back here. Ask only when public vs private placement is
+  ambiguous or the port would leak private authority.
 - Finish the Git footprint: integrate coherent ready work, clean up only
   session-created worktrees, and report foreign orphans without deleting them.
 - Complete the authorized routine Git footprint. Do not create a remote or

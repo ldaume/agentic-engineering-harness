@@ -18,6 +18,20 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Consume-only for third-party harnesses
+
+- Signal: Scaffold stewardship told consumer agents to update "this public
+  catalog," which would write third-party harness lessons back here.
+- Evidence: Owner instruction: other users building harnesses from this
+  upstream must not write back; external contribution PRs are not supported.
+- Decision or change: Templates and `agent-sync` port only within owned
+  authority and forbid write-back to foreign public upstreams including this
+  one. `CONTRIBUTING.md` is consume-and-adapt. Maintainer work in this
+  repository remains the only supported change path. Bump `agent-sync` to
+  1.15.0 and `scaffold-harness` to 1.31.0.
+- Re-check trigger: Consumer agent opens a PR here from stewardship; templates
+  again point ports at this upstream for non-maintainers.
+
 ## 2026-08-04 - Always check portable port after harness changes
 
 - Signal: Stewardship "Port to future harnesses" was soft; consumers could

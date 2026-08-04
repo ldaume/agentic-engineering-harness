@@ -30,7 +30,7 @@
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
 | Does a repository change require an update to the public website projection? | [`HARNESS.md`](HARNESS.md#website-projection) owns the trigger, routing, authority, and completion result |
 | Which durable findings should change future work? | `LEARNINGS.md` |
-| How can people contribute or report a vulnerability? | `CONTRIBUTING.md` / `SECURITY.md` |
+| How can people report a vulnerability or understand consume-only policy? | `SECURITY.md` / `CONTRIBUTING.md` |
 | What are a target's product facts, commands, and permissions? | The target repository and its local instruction hierarchy |
 | What is shared across several targets? | The dedicated coordinating repository |
 

@@ -31,6 +31,7 @@ proven controls allow.
 
 Start the agent inside the authority boundary it should change. This catalog
 supplies the capabilities; it is not the control plane for another system.
+Adapt in your own repositories. Do not write harness changes back here.
 
 | Scope | Start the session in |
 |---|---|
@@ -317,8 +318,8 @@ declares them supported.
   generic AI marketing language.
 - [`VERSIONING.md`](./VERSIONING.md) defines independent Skill versions and
   release tags.
-- [`CONTRIBUTING.md`](./CONTRIBUTING.md) defines contribution and authorship
-  expectations.
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md) states consume-and-adapt policy:
+  external contribution PRs are not the supported path.
 
 Run the local Fast Check before integration:
 

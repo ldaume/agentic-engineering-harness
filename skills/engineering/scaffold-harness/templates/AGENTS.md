@@ -28,10 +28,10 @@
   owning artifact when current work provides evidence.
 - Before finish: ask whether durable lessons must manifest in this harness
   and, after every harness change, whether a generalized portable variant
-  belongs in the upstream `scaffold-harness` templates / `agent-sync` so
-  future harnesses inherit them. Apply that port in the same loop when
-  portable; ask only when public vs private placement is ambiguous or the
-  port would leak private authority.
+  belongs in a catalog you own or are authorized to change. Apply that port in
+  the same loop when authorized. Do not push, PR, or otherwise write back to
+  an external public upstream you only consume. Ask only when placement is
+  ambiguous or the port would leak private authority.
 - Establish shared understanding for significant work. Use
   `grill-harness-with-docs` for unresolved material decisions in any topic.
 - Keep stable instructions here and reference detailed sources.
@@ -71,5 +71,5 @@
 - Review the diff against scope and non-goals.
 - Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`.
 - Answer the Stewardship questions before claiming done (manifest here; port
-  to future harnesses when a generalized variant fits).
+  within your authority only - never write back to a foreign public upstream).
 - Use `agent-sync` to retain durable evidence and harness improvements.
