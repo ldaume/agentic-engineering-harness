@@ -50,12 +50,14 @@ Leave the harness unchanged when the signal is transient or speculative.
 ## Git Working Tree Hygiene
 
 Before edits: confirm the correct branch or create one with an ordinary name
-(no `codex/` / `claude-` / similar agent path or name prefixes), default to a
-worktree beside the primary checkout (not nested inside the repo), claim it
-with `.agent-lease` + STATUS lease, preserve foreign WIP, and never delete or
-move another agent's live worktree. Never auto-delete foreign orphans. When
-the active checkout's parent is not the workspace sibling root, run Full Gates
-from the primary checkout. The reusable baseline lives in
+(no `codex/` / `claude-` / similar agent path or name prefixes), keep commits
+and PR/MR surfaces free of agent/tool producer chrome (forbid and strip
+`Co-authored-by` trailers naming AI tools and footers such as `Made with
+Cursor`), default to a worktree beside the primary checkout (not nested inside
+the repo), claim it with `.agent-lease` + STATUS lease, preserve foreign WIP,
+and never delete or move another agent's live worktree. Never auto-delete
+foreign orphans. When the active checkout's parent is not the workspace sibling
+root, run Full Gates from the primary checkout. The reusable baseline lives in
 `skills/engineering/scaffold-harness/templates/HARNESS.md`.
 
 ## Always-On Skill Quality

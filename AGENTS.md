@@ -15,7 +15,8 @@ blueprints. It does not depend on a private coordinator or another repository.
 - Inspect `git status` and `git worktree list` before editing. Preserve foreign
   work and never silently overwrite or delete it. Apply **Git Working Tree
   Hygiene** in `HARNESS.md` (branch gate, worktree default, leases,
-  ordinary branch names; never delete or move another agent's live worktree).
+  ordinary branch names, no agent/tool producer chrome in commits or PR/MR
+  surfaces; never delete or move another agent's live worktree).
 - Use existing repository patterns and commands before adding anything new.
 
 ## Autonomy and communication
@@ -120,7 +121,8 @@ For each new or materially changed Skill:
 - When `skills-lock.json` versions change, finish `VERSIONING.md` through the
   matching per-Skill tag and GitHub Release on the validated commit before
   claiming done. Do not leave bumped Skills unreleased.
-- Finish the Git footprint: integrate coherent ready work, clean up only
+- Finish the Git footprint: integrate coherent ready work, strip agent/tool
+  producer chrome from commits and PR/MR surfaces, clean up only
   session-created worktrees, and report foreign orphans without deleting them.
 - Complete the authorized routine Git footprint. Do not create a remote or
   perform a first publication without explicit authority.
