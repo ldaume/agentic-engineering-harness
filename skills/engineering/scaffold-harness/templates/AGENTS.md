@@ -17,8 +17,10 @@
   `write-a-skill` Skill. Use a host-native creator only for native metadata,
   scaffolding, or validation after the portable behavior contract is clear.
 - Before editing: run `git status --short --branch` and, when available,
-  `git worktree list`; preserve foreign WIP. Load the detailed **Git Working
-  Tree Hygiene** section in `HARNESS.md` only when isolation or cleanup needs it.
+  `git worktree list`; preserve foreign WIP; then apply **Git Working Tree
+  Hygiene** in `HARNESS.md` (branch gate; worktree default; ordinary names;
+  claim new worktrees with `.agent-lease` + STATUS lease; never delete another
+  agent's live worktree).
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness
@@ -69,7 +71,9 @@
 
 - Run the relevant checks.
 - Review the diff against scope and non-goals.
-- Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`.
+- Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`
+  (release only this session's leases; never delete another agent's live
+  worktree; reclaim foreign paths only with explicit human confirmation).
 - Answer the Stewardship questions before claiming done (manifest here; port
   within your authority only - never write back to a foreign public upstream).
 - Use `agent-sync` to retain durable evidence and harness improvements.

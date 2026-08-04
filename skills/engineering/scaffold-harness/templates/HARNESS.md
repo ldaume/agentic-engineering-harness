@@ -48,36 +48,83 @@ answer in the same loop:
 
 ## Git Working Tree Hygiene
 
-Applies to every repository an agent edits. Goal: cheap start gates and
-session-owned cleanup - not worktree religion, not auto-reclaim of foreign
-state.
+Applies to every repository an agent edits, no matter which host or working
+root spawned the session. Goal: mandatory branch and isolation gates before
+edits, ordinary branch names, session-owned cleanup, worktree leases, and hard
+non-interference with foreign worktrees - not auto-reclaim of foreign state.
+When this trade-off is accepted in a live repo, record it in `docs/adr/`.
 
 ### Before editing
 
 1. Run `git status --short --branch` and, when available, `git worktree list`.
-2. Note dirty paths, current branch, and existing worktrees.
+2. Note dirty paths, current branch, existing worktrees, and any `STATUS.md`
+   **Worktree leases** rows or `.agent-lease` markers.
 3. If the tree is dirty or unexpected worktrees exist: report them. Do not
    silently overwrite unrelated WIP. Ask when ownership of the dirt is unclear.
-4. Prefer the host's native isolated workspace when isolation is needed. Fall
-   back to a project-local git worktree under an ignored `.worktrees/` (or
-   existing project convention) only when parallel, long-lived, or risky work
-   needs a clean baseline, or when the primary checkout is dirty and must not
-   be touched.
-5. Do not create a worktree for every trivial edit. Do not nest worktrees. Do
-   not fight an already-isolated host workspace with a second `git worktree add`.
+4. **Branch gate (mandatory before any edit):** Confirm the current branch is
+   the correct place for this work.
+   - Do not edit shared integration branches (`main`, `master`, the repository
+     default branch, or other protected shared branches) in place - including
+     typo and docs fixes. Create or check out a dedicated task branch first.
+   - If already on the correct task branch for this work, continue. If on the
+     wrong branch, stop and move to the right branch before editing.
+   - Name branches with ordinary descriptive names (kebab-case or the
+     repository's existing convention). Do not use agent or tool names as a
+     path segment or name prefix (for example `codex/...`, `codex-...`,
+     `claude-...`, `cursor-...`, `gpt-...`, `copilot-...`, `agent-...`).
+5. **Isolation default:** Default to an isolated workspace for edit work.
+   Prefer the host's native worktree or isolation tool when available.
+   Otherwise use a project-local git worktree under an ignored `.worktrees/`
+   (or existing project convention). Stay put only when already in a linked
+   worktree or host-isolated workspace on the correct branch. Narrow
+   exception: a trivial single-path edit on an already-correct task branch in a
+   clean tree may stay in place. Do not nest worktrees. Do not fight an
+   already-isolated host workspace with a second `git worktree add`.
+6. **Worktree lease (on create):** When this session creates a worktree or
+   isolated checkout for edit work, claim it:
+   - Write `.agent-lease` in that workspace (JSON: `path`, `branch`, `repo`,
+     `session`, `host`, `claimed_at`, `heartbeat_at`, `state`).
+   - `state` is one of `active`, `done`, `abandoned`.
+   - Upsert a row in the nearest `STATUS.md` **Worktree leases** table when
+     that file exists; otherwise keep the marker and report the claim.
+   - Use a unique session id. Refresh `heartbeat_at` on long work.
+   - Keep `.agent-lease` ignored by git (do not commit it).
+
+### Cross-agent non-interference
+
+Treat every worktree you did not claim in **this** session as foreign protected
+state.
+
+1. Never delete, move, empty, or overwrite another agent's working directory,
+   worktree path, or branch checkout - including via `rm -rf`, `git worktree
+   remove`, `git worktree prune` of live trees, `git clean -fdx` outside your
+   own tree, host "reset workspace", or bulk cleanup of `.worktrees/` /
+   `worktrees/`.
+2. Never force-checkout, reset, or delete a branch that another worktree
+   currently has checked out.
+3. Before any remove: read `.agent-lease` and any STATUS lease row. Remove only
+   when `session` matches this session and `state` is `active` (then set
+   `done` or `abandoned` before removal). If unmarked, foreign, or uncertain:
+   list the path; do not delete; reclaim only with explicit human confirmation
+   naming the path.
+4. Never reclaim orphans because they look unused or have a stale heartbeat.
+   No silent TTL delete.
+5. Prefer creating a **new** uniquely named worktree/branch over replacing one
+   whose ownership is unclear.
 
 ### On finish (this session's footprint)
 
 1. Integrate ready work via the repository's commit/push or PR policy. When
    that policy authorizes routine commit/push, perform it after checks pass
    without asking again. Do not force-merge onto a shared branch as ceremony.
-2. Remove worktrees **this session created** after successful integrate or
-   confirmed discard; then `git worktree prune`. Prefer cleanup from the main
-   checkout, not from inside the worktree being removed.
-3. Never auto-delete worktrees this session did not create. List orphans; ask
-   the human before reclaim - there is no reliable cross-session lock proving
-   "no other agent is using this."
-4. Leave the repository no worse for your own artifacts than you found it.
+2. Release leases this session holds: set `state` to `done` (or `abandoned`),
+   update STATUS when present, then remove only those worktrees. Prefer cleanup
+   from the primary checkout. Run `git worktree prune` only for stale metadata
+   of already-removed trees.
+3. If ownership is uncertain, leave the worktree. Listing orphans is required;
+   deleting them needs explicit human confirmation.
+4. Leave the repository no worse for your own artifacts than you found it. Do
+   not clean another session's footprint on the way out.
 
 ## Agent-Native Design
 
@@ -327,7 +374,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
-| Git working-tree start/finish hygiene | `HARNESS.md` (Git Working Tree Hygiene) |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, leases, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |

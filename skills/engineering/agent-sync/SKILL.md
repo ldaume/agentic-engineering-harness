@@ -167,7 +167,7 @@ future behavior.
 | Harness oversight or evolution rule | Harness contract |
 | Portable harness default for future scaffolds | Catalog you own or are authorized to change (`scaffold-harness` templates and/or this Skill there); never a foreign public upstream you only consume |
 | Live member discovery / snippet fan-out | Coordinator `SYNC.md` + `MEMBER-AGENTS-SNIPPET.md` |
-| Git working-tree start/finish hygiene | Harness contract (Git Working Tree Hygiene) |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, leases, cross-agent non-interference) | Harness contract (Git Working Tree Hygiene); ADR when accepted |
 | Dependency-bot PR merge or defer | Harness contract (Dependency bot PRs) + PR comment |
 | Repeated model, worker, budget, or review routing | Orchestration policy |
 | Current workflow or engagement state | Status document |
