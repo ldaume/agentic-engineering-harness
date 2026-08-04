@@ -75,11 +75,16 @@ When this trade-off is accepted in a live repo, record it in `docs/adr/`.
 5. **Isolation default:** Default to an isolated workspace for edit work.
    Prefer the host's native worktree or isolation tool when available.
    Otherwise use a project-local git worktree under an ignored `.worktrees/`
-   (or existing project convention). Stay put only when already in a linked
-   worktree or host-isolated workspace on the correct branch. Narrow
-   exception: a trivial single-path edit on an already-correct task branch in a
-   clean tree may stay in place. Do not nest worktrees. Do not fight an
-   already-isolated host workspace with a second `git worktree add`.
+   beside the primary checkout (for example `../.worktrees/<repo>-<task>/`),
+   not nested inside the repository tree. In-repo nests break scripts and
+   multi-repo discovery that resolve siblings via the checkout's parent.
+   When the active checkout's parent is not the workspace sibling root, run
+   Full Gates from the primary checkout after the change is available there.
+   Stay put only when already in a linked worktree or host-isolated workspace
+   on the correct branch. Narrow exception: a trivial single-path edit on an
+   already-correct task branch in a clean tree may stay in place. Do not nest
+   worktrees. Do not fight an already-isolated host workspace with a second
+   `git worktree add`.
 6. **Worktree lease (on create):** When this session creates a worktree or
    isolated checkout for edit work, claim it:
    - Write `.agent-lease` in that workspace (JSON: `path`, `branch`, `repo`,

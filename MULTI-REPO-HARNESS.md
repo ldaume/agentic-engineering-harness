@@ -742,12 +742,16 @@ Confirm the current branch is correct for the work, or create a dedicated task
 branch with an ordinary descriptive name (no agent/tool prefixes such as
 `codex/`, `claude/`, or `cursor/`). Do not edit shared integration branches in
 place for non-trivial work. Default to an isolated workspace: prefer the
-host's native tool, otherwise a project-local ignored `.worktrees/` directory.
-Stay put only when already isolated on the correct branch, or for a trivial
-single-path edit on an already-correct clean task branch. Claim new worktrees
-with `.agent-lease` and a STATUS lease row when STATUS exists. Remove only
-worktrees this session claimed. Never delete or move another agent's live
-worktree. List foreign orphans; reclaim only with explicit human confirmation.
+host's native tool, otherwise an ignored `.worktrees/` directory beside the
+primary checkout (for example `../.worktrees/<repo>-<task>/`), not nested
+inside the repository. In-repo nests break sibling discovery that uses the
+checkout parent. When the active checkout's parent is wrong, run Full Gates
+from the primary checkout. Stay put only when already isolated on the correct
+branch, or for a trivial single-path edit on an already-correct clean task
+branch. Claim new worktrees with `.agent-lease` and a STATUS lease row when
+STATUS exists. Remove only worktrees this session claimed. Never delete or
+move another agent's live worktree. List foreign orphans; reclaim only with
+explicit human confirmation.
 
 At completion:
 

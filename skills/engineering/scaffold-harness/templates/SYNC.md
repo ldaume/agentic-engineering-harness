@@ -70,6 +70,15 @@ deep-dive siblings only when work crosses repositories.
 
 Parent sessions own fan-out after subagent work. No standing sync daemon.
 
+### Fan-out git hygiene
+
+1. Refresh each member on a dedicated fan-out branch from that member's
+   current default branch. Do not commit harness fan-out onto foreign product
+   WIP branches.
+2. After hooks or formatters rewrite refreshed files, re-sync from the
+   canonical snippet and re-run Full Gates before claiming green.
+3. Commit and push each fan-out tip; integrate via the member's normal path.
+
 ## Write-back
 
 Route cross-cutting durable changes to owners here (`CONTEXT-MAP.md`,
