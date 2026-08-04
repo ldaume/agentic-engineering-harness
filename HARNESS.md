@@ -49,9 +49,10 @@ Leave the harness unchanged when the signal is transient or speculative.
 
 ## Git Working Tree Hygiene
 
-Inspect `git status` and worktrees before edits; isolate only when needed;
-clean up session-owned worktrees; never auto-delete foreign work or orphans.
-The reusable baseline lives in
+Before edits: confirm the correct branch or create one with an ordinary name
+(no `codex/` / `claude/` / similar agent prefixes), default to a worktree,
+preserve foreign WIP, and never auto-delete foreign orphans. The reusable
+baseline lives in
 `skills/engineering/scaffold-harness/templates/HARNESS.md`.
 
 ## Always-On Skill Quality

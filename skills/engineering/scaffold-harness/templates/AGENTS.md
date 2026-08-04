@@ -17,8 +17,10 @@
   `write-a-skill` Skill. Use a host-native creator only for native metadata,
   scaffolding, or validation after the portable behavior contract is clear.
 - Before editing: run `git status --short --branch` and, when available,
-  `git worktree list`; preserve foreign WIP. Load the detailed **Git Working
-  Tree Hygiene** section in `HARNESS.md` only when isolation or cleanup needs it.
+  `git worktree list`; preserve foreign WIP; then apply **Git Working Tree
+  Hygiene** in `HARNESS.md` (branch gate: correct branch or create one;
+  isolation default: prefer worktree; ordinary branch names without agent/tool
+  prefixes such as `codex/` or `claude/`).
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness

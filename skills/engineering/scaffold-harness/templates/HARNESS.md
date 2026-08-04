@@ -48,9 +48,10 @@ answer in the same loop:
 
 ## Git Working Tree Hygiene
 
-Applies to every repository an agent edits. Goal: cheap start gates and
-session-owned cleanup - not worktree religion, not auto-reclaim of foreign
-state.
+Applies to every repository an agent edits, no matter which host or working
+root spawned the session. Goal: mandatory branch and isolation gates before
+edits, ordinary branch names, and session-owned cleanup - not auto-reclaim of
+foreign state.
 
 ### Before editing
 
@@ -58,13 +59,25 @@ state.
 2. Note dirty paths, current branch, and existing worktrees.
 3. If the tree is dirty or unexpected worktrees exist: report them. Do not
    silently overwrite unrelated WIP. Ask when ownership of the dirt is unclear.
-4. Prefer the host's native isolated workspace when isolation is needed. Fall
-   back to a project-local git worktree under an ignored `.worktrees/` (or
-   existing project convention) only when parallel, long-lived, or risky work
-   needs a clean baseline, or when the primary checkout is dirty and must not
-   be touched.
-5. Do not create a worktree for every trivial edit. Do not nest worktrees. Do
-   not fight an already-isolated host workspace with a second `git worktree add`.
+4. **Branch gate (mandatory before any edit):** Confirm the current branch is
+   the correct place for this work.
+   - Do not edit shared integration branches (`main`, `master`, the repository
+     default branch, or other protected shared branches) in place for feature,
+     fix, harness, docs-beyond-typo, or multi-file work. Create or check out a
+     dedicated task branch first.
+   - If already on the correct task branch for this work, continue. If on the
+     wrong branch, stop and move to the right branch before editing.
+   - Name branches with ordinary descriptive names (kebab-case or the
+     repository's existing convention). Do not prefix with agent or tool names
+     such as `codex/`, `claude/`, `cursor/`, `gpt/`, `copilot/`, or `agent/`.
+5. **Isolation default:** Default to an isolated workspace for edit work.
+   Prefer the host's native worktree or isolation tool when available.
+   Otherwise use a project-local git worktree under an ignored `.worktrees/`
+   (or existing project convention). Stay put only when already in a linked
+   worktree or host-isolated workspace on the correct branch. Narrow
+   exception: a trivial single-path edit on an already-correct task branch in a
+   clean tree may stay in place. Do not nest worktrees. Do not fight an
+   already-isolated host workspace with a second `git worktree add`.
 
 ### On finish (this session's footprint)
 
@@ -327,7 +340,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
-| Git working-tree start/finish hygiene | `HARNESS.md` (Git Working Tree Hygiene) |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names) | `HARNESS.md` (Git Working Tree Hygiene) |
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |

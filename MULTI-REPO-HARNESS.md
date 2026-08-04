@@ -733,13 +733,19 @@ always creating reviewer theater.
 
 ## Git and Worktree Stewardship
 
-Before editing, inspect `git status` and available worktrees. Dirty paths and
-unexpected worktrees belong to someone until proven otherwise. Do not silently
-overwrite, reset, delete, or reclaim foreign work.
+Before editing, inspect `git status` and available worktrees, then apply the
+branch gate and isolation default from **Git Working Tree Hygiene**. Dirty
+paths and unexpected worktrees belong to someone until proven otherwise. Do
+not silently overwrite, reset, delete, or reclaim foreign work.
 
-Use the host's isolated workspace when available. Create a project-local
-worktree only for parallel, risky, or long-lived work that needs isolation.
-Remove only session-created worktrees.
+Confirm the current branch is correct for the work, or create a dedicated task
+branch with an ordinary descriptive name (no agent/tool prefixes such as
+`codex/`, `claude/`, or `cursor/`). Do not edit shared integration branches in
+place for non-trivial work. Default to an isolated workspace: prefer the
+host's native tool, otherwise a project-local ignored `.worktrees/` directory.
+Stay put only when already isolated on the correct branch, or for a trivial
+single-path edit on an already-correct clean task branch. Remove only
+session-created worktrees.
 
 At completion:
 
