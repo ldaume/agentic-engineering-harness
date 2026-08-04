@@ -18,6 +18,18 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Worktree leases over runtime registries
+
+- Signal: Concurrent agents destroyed each other's live worktrees; owner
+  rejected SQLite/BullMQ for this class and chose Git-native leases.
+- Evidence: Grill of prose vs STATUS+`.agent-lease` vs SQLite/hooks vs Redis;
+  throwaway prototypes showed both B and C are advisory against `rm -rf`.
+- Decision or change: Scaffold `HARNESS.md` requires `.agent-lease` + STATUS
+  lease rows, cross-agent non-interference, and human-gated foreign reclaim.
+  Record the trade-off in `docs/adr/` when accepted in a live repo.
+- Re-check trigger: Systematic lease ignore; pressure to add SQLite/hooks
+  without that evidence; silent TTL deletes.
+
 ## 2026-08-04 - Branch gate, worktree default, ordinary names
 
 - Signal: Agents edited shared branches and used tool-prefixed names such as
