@@ -7,6 +7,7 @@ Thumbs.db
 .vscode/
 .serena/
 .worktrees/
+.agent-lease
 *.swp
 *.swo
 *~

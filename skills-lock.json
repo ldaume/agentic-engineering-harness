@@ -137,7 +137,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "1.32.1"
+      "version": "1.32.2"
     },
     "scaffold-monorepo": {
       "source": "local",
