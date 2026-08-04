@@ -20,7 +20,7 @@
   `git worktree list`; preserve foreign WIP; then apply **Git Working Tree
   Hygiene** in `HARNESS.md` (branch gate: correct branch or create one;
   isolation default: prefer worktree; ordinary branch names without agent/tool
-  prefixes such as `codex/` or `claude/`).
+  path or name prefixes such as `codex/` or `claude-`).
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness

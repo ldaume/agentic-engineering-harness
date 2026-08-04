@@ -50,7 +50,7 @@ Leave the harness unchanged when the signal is transient or speculative.
 ## Git Working Tree Hygiene
 
 Before edits: confirm the correct branch or create one with an ordinary name
-(no `codex/` / `claude/` / similar agent prefixes), default to a worktree,
+(no `codex/` / `claude-` / similar agent path or name prefixes), default to a worktree,
 preserve foreign WIP, and never auto-delete foreign orphans. The reusable
 baseline lives in
 `skills/engineering/scaffold-harness/templates/HARNESS.md`.

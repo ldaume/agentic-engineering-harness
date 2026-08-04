@@ -62,14 +62,14 @@ foreign state.
 4. **Branch gate (mandatory before any edit):** Confirm the current branch is
    the correct place for this work.
    - Do not edit shared integration branches (`main`, `master`, the repository
-     default branch, or other protected shared branches) in place for feature,
-     fix, harness, docs-beyond-typo, or multi-file work. Create or check out a
-     dedicated task branch first.
+     default branch, or other protected shared branches) in place - including
+     typo and docs fixes. Create or check out a dedicated task branch first.
    - If already on the correct task branch for this work, continue. If on the
      wrong branch, stop and move to the right branch before editing.
    - Name branches with ordinary descriptive names (kebab-case or the
-     repository's existing convention). Do not prefix with agent or tool names
-     such as `codex/`, `claude/`, `cursor/`, `gpt/`, `copilot/`, or `agent/`.
+     repository's existing convention). Do not use agent or tool names as a
+     path segment or name prefix (for example `codex/...`, `codex-...`,
+     `claude-...`, `cursor-...`, `gpt-...`, `copilot-...`, `agent-...`).
 5. **Isolation default:** Default to an isolated workspace for edit work.
    Prefer the host's native worktree or isolation tool when available.
    Otherwise use a project-local git worktree under an ignored `.worktrees/`
