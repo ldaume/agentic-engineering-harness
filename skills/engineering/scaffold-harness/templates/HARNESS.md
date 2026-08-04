@@ -23,11 +23,15 @@ answer in the same loop:
    this repository's harness (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill,
    STATUS, LEARNINGS)? Prefer a hard adaptation when the same mistake would
    otherwise recur. Explicit no-change is valid when the signal is transient.
-2. **Port to future harnesses?** If the lesson is portable (not product-
-   private), also update the owning catalog artifact - typically
+2. **Port to future harnesses?** After every harness change, decide in the
+   same loop whether a generalized portable variant belongs in this public
+   catalog (or its configured public upstream). If yes, update the owning
+   catalog artifact without waiting for a separate prompt - typically
    `scaffold-harness` templates or `agent-sync` - so the next scaffolded
-   harness inherits it from day one. Do not leave portable harness rules only
-   in one live repository.
+   harness inherits it from day one. Explicit no-port is valid when the
+   change is target- or org-private. Ask only when public vs private
+   placement is ambiguous or the port would leak private authority. Do not
+   leave portable harness rules only in one live repository.
 3. **Fan-out live members?** If this repository coordinates members, follow
    the fan-out checklist in `SYNC.md`: pointer-only policy needs no sibling
    edits; discovery/snippet changes refresh every listed member, including

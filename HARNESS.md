@@ -31,8 +31,12 @@ For every significant task:
    - Does the human `README.md` still explain purpose, cycle, and where to
      work after this change?
    - Should this lesson manifest as a hard harness owner here?
-   - If portable, must `scaffold-harness` templates / `agent-sync` also change
-     so future harnesses inherit it from day one?
+   - After this harness change, does a generalized portable variant belong in
+     `scaffold-harness` templates / `agent-sync` so future harnesses inherit
+     it from day one? If yes, update them in the same loop without waiting for
+     a separate prompt. Explicit no-port when the change is catalog-private
+     only; ask only when public vs private placement is ambiguous or the port
+     would leak private authority.
    - Is this catalog still not acting as another system's control plane?
    - Is tracked text still ASCII-punctuation-clean?
    - Did repeated friction show a context/memory/discovery failure that

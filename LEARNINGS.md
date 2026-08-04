@@ -18,4 +18,17 @@ Use this shape:
 - Re-check trigger:
 ```
 
-No public operational learnings have been recorded yet.
+## 2026-08-04 - Always check portable port after harness changes
+
+- Signal: Stewardship "Port to future harnesses" was soft; consumers could
+  leave portable harness lessons only in one live repository.
+- Evidence: Coordinator owner instruction that "future harnesses" means this
+  public upstream, and every harness change must decide whether a generalized
+  portable variant belongs here.
+- Decision or change: Strengthen stewardship in `HARNESS.md`, `AGENTS.md`,
+  `agent-sync`, and `scaffold-harness` templates: always decide in the same
+  loop; port autonomously when portable; ask only when public vs private
+  placement is ambiguous or the port would leak private authority. Bump
+  `agent-sync` to 1.14.0 and `scaffold-harness` to 1.30.0.
+- Re-check trigger: Harness change ships without a same-loop port decision;
+  agents ask for confirmation on unambiguous portable ports.

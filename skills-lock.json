@@ -5,7 +5,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/agent-sync/SKILL.md",
-      "version": "1.13.0"
+      "version": "1.14.0"
     },
     "ansible-automation": {
       "source": "local",
@@ -137,7 +137,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "1.29.0"
+      "version": "1.30.0"
     },
     "scaffold-monorepo": {
       "source": "local",

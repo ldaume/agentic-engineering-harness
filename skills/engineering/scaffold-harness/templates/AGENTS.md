@@ -27,8 +27,11 @@
   authority, review, context architecture, or completion; improve the smallest
   owning artifact when current work provides evidence.
 - Before finish: ask whether durable lessons must manifest in this harness
-  and, if portable, also in the upstream `scaffold-harness` templates /
-  `agent-sync` so future harnesses inherit them.
+  and, after every harness change, whether a generalized portable variant
+  belongs in the upstream `scaffold-harness` templates / `agent-sync` so
+  future harnesses inherit them. Apply that port in the same loop when
+  portable; ask only when public vs private placement is ambiguous or the
+  port would leak private authority.
 - Establish shared understanding for significant work. Use
   `grill-harness-with-docs` for unresolved material decisions in any topic.
 - Keep stable instructions here and reference detailed sources.
@@ -67,5 +70,6 @@
 - Run the relevant checks.
 - Review the diff against scope and non-goals.
 - Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`.
-- Answer the Stewardship dual-route questions before claiming done.
+- Answer the Stewardship questions before claiming done (manifest here; port
+  to future harnesses when a generalized variant fits).
 - Use `agent-sync` to retain durable evidence and harness improvements.

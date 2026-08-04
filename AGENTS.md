@@ -105,8 +105,11 @@ For each new or materially changed Skill:
   explicit evidence-backed no-change result.
 - Route durable evidence to the smallest owning artifact. Use `LEARNINGS.md`
   only for public, reproducible evidence that changes future work.
-- Update `scaffold-harness` or `agent-sync` when a portable harness lesson must
-  reach future repositories.
+- After every harness change here, decide whether a generalized portable
+  variant belongs in `scaffold-harness` or `agent-sync`, and update those
+  owners in the same loop when portable so future repositories inherit the
+  lesson. Ask only when public vs private placement is ambiguous or the port
+  would leak private authority.
 - Finish the Git footprint: integrate coherent ready work, clean up only
   session-created worktrees, and report foreign orphans without deleting them.
 - Complete the authorized routine Git footprint. Do not create a remote or

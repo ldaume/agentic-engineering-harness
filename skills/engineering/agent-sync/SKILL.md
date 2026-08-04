@@ -84,10 +84,15 @@ Before claiming done, ask and answer in the same loop:
 1. **Manifest here?** Does this evidence belong in the current repository
    harness owner (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill, STATUS,
    LEARNINGS)? Prefer a hard adaptation when the same mistake would recur.
-2. **Port to future harnesses?** If the lesson is portable, also update the
-   catalog owner in the same loop - typically `scaffold-harness` templates or
-   this Skill - so newly scaffolded harnesses inherit it from day one. Do not
-   leave portable harness rules only in one live repository.
+2. **Port to future harnesses?** After every harness change, decide in the
+   same loop whether a generalized portable variant belongs in this Skill's
+   public catalog (or its configured public upstream). If yes, update the
+   catalog owner without waiting for a separate prompt - typically
+   `scaffold-harness` templates or this Skill - so newly scaffolded harnesses
+   inherit it from day one. Explicit no-port is valid when the change is
+   target- or org-private. Ask only when public vs private placement is
+   ambiguous or the port would leak private authority. Do not leave portable
+   harness rules only in one live repository.
 3. **Fan-out live members?** If a coordinator `SYNC.md` fan-out checklist
    applies: pointer-only policy needs no sibling edits; discovery/snippet
    changes refresh every listed member Private system section, including
