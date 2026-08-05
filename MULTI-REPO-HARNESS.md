@@ -216,7 +216,9 @@ the coordinator; domain and implementation stay with the owning team.
 **Relevance rule.** Opening another root requires a named match in the map or
 SYNC working-root table. Reading SYNC does not authorize editing every sibling.
 Copying membership into member instructions creates drift; keep one inventory
-on the coordinator and route members through SYNC.
+on the coordinator and route members through SYNC. Admitting a sibling is
+compose work (`scaffold-harness` in the member + coordinator `SYNC` admit
+checklist), not a separate onboarding Skill.
 
 **Out of scope example.** Session is in a billing member. Task: "fix invoice
 PDF layout." Map Role for a notes product is adjacent but Source Routing and
