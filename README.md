@@ -14,6 +14,14 @@ single-repository, multi-repository, and multi-team systems. Humans retain
 goals, policy, risk, and accountability. Agents carry as much execution as the
 proven controls allow.
 
+What you get: installable Agent Skills plus harness blueprints you adapt in
+your own repositories - not a control plane for another system.
+
+Default path: most first uses stay on one repository. Open that repository
+root, install only missing Skills for the active host, then copy the
+[One repository](#one-repository) prompt below. Reach for the multi-repository
+or multi-team prompt only when that is the real authority boundary.
+
 ## Start here
 
 | Goal | Start with |
@@ -26,6 +34,53 @@ proven controls allow.
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
+
+## Install
+
+Review the source and requested scope before a global installation. Installed
+Skills run through an agent with that agent's permissions, and `-y` skips the
+Skills CLI confirmation.
+
+```bash
+npx skills add ldaume/agentic-engineering-harness --list
+npx skills add ldaume/agentic-engineering-harness \
+  --skill scaffold-harness \
+  --skill agent-sync \
+  --skill update-harness \
+  --skill grill-harness-with-docs \
+  --skill write-a-skill \
+  --agent codex cursor claude-code gemini-cli \
+  --copy -g -y
+```
+
+Replace the example client list with every agent host you actually use. Install
+only the five bootstrap Skills globally. The shared `.agents/skills` location
+is useful where clients support it, but a harness must verify effective
+discovery per host instead of assuming one installation covers every runtime.
+Project and domain Skills normally belong in the target repository so they
+remain visible, reviewable, and scoped to the work.
+
+`write-a-skill` is the portable owner whenever an agent creates or changes a
+Skill. Codex, Claude Code, Cursor, Gemini, Pi, CI, and later hosts may provide
+native creators, commands, metadata, or validators; those capabilities remain
+thin adapters around the same behavior contract.
+
+To install one Skill into the current project:
+
+```bash
+npx skills add /path/to/agentic-engineering-harness \
+  --skill coding-discipline \
+  --agent codex \
+  --copy -y
+```
+
+The validation workflow install-tests the complete catalog for Codex, Cursor,
+Claude Code, and Gemini CLI. Thin `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and
+Antigravity bridges make repository instructions discoverable. Packaging
+compatibility does not guarantee identical runtime behavior; representative
+workloads and target-local checks remain the evidence. Pi, CI, and later
+runtimes need a target-owned adapter and bootstrap check before a harness
+declares them supported.
 
 ## Choose a first prompt
 
@@ -260,53 +315,6 @@ Browse by category:
 - [Testing](./skills/testing/README.md)
 
 [`skills-lock.json`](./skills-lock.json) is the complete versioned catalog.
-
-## Install
-
-Review the source and requested scope before a global installation. Installed
-Skills run through an agent with that agent's permissions, and `-y` skips the
-Skills CLI confirmation.
-
-```bash
-npx skills add ldaume/agentic-engineering-harness --list
-npx skills add ldaume/agentic-engineering-harness \
-  --skill scaffold-harness \
-  --skill agent-sync \
-  --skill update-harness \
-  --skill grill-harness-with-docs \
-  --skill write-a-skill \
-  --agent codex cursor claude-code gemini-cli \
-  --copy -g -y
-```
-
-Replace the example client list with every agent host you actually use. Install
-only the five bootstrap Skills globally. The shared `.agents/skills` location
-is useful where clients support it, but a harness must verify effective
-discovery per host instead of assuming one installation covers every runtime.
-Project and domain Skills normally belong in the target repository so they
-remain visible, reviewable, and scoped to the work.
-
-`write-a-skill` is the portable owner whenever an agent creates or changes a
-Skill. Codex, Claude Code, Cursor, Gemini, Pi, CI, and later hosts may provide
-native creators, commands, metadata, or validators; those capabilities remain
-thin adapters around the same behavior contract.
-
-To install one Skill into the current project:
-
-```bash
-npx skills add /path/to/agentic-engineering-harness \
-  --skill coding-discipline \
-  --agent codex \
-  --copy -y
-```
-
-The validation workflow install-tests the complete catalog for Codex, Cursor,
-Claude Code, and Gemini CLI. Thin `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and
-Antigravity bridges make repository instructions discoverable. Packaging
-compatibility does not guarantee identical runtime behavior; representative
-workloads and target-local checks remain the evidence. Pi, CI, and later
-runtimes need a target-owned adapter and bootstrap check before a harness
-declares them supported.
 
 ## Repository maintenance
 
