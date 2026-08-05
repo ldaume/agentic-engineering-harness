@@ -277,5 +277,10 @@ source and reason.
   authority.
 - `VERSIONING.md` owns per-Skill release semantics.
 - `CONTEXT-MAP.md` routes repository-local sources.
+- `MULTI-REPO-HARNESS.md` owns the portable multi-repository and multi-team
+  operating model, including demand-driven sibling and team relevance under
+  **Find Sibling Scope and Decide Relevance**.
+- `HARNESS-OPERATIONS.md` owns operator prompts and the session discovery path
+  into a coordinator.
 
 Reference these owners instead of duplicating their procedures.

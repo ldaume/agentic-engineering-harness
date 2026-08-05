@@ -95,7 +95,11 @@ A session follows this path:
    local sibling checkout and keep a stable remote or raw-file fallback.
 5. Read the coordinator's `HARNESS.md` and `SYNC.md`, then use its
    `CONTEXT-MAP.md` to find relevant members, contracts, owners, revisions, and
-   integration checks.
+   integration checks. Match the task to Role, Relationships, Source Routing,
+   and the SYNC working-root table before opening another root; stay local when
+   nothing matches. For the portable multi-repository and multi-team walkthrough,
+   see
+   [`Find Sibling Scope and Decide Relevance`](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance).
 6. Inspect the active host's effective Skill, plugin, Rule, Hook, MCP,
    permission, and instruction precedence before relying on an adapter.
 7. Retrieve only the sources required by the current task and write durable
