@@ -822,6 +822,9 @@ At completion:
 - review scope and non-goals
 - stage only intended paths
 - commit and push routine ready work when policy permits
+- merge or otherwise integrate mergeable session-owned PRs and fan-out tips in
+  the same session when checks are green; record a named STATUS blocker when
+  integration is blocked
 - report remaining foreign WIP or blocked integration
 
 Git history provides review, comparison, audit, rollback, and session survival.

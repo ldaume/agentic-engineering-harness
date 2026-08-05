@@ -142,13 +142,19 @@ state.
    without asking again. Strip any review-surface producer chrome from the
    commit and from any PR/MR title or body before and after create. Do not
    force-merge onto a shared branch as ceremony.
-2. Release leases this session holds: set `state` to `done` (or `abandoned`),
+2. Close the integration loop in the same session: when this session opened
+   PRs or fan-out tips for ready work and checks are green, merge or otherwise
+   integrate them through the normal path before claiming done (local and
+   remote). Do not leave mergeable session-owned PRs for a human reminder. If
+   merge is blocked, record the named blocker in `STATUS.md` with a next
+   action. Do not force-merge past red required checks.
+3. Release leases this session holds: set `state` to `done` (or `abandoned`),
    update STATUS when present, then remove only those worktrees. Prefer cleanup
    from the primary checkout. Run `git worktree prune` only for stale metadata
    of already-removed trees.
-3. If ownership is uncertain, leave the worktree. Listing orphans is required;
+4. If ownership is uncertain, leave the worktree. Listing orphans is required;
    deleting them needs explicit human confirmation.
-4. Leave the repository no worse for your own artifacts than you found it. Do
+5. Leave the repository no worse for your own artifacts than you found it. Do
    not clean another session's footprint on the way out.
 
 ## Agent-Native Design
