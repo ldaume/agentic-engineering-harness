@@ -18,6 +18,20 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-04 - Ban agent/tool producer chrome on review surfaces
+
+- Signal: Branch-name bans were live, but PR bodies and commits still carried
+  host-injected producer chrome.
+- Evidence: PR #8 ended with `Made with Cursor`; Cursor `Co-authored-by`
+  trailers still appeared in consuming history; docs had no explicit ban.
+- Decision or change: Extend Git Working Tree Hygiene with Review-surface
+  attribution (forbid and strip). Port into scaffold templates; minor-bump
+  `scaffold-harness` to 1.33.0. Keep human co-authors, license attribution,
+  lease/STATUS host fields, and subject-matter tool mentions.
+- Re-check trigger: New PRs still show Made-with / Generated-by footers; new
+  commits carry AI tool co-author trailers; a jurisdiction requires mandatory
+  AI disclosure on integration surfaces.
+
 ## 2026-08-04 - Worktree placement and fan-out branch hygiene
 
 - Signal: Nested or `.worktrees/` checkouts broke sibling discovery via

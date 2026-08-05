@@ -740,7 +740,10 @@ not silently overwrite, reset, delete, or reclaim foreign work.
 
 Confirm the current branch is correct for the work, or create a dedicated task
 branch with an ordinary descriptive name (no agent/tool prefixes such as
-`codex/`, `claude/`, or `cursor/`). Do not edit shared integration branches in
+`codex/`, `claude/`, or `cursor/`). Do not put agent/tool producer chrome in
+commits or PR/MR titles and bodies; forbid and strip host-injected trailers and
+footers such as `Co-authored-by: Cursor` or `Made with Cursor`. Do not edit
+shared integration branches in
 place for non-trivial work. Default to an isolated workspace: prefer the
 host's native tool, otherwise an ignored `.worktrees/` directory beside the
 primary checkout (for example `../.worktrees/<repo>-<task>/`), not nested
