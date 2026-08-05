@@ -27,6 +27,7 @@
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |
 | How are portable Skills created, revised, packaged, and verified across hosts? | `skills/engineering/write-a-skill/SKILL.md` |
 | How do public, private, coordinator, project-local, and global Skill sources interact? | `MULTI-REPO-HARNESS.md` / `HARNESS-OPERATIONS.md` |
+| How does a member session find siblings or teams and decide task relevance? | [`MULTI-REPO-HARNESS.md` - Find Sibling Scope and Decide Relevance](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) / [`HARNESS-OPERATIONS.md` - How a Session Finds Related Repositories](HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
 | Does a repository change require an update to the public website projection? | [`HARNESS.md`](HARNESS.md#website-projection) owns the trigger, routing, authority, and completion result |
 | Which durable findings should change future work? | `LEARNINGS.md` |

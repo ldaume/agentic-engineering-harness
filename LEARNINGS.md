@@ -18,6 +18,20 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-05 - Document demand-driven sibling and team relevance
+
+- Signal: Humans could not reconstruct from the public catalog alone how a
+  member session finds siblings and decides task relevance; ownership tables
+  existed, but the SYNC -> CONTEXT-MAP match step was private-narrative only.
+- Evidence: Public `MULTI-REPO-HARNESS.md` / scaffold REFERENCE named map and
+  sync owners without a multi-repo and multi-team relevance walkthrough.
+- Decision or change: Add **Find Sibling Scope and Decide Relevance**; mirror
+  concisely in scaffold REFERENCE and SYNC / CONTEXT-MAP templates; minor-bump
+  `scaffold-harness` to 1.34.0. Keep one coordinator inventory; no member
+  Private system reinforcement.
+- Re-check trigger: New readers still ask which files to open; scaffolds omit
+  the relevance match; teams preload every repository despite map owners.
+
 ## 2026-08-04 - Ban agent/tool producer chrome on review surfaces
 
 - Signal: Branch-name bans were live, but PR bodies and commits still carried

@@ -38,4 +38,12 @@ coordinating harness never overrides repository-local instructions.
 
 For multi-team systems, add the smallest fields needed to expose bounded
 context ownership, risk/release decision rights, shared-policy version, and
-cross-team integration evidence. Do not use the map as a central backlog.
+cross-team integration evidence, for example:
+
+| Context or repo | Owner (team/role) | Decision rights | Escalation |
+|---|---|---|---|
+| `<payments API>` | `<payments-platform>` | risk, release | `<path>` |
+
+Do not use the map as a central backlog. Sibling and team relevance matching
+is owned by the coordinator sync document and the portable walkthrough in the
+public `MULTI-REPO-HARNESS.md`.
