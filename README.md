@@ -29,7 +29,7 @@ or multi-team prompt only when that is the real authority boundary.
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
-| Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) |
+| Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
 | Understand the recommended defaults and alternatives | [`Golden Path and Known Alternatives`](./HARNESS-OPERATIONS.md#golden-path-and-known-alternatives) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |

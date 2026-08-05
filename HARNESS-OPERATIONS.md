@@ -1,8 +1,8 @@
 # Harness Operations
 
 Use this guide to set up or join a repository harness. It explains which
-repositories are needed, where harness artifacts belong, and how an agent finds
-the right instructions, capabilities, and related repositories.
+repositories are needed, where harness artifacts belong, and how a session
+finds the right instructions, capabilities, and related repositories.
 
 A harness is the repository-owned combination of instructions, context,
 capability routing, checks, and recovery that makes agent work reliable.
@@ -82,9 +82,11 @@ directory, but sibling checkouts make local discovery fast and work offline.
 This public Skill catalog is a capability source. Do not use it as the
 coordinator for another system.
 
-## How an Agent Finds the System
+## How a Session Finds Related Repositories
 
-A session follows this path:
+Humans and agents use the same discovery path. Start in the repository that
+owns the change. Open another repository or team surface only when the
+coordinator map names a match for the task.
 
 1. Start in the repository that owns the requested change.
 2. Load the nearest `AGENTS.md`. Thin host bridges such as `CLAUDE.md`,
@@ -97,8 +99,8 @@ A session follows this path:
    `CONTEXT-MAP.md` to find relevant members, contracts, owners, revisions, and
    integration checks. Match the task to Role, Relationships, Source Routing,
    and the SYNC working-root table before opening another root; stay local when
-   nothing matches. For the portable multi-repository and multi-team walkthrough,
-   see
+   nothing matches. For the portable multi-repository and multi-team walkthrough
+   (with an out-of-scope example), see
    [`Find Sibling Scope and Decide Relevance`](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance).
 6. Inspect the active host's effective Skill, plugin, Rule, Hook, MCP,
    permission, and instruction precedence before relying on an adapter.
