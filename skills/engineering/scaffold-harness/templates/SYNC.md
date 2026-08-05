@@ -55,9 +55,15 @@ Compose member-local `scaffold-harness` with coordinator inventory:
 ## Sibling awareness
 
 Keep the member map truthful. Coordinator verify should fail on missing mapped
-paths and on unlisted repo-like siblings beside the coordinator. Member
-sessions read the context map before choosing another repository, then
-deep-dive siblings only when work crosses repositories.
+paths and on unlisted repo-like siblings beside the coordinator.
+
+Before choosing another repository or team surface, read the coordinator
+`CONTEXT-MAP.md` (local, else stable remote fallback). Open a sibling only on a
+named match to Role, Relationships, Source Routing, or this working-root table
+(and, for multi-team systems, team or role owners and decision rights on the
+map). No match -> stay in the current member. Unclear owner -> coordinator for
+discovery only, then switch. Do not duplicate the membership inventory inside
+each member.
 
 ## Fan-out checklist (same loop)
 

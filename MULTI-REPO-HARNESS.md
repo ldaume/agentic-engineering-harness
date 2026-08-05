@@ -118,6 +118,10 @@ The same pointer resolves the shared Skill catalog locally first and through a
 stable remote repository fallback second. If neither route is reachable, the
 agent continues without shared Skills and does not invent their procedures.
 
+Sibling inventory and relevance filtering use the coordinator
+`CONTEXT-MAP.md` through `SYNC.md`. See **Find Sibling Scope and Decide
+Relevance** below. Do not copy the membership map into every member.
+
 ### Multiple Teams
 
 A multi-team harness is a federation, not a larger central prompt.
@@ -137,6 +141,11 @@ The coordinator never becomes every team's product manager, domain expert, or
 backlog. Prefer Git-owned asynchronous contracts and checks over recurring
 coordination meetings. Add a software catalog, relationship graph, or policy
 engine only after scale causes a demonstrated discovery or enforcement failure.
+
+Cross-team discovery uses the same SYNC -> CONTEXT-MAP path as multi-repository
+work. The map must expose team or role owners and decision rights so a session
+can filter relevance without loading every team's repositories. See **Find
+Sibling Scope and Decide Relevance** below.
 
 ## How Any Session Starts Safely
 
@@ -163,6 +172,57 @@ grant.
 Experimental repositories use the same discovery path. They remain
 human-in-the-loop until committed history, named checks, recovery, permissions,
 and representative evidence justify a higher level.
+
+### Find Sibling Scope and Decide Relevance
+
+Do not preload every sibling repository or team surface. Discovery is
+demand-driven through the coordinator, not through duplicated membership lists
+in each member. If neither local nor remote coordinator map is reachable,
+continue only reversible work in the current member; do not invent siblings.
+
+```text
+member AGENTS.md (thin coordinator pointer)
+-> coordinator HARNESS.md + SYNC.md
+-> before another working root, shared source owner, or cross-scope work:
+   coordinator CONTEXT-MAP.md (local sibling, else stable remote fallback)
+-> when mid-flight cross work exists: also skim coordinator STATUS.md
+-> match the task against map Role / Relationships / Source Routing and the
+   SYNC working-root table
+-> open only the owning repository or owning team surface; otherwise stay
+```
+
+**Multiple repositories.** Treat `CONTEXT-MAP.md` as the inventory of members
+(paths, roles, remotes, checks) plus relationships and source routing. A member
+`CONTEXT-MAP.md` that only describes that repository's internal layout is not
+the system inventory. Match the task to Role and Source Routing. Irrelevant
+siblings stay closed. Unknown owner: open the coordinator for discovery only,
+then switch to the owning member.
+
+**Multiple teams.** Extend the same map with the smallest federation fields,
+for example:
+
+| Field | Example |
+|---|---|
+| Owner (team or role) | `payments-platform` |
+| Decision rights | risk accept, release approve, autonomy widen |
+| Public contract | `orders -> payments` provider/consumer + check |
+| Escalation | security on-call -> architecture board |
+
+Match the task to those owners and rights. The "owning team surface" is that
+team's repositories and local instructions named on the map, not every repo in
+the federation. Cross-team policy, compatibility state, and escalation stay on
+the coordinator; domain and implementation stay with the owning team.
+
+**Relevance rule.** Opening another root requires a named match in the map or
+SYNC working-root table. Reading SYNC does not authorize editing every sibling.
+Copying membership into member instructions creates drift; keep one inventory
+on the coordinator and route members through SYNC.
+
+**Out of scope example.** Session is in a billing member. Task: "fix invoice
+PDF layout." Map Role for a notes product is adjacent but Source Routing and
+SYNC working-root send product UI to that product member only when the task
+names it. No invoice owner outside billing matches -> stay in billing; do not
+open the notes product, platform, or Skill catalogs.
 
 ## Human and Agent Operating Model by Delegation Level
 
@@ -905,6 +965,10 @@ When information or capability is unavailable:
 - asking the human to approve routine commit or push
 - expanding autonomy because a new model or framework exists
 - retaining stale harness structure because migration feels inconvenient
+- preloading every sibling or team surface instead of matching Role and Source
+  Routing on the coordinator CONTEXT-MAP
+- copying the membership inventory into every member when SYNC already routes
+  to one coordinator map
 
 ## Canonical Owners in This Repository
 

@@ -252,6 +252,12 @@ Member sessions should load coordinator oversight (for example by requiring a
 read of coordinator `HARNESS.md` from a Private system section) so autonomy
 policy is consistent without copying the full harness into every member.
 
+For demand-driven sibling and multi-team relevance (SYNC -> CONTEXT-MAP match,
+named-owner rule, stay local on no match), follow the portable walkthrough in
+[`MULTI-REPO-HARNESS.md`](../../../MULTI-REPO-HARNESS.md) under **Find
+Sibling Scope and Decide Relevance**. Keep one coordinator inventory; do not
+copy membership into every member.
+
 Prefer ASCII punctuation in harness prose. Routine commit/push when checks
 pass is normal completion when the owner authorizes that policy; ask only for
 critical git or irreversible external effects.
