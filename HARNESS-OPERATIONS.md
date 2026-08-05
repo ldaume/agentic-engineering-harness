@@ -11,6 +11,21 @@ Start with the smallest topology that fits the work. Read
 [`MULTI-REPO-HARNESS.md`](MULTI-REPO-HARNESS.md) only when the operating model,
 delegation levels, or deeper rationale matter.
 
+## Simplest path: onboard a sibling
+
+For an existing multi-repository or multi-team harness:
+
+1. Open a session in the **coordinating repository**.
+2. Tell the agent to **fully onboard** the new sibling (or joining team
+   repository).
+3. Give the context it needs: name and path, purpose or role, remote or
+   "create remote", intended checks, experimental vs active, and any
+   boundaries.
+
+The agent follows the coordinator `SYNC.md` admit checklist and runs
+`scaffold-harness` in the member. No dedicated onboarding Skill. Detail below
+under [Add a Team or Member](#add-a-team-or-member).
+
 ## The Working Model
 
 Three rules keep the system understandable:
@@ -232,8 +247,12 @@ Adapt paths and URLs, but keep the pointer small:
 
 ## Add a Team or Member
 
-Use this path for a new repository or a team joining an existing system. Do not
-create a dedicated sibling-onboarding Skill; compose existing owners:
+**Simplest human move:** session in the coordinator; ask the agent to fully
+onboard the sibling and pass its context (see
+[Simplest path: onboard a sibling](#simplest-path-onboard-a-sibling)).
+
+When you want the checklist, or the agent is executing admission, do not create
+a dedicated sibling-onboarding Skill; compose existing owners:
 
 1. Name the team or role that owns the repository and its bounded contexts.
 2. In the member, run `scaffold-harness` (or adapt existing instructions) so

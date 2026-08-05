@@ -29,6 +29,7 @@ or multi-team prompt only when that is the real authority boundary.
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
+| Onboard a new sibling (simplest) | Session in the coordinator; ask the agent to fully onboard it and pass context - [`Simplest path`](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) |
 | Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
 | Understand the recommended defaults and alternatives | [`Golden Path and Known Alternatives`](./HARNESS-OPERATIONS.md#golden-path-and-known-alternatives) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
@@ -90,11 +91,13 @@ supplies the capabilities; it is not the control plane for another system.
 Adapt in your own repositories. Do not write harness changes back here.
 
 The prompt selects the harness topology. There is no separate sibling-onboarding
-Skill. Agents detect multi-repository vs multi-team from the working root plus
-the coordinator `CONTEXT-MAP.md` (members and relationships vs team or role
-owners and decision rights), then admit siblings by composing
-`scaffold-harness` in the member with the coordinator `SYNC.md` admit checklist.
-Use
+Skill. **Simplest human move to add a sibling:** open a session in the
+coordinating repository, tell the agent to fully onboard it, and pass name,
+purpose, remote, and boundaries
+([detail](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling)).
+Agents otherwise detect multi-repository vs multi-team from the working root
+plus the coordinator `CONTEXT-MAP.md`, and admit via `scaffold-harness` plus the
+`SYNC.md` admit checklist. Use
 [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance)
 when deciding which sibling or team is in scope.
 
