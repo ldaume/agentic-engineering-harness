@@ -89,6 +89,15 @@ Start the agent inside the authority boundary it should change. This catalog
 supplies the capabilities; it is not the control plane for another system.
 Adapt in your own repositories. Do not write harness changes back here.
 
+The prompt selects the harness topology. There is no separate sibling-onboarding
+Skill. Agents detect multi-repository vs multi-team from the working root plus
+the coordinator `CONTEXT-MAP.md` (members and relationships vs team or role
+owners and decision rights), then admit siblings by composing
+`scaffold-harness` in the member with the coordinator `SYNC.md` admit checklist.
+Use
+[`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance)
+when deciding which sibling or team is in scope.
+
 | Scope | Start the session in |
 |---|---|
 | One repository | The target repository root |
@@ -139,10 +148,14 @@ truth. Keep only relationships, public contracts, shared workflow state, and
 cross-cutting verification in the coordinator. Use one coordinator
 `CONTEXT-MAP.md` as the canonical repository relationship and discovery map,
 reached through `SYNC.md` with a local route and stable remote fallback. Do not
-create a parallel `HARNESS-MAP.md`. Present options with a
-recommendation before creating a coordinator or expanding autonomy when
-ownership or authority is unresolved. Run the real member and integration
-checks, and run agent-sync before completion.
+create a parallel `HARNESS-MAP.md`. To admit or graduate a sibling, compose
+scaffold-harness in that member with the coordinator SYNC admit checklist; do
+not invent a dedicated onboarding Skill. Match task scope with
+Find Sibling Scope and Decide Relevance before opening another root. Present
+options with a recommendation before creating a coordinator or expanding
+autonomy when ownership or authority is unresolved. Run the real member and
+integration checks, merge mergeable session-owned PRs when green, and run
+agent-sync before completion.
 ```
 
 ### Several teams
@@ -165,10 +178,15 @@ Preserve each team's local authority. Map bounded contexts, public contracts,
 compatibility policy, risk, release, and autonomy decisions to named owners. Use
 one federated coordinator `CONTEXT-MAP.md` as the canonical repository
 relationship and discovery map, reached through `SYNC.md` with local routes and
-stable remote fallbacks. Do not create a parallel `HARNESS-MAP.md`. Define
-cross-team checks and escalation without creating a central product or domain
-authority. Present unresolved decision rights one at a time with a
-recommendation, run the real team-local and cross-team checks, and run
+stable remote fallbacks. Do not create a parallel `HARNESS-MAP.md`. Detect
+multi-team topology from those team or role owners and decision rights on the
+map. Admit a joining team or repository by composing scaffold-harness in the
+member with the SYNC admit checklist; do not invent a dedicated onboarding
+Skill. Match task scope with Find Sibling Scope and Decide Relevance before
+opening another team's surface. Define cross-team checks and escalation without
+creating a central product or domain authority. Present unresolved decision
+rights one at a time with a recommendation, run the real team-local and
+cross-team checks, merge mergeable session-owned PRs when green, and run
 agent-sync before completion.
 ```
 

@@ -51,6 +51,18 @@ and record the reason where future humans and agents will find it.
 
 ## Choose the Topology and Working Root
 
+Pick the smallest topology that matches durable authority. The first prompt in
+[`README.md`](README.md#choose-a-first-prompt) selects that topology for the
+session. Agents do not need a separate onboarding Skill to learn the type:
+
+| Evidence | Topology |
+|---|---|
+| One product or service root; no coordinator map of siblings | One repository |
+| Coordinator `CONTEXT-MAP.md` lists member repositories and relationships | Multi-repository |
+| Same map also names team or role owners and decision rights | Multi-team federation |
+
+Then open the working root from the table below.
+
 This table selects the root for harness setup or shared coordination. Start a
 member-local product or operations change in that member repository.
 
@@ -220,25 +232,33 @@ Adapt paths and URLs, but keep the pointer small:
 
 ## Add a Team or Member
 
-Use this path for a new repository or a team joining an existing system:
+Use this path for a new repository or a team joining an existing system. Do not
+create a dedicated sibling-onboarding Skill; compose existing owners:
 
 1. Name the team or role that owns the repository and its bounded contexts.
-2. Give the member a local `AGENTS.md`, human `README.md`, Fast Check, and Full
-   Gates before granting cross-repository authority.
-3. Add the member to the coordinator map as experimental until its repository,
-   checks, ownership, and coordinator pointer are real.
+2. In the member, run `scaffold-harness` (or adapt existing instructions) so
+   local `AGENTS.md`, human `README.md`, Fast Check, and Full Gates exist before
+   granting cross-repository authority.
+3. In the coordinator, follow the admit checklist in `SYNC.md`: add the member
+   to `CONTEXT-MAP.md` as experimental until its repository, checks, ownership,
+   and coordinator pointer are real.
 4. Record provider and consumer contracts, compatibility responsibility, and
    escalation where the member crosses a boundary.
 5. Add the thin member pointer and verify every active host loads the intended
    instructions and managed Skills.
 6. Update coordinator `STATUS.md` while admission is incomplete.
-7. Run local and cross-repository checks, then graduate the member to active.
+7. Run local and cross-repository checks, integrate mergeable session-owned
+   tips, then graduate the member to active.
 
 For several teams, also record who may change shared policy, accept risk,
 approve releases, resolve semantic conflicts, and widen autonomy. Version
 shared Skills and policy so teams can adopt them with compatibility evidence.
 Keep team backlogs, local implementation state, and inferred domain semantics
 out of the coordinator.
+
+Match task relevance with
+[`Find Sibling Scope and Decide Relevance`](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance)
+before opening another member or team surface.
 
 Use the several-teams prompt in [`README.md`](README.md#several-teams) for a
 federated setup.

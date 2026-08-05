@@ -18,6 +18,19 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-05 - No dedicated sibling-onboarding Skill
+
+- Signal: Temptation to add an onboarding Skill so agents know multi-repo vs
+  multi-team and how to admit siblings.
+- Evidence: Topology prompts, `scaffold-harness`, coordinator `SYNC` admit
+  checklist, and Find Sibling already cover the path; Skill Placement forbids
+  one-off Skills without repeated failure evidence.
+- Decision or change: Document compose path in README prompts and
+  HARNESS-OPERATIONS; explicitly reject a dedicated onboarding Skill until
+  repeated failure with examples and checks appears.
+- Re-check trigger: Agents repeatedly mis-detect topology or skip admit despite
+  these docs; then reconsider a Skill with real examples.
+
 ## 2026-08-05 - Document demand-driven sibling and team relevance
 
 - Signal: Humans could not reconstruct from the public catalog alone how a
