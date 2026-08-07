@@ -54,8 +54,11 @@
 - Ask when intent or authority is unresolved, or an action is external,
   irreversible, sensitive, or materially risky.
 - Execute authorized routine completion without asking again. When repository
-  policy makes commit/push the default, perform it after checks pass; escalate
-  only a named exception or blocker.
+  policy makes commit/push/merge the default, perform it after checks pass;
+  when this session opened a PR/MR and required checks are green with no
+  conflicts, merge it through the normal path before finishing. Do not leave
+  mergeable session-owned PRs open. Do not force-merge past red required
+  checks or over foreign WIP. Escalate only a named exception or blocker.
 - Write all persistent repository artifacts in US English unless the human
   explicitly requests another language for a named artifact. Chat language
   never changes artifact language implicitly. Use ASCII punctuation only
