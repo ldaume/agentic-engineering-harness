@@ -51,17 +51,17 @@ answer in the same loop:
 Applies to every repository an agent edits, no matter which host or working
 root spawned the session. Goal: mandatory branch and isolation gates before
 edits, ordinary branch names, review surfaces free of agent/tool producer
-chrome, session-owned cleanup, worktree leases, hard non-interference with
-foreign worktrees, and return of surviving session and primary-sibling
-checkouts to the default branch when finish is otherwise complete - not
-auto-reclaim of foreign state.
-When this trade-off is accepted in a live repo, record it in `docs/adr/`.
+chrome, session-owned cleanup, checkout leases (isolated worktree or primary),
+hard non-interference with foreign checkouts, and return of surviving session
+and primary-sibling checkouts to the default branch when finish is otherwise
+complete - not auto-reclaim of foreign state. A lease is coordination, not a
+lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
 
 ### Before editing
 
 1. Run `git status --short --branch` and, when available, `git worktree list`.
 2. Note dirty paths, current branch, existing worktrees, and any `STATUS.md`
-   **Worktree leases** rows or `.agent-lease` markers.
+   **Worktree leases** (checkout lease) rows or `.agent-lease` markers.
 3. If the tree is dirty or unexpected worktrees exist: report them. Do not
    silently overwrite unrelated WIP. Ask when ownership of the dirt is unclear.
 4. **Branch gate (mandatory before any edit):** Confirm the current branch is
@@ -105,20 +105,34 @@ When this trade-off is accepted in a live repo, record it in `docs/adr/`.
    already-correct task branch in a clean tree may stay in place. Do not nest
    worktrees. Do not fight an already-isolated host workspace with a second
    `git worktree add`.
-7. **Worktree lease (on create):** When this session creates a worktree or
-   isolated checkout for edit work, claim it:
+7. **Checkout lease (before any edit):** Before substantive edit in a
+   repository, claim the checkout this session will use - a new isolated
+   worktree **or** the primary/session root when staying put:
    - Write `.agent-lease` in that workspace (JSON: `path`, `branch`, `repo`,
-     `session`, `host`, `claimed_at`, `heartbeat_at`, `state`).
-   - `state` is one of `active`, `done`, `abandoned`.
+     `session`, `host`, `kind`, `claimed_at`, `heartbeat_at`, `state`).
+   - `kind` is `worktree` or `primary`. `state` is `active`, `done`, or
+     `abandoned`.
    - Upsert a row in the nearest `STATUS.md` **Worktree leases** table when
-     that file exists; otherwise keep the marker and report the claim.
+     that file exists; otherwise keep the marker and report the claim. Include
+     `kind` when the table has that column.
+   - **Multi-repo sessions:** one lease row per repository checkout. Release
+     each row when that repo's footprint finishes.
+   - **Multi-agent same repo:** each session claims its own checkout. If
+     another session holds an `active` lease on the same path or branch,
+     create a new uniquely named worktree/branch instead of sharing.
    - Use a unique session id. Refresh `heartbeat_at` on long work.
    - Keep `.agent-lease` ignored by git (do not commit it).
+   - Do not invent a second STATUS presence table. Lease is coordination, not
+     a mutex.
+8. **Critical-step re-check:** Before edit, branch checkout, local merge,
+   worktree remove, force ops, or return-to-default, re-read lease rows and
+   `.agent-lease` on the target path. Treat foreign `active` claims as
+   protected; do not force past them.
 
 ### Cross-agent non-interference
 
-Treat every worktree you did not claim in **this** session as foreign protected
-state.
+Treat every worktree, linked checkout, primary checkout, and dirty tree you
+did not claim in **this** session as foreign protected state.
 
 1. Never delete, move, empty, or overwrite another agent's working directory,
    worktree path, or branch checkout - including via `rm -rf`, `git worktree
@@ -126,7 +140,7 @@ state.
    own tree, host "reset workspace", or bulk cleanup of `.worktrees/` /
    `worktrees/`.
 2. Never force-checkout, reset, or delete a branch that another worktree
-   currently has checked out.
+   currently has checked out, or that another session's `active` lease names.
 3. Before any remove: read `.agent-lease` and any STATUS lease row. Remove only
    when `session` matches this session and `state` is `active` (then set
    `done` or `abandoned` before removal). If unmarked, foreign, or uncertain:
@@ -150,32 +164,30 @@ state.
    remote). Do not leave mergeable session-owned PRs for a human reminder. If
    merge is blocked, record the named blocker in `STATUS.md` with a next
    action. Do not force-merge past red required checks.
-3. Release leases this session holds: set `state` to `done` (or `abandoned`),
-   update STATUS when present, then remove only those worktrees. Prefer cleanup
-   from the primary checkout. Run `git worktree prune` only for stale metadata
-   of already-removed trees.
-4. If ownership is uncertain, leave the worktree. Listing orphans is required;
-   deleting them needs explicit human confirmation.
-5. Leave the repository no worse for your own artifacts than you found it. Do
-   not clean another session's footprint on the way out.
-6. **Return surviving checkouts to the default branch.** After steps 1-3, for
-   every repository this session edited (or whose checkout this session left
-   off the default branch): leave the session working root (if it still
-   exists) and the repository's primary sibling checkout on the default
-   integration branch (`main`, `master`, or the configured default) with a
-   clean working tree.
-   - Linked session worktrees are removed per lease rules; after cleanup the
-     primary sibling must be on the default branch.
+3. **Return surviving checkouts to the default branch while still holding the
+   lease.** After steps 1-2, for every repository this session edited (or
+   whose checkout this session left off the default branch): leave the session
+   working root (if it still exists) and the repository's primary sibling
+   checkout on the default integration branch (`main`, `master`, or the
+   configured default) with a clean working tree.
    - Keep remote task branches that still back open PRs or unmerged work -
      this step is a checkout, not a branch delete or history rewrite.
    - If this session's tree is still dirty, finish or explicitly abandon that
      work before switching; do not force-checkout over unresolved dirt.
    - If switching is blocked (another worktree already holds the default
-     branch, conflicts, or foreign WIP ownership is unclear), report the named
-     blocker; do not force past it.
+     branch, a foreign `active` lease covers the path, conflicts, or foreign
+     WIP ownership is unclear), report the named blocker; do not force past it.
    - Skip when the human explicitly asked to remain on the task branch.
    - Checkout only - do not pull, reset, or merge the default branch as part
      of this step.
+4. Release leases this session holds: set `state` to `done` (or `abandoned`),
+   update STATUS when present, then remove only those worktrees. Prefer cleanup
+   from the primary checkout. Run `git worktree prune` only for stale metadata
+   of already-removed trees.
+5. If ownership is uncertain, leave the worktree. Listing orphans is required;
+   deleting them needs explicit human confirmation.
+6. Leave the repository no worse for your own artifacts than you found it. Do
+   not clean another session's footprint on the way out.
 
 ## Agent-Native Design
 
@@ -425,7 +437,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
-| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, leases, return to default branch, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, checkout leases including primary, multi-repo/multi-agent announce, return to default branch, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |
