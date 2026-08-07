@@ -18,6 +18,19 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-08-07 - Port Gitea CI traps into gitea-actions
+
+- Signal: Private-system CI hit three portable traps that future Gitea
+  harnesses will relearn if left only in a private coordinator log.
+- Evidence: sparse-checkout omitted CI helpers (exit 127 after successful
+  deploy); `docker/build-push-action` Complete job `CreateArtifact` timeouts on
+  self-hosted Gitea; automated step injection de-indented workflow YAML.
+- Decision or change: Expand public `gitea-actions` Workflow Rules and Red
+  Flags; minor-bump to 1.1.0. Keep private Rocket.Chat and member-specific
+  summary scripts out of the public Skill.
+- Re-check trigger: New Gitea consumers still hit Complete-job artifact hangs,
+  sparse exit 127, or merge-breaking workflow YAML after bulk edits.
+
 ## 2026-08-05 - No dedicated sibling-onboarding Skill
 
 - Signal: Temptation to add an onboarding Skill so agents know multi-repo vs
