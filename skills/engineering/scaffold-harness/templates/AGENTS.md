@@ -75,7 +75,9 @@
 - Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`
   (strip agent/tool producer chrome from commits and PR/MR surfaces; release
   only this session's leases; never delete another agent's live worktree;
-  reclaim foreign paths only with explicit human confirmation).
+  reclaim foreign paths only with explicit human confirmation; return
+  surviving session/primary-sibling checkouts to the default branch unless
+  the human asked to remain on the task branch).
 - Answer the Stewardship questions before claiming done (manifest here; port
   within your authority only - never write back to a foreign public upstream).
 - Use `agent-sync` to retain durable evidence and harness improvements.
