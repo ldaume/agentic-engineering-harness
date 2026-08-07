@@ -19,9 +19,10 @@
 - Before editing: run `git status --short --branch` and, when available,
   `git worktree list`; preserve foreign WIP; then apply **Git Working Tree
   Hygiene** in `HARNESS.md` (branch gate; worktree default; ordinary names; no
-  agent/tool producer chrome in commits or PR/MR surfaces; claim new worktrees
-  with `.agent-lease` + STATUS lease; never delete another agent's live
-  worktree).
+  agent/tool producer chrome in commits or PR/MR surfaces; claim each edit
+  checkout - worktree or primary - with `.agent-lease` + STATUS lease; one
+  lease row per repo in multi-repo sessions; never share a path/branch under a
+  foreign `active` lease; never delete another agent's live worktree).
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness
@@ -73,11 +74,12 @@
 - Run the relevant checks.
 - Review the diff against scope and non-goals.
 - Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`
-  (strip agent/tool producer chrome from commits and PR/MR surfaces; release
-  only this session's leases; never delete another agent's live worktree;
-  reclaim foreign paths only with explicit human confirmation; return
-  surviving session/primary-sibling checkouts to the default branch unless
-  the human asked to remain on the task branch).
+  (strip agent/tool producer chrome from commits and PR/MR surfaces; claim and
+  release leases for every edited checkout including primary; never delete
+  another agent's live worktree; reclaim foreign paths only with explicit
+  human confirmation; return surviving session/primary-sibling checkouts to
+  the default branch while still holding the lease unless the human asked to
+  remain on the task branch).
 - Answer the Stewardship questions before claiming done (manifest here; port
   within your authority only - never write back to a foreign public upstream).
 - Use `agent-sync` to retain durable evidence and harness improvements.
