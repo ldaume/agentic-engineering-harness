@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 1.37.0: future harnesses default to commit/push/merge for
+  session-owned ready PRs/MRs (green checks, no conflicts; no force-merge past
+  red required checks).
+- `agent-sync` 1.17.0: completion requires closing the integration loop,
+  including autonomous merge of session-owned ready PRs/MRs or a named blocker.
+
 - Kept `frontend-craft` and `backend-craft` independently installable while
   adding shared end-to-end discipline for thin UIs, task-shaped reads,
   intent-shaped mutations, context-driven architecture, and representative

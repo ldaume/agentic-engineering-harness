@@ -5,6 +5,19 @@
 Current default: reliable repository-level work. Add wider delegation only
 from observed evidence.
 
+- **Commit / push / merge:** when repository policy authorizes routine git
+  completion, do it by default after checks pass. Closing the git loop is part
+  of finishing - do not wait for a human reminder, and do not re-ask for
+  ordinary commit, push, or merge. When this session opened a PR/MR and
+  required checks are green with no conflicts, merge it through the
+  repository's normal path before claiming done. Do not leave mergeable
+  session-owned PRs open for a human reminder. Do not force-merge past red
+  required checks or over foreign WIP. Standing IDE/global ask-before-commit
+  preferences lose to this policy for routine ready work; an explicit
+  in-session human hold or stop still wins. Ask only for unusually critical
+  git operations (secrets in the tree, force-push, rewriting shared history,
+  unclear blast radius on a shared branch).
+
 ## Stewardship
 
 Harness stewardship is part of every agent task:
@@ -153,17 +166,23 @@ did not claim in **this** session as foreign protected state.
 
 ### On finish (this session's footprint)
 
-1. Integrate ready work via the repository's commit/push or PR policy. When
-   that policy authorizes routine commit/push, perform it after checks pass
-   without asking again. Strip any review-surface producer chrome from the
-   commit and from any PR/MR title or body before and after create. Do not
-   force-merge onto a shared branch as ceremony.
-2. Close the integration loop in the same session: when this session opened
-   PRs or fan-out tips for ready work and checks are green, merge or otherwise
-   integrate them through the normal path before claiming done (local and
-   remote). Do not leave mergeable session-owned PRs for a human reminder. If
-   merge is blocked, record the named blocker in `STATUS.md` with a next
-   action. Do not force-merge past red required checks.
+1. Integrate ready work via the repository's commit/push/merge or PR policy.
+   When that policy authorizes routine completion, perform commit and push
+   after checks pass without asking again. When a session-owned PR/MR has
+   green required checks and no conflicts, merge it through the normal path in
+   the same loop. Strip any review-surface producer chrome from the commit and
+   from any PR/MR title or body before and after create. Do not force-merge
+   onto a shared branch as ceremony or past red required checks. Do not leave
+   "should I commit/merge?" as a human chore.
+2. **Close the integration loop in the same session.** Autonomously merge
+   session-owned PRs/MRs and fan-out tips when required checks are green and
+   there are no conflicts. Use the repository's normal merge path (clean
+   merge/rebase/squash as that repo uses - never force-push shared history).
+   Do this before claiming done (local and remote). Do not leave mergeable
+   session-owned PRs open for a human reminder. If merge is blocked (failing
+   required checks, conflicts, or foreign WIP), record the named blocker in
+   `STATUS.md` with a clear next action. Do not force-merge past red required
+   checks.
 3. **Return surviving checkouts to the default branch while still holding the
    lease.** After steps 1-2, for every repository this session edited (or
    whose checkout this session left off the default branch): leave the session
