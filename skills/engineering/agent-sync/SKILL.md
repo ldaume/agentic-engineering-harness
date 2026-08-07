@@ -204,10 +204,13 @@ Reference the owner instead of copying its content into consumers.
 4. Consolidate or supersede prior learnings instead of appending duplicates.
 5. State what changed, why, and the next re-check condition.
 6. Close the git integration loop for this session's ready work: commit and
-   push when authorized; when this session opened a PR/MR and required checks
-   are green with no conflicts, merge it through the normal path before
-   claiming done. Do not leave mergeable session-owned PRs for a human
-   reminder. Do not force-merge past red required checks or over foreign WIP.
+   push when authorized; when repository policy makes merge the default (or
+   otherwise authorizes it) and this session opened a PR/MR with green
+   required checks and no conflicts, merge it through the normal path before
+   claiming done. If policy disallows merge, record a named blocker instead.
+   Do not leave mergeable session-owned PRs for a human reminder when merge
+   is authorized. Do not force-merge past red required checks or over foreign
+   WIP.
 
 For volatile decisions, confirm the source, check date, live environment, and
 expiry or event trigger. Re-run representative evals before routing a task
@@ -222,6 +225,6 @@ class to a cheaper worker.
 - a new artifact without an observed problem and owner
 
 The sync is complete when durable evidence is routed, relevant checks pass,
-uncertainty is explicit, session-owned ready PRs/MRs are merged or a named
-blocker is recorded, and no further harness change is justified by the
-current work.
+uncertainty is explicit, authorized session-owned ready PRs/MRs are merged or
+a named blocker is recorded (including policy-disallowed merge), and no
+further harness change is justified by the current work.
