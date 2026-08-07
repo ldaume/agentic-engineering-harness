@@ -5,6 +5,9 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `agent-sync` 1.17.1: gate autonomous PR merge on repository policy
+  authorization; record a named blocker when merge is disallowed.
+
 - `scaffold-harness` 1.37.0: future harnesses default to commit/push/merge for
   session-owned ready PRs/MRs (green checks, no conflicts; no force-merge past
   red required checks).
