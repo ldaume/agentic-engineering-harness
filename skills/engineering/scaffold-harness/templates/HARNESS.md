@@ -51,8 +51,10 @@ answer in the same loop:
 Applies to every repository an agent edits, no matter which host or working
 root spawned the session. Goal: mandatory branch and isolation gates before
 edits, ordinary branch names, review surfaces free of agent/tool producer
-chrome, session-owned cleanup, worktree leases, and hard non-interference with
-foreign worktrees - not auto-reclaim of foreign state.
+chrome, session-owned cleanup, worktree leases, hard non-interference with
+foreign worktrees, and return of surviving session and primary-sibling
+checkouts to the default branch when finish is otherwise complete - not
+auto-reclaim of foreign state.
 When this trade-off is accepted in a live repo, record it in `docs/adr/`.
 
 ### Before editing
@@ -156,6 +158,24 @@ state.
    deleting them needs explicit human confirmation.
 5. Leave the repository no worse for your own artifacts than you found it. Do
    not clean another session's footprint on the way out.
+6. **Return surviving checkouts to the default branch.** After steps 1-3, for
+   every repository this session edited (or whose checkout this session left
+   off the default branch): leave the session working root (if it still
+   exists) and the repository's primary sibling checkout on the default
+   integration branch (`main`, `master`, or the configured default) with a
+   clean working tree.
+   - Linked session worktrees are removed per lease rules; after cleanup the
+     primary sibling must be on the default branch.
+   - Keep remote task branches that still back open PRs or unmerged work -
+     this step is a checkout, not a branch delete or history rewrite.
+   - If this session's tree is still dirty, finish or explicitly abandon that
+     work before switching; do not force-checkout over unresolved dirt.
+   - If switching is blocked (another worktree already holds the default
+     branch, conflicts, or foreign WIP ownership is unclear), report the named
+     blocker; do not force past it.
+   - Skip when the human explicitly asked to remain on the task branch.
+   - Checkout only - do not pull, reset, or merge the default branch as part
+     of this step.
 
 ## Agent-Native Design
 
@@ -405,7 +425,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
-| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, leases, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, leases, return to default branch, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |
