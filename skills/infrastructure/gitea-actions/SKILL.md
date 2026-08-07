@@ -1,6 +1,6 @@
 ---
 name: gitea-actions
-description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner, GITEA_TOKEN permissions, self-hosted runners, workflow migration, or Gitea-specific CI failures.
+description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner, GITEA_TOKEN permissions, self-hosted runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures.
 ---
 
 # Gitea Actions
@@ -35,6 +35,19 @@ Before changing workflows:
   not burn runner capacity.
 - Keep cache keys tied to lockfiles and relevant runtime versions.
 - Upload artifacts only when they help debugging or deployment.
+- After any automated workflow mutation (fan-out, codegen, bulk step inject),
+  parse every touched YAML file before push. Insert steps under an existing
+  `steps:` list with the same indent as siblings.
+- If a job uses sparse-checkout, include every path that job invokes. Prefer a
+  helper directory pattern (for example `scripts/ci/`) over one-file lists.
+- Soft-skip writing a job summary when `GITHUB_STEP_SUMMARY` is unset (local
+  runs). Do not soft-fail summary or other `always()` helper steps in CI to hide
+  a missing sparse path; fix the checkout list instead.
+- On self-hosted Gitea, prefer raw `docker` / `docker buildx` for image builds.
+  If you keep `docker/build-push-action`, set job env
+  `DOCKER_BUILD_RECORD_UPLOAD=false` and `DOCKER_BUILD_SUMMARY=false` so the
+  Complete job does not upload `.dockerbuild` records via the GitHub Artifact
+  API.
 
 ## Runner Rules
 
@@ -81,3 +94,10 @@ When porting:
 - runner label that exists only on one machine but is undocumented
 - cache key that ignores lockfiles
 - private registry auth configured in one container but used in another
+- `docker/build-push-action` on self-hosted Gitea without
+  `DOCKER_BUILD_RECORD_UPLOAD=false` (Complete-job `CreateArtifact` timeouts
+  after a successful registry push)
+- sparse-checkout file lists that omit scripts or helpers the job still runs
+  (exit 127 after an otherwise successful deploy or verify)
+- workflow YAML left unparsed after automated step injection (de-indented
+  steps at column 0 that break Actions parse only after merge)
