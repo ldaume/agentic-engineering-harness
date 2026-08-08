@@ -167,8 +167,12 @@ scope, destructive migration, or uncertain compatibility:
 
 For every selected dependency:
 
-1. retrieve the exact release ref into a temporary or existing trusted clone
-2. verify the expected Skill path and declared version
+1. require `ref` to match `<name>-v<semver>`, resolve it through the exact
+   `refs/tags/<ref>` identity, and confirm that tag resolves to the recorded
+   commit digest
+2. verify that the tagged `SKILL.md` frontmatter name matches both the manifest
+   name and Skill path basename and, when the source has a catalog, that its
+   path and declared version match
 3. replace only the managed target directory, or install a new public Skill
    project-locally; global installation requires explicit user intent
 4. preserve target-local wrappers outside that directory
@@ -200,9 +204,9 @@ Report:
 Persist only evidence that changes future work. A routine successful update
 does not require a learning entry.
 
-The update is complete when refs, resolved content, effective host scope,
-manifest state, and checks agree, and no target-local authority or wrapper was
-overwritten.
+The update is complete when tag identity, manifest identity, resolved content,
+effective host scope, manifest state, and checks agree, and no target-local
+authority or wrapper was overwritten.
 
 ## Platform Wrappers
 
