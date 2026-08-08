@@ -5,6 +5,18 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `build-autonomous-agents` 2.0.0: require test-first deterministic seams,
+  eval-first agent judgment, durable checkpoints, automatic wake or
+  reconciliation, explicit stall detection, and recoverable waiting states.
+  Existing workload contracts must add the new continuity and completion
+  fields before adopting this major version.
+- `scaffold-harness` 2.0.0: add no-silent-stall runtime contracts, human
+  contribution without routine scheduling gates, an evidence-gated
+  FAST-inspired fluid allocation pilot, and separate Efficient/Balanced/Frontier
+  capability tiers from premium speed service tiers that remain off by default.
+  Existing orchestration policies must rename the former Fast capability tier
+  and add the new continuity requirements before adopting this major version.
+
 - `update-harness` 1.5.1: require managed Skill manifests to bind the exact
   per-Skill tag, resolved commit, tagged Skill identity, source path, and
   installed tree.

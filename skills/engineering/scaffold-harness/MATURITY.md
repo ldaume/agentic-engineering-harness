@@ -19,7 +19,7 @@ that solves the problem.
 | L2 - Repeatable procedure | One recurring procedure | Versioned instructions or Skills stabilize execution | Chooses and supervises the procedure | Repeated runs outperform unstructured prompting on relevant examples | Shared working methods begin to replace personal prompting habits |
 | L3 - Living repository | Ongoing work in one repository | Context, decisions, commands, checks, and learnings persist across sessions | Owns intent and material decisions; agents maintain bounded repository artifacts | Canonical context, owners, Fast Check, Full Gates, and cross-session learning are discoverable | Repository conventions and review responsibilities become explicit |
 | L4 - Grounded system | Work using external evidence or capabilities | Retrieval and tools provide attributable evidence and controlled actions | Approves authority, access, and consequential external effects | Sources, permissions, currentness, failure handling, and audit evidence are explicit | Information access and tool governance become part of delivery |
-| L5 - Stateful workflow | A bounded end-to-end workflow | Agents coordinate durable state, retries, recovery, stop conditions, and outcome evaluation | Handles exceptions and unresolved decisions | Repeated workflow runs are observable, recoverable, idempotent where needed, and evaluated | Roles shift from executing steps to designing and supervising workflows |
+| L5 - Stateful workflow | A bounded end-to-end workflow | Agents coordinate durable state, wake conditions, retries, recovery, stop conditions, and outcome evaluation | Handles exceptions and unresolved decisions | Repeated workflow runs are observable, recoverable, reconciled after missed progress, idempotent where needed, and evaluated | Roles shift from executing steps to designing and supervising workflows |
 | L6 - Governed value stream | Repeated delivery from intent through production feedback | The delivery system operates autonomously inside explicit goals, risk limits, and deterministic controls | Human-on-the-loop for governed domains; retains veto, incident authority, and accountability | Isolated execution, policy and quality gates, rollback, audit, incident ownership, production feedback, and proven oversight | Engineering, operations, security, and product delivery become one governed operating system |
 | L7 - Adaptive product system | Bounded product, investment, or portfolio decisions | The system selects problems, experiments, and investments within accountable strategic boundaries | Governs objectives, budgets, decision domains, and exceptions; can stop the system | Proven L6 controls plus trusted product signals, experiment and data boundaries, investment budgets, kill criteria, and human-governed portfolio decisions | Product strategy, funding, organizational design, and decision rights change-not only software delivery |
 
@@ -109,6 +109,13 @@ At department or company scale, map how product, engineering, data, operations,
 support, customer success, sales, marketing, finance, security, compliance,
 legal, and people functions contribute signals, decisions, controls, and
 feedback. Shared goals and data do not imply shared authority.
+
+Routine progress at L6-L7 must not depend on a human scheduling the next step.
+Humans and agents may both contribute signals. Humans remain valuable as intent
+and policy owners, domain and user evidence sources, capability enablers,
+credential custodians, exception and incident operators, feedback providers,
+and an effective stop path. Keep those contributions visible and durable
+without turning them into mandatory approval gates for already authorized work.
 
 ## Organizational Change
 

@@ -464,16 +464,24 @@ adapter:
 
 | Tier | Use | Default review |
 |---|---|---|
-| Fast | Clear, repeatable extraction, inventory, formatting, or mechanical checks | Deterministic checks or bounded sampling |
+| Efficient | Clear, repeatable extraction, inventory, formatting, or mechanical checks | Deterministic checks or bounded sampling |
 | Balanced | Everyday implementation, research, debugging, and normal code review | Fresh context plus target checks |
 | Frontier | Ambiguous decomposition, consequential integration, high-risk decisions, or material critique | Human boundary and independent evidence as the risk requires |
 
-Default spawned workers to Fast or Balanced. Escalate a worker only after a
+Default spawned workers to Efficient or Balanced. Escalate a worker only after a
 representative failure or when the task crosses a documented consequence
 boundary. A Frontier reviewer can critique material output from cheaper workers;
 routine review stays on the least expensive tier that preserves quality.
 Independence comes from fresh context, different failure modes, and evidence -
 not from a more expensive model name alone.
+
+Capability and service level are separate routing decisions. A premium speed
+mode does not make a model more capable. Keep Codex Fast Mode and analogous
+provider speed or priority tiers off by default because they increase total
+spend. Enable one only when a bounded latency requirement and representative
+evidence show that the time saved outweighs the higher service cost. Do not use
+a premium speed tier to compensate for unclear scope, the wrong capability
+tier, or missing parallelism.
 
 The tiers are portable; their adapters are not. Codex can use project defaults
 and role-specific agents. Claude Code can select rolling aliases or IDs in agent
@@ -668,6 +676,32 @@ hardening investment. Use vertical TDD for behavior intended to survive. Pull
 the next slice from current value, risk, and system constraints instead of
 attempting to pre-plan a complete solution.
 
+### Pilot Fluid Agent Allocation, Not Human Ceremony
+
+The [FAST method](https://www.fastagile.io/method) uses visible work, collective
+self-organization, fluid teams, and short synchronization cycles. For agents,
+treat that as a bounded allocation hypothesis, not a meeting template or a
+universal topology. Pilot it only when static queues or fixed specialist routes
+create measured waiting, handoff, or coordination waste.
+
+The pilot must provide:
+
+- one visible next valuable slice with its bounded context, evidence, authority,
+  checks, and completion signal
+- eligibility-based self-selection plus an atomic claim with one active owner
+  for each work identity
+- signal and work deduplication before execution
+- bounded claim age, heartbeat, and explicit requeue after the prior state and
+  side effects are inspected; never silently take over an uncertain run
+- one failure owner, capped retries, idempotent effects, and a durable next wake
+  condition for every blocked or partial result
+- limited work in progress and a resumable checkpoint whenever a useful
+  increment exists
+
+Do not copy human meetings, synchronized attendance, estimates, roles, or
+cadence for their own sake. Keep the pilot only when it improves useful outcome
+flow without worsening quality, recovery, total cost, or authority boundaries.
+
 ### Keep Roadmaps Honest
 
 Use horizons as investment decisions, not schedule theater:
@@ -721,11 +755,13 @@ A disposable prototype or spike has a hypothesis, timebox, isolation, and exit
 decision. It is discarded, iterated, or followed by an explicit production
 investment. It is never silently promoted.
 
-Production behavior grows through vertical TDD at a public seam: concrete
-domain example, failing behavior test, minimal implementation, refactor, and
-observable rollout. Behavior tests use Given/When/Then semantics without
-requiring a particular test framework or comment style. Testing is design
-feedback, not a phase after coding.
+Production behavior always starts through vertical TDD at a public seam:
+concrete domain example, failing behavior test, minimal implementation,
+refactor, and observable rollout. Nondeterministic agent judgment starts with a
+representative failing eval case and retains deterministic checks around its
+effects. Behavior tests use Given/When/Then semantics without requiring a
+particular test framework or comment style. Testing and evals are design
+feedback, not phases after coding.
 
 End-to-end craft does not mean one giant generalist Skill. `frontend-craft`
 and `backend-craft` remain independently installable profiles, while

@@ -33,25 +33,30 @@ coordination costs more than the work.
 
 Map provider models to three roles from current evidence:
 
-- **Fast:** clear, repeatable, high-volume extraction, mapping, or mechanical
+- **Efficient:** clear, repeatable, high-volume extraction, mapping, or mechanical
   checks.
 - **Balanced:** bounded implementation, research, debugging, and normal review
   that still need sound reasoning and tools.
 - **Frontier:** ambiguous decomposition, consequential synthesis, or material
   critique where a weaker result would create meaningful rework or risk.
 
-Default spawned workers to Fast or Balanced rather than inheriting the parent's
+Default spawned workers to Efficient or Balanced rather than inheriting the parent's
 Frontier model. Escalate after a representative failure or when the task crosses
 the documented risk boundary. A Frontier reviewer may critique material output
 from cheaper workers; routine green-path review does not require Frontier by
 default. Independence still requires fresh context and evidence, not merely a
 different model name.
 
+Keep capability and service level separate. Premium speed or priority modes do
+not raise model capability and remain off by default. Enable one only for a
+bounded latency requirement whose representative evidence shows lower total
+cost after higher service spend, retries, review, and failure impact.
+
 ## Host Adapters
 
 Map every active host independently through its native controls:
 
-| Host and surface | Native model control | Fast | Balanced | Frontier | Checked and re-check |
+| Host and surface | Native model control | Efficient | Balanced | Frontier | Checked and re-check |
 |---|---|---|---|---|---|
 | `<host, app, CLI, SDK, or CI>` | `<per-call, agent file, settings, router, or unavailable>` | `<alias or ID>` | `<alias or ID>` | `<alias or ID>` | `<date; catalog, plan, quality, price, or host trigger>` |
 

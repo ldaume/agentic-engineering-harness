@@ -29,6 +29,33 @@ Adopt a runtime only when the target names:
 Do not run an open-ended "overnight agent." Run a bounded workflow during an
 overnight window.
 
+## Durable Continuity Contract
+
+A non-interactive workflow must not rely on a live chat session or a later
+human prompt to schedule routine progress. Persist enough state outside the
+model session to reconstruct and continue the run:
+
+- stable work and run identity, source signal, and immutable input revision
+- admitted, queued, claimed, running, waiting, blocked, partial, succeeded,
+  failed, or cancelled state
+- completed effects and idempotency keys
+- last useful checkpoint and verified output
+- claim owner, heartbeat, progress deadline, retry count, and remaining budget
+- next eligible wake time or condition, failure owner, and escalation path
+
+Every routine non-terminal state needs an automatic wake path or a reconciler
+that can detect missed progress, inspect retained state and effects, and resume,
+requeue, fail, or escalate safely. Fence stale workers before replacement. Cap
+retries and never convert an uncertain external effect into a duplicate write.
+Alert on stalled progress instead of leaving a run silently waiting.
+
+Idle is valid only when no admissible signal exists. A deliberate pause records
+its reason and resume condition. Human questions, approvals, and capability or
+credential requests are valid durable waiting states with a correlated event
+wake, deadline, repeated alert or escalation, and terminal failure or
+cancellation when unanswered. They are never auto-approved, and a restart or
+compaction must not lose them.
+
 ## Smallest Execution Choice
 
 | Need | First choice |
@@ -120,6 +147,7 @@ Every scheduled run should declare:
 - maximum runtime, model and spend budget, and concurrency policy
 - idempotency key or duplicate-run behavior
 - checkpoint or resumability requirement
+- progress deadline, wake or reconciliation path, and failure owner
 - allowed side effects and approval gates
 - Fast Check, Full Gates, and artifact retention
 - success, partial success, blocked, and failed states

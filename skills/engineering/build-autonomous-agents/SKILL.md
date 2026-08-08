@@ -47,10 +47,11 @@ Define before implementation:
 - validated input and output schemas
 - model-visible context, Skills, and tools
 - deterministic validation and application of results
-- state owner and retention
+- work identity, deduplication key, state owner, and retention
 - isolation and permission boundary
 - timeout, token or spend budget, concurrency, and stop condition
-- retry, idempotency, recovery, and duplicate-effect handling
+- retry, idempotency, recovery, duplicate-effect handling, and failure owner
+- durable checkpoint, next wake condition, progress deadline, and reconciliation
 - eval cases, telemetry, alerts, and incident owner
 
 Separate probabilistic judgment from deterministic effects. Prefer a typed
@@ -97,9 +98,10 @@ For SDLC automation:
 - run the repository's Fast Check and relevant Full Gates
 - never merge, deploy, or publish without explicit authority
 
-Use TDD for deterministic seams and representative evals for agent behavior.
-Implement the narrowest path from input through verified outcome before adding
-channels, schedules, subagents, or generalized abstractions.
+Start deterministic seams with a failing behavior test and agent judgment with
+a representative failing eval case. Implement the narrowest path from input
+through verified outcome before adding channels, schedules, subagents, or
+generalized abstractions.
 
 ## 6. Prove Safety and Recovery
 
@@ -107,6 +109,14 @@ channels, schedules, subagents, or generalized abstractions.
 - Keep conversation state, workspace state, and business state distinct.
 - Do not assume an interrupted finite workflow resumes at an arbitrary
   TypeScript step.
+- Persist every useful increment and the next eligible action outside the live
+  model session. Every routine non-terminal state must have a wake condition or
+  a reconciler that owns progress; a human prompt is not a scheduler. A required
+  human response waits on a durable correlated event with a deadline and
+  escalation; it is never inferred or auto-approved.
+- Detect expired claims and missed progress deadlines. Inspect retained state
+  and external effects before a bounded requeue; alert the named failure owner
+  when safe recovery is not possible.
 - Put external side effects behind application-owned idempotency keys.
 - Use a durable external orchestrator when step-level resumability is required.
 - Keep model-visible data, logs, traces, and run history free of unnecessary
@@ -128,7 +138,9 @@ Emit enough structured evidence to answer:
 
 Complete the work only when the bounded outcome works end to end, failure and
 recovery behavior is demonstrated, permissions and budgets are explicit, and
-the runtime can be replaced without changing the product contract.
+the runtime can be replaced without changing the product contract. An idle
+system has no admissible signal; a paused, blocked, or partial run exposes its
+reason, owner, retained checkpoint, and next wake or escalation condition.
 
 ## Related Skills
 

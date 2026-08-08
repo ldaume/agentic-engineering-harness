@@ -253,10 +253,13 @@ reconcile infrastructure desired state.
   bounded worker tasks to the least expensive current model that passes
   representative checks; never optimize token price independently of retries,
   review cost, latency, and failure impact. Default repeated subagents to the
-  current Balanced tier, use the Fast tier for clear mechanical work, and
+  current Balanced tier, use the Efficient tier for clear mechanical work, and
   reserve Frontier for ambiguity, consequential integration, or material
   critique. A fresh Frontier reviewer can close material work produced by
   cheaper workers; routine review stays on the least expensive proven tier.
+  Keep model capability separate from provider speed or priority service tiers.
+  Leave premium speed modes off by default; enable one only when representative
+  evidence shows a bounded latency requirement outweighs its higher total cost.
 - Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
   cross-repository coordination. Discover live runtime controls before writing
   host-specific configuration. Keep the role contract provider-neutral and
@@ -269,7 +272,11 @@ reconcile infrastructure desired state.
   instead of pretending the optimization is active.
 - Add an agent runtime only for a bounded repeated workload. Prefer existing CI
   and scheduler controls, open-source self-hostable components, explicit
-  isolation, budgets, cancellation, evals, and target-owned telemetry.
+  isolation, budgets, cancellation, evals, and target-owned telemetry. Require
+  durable checkpoints, wake conditions, reconciliation, failure ownership, and
+  stall alerts so routine progress never depends on a later human prompt. Keep
+  required human decisions as durable correlated waits with deadlines and
+  escalation; never auto-approve them.
 - Treat currentness as an evolution contract, not a frozen research note. When
   evidence expires, a host or tool changes, or representative tasks expose a
   mismatch, re-evaluate the affected owner and keep, change, remove, supersede,
