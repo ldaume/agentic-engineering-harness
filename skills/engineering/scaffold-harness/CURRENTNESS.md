@@ -189,7 +189,12 @@ changes context discovery, rule precedence, or project-root behavior.
   The Codex subagent guide checked 2026-08-03 supports a project
   `[agents].default_subagent_model`, per-agent model and reasoning overrides,
   and project-scoped `.codex/agents/*.toml` files. Use those controls to keep
-  Balanced workers as the default and to make Fast or Frontier routes explicit.
+  Balanced workers as the default and to make Efficient or Frontier routes
+  explicit. Official Codex Speed guidance checked 2026-08-08 describes Fast
+  Mode as 1.5x model speed with GPT-5.6 credit consumption at 2.5x the Standard
+  rate. Keep Fast Mode off by default. It is a premium service tier, not a
+  capability tier, and requires separate evidence that a bounded latency need
+  justifies its higher total spend.
 - **Gemini CLI or successor:** Inspect current model routing precedence,
   subagent overrides, host migration notices, and the applicable API or plan
   pricing before configuring workers. Official docs checked 2026-08-03 expose
@@ -214,11 +219,12 @@ not in this portable Skill.
 
 ## Official Source Registry
 
-Checked on 2026-08-03. Re-open at use:
+Checked on 2026-08-03 unless a later date is named above. Re-open at use:
 
 - OpenAI model guidance: <https://developers.openai.com/api/docs/guides/latest-model>
 - OpenAI API pricing: <https://openai.com/api/pricing/>
 - OpenAI Codex rate card: <https://help.openai.com/en/articles/20001106-codex-rate-card>
+- OpenAI Codex speed and Fast Mode: <https://learn.chatgpt.com/docs/agent-configuration/speed>
 - OpenAI Codex subagents: <https://learn.chatgpt.com/docs/agent-configuration/subagents>
 - OpenAI Codex `AGENTS.md` loader: <https://github.com/openai/codex/blob/main/codex-rs/core/src/agents_md.rs>
 - Anthropic model overview: <https://platform.claude.com/docs/en/about-claude/models/overview>

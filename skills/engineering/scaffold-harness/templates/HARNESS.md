@@ -241,9 +241,12 @@ the target actually uses, reference canonical owners instead of copying
 policy, verify precedence and behavior per host, and remove stale adapters.
 
 Non-interactive CI or agent runtimes require a bounded workload contract, least
-privilege, secrets policy, cancellation, deterministic gates, telemetry, and
-retained evidence. A framework such as Flue is optional and must pass the
-runtime gate in the active `scaffold-harness` `RUNTIMES.md` reference.
+privilege, secrets policy, cancellation, deterministic gates, telemetry,
+retained checkpoints, automatic wake or reconciliation, failure ownership, and
+stall alerts. Routine progress must not depend on a later human prompt. Required
+human decisions remain durable correlated waits with deadlines and escalation;
+they are never auto-approved. A framework such as Flue is optional and must
+pass the runtime gate in the active `scaffold-harness` `RUNTIMES.md` reference.
 
 ## Repository and Team Topology
 

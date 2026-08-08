@@ -216,6 +216,12 @@ tests, observability, or human accountability.
 | Build and release | Retain accountability for product, security, and release authority | Implement vertical slices with TDD, update contracts, run checks, prepare integration | Fast Check, Full Gates, review, recovery, least privilege |
 | Operate and evolve | Own outcomes, risk appetite, and operating policy | Observe production, diagnose failures, fix causes, feed evidence into the next loop | Telemetry, incident paths, audit trail, rollback, currentness review |
 
+Humans and agents can both originate signals. At higher delegation levels,
+routine progress does not wait for a human to schedule the next step. Humans
+still contribute intent, domain evidence, feedback, new capabilities and
+credentials, exception decisions, incident response, and a stop path where
+their authority or different perspective is needed.
+
 This is one closed learning system, not a sequence where a complete
 specification is handed to development and tests appear at the end. Concepts
 evolve through evidence. Prototypes may be discarded. Production behavior
@@ -267,10 +273,12 @@ and unsupervised guesswork.
    bounded role, then use stronger integration or review only where consequence
    or ambiguity warrants it. Count retries, review, latency, and failure impact,
    not token price alone.
-8. **Provider-neutral routing.** Keep Fast, Balanced, and Frontier roles stable;
-   map them through separate live Codex, Claude Code, Cursor, Gemini CLI, Pi,
-   CI, or later-host adapters. New models earn promotion through representative
-   work instead of replacing a proven route by name alone.
+8. **Provider-neutral routing.** Keep Efficient, Balanced, and Frontier
+   capability roles stable; map them through separate live Codex, Claude Code,
+   Cursor, Gemini CLI, Pi, CI, or later-host adapters. Keep premium speed or
+   service tiers separate and off by default. New models and service tiers earn
+   promotion through representative work instead of replacing a proven route
+   by name alone.
 
 ## Core Skills and technology profiles
 
