@@ -41,6 +41,16 @@ Keep target-specific wrappers outside the managed `target` directory. The
 resolved commit protects against a moved or compromised tag; update it in the
 same change as `ref`.
 
+Verify manifest identity before copying content:
+
+- `ref` matches `<name>-v<semver>` and resolves through the exact
+  `refs/tags/<ref>` entry, not as an arbitrary Git revision
+- the tag resolves to the recorded `commit`
+- the tagged `SKILL.md` frontmatter name matches both `name` and the Skill path
+  basename; when the source has a catalog, its recorded path and version match
+  too
+- the installed file tree matches the Skill tree at that tag
+
 This manifest is target-owned. Do not confuse it with a source catalog's
 `skills-lock.json` or a client-generated Skills CLI lockfile.
 

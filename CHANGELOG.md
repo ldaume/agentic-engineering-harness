@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `update-harness` 1.5.1: require managed Skill manifests to bind the exact
+  per-Skill tag, resolved commit, tagged Skill identity, source path, and
+  installed tree.
+
 - `agent-sync` 1.17.1: gate autonomous PR merge on repository policy
   authorization; record a named blocker when merge is disallowed.
 
