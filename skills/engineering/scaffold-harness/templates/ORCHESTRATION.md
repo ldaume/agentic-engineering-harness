@@ -50,8 +50,11 @@ different model name.
 Keep capability and service level separate. Premium speed or priority modes do
 not raise model capability. Never enable Codex Fast Mode or analogous premium
 speed/service tiers for any agent, Task, subagent, or worker (`-fast`,
-`fast=true`, or host equivalents). Children inherit normal processing only.
-Efficient means a cheaper capability-tier model, never Fast.
+`High Fast`, `fast=true`, or host equivalents). Subagents remain allowed; this
+rule forbids Fast Mode on children, not delegation. If the host defaults a
+child to Fast, cancel and re-spawn without Fast. `model: inherit` never
+authorizes Fast Mode. Efficient means a cheaper capability-tier model, never
+Fast.
 
 ## Host Adapters
 

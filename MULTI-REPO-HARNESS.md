@@ -478,8 +478,9 @@ not from a more expensive model name alone.
 Capability and service level are separate routing decisions. A premium speed
 mode does not make a model more capable. Never enable Codex Fast Mode or
 analogous provider speed or priority tiers for any agent, Task, subagent, or
-worker (`-fast`, `fast=true`, or host equivalents). Children inherit normal
-processing only. Efficient means a cheaper capability-tier model, never Fast.
+worker (`-fast`, `High Fast`, `fast=true`, or host equivalents). Subagents
+remain allowed; if the host defaults a child to Fast, cancel and re-spawn
+without Fast. Efficient means a cheaper capability-tier model, never Fast.
 Do not use a premium speed tier to compensate for unclear scope, the wrong
 capability tier, or missing parallelism.
 
@@ -559,13 +560,14 @@ host's real precedence must be inspected. Semantic ownership follows the work:
 | Project repository | Local instructions, domain language, commands, wrappers, project-only Skills, checks, and permissions | A duplicate copy of every upstream procedure |
 | User or global scope | A small reusable bootstrap and host-managed capabilities | Target policy, broad workflow collections, or hidden project dependencies |
 
-Resolve the goal in the owning project first. Use a project-local Skill or
-adapter for target semantics, then an explicitly managed private or public
-dependency for the generic procedure. Keep only the bootstrap global. Pin
-shared dependencies to an immutable version and resolved commit, preserve
-local wrappers outside managed directories, and select one owner for each
-workflow. Public availability grants neither private-system membership nor
-additional autonomy.
+Resolve Skills in this order: first-party portable Skills from this catalog
+and pins the consumer harness references; installed managed bootstrap copies;
+project-local Skills or wrappers only for genuine local deltas; then explicitly
+managed private organization or team Skills for non-public procedures. Keep
+only the bootstrap global. Pin shared dependencies to an immutable version and
+resolved commit, preserve local wrappers outside managed directories, and
+select one owner for each workflow. Public availability grants neither
+private-system membership nor additional autonomy.
 
 The global bootstrap stays intentionally small:
 

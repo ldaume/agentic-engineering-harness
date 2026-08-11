@@ -276,9 +276,12 @@ and unsupervised guesswork.
 8. **Provider-neutral routing.** Keep Efficient, Balanced, and Frontier
    capability roles stable; map them through separate live Codex, Claude Code,
    Cursor, Gemini CLI, Pi, CI, or later-host adapters. Never enable premium
-   speed or service tiers (Fast Mode, `-fast`, `fast=true`); Efficient means a
-   cheaper capability-tier model only. New models earn promotion through
-   representative work instead of replacing a proven route by name alone.
+   speed or service tiers (Fast Mode, `-fast`, `High Fast`, `fast=true`);
+   subagents remain allowed, and a Fast default must be re-spawned without Fast.
+   Prefer first-party portable Skills before project-local duplicates of the
+   same method. Efficient means a cheaper capability-tier model only. New models
+   earn promotion through representative work instead of replacing a proven
+   route by name alone.
 
 ## Core Skills and technology profiles
 

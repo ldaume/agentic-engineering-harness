@@ -25,13 +25,18 @@ determine fitness for this workload.
 
 Resolve the effective Skill set in this order:
 
-1. inspect the target project's Skills and host-specific precedence
-2. inspect workspace, user, and global Skills already available to the host
-3. follow an explicit upstream complement named by the selected local Skill
-4. when no named complement fits, use an installed upstream
+1. first-party portable Skills from this catalog /
+   `https://github.com/ldaume/agentic-engineering-harness` and Skills or pins
+   the consumer harness references
+2. installed managed bootstrap copies of those first-party Skills
+3. project-local Skills or wrappers only for genuine local deltas — do not
+   invent local duplicates of first-party methods
+4. explicitly managed private organization or team Skills for non-public
+   procedures
+5. when no named complement fits, use an installed upstream
    [`find-skills`](https://www.skills.sh/vercel-labs/skills/find-skills) or
    `npx skills find "<technology> <major-version> <task>"`
-5. proceed without a Skill when general capability plus existing checks is the
+6. proceed without a Skill when general capability plus existing checks is the
    smaller reliable path
 
 Before adopting a public Skill:
@@ -192,10 +197,11 @@ changes context discovery, rule precedence, or project-root behavior.
   Balanced workers as the default and to make Efficient or Frontier routes
   explicit. Official Codex Speed guidance checked 2026-08-08 describes Fast
   Mode as 1.5x model speed with GPT-5.6 credit consumption at 2.5x the Standard
-  rate. Never enable Fast Mode or analogous premium speed/service tiers. It is
-  a premium service tier, not a capability tier; Efficient remains a cheaper
-  model route, never Fast. Parents must not spawn workers with `-fast`,
-  `fast=true`, or host premium-speed flags.
+  rate. Never enable Fast Mode or analogous premium speed/service tiers (`-fast`,
+  `High Fast`, `fast=true`, or host equivalents). It is a premium service tier,
+  not a capability tier; Efficient remains a cheaper model route, never Fast.
+  Subagents remain allowed; parents must not spawn workers with Fast Mode. If
+  the host defaults a child to Fast, cancel and re-spawn without Fast.
 - **Gemini CLI or successor:** Inspect current model routing precedence,
   subagent overrides, host migration notices, and the applicable API or plan
   pricing before configuring workers. Official docs checked 2026-08-03 expose

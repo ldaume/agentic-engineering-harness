@@ -344,9 +344,11 @@ If it is absent, stale, or unenforceable, inspect the live controls and either
 refresh the adapter or keep the task with the capable parent.
 Capability selection never authorizes a premium speed/service tier. All agents
 use normal provider processing; Codex Fast Mode and provider equivalents stay
-disabled. Parents must not spawn Task tools, subagents, or workers with Fast
-Mode, `-fast`, `fast=true`, or any premium speed flag. A host override that
-cannot be rejected or detected is not eligible for autonomous dispatch.
+disabled. Subagents remain allowed; parents must not spawn Task tools,
+subagents, or workers with Fast Mode, `-fast`, `High Fast`, `fast=true`, or any
+premium speed flag. If the host defaults a child to Fast, cancel and re-spawn
+without Fast. A host override that cannot be rejected or detected is not
+eligible for autonomous dispatch.
 
 Every review ends with keep, change, remove, supersede, rebuild, or no action.
 
@@ -484,10 +486,15 @@ Reference the owner instead of duplicating its content.
 - Use managed `write-a-skill` as the portable owner for Skill creation and
   revision. Host-native creators, commands, and plugins are adapters only;
   verify discovery independently for every declared host.
-- Resolve target semantics from project-local Skills or wrappers, then use the
-  explicitly managed private organization, team, or public dependency. Keep
-  installed user or global Skills to the small bootstrap and discovery role.
-  Inspect the host's actual load precedence separately.
+- Resolve Skills in this order: (1) first-party portable Skills from this
+  catalog / `https://github.com/ldaume/agentic-engineering-harness` and Skills
+  or pins the consumer harness references; (2) installed managed bootstrap
+  copies of those first-party Skills; (3) project-local Skills or wrappers only
+  for genuine local deltas — do not invent local duplicates of first-party
+  methods; (4) explicitly managed private organization or team Skills for
+  non-public procedures. Keep installed user or global Skills to the small
+  bootstrap and discovery role. Inspect the host's actual load precedence
+  separately.
 - Keep project semantics local, organization procedures in their private
   catalog, portable methods in their public upstream, and only the small
   bootstrap global. A coordinator owns placement and policy, not every Skill's
