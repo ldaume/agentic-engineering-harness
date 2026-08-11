@@ -342,6 +342,11 @@ New models enter a measured candidate lane before they replace a proven route.
 Before the first delegated task in a session, resolve the active host adapter.
 If it is absent, stale, or unenforceable, inspect the live controls and either
 refresh the adapter or keep the task with the capable parent.
+Capability selection never authorizes a premium speed/service tier. All agents
+use normal provider processing; Codex Fast Mode and provider equivalents stay
+disabled. Parents must not spawn Task tools, subagents, or workers with Fast
+Mode, `-fast`, `fast=true`, or any premium speed flag. A host override that
+cannot be rejected or detected is not eligible for autonomous dispatch.
 
 Every review ends with keep, change, remove, supersede, rebuild, or no action.
 

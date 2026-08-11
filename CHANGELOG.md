@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `coding-discipline` 1.4.0: prefer harness-referenced or catalog
+  `coding-discipline` for TDD; follow a project-local `tdd` Skill only as a
+  thin wrapper with real local deltas, not a portable TDD duplicate.
+- `scaffold-harness` 2.1.0: Never enable premium Fast Mode for parents or
+  spawned workers; Efficient remains a cheaper capability tier only. Align
+  templates, CURRENTNESS, and MULTI-REPO-HARNESS with that hard rule.
 - `build-autonomous-agents` 2.0.0: require test-first deterministic seams,
   eval-first agent judgment, durable checkpoints, automatic wake or
   reconciliation, explicit stall detection, and recoverable waiting states.

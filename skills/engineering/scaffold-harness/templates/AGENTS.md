@@ -49,6 +49,9 @@
 
 ## Boundaries
 
+- Never enable Fast Mode, `-fast`, `fast=true`, or premium speed/service tiers
+  for this session or any spawned Task/subagent/worker; children inherit normal
+  processing only. Efficient means a cheaper capability-tier model, never Fast.
 - Preserve repository-local product, architecture, ownership, and security
   authority.
 - Ask when intent or authority is unresolved, or an action is external,

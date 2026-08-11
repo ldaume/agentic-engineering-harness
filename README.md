@@ -275,10 +275,10 @@ and unsupervised guesswork.
    not token price alone.
 8. **Provider-neutral routing.** Keep Efficient, Balanced, and Frontier
    capability roles stable; map them through separate live Codex, Claude Code,
-   Cursor, Gemini CLI, Pi, CI, or later-host adapters. Keep premium speed or
-   service tiers separate and off by default. New models and service tiers earn
-   promotion through representative work instead of replacing a proven route
-   by name alone.
+   Cursor, Gemini CLI, Pi, CI, or later-host adapters. Never enable premium
+   speed or service tiers (Fast Mode, `-fast`, `fast=true`); Efficient means a
+   cheaper capability-tier model only. New models earn promotion through
+   representative work instead of replacing a proven route by name alone.
 
 ## Core Skills and technology profiles
 

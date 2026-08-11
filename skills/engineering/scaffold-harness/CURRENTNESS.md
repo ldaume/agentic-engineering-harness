@@ -192,9 +192,10 @@ changes context discovery, rule precedence, or project-root behavior.
   Balanced workers as the default and to make Efficient or Frontier routes
   explicit. Official Codex Speed guidance checked 2026-08-08 describes Fast
   Mode as 1.5x model speed with GPT-5.6 credit consumption at 2.5x the Standard
-  rate. Keep Fast Mode off by default. It is a premium service tier, not a
-  capability tier, and requires separate evidence that a bounded latency need
-  justifies its higher total spend.
+  rate. Never enable Fast Mode or analogous premium speed/service tiers. It is
+  a premium service tier, not a capability tier; Efficient remains a cheaper
+  model route, never Fast. Parents must not spawn workers with `-fast`,
+  `fast=true`, or host premium-speed flags.
 - **Gemini CLI or successor:** Inspect current model routing precedence,
   subagent overrides, host migration notices, and the applicable API or plan
   pricing before configuring workers. Official docs checked 2026-08-03 expose

@@ -476,12 +476,12 @@ Independence comes from fresh context, different failure modes, and evidence -
 not from a more expensive model name alone.
 
 Capability and service level are separate routing decisions. A premium speed
-mode does not make a model more capable. Keep Codex Fast Mode and analogous
-provider speed or priority tiers off by default because they increase total
-spend. Enable one only when a bounded latency requirement and representative
-evidence show that the time saved outweighs the higher service cost. Do not use
-a premium speed tier to compensate for unclear scope, the wrong capability
-tier, or missing parallelism.
+mode does not make a model more capable. Never enable Codex Fast Mode or
+analogous provider speed or priority tiers for any agent, Task, subagent, or
+worker (`-fast`, `fast=true`, or host equivalents). Children inherit normal
+processing only. Efficient means a cheaper capability-tier model, never Fast.
+Do not use a premium speed tier to compensate for unclear scope, the wrong
+capability tier, or missing parallelism.
 
 The tiers are portable; their adapters are not. Codex can use project defaults
 and role-specific agents. Claude Code can select rolling aliases or IDs in agent
