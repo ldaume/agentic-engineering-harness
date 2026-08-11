@@ -29,7 +29,7 @@ Resolve the effective Skill set in this order:
    `https://github.com/ldaume/agentic-engineering-harness` and Skills or pins
    the consumer harness references
 2. installed managed bootstrap copies of those first-party Skills
-3. project-local Skills or wrappers only for genuine local deltas — do not
+3. project-local Skills or wrappers only for genuine local deltas -  do not
    invent local duplicates of first-party methods
 4. explicitly managed private organization or team Skills for non-public
    procedures
