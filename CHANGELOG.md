@@ -5,6 +5,9 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.2.0: prefer first-party portable Skills before
+  project-local duplicates; keep Never Fast Mode on parents and children with
+  cancel/re-spawn if a host defaults Fast; subagents remain allowed.
 - `coding-discipline` 1.4.0: prefer harness-referenced or catalog
   `coding-discipline` for TDD; follow a project-local `tdd` Skill only as a
   thin wrapper with real local deltas, not a portable TDD duplicate.

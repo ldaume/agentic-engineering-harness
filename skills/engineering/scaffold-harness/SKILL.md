@@ -258,9 +258,10 @@ reconcile infrastructure desired state.
   critique. A fresh Frontier reviewer can close material work produced by
   cheaper workers; routine review stays on the least expensive proven tier.
   Keep model capability separate from provider speed or priority service tiers.
-  Never enable premium Fast Mode (`-fast`, `fast=true`, or host equivalents)
-  for parents or spawned workers; children inherit normal processing only.
-  Efficient means a cheaper capability-tier model, never Fast.
+  Never enable premium Fast Mode (`-fast`, `High Fast`, `fast=true`, or host
+  equivalents) for parents or spawned workers. Subagents remain allowed; if the
+  host defaults a child to Fast, cancel and re-spawn without Fast. Efficient
+  means a cheaper capability-tier model, never Fast.
 - Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
   cross-repository coordination. Discover live runtime controls before writing
   host-specific configuration. Keep the role contract provider-neutral and
