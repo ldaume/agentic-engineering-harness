@@ -99,8 +99,10 @@ Multi-step work: brief plan as `[Step] -> verify: [check]`.
 ## TDD
 
 Tests are design feedback, not a phase after implementation. Use vertical
-slices - one behavior test, minimal implementation, repeat. If the repo has a
-**tdd** skill, follow it.
+slices - one behavior test, minimal implementation, repeat. Prefer the
+harness-referenced or catalog `coding-discipline` Skill (or the consumer's
+pinned release). Follow a project-local `tdd` Skill only when it is a thin
+wrapper with real local deltas, not a duplicate of portable TDD.
 
 - Test through **public interfaces** (API routes, package exports, user-visible behavior).
 - Express each behavior with Given/When/Then semantics: preconditions and

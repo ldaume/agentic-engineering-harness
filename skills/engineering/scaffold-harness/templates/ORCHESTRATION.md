@@ -48,9 +48,10 @@ default. Independence still requires fresh context and evidence, not merely a
 different model name.
 
 Keep capability and service level separate. Premium speed or priority modes do
-not raise model capability and remain off by default. Enable one only for a
-bounded latency requirement whose representative evidence shows lower total
-cost after higher service spend, retries, review, and failure impact.
+not raise model capability. Never enable Codex Fast Mode or analogous premium
+speed/service tiers for any agent, Task, subagent, or worker (`-fast`,
+`fast=true`, or host equivalents). Children inherit normal processing only.
+Efficient means a cheaper capability-tier model, never Fast.
 
 ## Host Adapters
 

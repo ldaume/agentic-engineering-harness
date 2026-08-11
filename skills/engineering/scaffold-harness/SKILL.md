@@ -258,8 +258,9 @@ reconcile infrastructure desired state.
   critique. A fresh Frontier reviewer can close material work produced by
   cheaper workers; routine review stays on the least expensive proven tier.
   Keep model capability separate from provider speed or priority service tiers.
-  Leave premium speed modes off by default; enable one only when representative
-  evidence shows a bounded latency requirement outweighs its higher total cost.
+  Never enable premium Fast Mode (`-fast`, `fast=true`, or host equivalents)
+  for parents or spawned workers; children inherit normal processing only.
+  Efficient means a cheaper capability-tier model, never Fast.
 - Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
   cross-repository coordination. Discover live runtime controls before writing
   host-specific configuration. Keep the role contract provider-neutral and
