@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.3.0: close the git loop on remote **and** local default;
+  fast-forward primary after merge; move the session root off a task worktree
+  before deleting it; grill before involving the human for ordinary close-out.
+
 - `scaffold-harness` 2.2.0: prefer first-party portable Skills before
   project-local duplicates; keep Never Fast Mode on parents and children with
   cancel/re-spawn if a host defaults Fast; subagents remain allowed.
