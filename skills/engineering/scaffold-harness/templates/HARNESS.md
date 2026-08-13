@@ -8,7 +8,13 @@ from observed evidence.
 - **Commit / push / merge:** when repository policy authorizes routine git
   completion, do it by default after checks pass. Closing the git loop is part
   of finishing - do not wait for a human reminder, and do not re-ask for
-  ordinary commit, push, or merge. When this session opened a PR/MR and
+  ordinary commit, push, or merge. Closed means the change is on the remote
+  default branch **and** the session's local default-branch checkout matches
+  that tip. Do not claim done from a task worktree unless the human explicitly
+  asked to remain on that branch (then leave the worktree; remote+primary
+  match is still required). Do not remove a task worktree until the **host
+  session/workspace root** (not merely shell cwd) is a surviving checkout on
+  local default. When this session opened a PR/MR and
   required checks are green with no conflicts, merge it through the
   repository's normal path before claiming done. Do not leave mergeable
   session-owned PRs open for a human reminder. Do not force-merge past red
@@ -16,7 +22,9 @@ from observed evidence.
   preferences lose to this policy for routine ready work; an explicit
   in-session human hold or stop still wins. Ask only for unusually critical
   git operations (secrets in the tree, force-push, rewriting shared history,
-  unclear blast radius on a shared branch).
+  unclear blast radius on a shared branch). If unsure whether to involve the
+  human, grill the remaining uncertainty first; involve them only when that
+  routing requires it.
 
 ## Stewardship
 
@@ -173,34 +181,51 @@ did not claim in **this** session as foreign protected state.
    the same loop. Strip any review-surface producer chrome from the commit and
    from any PR/MR title or body before and after create. Do not force-merge
    onto a shared branch as ceremony or past red required checks. Do not leave
-   "should I commit/merge?" as a human chore.
+   "should I commit/merge?" as a human chore. Do not send a completion that
+   still asks the human to merge, pull, or confirm ordinary git close-out.
+   Optional next-work questions wait until the session root is on local
+   default matching remote.
 2. **Close the integration loop in the same session.** Autonomously merge
    session-owned PRs/MRs and fan-out tips when required checks are green and
    there are no conflicts. Use the repository's normal merge path (clean
    merge/rebase/squash as that repo uses - never force-push shared history).
-   Do this before claiming done (local and remote). Do not leave mergeable
-   session-owned PRs open for a human reminder. If merge is blocked (failing
-   required checks, conflicts, or foreign WIP), record the named blocker in
-   `STATUS.md` with a clear next action. Do not force-merge past red required
-   checks.
+   Do this before claiming done (local and remote). After the remote merge, update the primary default-branch checkout to
+   origin's default with `git fetch` and **ff-only**. Never reset, rebase, or
+   merge onto primary default to force the match. If ff-only cannot proceed
+   (dirty primary, diverged history, foreign `active` lease on that path, or
+   another checkout already holding default with unclear ownership), record
+   the named blocker in `STATUS.md` and stop; do not make primary match by
+   destroying foreign state. A remote merge without that local update is not
+   a closed loop unless that blocker is recorded. Do not leave mergeable session-owned PRs open for a human
+   reminder. If merge is blocked (failing required checks, conflicts, or
+   foreign WIP), record the named blocker in `STATUS.md` with a clear next
+   action. Do not force-merge past red required checks.
 3. **Return surviving checkouts to the default branch while still holding the
    lease.** After steps 1-2, for every repository this session edited (or
    whose checkout this session left off the default branch): leave the session
-   working root (if it still exists) and the repository's primary sibling
-   checkout on the default integration branch (`main`, `master`, or the
-   configured default) with a clean working tree.
-  - Keep remote task branches that still back open PRs or unmerged work -
+   working root and the repository's primary sibling checkout on the default
+   integration branch (`main`, `master`, or the configured default) with a
+   clean working tree, at the merged tip from step 2. When the session is in a task worktree, move the **host session/workspace
+   root** to the primary default checkout instead of trying to check out
+   default in the worktree (primary already holds it). Shell `cd` is not
+   enough. Skip this move when the human explicitly asked to remain on the
+   task branch; that skip is not an open git loop once remote and primary
+   already match.
+   - Keep remote task branches that still back open PRs or unmerged work -
      this step is a checkout, not a branch delete or history rewrite.
-  - If this session's tree is still dirty, finish or explicitly abandon that
+   - If this session's tree is still dirty, finish or explicitly abandon that
      work before switching; do not force-checkout over unresolved dirt.
-  - If switching is blocked (another worktree already holds the default
+   - If switching is blocked (another worktree already holds the default
      branch, a foreign `active` lease covers the path, conflicts, or foreign
      WIP ownership is unclear), report the named blocker; do not force past it.
-  - Skip when the human explicitly asked to remain on the task branch.
-  - Checkout only - do not pull, reset, or merge the default branch as part
-     of this step.
+   - Skip when the human explicitly asked to remain on the task branch.
+   - After the primary is already at the merged remote tip from step 2,
+     checkout only on other surviving session checkouts - do not pull, reset,
+     or merge the default branch as part of this step.
 4. Release leases this session holds: set `state` to `done` (or `abandoned`),
-   update STATUS when present, then remove only those worktrees. Prefer cleanup
+   update STATUS when present, then remove only those worktrees. Move the host session/workspace root off those worktrees first. Do not
+   delete a worktree while it is still the host workspace root. Do not claim
+   done from a task worktree unless the remain-on-branch skip above applies. Prefer cleanup
    from the primary checkout. Run `git worktree prune` only for stale metadata
    of already-removed trees.
 5. If ownership is uncertain, leave the worktree. Listing orphans is required;
