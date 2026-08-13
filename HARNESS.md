@@ -16,6 +16,18 @@ Do not infer L6 or L7 authority from agent capability. Broader delivery or
 product autonomy belongs in the affected system and requires its own controls,
 evidence, ownership, and oversight decision.
 
+## Session currency
+
+Before substantial work, use this repository's origin default tip and
+`skills-lock.json` on that tip, not a remembered copy or a task worktree cwd.
+Do not skip this because the task looks small. Git close-out stays a finish
+step.
+
+1. `git fetch` origin. Read `HARNESS.md` from `origin/<default>` or GitHub.
+2. Ff-only a clean primary when behind origin; if blocked, keep reading origin.
+3. Confirm Skill versions against origin `skills-lock.json` before following a
+   Skill in this catalog.
+
 ## Autonomous Stewardship
 
 For every significant task:

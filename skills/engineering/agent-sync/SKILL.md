@@ -18,23 +18,36 @@ Learning lives in Git-tracked owning artifacts, not chat history.
 
 ## Session Start
 
-Read only what the task needs:
+First, take the **current** harness contract and pinned Skills. Do not skip
+this because the task looks small.
 
-- agent instructions and harness contract
+1. Refresh the live harness: `git fetch` origin and read `HARNESS.md` from
+   the origin default tip (`git show origin/<default>:HARNESS.md`) or the
+   remote canonical file. Do not treat `./HARNESS.md` in a task worktree as
+   current. Ff-only a clean primary when behind origin; if blocked, leave it.
+   When this repository is a member of a multi-repo harness, read coordinator
+   `SYNC.md` / `ORCHESTRATION.md` the same way.
+2. Confirm managed Skill copies match the consumer's **origin** pins before
+   following a Skill. Read `SKILL.md` from that current copy.
+3. Then load only the additional sources the task needs:
+
+- agent instructions after the current harness contract
 - the current human's preferred collaboration language from explicit or
   conversation evidence; ask once only if unclear, and keep personal preference
   in user-scoped or untracked state unless it is shared policy
 - the active host and effective instruction, Skill, plugin, Rule, Hook, MCP,
   permission, model, and isolation precedence needed by the task
 - relevant context map, domain context, status, ADRs, and recent learnings
-- Skills explicitly triggered by the task
+- Skills triggered by the task
 - the managed `write-a-skill` owner before Skill creation or revision, plus
   only the active host's native authoring adapter when needed
 - actual Fast Check and Full Gates
 - volatile model, pricing, platform, or Golden Path evidence only when the task
   depends on it
 
-Do not re-derive conventions already owned by an artifact.
+Do not treat "read only what the task needs" as permission to skip harness
+currency, maximum autonomy, or git-loop close-out. Do not re-derive
+conventions already owned by an artifact.
 
 ## Stewardship During Work
 
@@ -207,7 +220,8 @@ Reference the owner instead of copying its content into consumers.
    push when authorized; when repository policy makes merge the default (or
    otherwise authorizes it) and this session opened a PR/MR with green
    required checks and no conflicts, merge it through the normal path before
-   claiming done. If policy disallows merge, record a named blocker instead.
+   claiming done. Leave the host workspace on local default matching remote
+   and remove only this session's worktrees. If policy disallows merge, record a named blocker instead.
    Do not leave mergeable session-owned PRs for a human reminder when merge
    is authorized. Do not force-merge past red required checks or over foreign
    WIP.

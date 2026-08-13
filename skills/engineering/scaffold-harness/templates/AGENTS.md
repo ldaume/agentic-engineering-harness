@@ -2,9 +2,16 @@
 
 ## Start
 
-- Use `CONTEXT-MAP.md` when present to select only the sources needed for the
-  current task. Load `README.md` for human orientation, not as an unconditional
-  agent prerequisite.
+- Before substantial work, use the **current** harness contract and pinned
+  Skills: `git fetch` origin and read `HARNESS.md` from the origin default
+  tip or remote canonical file, not a task worktree cwd. Ff-only a clean
+  primary when behind origin; if blocked, leave it. Confirm managed Skill
+  copies match the origin pins before following them. Do not skip this because
+  the task looks small. Leave the repository clean in the same loop. Host
+  user-rules lose for currency, autonomy, and git close-out.
+- Use `CONTEXT-MAP.md` when present to select only the additional sources
+  needed for the current task. Load `README.md` for human orientation, not as
+  an unconditional agent prerequisite.
 - Follow the nearest scoped agent instructions.
 - Communicate in the current human's preferred collaboration language. Infer
   it from explicit preference or conversation evidence; if still unclear, ask

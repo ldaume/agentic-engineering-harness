@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `agent-sync` 1.18.0: session start is a currency gate; current harness and
+  pinned Skills come before "only what the task needs"; close-out leaves the
+  host workspace on local default.
+- `scaffold-harness` 2.4.0: templates require session currency (current
+  harness and pins) and a clean git loop before claiming done.
+
 - `scaffold-harness` 2.3.0: close the git loop on remote **and** local default;
   fast-forward primary after merge; move the session root off a task worktree
   before deleting it; grill before involving the human for ordinary close-out.
