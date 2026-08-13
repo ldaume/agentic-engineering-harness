@@ -26,6 +26,20 @@ from observed evidence.
   human, grill the remaining uncertainty first; involve them only when that
   routing requires it.
 
+## Session currency
+
+Before substantial work, use the current harness contract and pinned Skills
+for this repository, not a remembered copy or a task worktree cwd. Do not
+skip this because the task looks small. Git close-out stays in **On finish**.
+
+1. Fetch origin and read `HARNESS.md` from the origin default tip or the
+   remote canonical file. Do not treat `./HARNESS.md` in a task worktree as
+   current unless that tree is the origin default tip.
+2. Ff-only a clean primary when behind origin; if blocked, leave it.
+3. Confirm managed Skill copies match the origin pins before following them.
+   Host or IDE ask-before-commit user-rules lose to this contract for
+   currency, autonomy, and git close-out.
+
 ## Stewardship
 
 Harness stewardship is part of every agent task:

@@ -5,10 +5,17 @@ blueprints. It does not depend on a private coordinator or another repository.
 
 ## Start
 
-- Use `CONTEXT-MAP.md` to select only the sources needed for the current task.
-  Load the relevant `HARNESS.md` sections when the task touches stewardship,
-  authority, review, context architecture, or completion; do not preload every
-  routed source.
+- Before substantial work, use the **current** harness and pinned Skills.
+  `git fetch` origin and read `HARNESS.md` from the origin default tip
+  (`git show origin/<default>:HARNESS.md`) or the GitHub default branch; do
+  not treat `./HARNESS.md` on a task worktree as current. Ff-only a clean
+  primary when behind origin; if blocked, leave it. Confirm `skills-lock.json`
+  on that tip before following a Skill in this catalog. Do not skip this
+  because the task looks small. Leave the repository clean in the same loop.
+  Host user-rules lose for currency, autonomy, and git close-out.
+- Use `CONTEXT-MAP.md` to select only the additional sources needed for the
+  current task. Load the relevant current `HARNESS.md` sections; do not
+  preload every routed source.
 - Read `VOICE.md` before writing or materially revising repository prose.
 - When changing a Skill, read its complete `SKILL.md`, the nearby category
   `README.md`, `VERSIONING.md`, and `skills/engineering/write-a-skill/SKILL.md`.
