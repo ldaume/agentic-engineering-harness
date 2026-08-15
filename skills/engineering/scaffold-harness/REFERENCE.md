@@ -167,14 +167,13 @@ scope, recovery or rollback evidence, and outcome. A run that changes a gate
 counts only after fresh-context critique and a negative proof that the gate
 catches the failure it owns.
 
-After at least two successful runs in the same declared class, including an
-exercised recovery or rollback path, run the autonomy review only when the runs
-also cover the class's declared variability and meaningful failure modes. Two
-runs are a floor, not a general readiness threshold; require more when coverage,
-risk, or failure impact warrants it. If every gate is complete, present the
-accountable human one immediate promote-or-hold decision. Promotion applies
-only to the demonstrated class. A breach, unobservable failure, failed recovery,
-or unresolved material decision immediately returns the workflow to
+One representative successful live run may be sufficient for a bounded,
+reversible class when meaningful checks, observation, and recovery readiness are
+demonstrated. Require further qualifying runs only when variability, risk, or
+failure impact needs more evidence; exercise recovery when target policy or the
+class's risk requires it. Apply the target policy's promotion process only to
+the demonstrated class. A breach, unobservable failure, failed recovery, or
+unresolved material decision immediately returns the workflow to
 human-in-the-loop, records the hold reason, and resets its evidence before any
 new promotion run.
 

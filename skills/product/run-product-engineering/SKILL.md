@@ -129,6 +129,12 @@ review departments.
 Build quality, security, operability, accessibility, telemetry, and evidence
 into the slice. Use a risk-based release policy with least privilege, isolation,
 review, progressive exposure, rollback, and explicit approval where required.
+When target policy permits, release without a routine human gate when expected
+value is positive, blast radius is bounded, checks are meaningful, observation
+is available, and rollback is executable. Remaining non-blocking uncertainty is
+evidence and a follow-up signal, not an automatic release gate. Escalate only
+for missing authority or secrets, irreversible external effects, contradictory
+product intent, or damage that cannot be bounded.
 
 The release completes only when the intended behavior, telemetry, rollback, and
 ownership are live and inspectable.

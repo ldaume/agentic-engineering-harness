@@ -447,10 +447,11 @@ For each active promotion candidate:
    linking authoritative checks, reviews, audit logs, and incidents.
 4. Do not let a gate-changing run count until fresh critique and a negative
    proof show that the gate catches the failure it owns.
-5. After at least two successful runs in the same class, including an exercised
-   recovery or rollback path, run the autonomy review only when the evidence
-   covers declared variability and meaningful failure modes. Two runs are a
-   floor; require more when coverage or risk warrants it.
+5. One representative successful live run may be sufficient for a bounded,
+   reversible class when meaningful checks, observation, and recovery readiness
+   are demonstrated. Require further qualifying runs only when variability,
+   risk, or failure impact needs more evidence; exercise recovery when target
+   policy or the class's risk requires it.
 6. Present a ready promote-or-hold decision immediately. Promote only the
    demonstrated class; retain human veto, incident authority, and accountability.
 7. On a boundary, observability, or recovery failure, immediately return the
