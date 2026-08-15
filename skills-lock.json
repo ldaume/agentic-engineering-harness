@@ -49,6 +49,12 @@
       "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
       "version": "1.0.1"
     },
+    "deliver-dependency-upgrades": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/engineering/deliver-dependency-upgrades/SKILL.md",
+      "version": "1.0.0"
+    },
     "frontend-craft": {
       "source": "local",
       "sourceType": "path",
@@ -125,7 +131,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/run-product-engineering/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.3.0"
     },
     "scaffold-distributed-context": {
       "source": "local",
@@ -137,7 +143,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "2.4.0"
+      "version": "2.5.0"
     },
     "scaffold-monorepo": {
       "source": "local",
@@ -155,7 +161,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.3.0"
     },
     "update-harness": {
       "source": "local",

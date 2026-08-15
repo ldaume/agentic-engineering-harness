@@ -33,6 +33,7 @@ or multi-team prompt only when that is the real authority boundary.
 | Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
 | Understand the recommended defaults and alternatives | [`Golden Path and Known Alternatives`](./HARNESS-OPERATIONS.md#golden-path-and-known-alternatives) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
+| Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
@@ -302,6 +303,7 @@ The core contains methods that transfer across stacks:
   [`update-harness`](./skills/engineering/update-harness/SKILL.md),
   [`grill-harness-with-docs`](./skills/engineering/grill-harness-with-docs/SKILL.md),
   [`build-autonomous-agents`](./skills/engineering/build-autonomous-agents/SKILL.md),
+  [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md),
   [`learn-agentic-engineering`](./skills/engineering/learn-agentic-engineering/SKILL.md),
   [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md)
 - Engineering method: [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),

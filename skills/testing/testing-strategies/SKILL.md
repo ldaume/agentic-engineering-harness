@@ -57,6 +57,10 @@ Before planning tests:
   do not create a downstream QA handoff.
 - Pair pre-release checks with the telemetry and observation window needed to
   detect production-only failure and outcome drift.
+- Autonomous gates return bounded, secret-safe, actionable failure context:
+  identify the failed boundary, concise safe reason, correlated evidence, and
+  retry or rollback decision without exposing secrets, untrusted payloads, or
+  unbounded logs.
 - A prototype may prove a learning hypothesis with experiment evidence. It
   needs production tests and controls before any code is promoted or rebuilt
   for release.

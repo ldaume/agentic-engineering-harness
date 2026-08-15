@@ -21,6 +21,7 @@ loop only when evidence cannot resolve a material decision.
 | ----------------------------------------------------------- | ---------------------------------------------------------- |
 | [coding-discipline](./coding-discipline/SKILL.md)           | implement, fix, refactor, any code change                  |
 | [completion-gate](./completion-gate/SKILL.md)               | done, commit, PR, ship, finish                             |
+| [deliver-dependency-upgrades](./deliver-dependency-upgrades/SKILL.md) | dependency bump, Renovate PR, upgrade migration, rollout, rollback |
 | [build-autonomous-agents](./build-autonomous-agents/SKILL.md) | agent, workflow, CI agent, overnight agent, Flue          |
 | [learn-agentic-engineering](./learn-agentic-engineering/SKILL.md) | learn, teach, coach, question, blocker, maturity path    |
 | [agent-sync](./agent-sync/SKILL.md)                         | review loops, currentness, learnings, harness evolution     |
