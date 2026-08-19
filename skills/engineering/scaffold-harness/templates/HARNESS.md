@@ -246,15 +246,18 @@ did not claim in **this** session as foreign protected state.
    from the primary checkout. Run `git worktree prune` only for stale metadata
    of already-removed trees.
    After `git worktree remove` of a session-owned path: confirm the host
-   workspace root is not that path and `git worktree list` no longer names it.
-   If the directory still exists, it is an unregistered leftover (ignored files
-   such as `node_modules` or `.agent-lease` often survive `git worktree
-   remove`). Delete that directory. Do not leave husks. Never `rm -rf` the
-   parent `.worktrees/` or `worktrees/` directory. Never delete a path that
-   `git worktree list` still names or that contains a `.git` file or directory.
-   On finish, also delete other leftover directories in the worktree parent
-   this session used (`../.worktrees/` beside the workspace, or the equivalent
-   parent) that fail those same tests. Report each deleted path. Those
+   workspace root is not that path and `git worktree list` no longer names that
+   exact path. If the directory still exists, it is an unregistered leftover
+   (ignored files such as `node_modules` or `.agent-lease` often survive `git
+   worktree remove`). Delete that directory; if it is a symlink, unlink it
+   without following it. Do not leave husks. Never `rm -rf` the parent
+   `.worktrees/` or `worktrees/` directory. Never delete the current host
+   workspace root. Never delete a path that `git worktree list` still names
+   (exact path) or that contains a `.git` file or directory.
+   On finish, also delete other leftover sibling directories that fail those
+   same tests, but only when the parent directory's basename is `.worktrees` or
+   `worktrees`. If this session's worktree was not under one of those dedicated
+   parents, delete only the just-removed path. Report each deleted path. Those
    directories are not live checkouts.
 5. If ownership of a live checkout is uncertain, leave the worktree. Listing
    live orphans is required; deleting them needs explicit human confirmation.
