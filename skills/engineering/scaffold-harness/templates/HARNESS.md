@@ -173,7 +173,8 @@ did not claim in **this** session as foreign protected state.
    worktree path, or branch checkout - including via `rm -rf`, `git worktree
    remove`, `git worktree prune` of live trees, `git clean -fdx` outside your
    own tree, host "reset workspace", or bulk cleanup of `.worktrees/` /
-   `worktrees/`.
+   `worktrees/`. Deleting a specific unregistered leftover directory under
+   **On finish** is required husk cleanup, not bulk tidy of the parent.
 2. Never force-checkout, reset, or delete a branch that another worktree
    currently has checked out, or that another session's `active` lease names.
 3. Before any remove: read `.agent-lease` and any STATUS lease row. Remove only
@@ -181,8 +182,10 @@ did not claim in **this** session as foreign protected state.
    `done` or `abandoned` before removal). If unmarked, foreign, or uncertain:
    list the path; do not delete; reclaim only with explicit human confirmation
    naming the path.
-4. Never reclaim orphans because they look unused or have a stale heartbeat.
-   No silent TTL delete.
+4. Never reclaim live or leased worktrees because they look unused or have a
+   stale heartbeat. No silent TTL delete of listed checkouts. Unregistered
+   leftover directories with no `.git` are husks, not foreign worktrees;
+   remove them per **On finish**.
 5. Prefer creating a **new** uniquely named worktree/branch over replacing one
    whose ownership is unclear.
 
@@ -242,8 +245,21 @@ did not claim in **this** session as foreign protected state.
    done from a task worktree unless the remain-on-branch skip above applies. Prefer cleanup
    from the primary checkout. Run `git worktree prune` only for stale metadata
    of already-removed trees.
-5. If ownership is uncertain, leave the worktree. Listing orphans is required;
-   deleting them needs explicit human confirmation.
+   After `git worktree remove` of a session-owned path: confirm the host
+   workspace root is not that path and `git worktree list` no longer names it.
+   If the directory still exists, it is an unregistered leftover (ignored files
+   such as `node_modules` or `.agent-lease` often survive `git worktree
+   remove`). Delete that directory. Do not leave husks. Never `rm -rf` the
+   parent `.worktrees/` or `worktrees/` directory. Never delete a path that
+   `git worktree list` still names or that contains a `.git` file or directory.
+   On finish, also delete other leftover directories in the worktree parent
+   this session used (`../.worktrees/` beside the workspace, or the equivalent
+   parent) that fail those same tests. Report each deleted path. Those
+   directories are not live checkouts.
+5. If ownership of a live checkout is uncertain, leave the worktree. Listing
+   live orphans is required; deleting them needs explicit human confirmation.
+   Do not treat an unregistered husk (no `.git`, absent from `git worktree
+   list`) as an uncertain live checkout.
 6. Leave the repository no worse for your own artifacts than you found it. Do
    not clean another session's footprint on the way out.
 
