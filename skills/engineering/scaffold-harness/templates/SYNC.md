@@ -44,13 +44,26 @@ host's verified precedence determine how sources are loaded.
 
 Compose member-local `scaffold-harness` with coordinator inventory:
 
-1. Create or open the sibling; give it a local agent entrypoint immediately and
+1. For a new repository, resolve the remote before creating anything:
+   - Detect upstream candidates from local evidence only: existing sibling
+     remotes, authenticated host CLIs (`gh auth status`, `tea login list`,
+     `glab auth status`), and `~/.ssh/config` hosts. Offer "local / no
+     remote" as an explicit option.
+   - Ask the human for upstream, visibility, and final name in one round.
+     Default to private; public is an explicit human choice.
+   - Show a short pre-creation summary (name, path, upstream URL, visibility,
+     default branch, planned checks, admission steps) and wait for
+     confirmation. Create no repository, remote, or file before it.
+2. Create or open the sibling; give it a local agent entrypoint immediately and
    name the available Fast Check / Full Gates without inventing missing checks.
-2. Add a `CONTEXT-MAP.md` row (`experimental` until git, checks, and pointer
+3. Add a `CONTEXT-MAP.md` row (`experimental` until git, checks, and pointer
    exist).
-3. Copy the canonical Private system snippet into the member `AGENTS.md`.
-4. Update volatile `STATUS.md` while mid-flight.
-5. Run coordinator Full Gates; commit coordinator and member separately.
+4. Copy the canonical Private system snippet into the member `AGENTS.md`.
+5. Update volatile `STATUS.md` while mid-flight.
+6. Create the remote through the authenticated host CLI or API rather than
+   push-to-create; push, and for an intended-private repository verify the
+   visibility through an authenticated query before reporting done.
+7. Run coordinator Full Gates; commit coordinator and member separately.
 
 ## Sibling awareness
 
