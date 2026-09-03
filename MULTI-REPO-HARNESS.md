@@ -406,7 +406,7 @@ conversation and ask once only when it remains unclear. Personal preferences
 belong in host-native user state or documented untracked state unless the
 repository intentionally shares the rule.
 
-Persistent repository artifacts use US English and ASCII punctuation by
+Persistent repository artifacts use US English and plain punctuation by
 default. Chat language does not implicitly change code identifiers, comments,
 tests, schemas, prompts, commits, or documentation. A human may explicitly
 request another language for a named artifact.

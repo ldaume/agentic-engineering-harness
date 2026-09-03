@@ -45,8 +45,15 @@ blueprints. It does not depend on a private coordinator or another repository.
 - Communicate with the user in their preferred language when known. Write
   persistent repository artifacts in US English unless the user explicitly
   requests another language.
-- Use ASCII punctuation in tracked text. No curly quotes, em/en dashes,
-  ellipsis characters, or odd spaces.
+- Keep tracked text in plain punctuation: straight quotes, hyphen `-`, `...`,
+  and ordinary spaces. The banned set is a short closed list where the ASCII
+  spelling is strictly better - curly and angle quotes, the dash family, the
+  ellipsis character, exotic and no-break spaces, invisible format and
+  direction characters, decorative separators. The rule is **not** "ASCII
+  only": natural-language letters (umlauts, accents, any script), arrows, box
+  drawing, and math or currency signs stay allowed.
+  `python3 scripts/verify-plain-punctuation.py --list-policy` prints the exact
+  table and the allowed categories; `--fix` rewrites offenders.
 
 ## Repository boundaries
 
@@ -100,7 +107,14 @@ Fast Check:
 
 ```bash
 python3 scripts/audit-skills.py
+python3 scripts/verify-plain-punctuation.py
+python3 -m unittest discover -s tests
 ```
+
+`audit-skills.py` reuses the punctuation table from
+`verify-plain-punctuation.py`, so the two never disagree. Run the standalone
+gate when you want `--fix` or `--list-policy`, and the tests when you change
+the table.
 
 For each new or materially changed Skill:
 

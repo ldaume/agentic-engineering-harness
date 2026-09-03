@@ -76,9 +76,12 @@
   checks or over foreign WIP. Escalate only a named exception or blocker.
 - Write all persistent repository artifacts in US English unless the human
   explicitly requests another language for a named artifact. Chat language
-  never changes artifact language implicitly. Use ASCII punctuation only
-  (straight quotes, hyphen `-`, `...`). No curly quotes, em/en dashes,
-  ellipsis characters, or odd spaces.
+  never changes artifact language implicitly. Keep tracked text in plain
+  punctuation (straight quotes, hyphen `-`, `...`): no curly or angle quotes,
+  no dash family, no ellipsis characters, no exotic or no-break spaces, no
+  invisible format or direction characters, no decorative separators. This is
+  not an ASCII-only rule - natural-language letters in any script, arrows, box
+  drawing, and math or currency signs stay allowed.
 - Follow the repository's owned voice or style guide when present. Otherwise
   write direct, concrete prose: lead with the problem or working model, name
   trade-offs and system effects, and remove generic hype, defensive setup, and

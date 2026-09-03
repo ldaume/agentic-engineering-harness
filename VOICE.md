@@ -31,7 +31,9 @@ product.
   nouns.
 - Define specialized language where the audience cannot infer it.
 - Use a table only when comparison is clearer than prose.
-- Write tracked artifacts in idiomatic US English with ASCII punctuation.
+- Write tracked artifacts in idiomatic US English with plain punctuation:
+  straight quotes, hyphen `-`, `...`. Not "ASCII only" - umlauts, accents,
+  arrows, box drawing, and math signs stay allowed where they carry meaning.
 
 ## Useful Structures
 

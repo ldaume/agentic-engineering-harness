@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import subprocess
@@ -29,21 +30,16 @@ STANDARD_FIELDS = {
     "allowed-tools",
 }
 
-# Typographic / invisible characters that break diffs and editor warnings.
-AMBIGUOUS_UNICODE = {
-    0x2018: "LEFT SINGLE QUOTATION MARK",
-    0x2019: "RIGHT SINGLE QUOTATION MARK",
-    0x201C: "LEFT DOUBLE QUOTATION MARK",
-    0x201D: "RIGHT DOUBLE QUOTATION MARK",
-    0x2013: "EN DASH",
-    0x2014: "EM DASH",
-    0x2026: "HORIZONTAL ELLIPSIS",
-    0x00A0: "NO-BREAK SPACE",
-    0x200B: "ZERO WIDTH SPACE",
-    0x200C: "ZERO WIDTH NON-JOINER",
-    0x200D: "ZERO WIDTH JOINER",
-    0xFEFF: "BOM",
-}
+# The plain punctuation table has one owner: scripts/verify-plain-punctuation.py.
+# This audit reuses it rather than keeping a second, narrower copy. The previous
+# inline copy listed twelve characters and missed primes, guillemets, the rest of
+# the dash family, exotic spaces, bidi controls, and decorative separators.
+_PUNCTUATION_GATE = importlib.util.spec_from_file_location(
+    "verify_plain_punctuation", Path(__file__).with_name("verify-plain-punctuation.py")
+)
+assert _PUNCTUATION_GATE and _PUNCTUATION_GATE.loader
+punctuation = importlib.util.module_from_spec(_PUNCTUATION_GATE)
+_PUNCTUATION_GATE.loader.exec_module(punctuation)
 TEXT_EXTS = {".md", ".py", ".yml", ".yaml", ".json", ".txt", ".sh", ".toml"}
 SKIP_DIRS = {".git", ".local", ".serena", "node_modules", ".worktrees", "worktrees"}
 PROSE_SLOP_PATTERNS = {
@@ -208,6 +204,13 @@ def validate_markdown_links(errors: list[str]) -> None:
 
 
 def validate_plain_punctuation(errors: list[str]) -> None:
+    """Flag banned typography using the canonical table.
+
+    The rule is not "ASCII only": natural-language letters, arrows, box
+    drawing, and math or currency signs stay allowed. Run
+    `python3 scripts/verify-plain-punctuation.py --list-policy` for the exact
+    table, or `--fix` to rewrite offenders.
+    """
     for path in sorted(ROOT.rglob("*")):
         if any(part in SKIP_DIRS for part in path.parts):
             continue
@@ -215,14 +218,12 @@ def validate_plain_punctuation(errors: list[str]) -> None:
             continue
         text = path.read_text(encoding="utf-8")
         relative = path.relative_to(ROOT)
-        for index, char in enumerate(text):
-            name = AMBIGUOUS_UNICODE.get(ord(char))
-            if not name:
-                continue
-            line = text.count("\n", 0, index) + 1
+        for line, column, code in punctuation.findings(text):
+            category, name, replacement = punctuation.BANNED[code]
+            spelling = f"use {replacement!r}" if replacement else "remove it"
             errors.append(
-                f"{relative}:{line}: ambiguous unicode U+{ord(char):04X} ({name}); "
-                "use ASCII punctuation"
+                f"{relative}:{line}:{column}: {category} U+{code:04X} ({name}); "
+                f"{spelling}"
             )
 
 

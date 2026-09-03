@@ -141,10 +141,14 @@ reconcile infrastructure desired state.
   preference or conversation evidence; ask once only when it remains unclear.
   Store personal preference in user-scoped or untracked state unless it is a
   shared repository rule. Chat language never changes artifact language.
-- Write harness artifacts in US English with ASCII punctuation only (straight
+- Write harness artifacts in US English with plain punctuation (straight
   quotes, hyphen `-`, `...`) unless the human explicitly requests another
-  language for a named artifact. Do not introduce curly quotes, em/en dashes,
-  ellipsis characters, or odd spaces.
+  language for a named artifact. Do not introduce curly or angle quotes, the
+  dash family, ellipsis characters, exotic or no-break spaces, invisible format
+  and direction characters, or decorative separators. This is not an ASCII-only
+  rule: natural-language letters in any script, arrows, box drawing, and math
+  or currency signs stay allowed where they carry meaning. Ban a character only
+  when its ASCII spelling is strictly better.
 - Preserve an existing repository voice or style owner. Repository prose should
   be direct and concrete: lead with the problem or working model, state
   trade-offs and system effects, and remove generic hype, defensive setup, and

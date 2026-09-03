@@ -257,7 +257,9 @@ named-owner rule, stay local on no match), follow the portable walkthrough in
 Sibling Scope and Decide Relevance**. Keep one coordinator inventory; do not
 copy membership into every member.
 
-Prefer ASCII punctuation in harness prose. Routine commit/push when checks
+Prefer plain punctuation in harness prose - straight quotes, hyphen `-`, `...`
+- rather than an ASCII-only rule; letters, arrows, box drawing, and math signs
+keep their meaning. Routine commit/push when checks
 pass is normal completion when the owner authorizes that policy; ask only for
 critical git or irreversible external effects.
 
