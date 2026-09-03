@@ -937,13 +937,16 @@ Stop at the first capability that solves the demonstrated problem. The gate is
 
 ### Admit an Experiment
 
-1. Create or identify the repository and preserve its local truth.
-2. Add it to the coordinator inventory.
-3. Add a local `AGENTS.md` entrypoint immediately.
-4. Point it to local and remote coordinator sources.
-5. Name real available checks without inventing missing gates.
-6. Keep it experimental and human-in-the-loop.
-7. Run coordinator Full Gates and commit member/coordinator changes separately.
+1. For a new repository, resolve upstream, visibility (default private), and
+   name with the human from local evidence, and confirm a short pre-creation
+   summary before creating anything.
+2. Create or identify the repository and preserve its local truth.
+3. Add it to the coordinator inventory.
+4. Add a local `AGENTS.md` entrypoint immediately.
+5. Point it to local and remote coordinator sources.
+6. Name real available checks without inventing missing gates.
+7. Keep it experimental and human-in-the-loop.
+8. Run coordinator Full Gates and commit member/coordinator changes separately.
 
 ### Graduate to Active
 

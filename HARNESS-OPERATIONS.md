@@ -22,6 +22,11 @@ For an existing multi-repository or multi-team harness:
    "create remote", intended checks, experimental vs active, and any
    boundaries.
 
+For a new repository the agent proposes upstream candidates from local
+evidence (authenticated host CLIs, `~/.ssh/config`, existing sibling remotes),
+defaults to private visibility, and shows a short pre-creation summary for
+your confirmation before it creates any repository, remote, or file.
+
 The agent follows the coordinator `SYNC.md` admit checklist and runs
 `scaffold-harness` in the member. No dedicated onboarding Skill. Detail below
 under [Add a Team or Member](#add-a-team-or-member).
@@ -255,18 +260,26 @@ When you want the checklist, or the agent is executing admission, do not create
 a dedicated sibling-onboarding Skill; compose existing owners:
 
 1. Name the team or role that owns the repository and its bounded contexts.
-2. In the member, run `scaffold-harness` (or adapt existing instructions) so
+2. For a new repository, resolve the remote first: detect upstream candidates
+   from local evidence (existing sibling remotes, authenticated `gh` / `tea` /
+   `glab` CLIs, `~/.ssh/config` hosts), ask the human for upstream,
+   visibility, and name in one round (default private), and show a
+   pre-creation summary for confirmation before creating any repository,
+   remote, or file. Create the remote through the authenticated CLI or API
+   rather than push-to-create, and verify intended-private visibility after
+   the first push.
+3. In the member, run `scaffold-harness` (or adapt existing instructions) so
    local `AGENTS.md`, human `README.md`, Fast Check, and Full Gates exist before
    granting cross-repository authority.
-3. In the coordinator, follow the admit checklist in `SYNC.md`: add the member
+4. In the coordinator, follow the admit checklist in `SYNC.md`: add the member
    to `CONTEXT-MAP.md` as experimental until its repository, checks, ownership,
    and coordinator pointer are real.
-4. Record provider and consumer contracts, compatibility responsibility, and
+5. Record provider and consumer contracts, compatibility responsibility, and
    escalation where the member crosses a boundary.
-5. Add the thin member pointer and verify every active host loads the intended
+6. Add the thin member pointer and verify every active host loads the intended
    instructions and managed Skills.
-6. Update coordinator `STATUS.md` while admission is incomplete.
-7. Run local and cross-repository checks, integrate mergeable session-owned
+7. Update coordinator `STATUS.md` while admission is incomplete.
+8. Run local and cross-repository checks, integrate mergeable session-owned
    tips, then graduate the member to active.
 
 For several teams, also record who may change shared policy, accept risk,
