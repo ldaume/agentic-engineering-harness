@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `start-gate` 1.0.0: new pre-work gate and counterpart to `completion-gate` -
+  inspect the tree, preserve foreign work in progress, fast-forward the default
+  branch, claim an isolated branch or worktree, match the environment to the
+  branch, and know what green means before changing it.
 - `agent-sync` 1.18.0: session start is a currency gate; current harness and
   pinned Skills come before "only what the task needs"; close-out leaves the
   host workspace on local default.
