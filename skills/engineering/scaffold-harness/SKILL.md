@@ -224,6 +224,23 @@ reconcile infrastructure desired state.
   validation, security, accessibility, data integrity, recovery, or necessary
   error handling.
 - Use Hooks, CI, tests, and platform controls for deterministic enforcement.
+- Match activation to how each host actually selects behavior, because
+  "installed" is not "used". Where a host reads instruction files as behavior,
+  a rule in `AGENTS.md` is enough. Where a host selects a Skill as a tool from
+  its name and description against the task at hand - Claude Code does - a rule
+  competes with everything else in the instruction chain and routinely loses:
+  an observed session there loaded no Skill across roughly forty tool calls
+  while writing a Skill and making five commits, with the routing rule in
+  context the whole time. On such a host, put the routing in a Hook at the
+  moment of the decision instead. Three moments carry it: session start for the
+  routing table, the first file edit for the starting point (default branch,
+  foreign uncommitted work, a checkout behind the remote, other worktrees), and
+  the commit for the completion gate. Add a post-merge reminder where worktrees
+  are the isolation default, since deleting the branch leaves the worktree.
+  Keep every one of them silent unless something is actually off, non-blocking,
+  and committed to the repository so contributors get them with the clone; a
+  user-scope copy covers repositories that ship none, and it must stay quiet
+  where a repository-local copy exists.
 - Keep repeatable infrastructure desired state in version control. Route
   infrastructure changes through **manage-infrastructure-as-code** for plan,
   policy checks, protected state, controlled apply, drift, and recovery. Treat
