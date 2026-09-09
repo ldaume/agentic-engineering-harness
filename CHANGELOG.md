@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `write-a-skill` 1.4.0: activation is host-shaped and installed is not used.
+  Design the description to carry the trigger on its own for hosts that select
+  a Skill as a tool, keep host wiring target-local, and confirm a real session
+  loads the Skill on each declared host rather than assuming it does.
 - `scaffold-harness` 2.9.0: match activation to how each host selects behavior.
   Where a host picks a Skill as a tool from its description, routing belongs in
   a Hook at the moment of the decision - session start, first edit, commit, and

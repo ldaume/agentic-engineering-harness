@@ -73,6 +73,24 @@ For portable Skills, `name` and `description` are the discovery contract:
 Do not duplicate the description as a metadata trigger list. Use metadata only
 for information a real client or repository consumer reads.
 
+**Activation is host-shaped, and installed is not used.** Hosts differ in what
+actually triggers behavior. Where a host reads instruction files as behavior,
+a rule in `AGENTS.md` naming the Skill is enough to reach it. Where a host
+selects a Skill as a tool from its name and description against the task at
+hand, that rule competes with the whole instruction chain and can lose
+silently: an observed session with a Skill installed, a routing rule in
+context, and a matching task loaded no Skill at all across dozens of tool
+calls. Nothing errors when this happens, and the transcript looks like a
+session that simply chose not to.
+
+Design for the weaker case. Make the description carry the trigger on its own,
+in the vocabulary of the task rather than of the method, so selection does not
+depend on a rule being remembered. Where the host supports hooks or an
+equivalent, put the routing at the moment of the decision instead of in a file
+read earlier; **scaffold-harness** owns that pattern and a worked template.
+Keep both out of the portable Skill: the description is the contract, the host
+wiring is target-local.
+
 ## 4. Budget the Information
 
 Keep in `SKILL.md`:
@@ -139,7 +157,10 @@ Then:
 5. Run the Skill on a representative task when its execution behavior changed.
 6. Review the result for missed steps, false activation, wasted work, and
    premature completion.
-7. Remove temporary install artifacts.
+7. Confirm the Skill was actually loaded on each declared host, not merely
+   installed and plausible. A Skill nobody activates is indistinguishable from
+   one that does not exist, and only a real session shows the difference.
+8. Remove temporary install artifacts.
 
 The change is complete when repository validation passes, installation works,
 every declared host resolves the intended owner without collision, and

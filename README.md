@@ -56,7 +56,12 @@ npx skills add ldaume/agentic-engineering-harness \
   --copy -g -y
 ```
 
-Replace the example client list with every agent host you actually use. Install
+Replace the example client list with every agent host you actually use.
+Installing is not using: hosts differ in what triggers behavior, and one that
+picks a Skill as a tool from its description will ignore a rule that names it.
+Check that a real session loads what you installed, and see
+[`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) for putting
+the routing at the moment of the decision where a host supports it. Install
 only the five bootstrap Skills globally. The shared `.agents/skills` location
 is useful where clients support it, but a harness must verify effective
 discovery per host instead of assuming one installation covers every runtime.
