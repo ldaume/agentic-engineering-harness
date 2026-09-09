@@ -74,22 +74,25 @@ Do not duplicate the description as a metadata trigger list. Use metadata only
 for information a real client or repository consumer reads.
 
 **Activation is host-shaped, and installed is not used.** Hosts differ in what
-actually triggers behavior. Where a host reads instruction files as behavior,
-a rule in `AGENTS.md` naming the Skill is enough to reach it. Where a host
-selects a Skill as a tool from its name and description against the task at
-hand, that rule competes with the whole instruction chain and can lose
-silently: an observed session with a Skill installed, a routing rule in
-context, and a matching task loaded no Skill at all across dozens of tool
-calls. Nothing errors when this happens, and the transcript looks like a
+actually triggers behavior, and most Skills are installed on their own, with no
+instruction file and no harness around them. Then the description is the only
+thing that decides, every time. Where a project does carry an instruction file,
+a host that reads such files as behavior will follow a rule naming the Skill;
+a host that instead selects a Skill as a tool from its name and description
+against the task at hand leaves that rule competing with the whole file, and it
+can lose silently: an observed session with the Skill installed, the routing
+rule in context, and a matching task loaded no Skill at all across dozens of
+tool calls. Nothing errors when this happens, and the transcript looks like a
 session that simply chose not to.
 
-Design for the weaker case. Make the description carry the trigger on its own,
-in the vocabulary of the task rather than of the method, so selection does not
-depend on a rule being remembered. Where the host supports hooks or an
-equivalent, put the routing at the moment of the decision instead of in a file
-read earlier; **scaffold-harness** owns that pattern and a worked template.
-Keep both out of the portable Skill: the description is the contract, the host
-wiring is target-local.
+Design for the bare case, where nothing but the description is present. Make it
+carry the trigger on its own, in the vocabulary of the task rather than of the
+method, so selection never depends on a rule being read or remembered. A host
+that supports hooks or an equivalent can additionally put the routing at the
+moment of the decision - that is a few lines of host configuration, not a
+harness, though **scaffold-harness** carries a worked template for anyone
+building one. Either way it stays out of the portable Skill: the description is
+the contract, the host wiring is target-local.
 
 ## 4. Budget the Information
 

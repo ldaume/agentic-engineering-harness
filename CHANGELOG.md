@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `write-a-skill` 1.4.1: state the activation guidance for a Skill installed on
+  its own. The description decides where no instruction file exists, which is
+  the common case; hooks are a few lines of host configuration rather than a
+  harness.
 - `write-a-skill` 1.4.0: activation is host-shaped and installed is not used.
   Design the description to carry the trigger on its own for hosts that select
   a Skill as a tool, keep host wiring target-local, and confirm a real session
