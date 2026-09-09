@@ -8,10 +8,11 @@ Core workflow skills for AI-assisted development. Use together:
    runtime gate passes
 4. **scaffold-distributed-context** - add cross-repository domain context only
    when the system spans repositories or bounded contexts
-5. **coding-discipline** - during implementation
-6. **completion-gate** - before claiming done
-7. **agent-sync** - evolve the harness during significant work
-8. **update-harness** - check or apply explicit harness and Skill updates
+5. **start-gate** - before the first edit of a task
+6. **coding-discipline** - during implementation
+7. **completion-gate** - before claiming done
+8. **agent-sync** - evolve the harness during significant work
+9. **update-harness** - check or apply explicit harness and Skill updates
 
 Use **grill-harness-with-docs** to establish shared understanding, route
 resolved material work through fresh-agent critique, and keep a human in the
@@ -19,6 +20,7 @@ loop only when evidence cannot resolve a material decision.
 
 | Skill                                                       | Triggers                                                   |
 | ----------------------------------------------------------- | ---------------------------------------------------------- |
+| [start-gate](./start-gate/SKILL.md)                         | start a task, resume a session, branch, worktree, unknown tree state |
 | [coding-discipline](./coding-discipline/SKILL.md)           | implement, fix, refactor, any code change                  |
 | [completion-gate](./completion-gate/SKILL.md)               | done, commit, PR, ship, finish                             |
 | [deliver-dependency-upgrades](./deliver-dependency-upgrades/SKILL.md) | dependency bump, Renovate PR, upgrade migration, rollout, rollback |

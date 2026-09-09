@@ -306,7 +306,8 @@ The core contains methods that transfer across stacks:
   [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md),
   [`learn-agentic-engineering`](./skills/engineering/learn-agentic-engineering/SKILL.md),
   [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md)
-- Engineering method: [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),
+- Engineering method: [`start-gate`](./skills/engineering/start-gate/SKILL.md),
+  [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),
   [`completion-gate`](./skills/engineering/completion-gate/SKILL.md),
   [`documentation-and-adrs`](./skills/engineering/documentation-and-adrs/SKILL.md),
   [`api-design`](./skills/backend/api-design/SKILL.md),
