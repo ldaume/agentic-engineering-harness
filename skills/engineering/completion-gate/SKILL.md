@@ -39,7 +39,9 @@ Before running this gate:
 
 ### 3. Quality bar
 
-- [ ] End-to-end path works where product intent requires it
+- [ ] Observed working against real data, not only green tests - a real run is
+      where the finding no plan predicted shows up. If a run is impossible here,
+      say so rather than letting the suite stand in for it
 - [ ] Typed boundaries at API/package edges (no silent `any` escapes)
 - [ ] Tests match risk - unit for logic, e2e/integration for user flows
 - [ ] **Security/privacy**: no secrets in code; auth and data access respected

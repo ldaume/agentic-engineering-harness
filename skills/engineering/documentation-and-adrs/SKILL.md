@@ -58,6 +58,11 @@ Accepted | Proposed | Superseded
 - Keep runbooks actionable with commands, prerequisites, rollback, and
   verification.
 - Update indexes and agent docs when discoverability matters.
+- When a decision lands, re-read the plan documents written before it and
+  correct them in the same change. A plan records the state at the time and
+  goes stale silently; nothing in the decision record shows which plan it just
+  contradicted, so a superseded instruction survives and is followed later as
+  if it were current.
 
 ## Red Flags
 

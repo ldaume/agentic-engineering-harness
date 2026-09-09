@@ -23,9 +23,17 @@ Before changing an API:
 
 ## Contract Rules
 
+- Read every module the contract touches before drafting it, not after the
+  first draft. A draft written from an assumed call graph is wrong about the
+  guards, limits, and auth it has to preserve, and the correction costs more
+  than the reading would have.
 - Validate input at the boundary.
 - Make response shape stable and documented.
 - Use machine-readable error codes plus human-readable messages.
+- Keep outcomes distinct when their causes differ. A request the system chose
+  not to attempt is not a request that failed. Recording them as one outcome
+  invents a failure, and downstream logic that suppresses retries on failure
+  then suppresses the retry that would have succeeded.
 - Keep auth and ownership checks at the strongest available boundary.
 - Make pagination, filtering, sorting, and limits explicit.
 - Keep idempotency clear for create/update/retry paths.
