@@ -17,6 +17,14 @@ proven controls allow.
 What you get: installable Agent Skills plus harness blueprints you adapt in
 your own repositories - not a control plane for another system.
 
+**Three ways to use this, and you pick one by what you need today.** Take the
+Skills alone: install one or several with the command below, and each works on
+its own - no harness, no instruction file, nothing to adopt. Take the
+blueprints alone: read `HARNESS-OPERATIONS.md` and `MULTI-REPO-HARNESS.md` and
+build your own harness without installing a single Skill. Or take both, which
+is what the prompts further down assume. Nothing here requires the other two
+thirds.
+
 Default path: most first uses stay on one repository. Open that repository
 root, install only missing Skills for the active host, then copy the
 [One repository](#one-repository) prompt below. Reach for the multi-repository

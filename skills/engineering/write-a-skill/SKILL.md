@@ -150,6 +150,14 @@ copying is acceptable.
 When adding, renaming, or moving a Skill, update its category README, the root
 README, and `skills-lock.json`.
 
+Give a new Skill a `license` field in its frontmatter, and add one to an
+existing Skill whenever it is being changed for another reason. A Skill is
+copied out of its catalog far more often than it is installed from it, and the
+repository `LICENSE` does not travel with a single directory. Not a reason for
+a pass over every file: in a catalog with pinned tiers, touching every Skill
+costs a version, a tag, a release and a re-pin each, which buys nothing for
+readers who already have the repository.
+
 Then:
 
 1. Run `python3 scripts/audit-skills.py`.

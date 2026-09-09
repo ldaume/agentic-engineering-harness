@@ -5,6 +5,10 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `write-a-skill` 1.5.0: a new Skill carries a `license` field, and an existing
+  one gains it when changed for another reason - a Skill is copied out of a
+  catalog more often than installed from it, and the repository LICENSE does
+  not travel with a single directory.
 - `write-a-skill` 1.4.1: state the activation guidance for a Skill installed on
   its own. The description decides where no instruction file exists, which is
   the common case; hooks are a few lines of host configuration rather than a
