@@ -5,6 +5,14 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `completion-gate` 1.3.0: a change that deploys is done when its deployment
+  has been checked, not when it merges. Adds the deployment step - the
+  deployment serves the merged commit, the touched surface works when used,
+  the error reporting is quiet since that deploy - and the environment
+  prerequisite class: a schema change, a variable, a credential, anything CI
+  does for itself that a hosted environment does not, applied wherever the
+  change is deployed and named in the pull request. Scoped: a change that
+  deploys nothing gets no deployment check.
 - `api-design` 1.1.0: read every module the contract touches before drafting
   it, and keep outcomes distinct when their causes differ. An inventory taken
   after the first draft produced a contract that was wrong about its own abuse
