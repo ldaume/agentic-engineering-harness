@@ -1,6 +1,6 @@
 ---
 name: completion-gate
-description: Pre-finish review gate for code changes - correctness, patterns, security, tests, and verification before claiming work complete. Use when finishing a task, creating commits, opening PRs, or preparing to claim work complete.
+description: Pre-finish review gate for code changes - correctness, patterns, security, tests, verification, and checking the deployment a change targets before claiming work complete. Use when finishing a task, creating commits, opening PRs, merging, or preparing to claim work complete.
 ---
 
 # Completion Gate
@@ -66,7 +66,35 @@ Read verify commands from **`AGENTS.md`** or the repo's package scripts (`packag
 
 If verification fails: fix and re-run this gate.
 
-### 6. Agent sync (significant sessions)
+### 6. Deployed surfaces (only if this change deploys)
+
+Merging is not deploying, and deploying is not working. Where the change
+reaches a deployed environment, it is done when that environment has been
+checked - by you, in the same session, not by whoever notices later:
+
+- [ ] The deployment finished and is serving the commit that was merged
+- [ ] The surface the change touched was used and did what it should
+- [ ] The platform's error reporting shows nothing new in the window since
+      that deploy - a failure logged where nobody looks is an unnoticed
+      outage, not a handled one
+- [ ] Every **environment prerequisite** the change introduced is applied
+      wherever the change is deployed, and the pull request names the
+      environments that still need it. The class is anything the local and CI
+      environments do for themselves that a hosted one does not: a schema
+      change, a new environment variable, a credential, a queue or bucket, a
+      one-time backfill. Whoever merges it is the only person who knows it
+      exists
+
+The build passing is not this check. A bundle that compiles can still fail on
+first execution, and that failure only appears when the deployed code runs.
+
+Scope, so this does not become ceremony: a change that touches nothing
+deployed gets no deployment check. Say which it was.
+
+**If the check fails:** revert or roll forward immediately, then investigate -
+the value here is the short broken window, not the noticing.
+
+### 7. Agent sync (significant sessions)
 
 - [ ] Durable learnings merged per skill **agent-sync** (or explicitly none)
 - [ ] The repository's learning artifact updated if durable evidence changed
@@ -76,12 +104,14 @@ If verification fails: fix and re-run this gate.
 Before finishing non-trivial work, tell the user:
 
 1. **What changed** - concrete, scoped summary
-2. **How verified** - commands run and outcomes
+2. **How verified** - commands run and outcomes, plus the deployment check or
+   why the change deployed nothing
 3. **Uncertain or risky** - gaps, follow-ups, assumptions
 4. **Agent sync** - what durable evidence was persisted (or "nothing durable")
 
 ## Do not
 
 - Claim "done" without running applicable checks
+- Call a deploying change done at merge, before its environment was checked
 - Add documentation the user did not need
 - Skip the closing statement on non-trivial work
