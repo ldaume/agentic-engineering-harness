@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.9.0: match activation to how each host selects behavior.
+  Where a host picks a Skill as a tool from its description, routing belongs in
+  a Hook at the moment of the decision - session start, first edit, commit, and
+  after a merge - not only in an instruction file. Adds a
+  `templates/claude-hooks.md` with the four moments, what each check looks for,
+  and the member-local-wins rule for a user-scope copy.
 - `start-gate` 1.0.0: new pre-work gate and counterpart to `completion-gate` -
   inspect the tree, preserve foreign work in progress, fast-forward the default
   branch, claim an isolated branch or worktree, match the environment to the
