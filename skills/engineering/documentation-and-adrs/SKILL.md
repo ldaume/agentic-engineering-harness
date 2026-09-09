@@ -63,11 +63,31 @@ Accepted | Proposed | Superseded
   goes stale silently; nothing in the decision record shows which plan it just
   contradicted, so a superseded instruction survives and is followed later as
   if it were current.
+- A claim is checked against the system before it is written. A statement
+  about behavior names the file that implements it. A number carries the date
+  and the command or query that produced it, or says it was reasoned and shows
+  the input. A claim you cannot settle without running something you should not
+  run is written as unverified, naming what would settle it. When you touch a
+  document, re-check the claims about the paths your change touched, not only
+  the lines you edit. Every false claim was true when written.
+- Reading an artifact is not checking it. A code comment, a docstring or an
+  older record that states a mechanism is not evidence - it is where a false
+  claim hides best, because it reads exactly like a verified one. So: if you
+  cannot name the command that would falsify the sentence, you have not checked
+  it, you have read something. Run it - the grep for a retired symbol, the
+  query behind a count, the conversion behind a schema claim - and say in the
+  change which claims you ran what against. A reviewer aimed at named claims
+  re-derives; an unaimed one reads.
+- A document that has outgrown its purpose is deleted, not maintained. Length
+  is a defect of its own: nobody re-reads what they cannot finish, and the part
+  nobody reaches is where stale claims survive. Version control is the archive.
 
 ## Red Flags
 
 - doc repeats code or config verbatim
 - decision has no alternatives or consequences
 - runbook has no verification or rollback
-- old docs conflict with new behavior
+- a claim in a doc is not true of the code, or cannot be checked at all
+- no command would falsify the sentence, so nothing ever will
+- a document is kept because deleting it feels lossy, not because it is read
 - documentation is added only to make a small change look larger
