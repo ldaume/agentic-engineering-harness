@@ -80,6 +80,9 @@ Before changing code:
 ## Surgical changes
 
 - Touch only what the request requires.
+- One rule with several call sites is one unit of work. Fixing only the site the
+  request names leaves the rule half-applied. Extend the fix to its siblings and
+  say which ones, or name them when the extension is genuinely out of scope.
 - Do not refactor, reformat, or "improve" adjacent code.
 - Match existing style and patterns in the touched area.
 - Unrelated dead code: mention it - do not delete unless asked.

@@ -5,6 +5,21 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `api-design` 1.1.0: read every module the contract touches before drafting
+  it, and keep outcomes distinct when their causes differ. An inventory taken
+  after the first draft produced a contract that was wrong about its own abuse
+  control; flattening "not attempted" into "failed" records a failure that
+  never happened and can suppress the retry that would have worked.
+- `completion-gate` 1.2.0: done means observed against real data, not green
+  tests. A real run is where the finding no plan predicted shows up; where a
+  run is impossible, say so rather than letting the suite stand in for it.
+- `coding-discipline` 1.5.0: one rule with several call sites is one unit of
+  work. Fixing only the site the request names leaves the rule half-applied,
+  and the siblings stay broken in a way the request will not mention again.
+- `documentation-and-adrs` 1.1.0: when a decision lands, re-read and correct
+  the plan documents written before it. Nothing in a decision record shows
+  which plan it contradicted, so a superseded instruction survives in a plan
+  and is followed later as if it were current.
 - `write-a-skill` 1.5.0: a new Skill carries a `license` field, and an existing
   one gains it when changed for another reason - a Skill is copied out of a
   catalog more often than installed from it, and the repository LICENSE does
