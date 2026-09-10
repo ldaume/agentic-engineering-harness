@@ -66,6 +66,12 @@ Read verify commands from **`AGENTS.md`** or the repo's package scripts (`packag
 
 If verification fails: fix and re-run this gate.
 
+Once merged, check continuous integration on the branch you merged into. A
+pull request runs against its own head; the target branch runs against the
+merge, so pull requests that were each green can merge in sequence and leave it
+red. A healthy deployment answers neither question - a failing test does not
+stop a deploy.
+
 ### 6. Deployed surfaces (only if this change deploys)
 
 Merging is not deploying, and deploying is not working. Where the change

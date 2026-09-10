@@ -41,7 +41,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/completion-gate/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.4.0"
     },
     "documentation-and-adrs": {
       "source": "local",
@@ -167,7 +167,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.4.0"
     },
     "update-harness": {
       "source": "local",
