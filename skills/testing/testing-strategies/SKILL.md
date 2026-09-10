@@ -52,6 +52,16 @@ Before planning tests:
   result or invariant.
 - Keep test data explicit and local to the test where possible.
 - Mock internals only when the boundary is genuinely external or expensive.
+- Synchronize on the work, not on a duration. Where the interface returns
+  before the work it started is finished - a response that begins streaming
+  while the producer keeps writing, a task that outlives the call - wait for
+  that work to complete before asserting. A sleep that passes at 95 ms and
+  fails at 100 ms is not a flaky test; it is a deterministic race the machine's
+  speed decides, and calling it flakiness sends the fix to the wrong place.
+- A negative assertion needs an instrument that would notice the positive.
+  "Nothing was fetched" proves nothing when the fake signals the breach by
+  throwing and the code under test catches a failure as an ordinary outcome.
+  Count the reaches on the fake and assert zero.
 - Add regression tests before bug fixes when feasible.
 - Define the cheapest decisive signal before or with the behavior it guides;
   do not create a downstream QA handoff.

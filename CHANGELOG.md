@@ -13,6 +13,20 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `completion-gate` 1.4.0: after merging, check continuous integration on the
+  branch that was merged into. Three pull requests, each green on its own head,
+  merged in sequence and left the target branch red while the deployment stayed
+  healthy the whole time - so every item of the deployment check passed and the
+  session reported the work as fine.
+- `testing-strategies` 1.4.0: synchronize on the work rather than on a
+  duration, and give a negative assertion an instrument that would notice the
+  positive. A test that slept 100 ms after starting a stream whose producer
+  keeps writing passed at 95 ms and lost the race in CI at 100 ms - a foreign
+  key violation, a missing row, and an upstream call it had claimed would not
+  happen. That last claim could not have failed either way: the fake upstream
+  threw when reached, and the code under test catches one failure and reports
+  it as an ordinary outcome, so the throw was swallowed. Counting reaches and
+  asserting zero is what made the assertion real.
 - `completion-gate` 1.3.0: a change that deploys is done when its deployment
   has been checked, not when it merges. Adds the deployment step - the
   deployment serves the merged commit, the touched surface works when used,
