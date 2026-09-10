@@ -5,6 +5,18 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.10.0: the harness template answers whose work an
+  artifact is, and where that stops. Cross-agent non-interference covered
+  checkouts and said nothing about work items, pull requests, review comments
+  or progress values - so a repository wrote its own version from one seat,
+  naming its owner and listing everybody else as untouchable. That tells every
+  other person's session that its own work is off limits, and a green pull
+  request then has nobody who will merge it. Ownership is written from the seat
+  now. The carve-out ships with it: code is not owned that way, an end-to-end
+  change takes what it needs and leaves every place it touches better than it
+  found it, and a genuine hands-off area is a different rule that a repository
+  names and justifies separately.
+
 - `documentation-and-adrs` 1.2.0: a claim is checked against the system before
   it is written, a document that has outgrown its purpose is deleted rather
   than maintained, and reading an artifact that states a mechanism is not

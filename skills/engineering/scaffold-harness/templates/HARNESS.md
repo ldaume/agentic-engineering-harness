@@ -189,6 +189,38 @@ did not claim in **this** session as foreign protected state.
 5. Prefer creating a **new** uniquely named worktree/branch over replacing one
    whose ownership is unclear.
 
+### Whose work is it
+
+Checkout non-interference is above; this is the same rule one level up, at the
+record of a decision. A session acts for one human, and some artifacts carry
+an owner: a work item names one, a pull request belongs to whoever opened it,
+a review comment to whoever wrote it, a progress value to whoever set it.
+Change what your person owns - merging their ready pull requests included -
+and read the rest, leaving it exactly as found, down to its position in an
+ordered list. Editing another person's entry silently rewrites what they
+decided, and a board where anyone may tidy anyone else's entries stops being a
+record of who decided what.
+
+**Code is not owned that way.** An end-to-end change takes whatever it needs,
+including code someone else wrote, and leaves every place it touches better
+than it found it. A rule that stops a session at a file boundary buys tidy
+attribution and pays in half-finished slices and somebody else's follow-up.
+Where a repository does hold a hands-off area it names it and gives the reason
+- mirrored external behavior, a client-authored surface - and that is a
+different rule from this one, with a different justification.
+
+Write ownership from the seat, never for a name. A rule that names one person
+tells every other person's session that its own work is off limits. Two ways
+that fails: nobody merges a green pull request, or a session notices the rule
+cannot be meant for it, concludes the file belongs to someone else, and stops
+reading the parts that do apply. A roster of names is the same defect once
+removed: such a list goes stale the first time the team changes, and it is
+already wrong for the seat reading it.
+
+A finding about work that is not your person's goes where the repository keeps
+coordination notes, with the date and the evidence, for its owner to decide
+on. Recording is not raising.
+
 ### On finish (this session's footprint)
 
 1. Integrate ready work via the repository's commit/push/merge or PR policy.
@@ -522,6 +554,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 
 | Concern | Owner |
 |---|---|
+| Whose work an artifact is, who may change or merge it, and why code is not owned that way | `HARNESS.md` (Whose work is it) |
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
