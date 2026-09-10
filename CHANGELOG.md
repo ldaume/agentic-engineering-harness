@@ -1,17 +1,17 @@
 # Changelog
 
-documentation-and-adrs 1.2.0: a claim is checked against the system before it
-is written, a document that has outgrown its purpose is deleted rather than
-maintained, and reading an artifact that states a mechanism is not checking it.
-An audit written to catch false documentation claims produced two of its own,
-both confirmed by reading a code comment that was wrong. The test that catches
-them: name the command that would falsify the sentence, or you have not checked
-it.
-
 This repository versions each Skill independently. See `VERSIONING.md` and
 `skills-lock.json` for the canonical versions.
 
 ## Unreleased
+
+- `documentation-and-adrs` 1.2.0: a claim is checked against the system before
+  it is written, a document that has outgrown its purpose is deleted rather
+  than maintained, and reading an artifact that states a mechanism is not
+  checking it. An audit written to catch false documentation claims produced
+  two of its own, both confirmed by reading a code comment that was wrong. The
+  test that catches them: name the command that would falsify the sentence, or
+  you have not checked it.
 
 - `completion-gate` 1.4.0: after merging, check continuous integration on the
   branch that was merged into. Three pull requests, each green on its own head,
