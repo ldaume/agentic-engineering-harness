@@ -78,6 +78,18 @@ Accepted | Proposed | Superseded
   query behind a count, the conversion behind a schema claim - and say in the
   change which claims you ran what against. A reviewer aimed at named claims
   re-derives; an unaimed one reads.
+- A diagram is checked by rendering it, not by reading it. Diagram grammars
+  reserve words that look like ordinary node ids - in Mermaid's flowchart
+  `call` parses as a callback name and fails the whole graph, and `end`,
+  `class`, `click`, `style`, `graph` and `subgraph` behave the same way - so a
+  diagram that reads correctly in the diff can render as nothing at all. Check
+  the grammar outside the repository, so it needs no diagram tooling of its
+  own: install `mermaid` and `jsdom` in a scratch directory, put a JSDOM window
+  on `globalThis` before importing mermaid, and call `mermaid.parse()` on each
+  fenced block. Whether the result is readable is a separate question and needs
+  a real browser - JSDOM has no `CSSStyleSheet`, so `mermaid.render()` throws
+  on it, and a browser driver refuses a `file:` URL, so serve the scratch
+  directory over localhost.
 - A document that has outgrown its purpose is deleted, not maintained. Length
   is a defect of its own: nobody re-reads what they cannot finish, and the part
   nobody reaches is where stale claims survive. Version control is the archive.
@@ -90,4 +102,5 @@ Accepted | Proposed | Superseded
 - a claim in a doc is not true of the code, or cannot be checked at all
 - no command would falsify the sentence, so nothing ever will
 - a document is kept because deleting it feels lossy, not because it is read
+- a diagram was checked by reading it, so nobody knows whether it renders
 - documentation is added only to make a small change look larger
