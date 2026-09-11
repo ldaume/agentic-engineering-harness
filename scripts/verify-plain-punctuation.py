@@ -57,18 +57,23 @@ _ban(
         0x00BB: ("RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK", '"'),
     },
 )
+# Em dash, en dash, figure dash, horizontal bar and the multi-em dashes are
+# deliberately absent. They were banned as the common tell that prose came out
+# of a model; they are also ordinary correct typography, an em dash in English
+# most of all, and the tell has stopped being reliable. A reader sees a
+# considered choice, so this gate has no business calling it a defect
+# (owner decision, 2026-09-11).
+#
+# What stays is the look-alike group: a reader cannot tell these from `-`, and
+# every tool can. `U+2010` in "well-known" makes the word unfindable by the
+# spelling everyone types, and the diff that introduced it shows nothing. That
+# is a different problem from typography and it keeps its own justification.
 _ban(
-    "dash",
+    "dash look-alike",
     {
         0x2010: ("HYPHEN", "-"),
         0x2011: ("NON-BREAKING HYPHEN", "-"),
-        0x2012: ("FIGURE DASH", "-"),
-        0x2013: ("EN DASH", "-"),
-        0x2014: ("EM DASH", "-"),
-        0x2015: ("HORIZONTAL BAR", "-"),
         0x2212: ("MINUS SIGN", "-"),
-        0x2E3A: ("TWO-EM DASH", "-"),
-        0x2E3B: ("THREE-EM DASH", "-"),
     },
 )
 _ban("ellipsis", {0x2026: ("HORIZONTAL ELLIPSIS", "...")})

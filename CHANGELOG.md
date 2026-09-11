@@ -5,6 +5,20 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.11.0: stop banning em and en dashes. They were listed as
+  the common tell that prose came out of a model. They are also ordinary
+  correct typography, an em dash in English most of all, and the tell has
+  stopped being reliable - a gate that calls a considered typographic choice a
+  defect is wrong more often than it is right. Measured in the estate that
+  raised this: dashes were 9,005 of 13,322 findings, so two thirds of what
+  looked like a cleanup backlog was never a defect.
+
+  What stays banned is the look-alike group, `U+2010`, `U+2011` and `U+2212`,
+  on a justification this does not touch: a reader cannot tell them from `-`
+  and every tool can, so `U+2010` inside "well-known" makes the word
+  unfindable by the spelling everyone types while the diff that introduced it
+  shows nothing.
+
 - `scaffold-harness` 2.10.1: the Claude Code activation hooks template is
   reachable. 2.9.0 added `templates/claude-hooks.md` - the settings, the four
   moments, and what each check looks for - and referenced it from nowhere: not

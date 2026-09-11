@@ -19,8 +19,9 @@ assert _spec and _spec.loader
 gate = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(gate)
 
-EM_DASH = "\u2014"
-EN_DASH = "\u2013"
+EM_DASH = "\u2014"        # allowed since 2026-09-11: ordinary typography
+EN_DASH = "\u2013"        # allowed for the same reason
+NB_HYPHEN = "\u2011"      # banned: indistinguishable from "-" to a reader
 LEFT_DOUBLE = "\u201c"
 RIGHT_DOUBLE = "\u201d"
 RIGHT_SINGLE = "\u2019"
@@ -36,8 +37,7 @@ UMLAUT_U = "\u00fc"
 class BannedTable(unittest.TestCase):
     def test_covers_the_common_model_typography(self) -> None:
         for code in (
-            0x2013,  # en dash
-            0x2014,  # em dash
+            0x2011,  # non-breaking hyphen, a look-alike for "-"
             0x2018,  # left single quote
             0x2019,  # right single quote
             0x201C,  # left double quote
@@ -124,8 +124,8 @@ class BannedTable(unittest.TestCase):
 
 class Findings(unittest.TestCase):
     def test_reports_line_and_column(self) -> None:
-        text = f"clean line\nbroken {EM_DASH} line\n"
-        self.assertEqual(gate.findings(text), [(2, 8, 0x2014)])
+        text = f"clean line\nbroken {NB_HYPHEN} line\n"
+        self.assertEqual(gate.findings(text), [(2, 8, 0x2011)])
 
     def test_accepts_arrows_and_umlauts(self) -> None:
         text = f"provider {ARROW} consumer, gepr{UMLAUT_U}ft"
@@ -157,10 +157,16 @@ class Findings(unittest.TestCase):
 
 
 class Repair(unittest.TestCase):
-    def test_rewrites_dashes_quotes_and_ellipsis(self) -> None:
+    def test_an_em_dash_survives_repair(self) -> None:
+        # Ordinary typography, so `--fix` must not reword a sentence that
+        # chose it.
+        text = f"a sentence {EM_DASH} with an aside"
+        self.assertEqual(gate.repair(text), text)
+
+    def test_rewrites_quotes_lookalike_hyphens_and_ellipsis(self) -> None:
         text = (
             f"{LEFT_DOUBLE}value{RIGHT_SINGLE}s{RIGHT_DOUBLE}"
-            f" {EM_DASH} wait{ELLIPSIS}"
+            f" {NB_HYPHEN} wait{ELLIPSIS}"
         )
         self.assertEqual(gate.repair(text), '"value\'s" - wait...')
 
@@ -184,8 +190,8 @@ class Repair(unittest.TestCase):
 
 class Describe(unittest.TestCase):
     def test_names_the_ascii_spelling(self) -> None:
-        self.assertIn('use "-"', gate.describe(0x2014))
-        self.assertIn("EM DASH", gate.describe(0x2014))
+        self.assertIn('use "-"', gate.describe(0x2011))
+        self.assertIn("NON-BREAKING HYPHEN", gate.describe(0x2011))
 
     def test_says_remove_for_invisible_characters(self) -> None:
         self.assertIn("remove", gate.describe(0x200B))
