@@ -152,7 +152,14 @@ reconcile infrastructure desired state.
   wrong more often than it is right. This is not an ASCII-only
   rule: natural-language letters in any script, arrows, box drawing, and math
   or currency signs stay allowed where they carry meaning. Ban a character only
-  when its ASCII spelling is strictly better.
+  when its ASCII spelling is strictly better. The rule is about prose, not
+  design: a separator glyph in rendered markup is a typographic device someone
+  chose, and rewriting it is a different design, not a correction. A gate can
+  report it, because it cannot tell a label from a sentence, but an automatic
+  fix is the wrong instrument there. And a fixer must never corrupt what it
+  fixes - a straight quote is syntax inside a JSON string, a TypeScript
+  literal, a YAML scalar, so escape it where the format can be parsed and
+  treat the rest as a draft the repository's own checks confirm.
 - Preserve an existing repository voice or style owner. Repository prose should
   be direct and concrete: lead with the problem or working model, state
   trade-offs and system effects, and remove generic hype, defensive setup, and

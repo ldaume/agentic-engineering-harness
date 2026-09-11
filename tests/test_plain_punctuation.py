@@ -7,6 +7,7 @@ own repository, so a literal sample would fail the check it is testing.
 from __future__ import annotations
 
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -24,6 +25,7 @@ EN_DASH = "\u2013"        # allowed for the same reason
 NB_HYPHEN = "\u2011"      # banned: indistinguishable from "-" to a reader
 LEFT_DOUBLE = "\u201c"
 RIGHT_DOUBLE = "\u201d"
+LINE_SEPARATOR = "\u2028"
 RIGHT_SINGLE = "\u2019"
 ELLIPSIS = "\u2026"
 NO_BREAK_SPACE = "\u00a0"
@@ -209,6 +211,58 @@ class Files(unittest.TestCase):
             path = Path(directory) / "note.md"
             path.write_text(f"gepr{UMLAUT_U}ft\n", encoding="utf-8")
             self.assertEqual(gate.read_text(path), f"gepr{UMLAUT_U}ft\n")
+
+
+class JsonRepair(unittest.TestCase):
+    """A repair must not turn a valid document into a broken one.
+
+    A run over a translation file produced `"Suggestion for "{title}""`: a
+    straight quote inside a JSON string value is syntax, not text. A pre-commit
+    hook rejected it; a less careful pipeline would have committed
+    syntactically invalid JSON on behalf of a typography rule.
+    """
+
+    def test_a_quote_inside_a_json_string_is_escaped(self) -> None:
+        source = '{"k": "Suggestion for ' + LEFT_DOUBLE + '{t}' + RIGHT_DOUBLE + '"}'
+        fixed, refusal = gate.repair_file_text(source, "messages/en.json")
+        self.assertIsNone(refusal)
+        self.assertEqual(json.loads(fixed)["k"], 'Suggestion for "{t}"')
+
+    def test_prose_outside_json_keeps_the_bare_quote(self) -> None:
+        self.assertEqual(
+            gate.repair("He said " + LEFT_DOUBLE + "hello" + RIGHT_DOUBLE),
+            'He said "hello"',
+        )
+
+    def test_a_repair_that_would_not_parse_is_refused(self) -> None:
+        source = '{"k": "unterminated ' + LEFT_DOUBLE + '}'
+        fixed, refusal = gate.repair_file_text(source, "broken.json")
+        self.assertEqual(fixed, source)
+        self.assertIn("would not parse as JSON", refusal or "")
+
+    def test_jsonc_is_escaped_but_not_re_parsed(self) -> None:
+        # Comments make it invalid JSON by definition, so the repair cannot be
+        # confirmed by loading it. Escaping still applies.
+        source = '// note\n{"k": "a ' + LEFT_DOUBLE + 'b' + RIGHT_DOUBLE + '"}'
+        fixed, refusal = gate.repair_file_text(source, "tsconfig.jsonc")
+        self.assertIsNone(refusal)
+        self.assertIn('\\"b\\"', fixed)
+
+    def test_a_line_separator_does_not_break_out_of_a_json_string(self) -> None:
+        # U+2028 is replaced by a newline, which is illegal raw inside a JSON
+        # string. `.json` was saved by the re-parse, which refused the whole
+        # repair; `.jsonc` cannot be parsed and was written corrupt - the exact
+        # failure this function exists to prevent, in the one case its safety
+        # net does not cover.
+        source = '{"k": "a' + LINE_SEPARATOR + 'b"}'
+        for name in ("messages.json", "tsconfig.jsonc"):
+            with self.subTest(name=name):
+                fixed, refusal = gate.repair_file_text(source, name)
+                self.assertIsNone(refusal, "the repair should succeed, not refuse")
+                self.assertNotIn("\n", fixed, "a raw newline ends the string early")
+        self.assertEqual(
+            json.loads(gate.repair_file_text(source, "m.json")[0])["k"], "a\nb"
+        )
 
 
 if __name__ == "__main__":
