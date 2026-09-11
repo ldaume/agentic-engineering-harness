@@ -42,6 +42,23 @@ punctuation = importlib.util.module_from_spec(_PUNCTUATION_GATE)
 _PUNCTUATION_GATE.loader.exec_module(punctuation)
 TEXT_EXTS = {".md", ".py", ".yml", ".yaml", ".json", ".txt", ".sh", ".toml"}
 SKIP_DIRS = {".git", ".local", ".serena", "node_modules", ".worktrees", "worktrees"}
+
+def is_skipped(path: Path) -> bool:
+    """Decide by location inside the repository, not by absolute path.
+
+    `SKIP_DIRS` was matched against a path's absolute parts. A checkout under
+    `<somewhere>/.worktrees/<task>/` - the isolation default this catalog's own
+    harness prescribes - therefore matched on the parent directory, and every
+    file-level validator skipped every file while the audit still printed
+    "passed". Measured at the time of the fix: 0 of 83 Markdown files
+    inspected. CI never saw it, because CI checks out at an ordinary path.
+    """
+    try:
+        relative = path.resolve().relative_to(ROOT)
+    except ValueError:
+        return True
+    return any(part in SKIP_DIRS for part in relative.parts)
+
 PROSE_SLOP_PATTERNS = {
     "stock model verb": re.compile(r"\bdelv(?:e|es|ed|ing) into\b", re.IGNORECASE),
     "empty friction claim": re.compile(
@@ -182,7 +199,7 @@ def validate_skill(path: Path, errors: list[str]) -> str | None:
 def validate_markdown_links(errors: list[str]) -> None:
     root = ROOT.resolve()
     for path in sorted(ROOT.rglob("*.md")):
-        if any(part in SKIP_DIRS for part in path.parts):
+        if is_skipped(path):
             continue
         text = path.read_text(encoding="utf-8")
         relative = path.relative_to(ROOT)
@@ -203,6 +220,51 @@ def validate_markdown_links(errors: list[str]) -> None:
                 errors.append(f"{relative}: missing reference {target}")
 
 
+def validate_bundled_files_are_named(errors: list[str]) -> None:
+    """Every bundled file is named by some Markdown in its own Skill.
+
+    `validate_markdown_links` checks the other direction: that a reference
+    resolves. Nothing checked that a shipped file is mentioned at all, so
+    `templates/claude-hooks.md` sat unnamed from the release that added it -
+    the prose described the mechanism, the finished template was next to it,
+    and no reader could get from one to the other.
+
+    Deliberately weaker than true reachability: a mention anywhere in the
+    Skill's Markdown counts, by Skill-relative path or by bare file name, and
+    the corpus is not walked from `SKILL.md`. Two orphans naming each other
+    would pass, and a bare name that is also a common word could pass
+    incidentally. A transitive walk costs more than the defect is worth; this
+    catches the file nobody mentions at all, which is the one that shipped.
+
+    Bare names count because a mention is not always a link: a script invoked
+    as `scripts/harvest.sh` inside a code fence is named, not linked.
+
+    Candidates come from git, not from a filesystem walk - otherwise
+    `.DS_Store` and `__pycache__` become audit failures with an instruction
+    nobody can follow.
+    """
+    known = set(repository_paths())
+    for skill in sorted(SKILLS_ROOT.rglob("SKILL.md")):
+        root = skill.parent
+        prose = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(root.rglob("*.md"))
+            if path in known and not is_skipped(path)
+        )
+        for path in sorted(root.rglob("*")):
+            if path not in known or not path.is_file():
+                continue
+            if path.name == "SKILL.md" or is_skipped(path):
+                continue
+            relative = path.relative_to(root).as_posix()
+            if relative in prose or path.name in prose:
+                continue
+            errors.append(
+                f"{skill.parent.name}: bundled file is named by no Markdown in "
+                f"this Skill ({relative}); mention it from the Skill, or remove it"
+            )
+
+
 def validate_plain_punctuation(errors: list[str]) -> None:
     """Flag banned typography using the canonical table.
 
@@ -212,7 +274,7 @@ def validate_plain_punctuation(errors: list[str]) -> None:
     table, or `--fix` to rewrite offenders.
     """
     for path in sorted(ROOT.rglob("*")):
-        if any(part in SKIP_DIRS for part in path.parts):
+        if is_skipped(path):
             continue
         if not path.is_file() or path.suffix.lower() not in TEXT_EXTS:
             continue
@@ -286,7 +348,12 @@ def validate_prose_matcher(errors: list[str]) -> None:
             )
 
 
-def repository_markdown_paths() -> list[Path]:
+def repository_paths(pattern: str = "*") -> list[Path]:
+    """Files git knows about: tracked, plus untracked that is not ignored.
+
+    Walking the filesystem instead would pick up `.DS_Store`, `__pycache__`,
+    and every other local artifact, and no validator wants to judge those.
+    """
     result = subprocess.run(
         [
             "git",
@@ -296,7 +363,7 @@ def repository_markdown_paths() -> list[Path]:
             "--exclude-standard",
             "-z",
             "--",
-            "*.md",
+            pattern,
         ],
         cwd=ROOT,
         check=False,
@@ -308,12 +375,16 @@ def repository_markdown_paths() -> list[Path]:
             for path in result.stdout.split(b"\0")
             if path
         ]
-    return sorted(ROOT.rglob("*.md"))
+    return sorted(ROOT.rglob(pattern))
+
+
+def repository_markdown_paths() -> list[Path]:
+    return repository_paths("*.md")
 
 
 def validate_prose_style(errors: list[str]) -> None:
     for path in repository_markdown_paths():
-        if not path.is_file() or any(part in SKIP_DIRS for part in path.parts):
+        if not path.is_file() or is_skipped(path):
             continue
         relative = path.relative_to(ROOT)
         for line_number, line in markdown_prose_lines(
@@ -368,6 +439,7 @@ def main() -> int:
         errors.append(f"duplicate skill name: {name}")
 
     validate_markdown_links(errors)
+    validate_bundled_files_are_named(errors)
     validate_plain_punctuation(errors)
     validate_prose_matcher(errors)
     validate_prose_style(errors)
