@@ -77,9 +77,11 @@
 - Write all persistent repository artifacts in US English unless the human
   explicitly requests another language for a named artifact. Chat language
   never changes artifact language implicitly. Keep tracked text in plain
-  punctuation (straight quotes, hyphen `-`, `...`): no curly or angle quotes,
-  no dash family, no ellipsis characters, no exotic or no-break spaces, no
-  invisible format or direction characters, no decorative separators. This is
+  punctuation (straight quotes, `...`): no curly or angle quotes, no ellipsis
+  characters, no exotic or no-break spaces, no invisible format or direction
+  characters, no decorative separators, and none of the hyphens that look like
+  `-` without being it (`U+2010`, `U+2011`, `U+2212`). Em and en dashes are
+  allowed - they are ordinary typography. This is
   not an ASCII-only rule - natural-language letters in any script, arrows, box
   drawing, and math or currency signs stay allowed.
 - Follow the repository's owned voice or style guide when present. Otherwise

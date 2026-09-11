@@ -47,9 +47,11 @@ blueprints. It does not depend on a private coordinator or another repository.
   requests another language.
 - Keep tracked text in plain punctuation: straight quotes, hyphen `-`, `...`,
   and ordinary spaces. The banned set is a short closed list where the ASCII
-  spelling is strictly better - curly and angle quotes, the dash family, the
-  ellipsis character, exotic and no-break spaces, invisible format and
-  direction characters, decorative separators. The rule is **not** "ASCII
+  spelling is strictly better - curly and angle quotes, the ellipsis
+  character, exotic and no-break spaces, invisible format and direction
+  characters, decorative separators, and the hyphens that look exactly like
+  `-` without being it (`U+2010`, `U+2011`, `U+2212`). Em and en dashes are
+  **not** banned: they are ordinary typography and were only ever a tell. The rule is **not** "ASCII
   only": natural-language letters (umlauts, accents, any script), arrows, box
   drawing, and math or currency signs stay allowed.
   `python3 scripts/verify-plain-punctuation.py --list-policy` prints the exact
