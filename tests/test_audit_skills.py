@@ -49,9 +49,17 @@ class IsSkipped(unittest.TestCase):
         finally:
             audit.ROOT = original
 
-    def test_every_markdown_file_in_this_checkout_is_inspected(self) -> None:
-        files = [p for p in audit.ROOT.rglob("*.md") if not audit.is_skipped(p)]
-        self.assertEqual(len(files), len(list(audit.ROOT.rglob("*.md"))))
+    def test_a_file_is_skipped_only_for_where_it_sits_inside_the_repository(self) -> None:
+        # Asserting "nothing is skipped here" would be an assertion about the
+        # environment: CI installs dependencies, so its checkout legitimately
+        # contains files under skipped directories. The rule is the invariant.
+        for path in audit.ROOT.rglob("*.md"):
+            if audit.is_skipped(path):
+                relative = path.resolve().relative_to(audit.ROOT)
+                self.assertTrue(
+                    any(part in audit.SKIP_DIRS for part in relative.parts),
+                    f"skipped for a reason outside the repository: {relative}",
+                )
 
 
 class BundledFilesAreNamed(unittest.TestCase):
