@@ -1,5 +1,6 @@
 ---
 name: scaffold-harness
+license: MIT
 description: Audits and upgrades repositories to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, designing local/MCP/RAG context routing, controlling token bloat, defining review, model, or quality gates, coordinating repositories, or evaluating agents for CI, overnight, specialist, chat, and observability work.
 ---
 
@@ -241,6 +242,8 @@ reconcile infrastructure desired state.
   and committed to the repository so contributors get them with the clone; a
   user-scope copy covers repositories that ship none, and it must stay quiet
   where a repository-local copy exists.
+  [templates/claude-hooks.md](./templates/claude-hooks.md) carries the
+  settings, each of those moments, and what its check looks for.
 - Keep repeatable infrastructure desired state in version control. Route
   infrastructure changes through **manage-infrastructure-as-code** for plan,
   policy checks, protected state, controlled apply, drift, and recovery. Treat
@@ -405,6 +408,7 @@ The scaffold is complete only when:
 | Human operating guide | [templates/README.md](./templates/README.md) |
 | Root instructions | [templates/AGENTS.md](./templates/AGENTS.md) |
 | Claude Code bridge | [templates/CLAUDE.md](./templates/CLAUDE.md) |
+| Claude Code activation hooks | [templates/claude-hooks.md](./templates/claude-hooks.md) |
 | Gemini CLI bridge | [templates/GEMINI.md](./templates/GEMINI.md) |
 | Google Antigravity bridge | [templates/.agents/rules/harness.md](./templates/.agents/rules/harness.md) |
 | Harness contract | [templates/HARNESS.md](./templates/HARNESS.md) |
