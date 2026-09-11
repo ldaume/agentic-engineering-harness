@@ -199,15 +199,18 @@ def repair(text: str, *, json_string_escaping: bool = False) -> str:
     `json_string_escaping` is for a file whose text is JSON: a straight double
     quote inside a JSON string value has to be escaped, so writing `"` there
     turns a valid document into a broken one. Found the hard way - a run over
-    `messages/de.json` produced `"Suggestion for "{title}""`, which a pre-commit
+    a translation file produced `"Suggestion for "{title}""`, which a pre-commit
     hook rejected and a less careful pipeline would have committed.
     """
     for code, (_category, _name, replacement) in BANNED.items():
         char = chr(code)
         if char not in text:
             continue
-        if json_string_escaping and replacement == '"':
-            replacement = '\\"'
+        if json_string_escaping:
+            # Inside a JSON string a quote and a newline are both syntax: one
+            # ends the string, the other is an illegal raw control character.
+            # Write the escape the format spells them with.
+            replacement = {'"': '\\"', "\n": "\\n"}.get(replacement, replacement)
         text = text.replace(char, replacement)
     return text
 
@@ -216,8 +219,16 @@ def repair_file_text(text: str, relative: str) -> tuple[str, str | None]:
     """Repair one file's text, or refuse and say why.
 
     A repair that produces a file the parser rejects is worse than the finding
-    it fixed, so JSON is re-parsed afterwards and the original is kept when it
-    no longer loads. `--fix` is a convenience, never a licence to corrupt.
+    it fixed. `--fix` is a convenience, never a license to corrupt.
+
+    Two defenses, because the second one cannot always run. Characters that
+    are syntax inside a JSON string - the double quote, and the newline that
+    replaces a line separator - are written as the escape the format spells
+    them with, so the repair stays inside the string it belongs to. Then the
+    result is re-parsed and the original kept if it no longer loads. A
+    `.jsonc` file has comments, so it is not JSON and cannot be re-parsed:
+    there the escaping is the only defense, which is why it has to be right
+    rather than merely backed up.
     """
     is_json = relative.endswith((".json", ".jsonc"))
     fixed = repair(text, json_string_escaping=is_json)

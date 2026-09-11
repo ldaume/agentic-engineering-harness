@@ -25,6 +25,7 @@ EN_DASH = "\u2013"        # allowed for the same reason
 NB_HYPHEN = "\u2011"      # banned: indistinguishable from "-" to a reader
 LEFT_DOUBLE = "\u201c"
 RIGHT_DOUBLE = "\u201d"
+LINE_SEPARATOR = "\u2028"
 RIGHT_SINGLE = "\u2019"
 ELLIPSIS = "\u2026"
 NO_BREAK_SPACE = "\u00a0"
@@ -239,11 +240,29 @@ class JsonRepair(unittest.TestCase):
         self.assertEqual(fixed, source)
         self.assertIn("would not parse as JSON", refusal or "")
 
-    def test_jsonc_is_escaped_but_not_parsed(self) -> None:
+    def test_jsonc_is_escaped_but_not_re_parsed(self) -> None:
+        # Comments make it invalid JSON by definition, so the repair cannot be
+        # confirmed by loading it. Escaping still applies.
         source = '// note\n{"k": "a ' + LEFT_DOUBLE + 'b' + RIGHT_DOUBLE + '"}'
         fixed, refusal = gate.repair_file_text(source, "tsconfig.jsonc")
         self.assertIsNone(refusal)
         self.assertIn('\\"b\\"', fixed)
+
+    def test_a_line_separator_does_not_break_out_of_a_json_string(self) -> None:
+        # U+2028 is replaced by a newline, which is illegal raw inside a JSON
+        # string. `.json` was saved by the re-parse, which refused the whole
+        # repair; `.jsonc` cannot be parsed and was written corrupt - the exact
+        # failure this function exists to prevent, in the one case its safety
+        # net does not cover.
+        source = '{"k": "a' + LINE_SEPARATOR + 'b"}'
+        for name in ("messages.json", "tsconfig.jsonc"):
+            with self.subTest(name=name):
+                fixed, refusal = gate.repair_file_text(source, name)
+                self.assertIsNone(refusal, "the repair should succeed, not refuse")
+                self.assertNotIn("\n", fixed, "a raw newline ends the string early")
+        self.assertEqual(
+            json.loads(gate.repair_file_text(source, "m.json")[0])["k"], "a\nb"
+        )
 
 
 if __name__ == "__main__":
