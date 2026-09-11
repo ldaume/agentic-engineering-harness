@@ -7,6 +7,7 @@ own repository, so a literal sample would fail the check it is testing.
 from __future__ import annotations
 
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -209,6 +210,40 @@ class Files(unittest.TestCase):
             path = Path(directory) / "note.md"
             path.write_text(f"gepr{UMLAUT_U}ft\n", encoding="utf-8")
             self.assertEqual(gate.read_text(path), f"gepr{UMLAUT_U}ft\n")
+
+
+class JsonRepair(unittest.TestCase):
+    """A repair must not turn a valid document into a broken one.
+
+    A run over a translation file produced `"Suggestion for "{title}""`: a
+    straight quote inside a JSON string value is syntax, not text. A pre-commit
+    hook rejected it; a less careful pipeline would have committed
+    syntactically invalid JSON on behalf of a typography rule.
+    """
+
+    def test_a_quote_inside_a_json_string_is_escaped(self) -> None:
+        source = '{"k": "Suggestion for ' + LEFT_DOUBLE + '{t}' + RIGHT_DOUBLE + '"}'
+        fixed, refusal = gate.repair_file_text(source, "messages/en.json")
+        self.assertIsNone(refusal)
+        self.assertEqual(json.loads(fixed)["k"], 'Suggestion for "{t}"')
+
+    def test_prose_outside_json_keeps_the_bare_quote(self) -> None:
+        self.assertEqual(
+            gate.repair("He said " + LEFT_DOUBLE + "hello" + RIGHT_DOUBLE),
+            'He said "hello"',
+        )
+
+    def test_a_repair_that_would_not_parse_is_refused(self) -> None:
+        source = '{"k": "unterminated ' + LEFT_DOUBLE + '}'
+        fixed, refusal = gate.repair_file_text(source, "broken.json")
+        self.assertEqual(fixed, source)
+        self.assertIn("would not parse as JSON", refusal or "")
+
+    def test_jsonc_is_escaped_but_not_parsed(self) -> None:
+        source = '// note\n{"k": "a ' + LEFT_DOUBLE + 'b' + RIGHT_DOUBLE + '"}'
+        fixed, refusal = gate.repair_file_text(source, "tsconfig.jsonc")
+        self.assertIsNone(refusal)
+        self.assertIn('\\"b\\"', fixed)
 
 
 if __name__ == "__main__":

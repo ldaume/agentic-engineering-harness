@@ -5,6 +5,19 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.11.1: a fixer must not corrupt what it fixes, and the
+  rule is about prose rather than design. `--fix` produced
+  `"Suggestion for "{title}""` in a translation file: a straight quote inside a
+  JSON string value is syntax, not text. It now escapes inside JSON and refuses
+  any repair that would stop the file parsing. The same hazard exists in every
+  quoted syntax - a TypeScript string literal, a YAML scalar, a shell argument
+  - and those cannot be parsed back, so an automatic fix over source files is a
+  draft the repository's own checks confirm. Separately: a separator glyph in
+  rendered markup is a typographic device someone chose, so rewriting it is a
+  different design, not a correction. A gate may report it, because it cannot
+  tell a label from a sentence, but the automatic fix is the wrong instrument
+  there.
+
 - `scaffold-harness` 2.11.0: stop banning em and en dashes. They were listed as
   the common tell that prose came out of a model. They are also ordinary
   correct typography, an em dash in English most of all, and the tell has
