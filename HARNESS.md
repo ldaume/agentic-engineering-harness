@@ -244,9 +244,10 @@ target-specific truth into this repository.
 
 Every change in this repository must end with a website projection result.
 Inspect the local sibling [`../website-astro`](../website-astro) first. When it
-is unavailable, inspect the
-[Gitea repository](https://gitea.daume.dev/lenny/website-astro) before deciding
-that no update is needed.
+is unavailable, inspect the published site before deciding that no update is
+needed. The maintainer's own checkout and its remote are not named here: this
+repository is world-readable, and a private host URL in it tells every reader
+where a private repository lives.
 
 Check the website when a change affects:
 
