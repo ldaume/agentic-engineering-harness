@@ -5,6 +5,28 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.10.1: the Claude Code activation hooks template is
+  reachable. 2.9.0 added `templates/claude-hooks.md` - the settings, the four
+  moments, and what each check looks for - and referenced it from nowhere: not
+  from the prose describing the mechanism, not from the Templates table listing
+  fifteen other artifacts. A reader was told to put routing in a Hook and left
+  to write it, with the finished template beside the file. On hosts that read
+  instruction files as behavior this cost nothing; on a host that selects
+  Skills as tools it was the one piece that mattered.
+
+- `audit-skills.py`: a bundled file that no Markdown in its own Skill names
+  now fails the audit, which is the check that would have caught the above.
+  Candidates come from git rather than a filesystem walk, so local artifacts
+  like `.DS_Store` are not judged.
+
+- `audit-skills.py`: `SKIP_DIRS` was matched against absolute path parts, so a
+  checkout under `.../.worktrees/<task>/` - the isolation default this
+  catalog's own harness prescribes - skipped every file in every file-level
+  validator while still printing "passed". Measured before the fix: 0 of 83
+  Markdown files inspected. CI never saw it, because CI checks out at an
+  ordinary path. The filter now decides by the path relative to the repository
+  root.
+
 - `scaffold-harness` 2.10.0: the harness template answers whose work an
   artifact is, and where that stops. Cross-agent non-interference covered
   checkouts and said nothing about work items, pull requests, review comments
