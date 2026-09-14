@@ -53,7 +53,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/deliver-dependency-upgrades/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "frontend-craft": {
       "source": "local",
