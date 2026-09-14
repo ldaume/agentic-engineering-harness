@@ -43,6 +43,10 @@ Before changing a server:
 - Use systemd, Docker Compose, or orchestrator units consistently.
 - Prefer health checks and rollback notes for app deployments.
 - Monitor disk, memory, certificates, and failed services.
+- Keep `docker exec` non-interactive inside a script piped to a remote shell
+  (`ssh host bash -s`). With `-i` the exec inherits that pipe and consumes the
+  rest of the script, so every later command silently never runs and the shell
+  still exits 0 - a remote check that cannot fail.
 
 ## Red Flags
 
@@ -52,3 +56,4 @@ Before changing a server:
 - admin UI exposed on the public internet
 - wildcard proxy routes with no auth boundary
 - manual server changes that bypass the documented deployment path
+- remote verification that reports success without having run

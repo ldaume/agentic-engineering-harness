@@ -5,6 +5,23 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `ansible-automation` 1.1.0: scope `no_log` to the task that carries the
+  secret. Wrapping a whole task in it because one argument is sensitive also
+  censors the failure message, so the run reports `censored` and nothing about
+  what went wrong. Observed against `pveum realm modify`, which rejects a
+  create-only option: the error existed, was correct, and was unreadable. The
+  working shape is two tasks - non-secret arguments in a logged one, the secret
+  argument alone in the quiet one - which keeps the secret out of the log
+  without taking the diagnosis with it.
+
+- `secure-linux-web-hosting` 1.2.0: `docker exec -i` inside a script piped to a
+  remote shell consumes the script. `ssh host bash -s` feeds the script on
+  stdin; an interactive exec inherits that pipe, reads the remainder, and the
+  shell reaches EOF with nothing left to run. Every later command is skipped
+  and the exit code is 0, so a post-deploy verification step reports success
+  without having checked anything. That failure mode is worse than no check,
+  because it is trusted. Drop `-i` unless the container genuinely reads stdin.
+
 - `scaffold-harness` 2.11.1: a fixer must not corrupt what it fixes, and the
   rule is about prose rather than design. `--fix` produced
   `"Suggestion for "{title}""` in a translation file: a straight quote inside a
