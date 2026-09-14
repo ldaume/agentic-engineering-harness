@@ -28,6 +28,10 @@ Before changing automation:
   `failed_when`.
 - Keep templates minimal and render from explicit vars.
 - Use tags for operational subsets only when they remain safe alone.
+- Scope `no_log` to the task that carries the secret. On a whole task it
+  censors the failure message along with the secret, so a failed run reports
+  nothing usable. Split it: non-secret arguments in a logged task, the secret
+  argument in its own.
 
 ## Inventory Rules
 
@@ -54,3 +58,4 @@ Use check mode cautiously; not every module predicts changes perfectly.
 - restart on every run
 - unbounded `hosts: all` for risky changes
 - task depends on local machine state without documenting it
+- `no_log` on a task whose failure message you still need to read
