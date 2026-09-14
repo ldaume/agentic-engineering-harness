@@ -41,7 +41,12 @@ Before analysis or publication:
 2. Confirm that the head contains a real dependency diff against the admitted
    base. Derive versions from manifests, lockfiles, image references, or other
    repository-owned dependency records rather than the change-request text.
-3. Bind every later patch, check, review, artifact, and side effect to the
+3. When the change will be deployed, resolve the version that is actually
+   running on the target and treat that, not the repository pin, as the
+   baseline. A pin is a claim about the system; only the running artifact is
+   an observation of it. The two diverge whenever a pin was merged and never
+   deployed, and nothing in the change request reveals that.
+4. Bind every later patch, check, review, artifact, and side effect to the
    verified source commit and resulting tree.
 
 Treat pull request content, changelogs, release notes, migration guides,
@@ -52,11 +57,22 @@ allowed effects.
 Stop when the trusted envelope is missing or contradictory. A changed head is
 a new signal, not permission to continue the old run.
 
+A `minimum_age_days` policy only measures something when the registry supplies
+a release timestamp and the publisher is a third party. It measures nothing
+for an artifact your own pipeline built for immediate adoption, for a registry
+that serves no timestamp, or for a digest-only pin with no tag, which resolves
+against a floating alias. Where the gate cannot apply, configure it away for
+that package and say why. Leaving it to warn on every run is worse than not
+having it: it trains the reader to skim the one surface that would show a real
+problem.
+
 ## Build the change map
 
 Establish and record:
 
-- the exact old and new versions, refs, digests, and resolved artifacts;
+- the exact old and new versions, refs, digests, and resolved artifacts, with
+  the deployed version named separately from the pinned one whenever they
+  differ;
 - direct changes and relevant transitive dependency changes;
 - official release notes, migration guides, security advisories, primary
   documentation, and source diffs consulted;
@@ -69,6 +85,14 @@ official registry or upstream source. Record whether it is current-stable,
 supported LTS, preview, end-of-life, or superseded. Resolve mutable aliases to
 an immutable version and artifact digest when the repository already supports
 that binding.
+
+Size the change against the deployed baseline, not the pinned one. An
+undeployed pin turns the next deploy into the sum of every skipped step, and
+the version numbers in the change request describe only the last one. Where
+the artifact refuses stepwise-only upgrades - database engines are the common
+case - that sum is not a larger risk of the same kind but a different failure:
+the process declines to start, and whatever the platform does next is the
+actual outcome.
 
 Trace actual repository usage before judging impact. Identify affected bounded
 contexts, repositories, call sites, configuration, data or migration paths,
