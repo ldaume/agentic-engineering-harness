@@ -450,7 +450,11 @@ do not silent-ignore:
 1. Inspect the version jump against this repository's usage (changelog, release
    notes, breaking changes that affect call sites here).
 2. Run the relevant Fast Check / Full Gates. Add a feature-level smoke when the
-   bump touches runtime behavior.
+   bump touches runtime behavior. A build tool counts as runtime behavior when
+   the shipped artifact is built with it: a package manager, bundler, or base
+   image the container build invokes is exercised by that build and by nothing
+   the Fast Check runs, so its bump is verified by building the artifact, not
+   by a green test suite.
 3. Merge only with evidence the jump is safe for this repo.
 4. If not merging (major, risk, red CI, unclear impact, or deliberately
    deferred): leave a clear PR comment with rationale and unblock criteria.
