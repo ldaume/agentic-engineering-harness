@@ -5,6 +5,20 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `completion-gate` 1.5.0: a check that said nothing did not necessarily pass.
+  A command whose output is discarded reports success by being silent, and
+  reports the same thing when it never started. Observed 2026-09-15: a helper
+  script run as `node "$SCRATCH/probe.mjs" >/dev/null 2>&1` from a directory
+  with no `node_modules` died on `ERR_MODULE_NOT_FOUND` on every one of six
+  attempts, while the test suite beside it went green on its own - and that
+  green was written into a pull request as the helper's result. The claim was
+  false and nothing in the session contradicted it. This generalises the two
+  stack-specific instances released a day earlier, `no_log` censoring the
+  failure it was meant to guard and `docker exec -i` eating the rest of a
+  piped remote script: three checks in three stacks that could not fail, which
+  is the argument for the rule sitting in the portable gate rather than in
+  each stack.
+
 - `ansible-automation` 1.1.0: scope `no_log` to the task that carries the
   secret. Wrapping a whole task in it because one argument is sensitive also
   censors the failure message, so the run reports `censored` and nothing about

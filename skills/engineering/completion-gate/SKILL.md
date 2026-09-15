@@ -66,6 +66,14 @@ Read verify commands from **`AGENTS.md`** or the repo's package scripts (`packag
 
 If verification fails: fix and re-run this gate.
 
+A check that said nothing did not necessarily pass. A command whose output you
+discarded reports success by being silent - and reports exactly the same thing
+when it never started, because a dependency was missing, the working directory
+was wrong, or the path had a typo. Silence is not a result. Read the output, or
+assert on something the run must have changed, and never let a neighbouring
+command's green stand in for the one you did not watch. If you cannot say what
+the check printed, you did not run it.
+
 Once merged, check continuous integration on the branch you merged into. A
 pull request runs against its own head; the target branch runs against the
 merge, so pull requests that were each green can merge in sequence and leave it
