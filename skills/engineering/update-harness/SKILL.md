@@ -150,6 +150,14 @@ observed diff conservatively:
 Separate source changes from target-local adaptations. Never infer that a
 newer Skill is automatically appropriate for the target's maturity.
 
+A `scaffold-harness` release is also a harness update, not only a Skill copy:
+its templates are the source of the target's `AGENTS.md`, `HARNESS.md`, host
+bridges, and hooks. Diff the changed templates against the target's copies
+and carry over each changed rule or hook in the target's own words and
+structure, preserving local truth; do not paste a template over a file the
+target has adapted. Route that pass through `agent-sync` and record what was
+carried and what was deliberately not.
+
 ## 6. Decide the Gate
 
 Apply a patch or minor update autonomously only when it is reversible, within

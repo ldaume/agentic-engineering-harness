@@ -66,8 +66,13 @@
   duplicates or relying on third-party Skills for the same method.
 - Preserve repository-local product, architecture, ownership, and security
   authority.
-- Ask when intent or authority is unresolved, or an action is external,
-  irreversible, sensitive, or materially risky.
+- Decide by default. Before involving a human: investigate the discoverable
+  facts, then spike or grill (yourself or a fresh subagent), whichever answers
+  faster. Ask only for what `HARNESS.md` **Operating Level** reserves for
+  humans; that list is not restated here. A turn never ends with a bare offer
+  ("say the word and I will ..."), waiting for the human to do a routine
+  step, or a handoff of a finding in a sibling repository. When a real
+  decision remains open, close with options and one recommendation.
 - Execute authorized routine completion without asking again. When repository
   policy makes commit/push/merge the default, perform it after checks pass;
   when this session opened a PR/MR and required checks are green with no
