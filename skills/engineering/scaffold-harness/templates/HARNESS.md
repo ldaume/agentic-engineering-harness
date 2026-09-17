@@ -25,6 +25,28 @@ from observed evidence.
   unclear blast radius on a shared branch). If unsure whether to involve the
   human, grill the remaining uncertainty first; involve them only when that
   routing requires it.
+- **Decision rights:** for routine implementation taste, agents resolve
+  reversible choices from repository conventions and current evidence. Do not
+  ask humans to choose naming, casing, formatting, or equivalent preferences.
+  All other uncertainty follows **Uncertainty** and **Shared Understanding and
+  Grilling** below: investigate, then spike or grill (whichever answers
+  faster; `grill-harness-with-docs` when material), then act. Involve the
+  human only for what this document reserves for them (name that list here
+  as the repository's current default), and then with options and one
+  recommendation, never with a bare offer or a wait. A finding in a sibling
+  repository is not handed back as "belongs to repository X": open that
+  repository as the working root (its own lease, branch, and instructions
+  apply) and fix it in a small PR, or record it as a linked signal with what
+  was found and why it was not fixed. "Not worth doing" is a recorded decision
+  with a reason, never a silent drop.
+- **Host block is not a handoff:** when the host's permission layer (auto
+  mode classifier, permission rule, hook) denies a routine close-out command
+  such as `gh pr merge`, that denial is a tooling blocker, not a decision for
+  the human to make. Name the exact blocked command and the rule that would
+  allow it, keep watching the PR or check that is waiting on it, and continue
+  automatically once it clears. Do not end the turn with "merge it yourself"
+  or "tell me when it is merged". Ask the human only when the block is on an
+  action this document already reserves for them.
 
 ## Session currency
 
@@ -248,7 +270,9 @@ on. Recording is not raising.
    a closed loop unless that blocker is recorded. Do not leave mergeable session-owned PRs open for a human
    reminder. If merge is blocked (failing required checks, conflicts, or
    foreign WIP), record the named blocker in `STATUS.md` with a clear next
-   action. Do not force-merge past red required checks.
+   action. Do not force-merge past red required checks. A host permission
+   denial is not one of these: monitor and resume, per **Host block is not a
+   handoff** above.
 3. **Return surviving checkouts to the default branch while still holding the
    lease.** After steps 1-2, for every repository this session edited (or
    whose checkout this session left off the default branch): leave the session
