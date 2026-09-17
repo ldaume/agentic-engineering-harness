@@ -59,7 +59,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/frontend/frontend-craft/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     "gitea-actions": {
       "source": "local",
