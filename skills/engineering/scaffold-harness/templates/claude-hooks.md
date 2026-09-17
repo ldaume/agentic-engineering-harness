@@ -59,12 +59,22 @@ A hook that speaks on every turn is ignored on the turn that mattered.
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/close-out-guard.py\""
+          }
+        ]
+      }
     ]
   }
 }
 ```
 
-## The four moments
+## The five moments
 
 | Event | Fires on | Says |
 | --- | --- | --- |
@@ -72,8 +82,21 @@ A hook that speaks on every turn is ignored on the turn that mattered.
 | `PreToolUse` `Edit\|Write` | the first file edit of a session | the starting point, when it is wrong |
 | `PreToolUse` `Bash` | a `git commit` | the completion gate |
 | `PostToolUse` `Bash` | a `gh pr merge` | what is left to clean up |
+| `Stop` | the end of a turn | that the turn ended in a handoff, a wait, or a bare offer |
 
 ## What each check looks for
+
+**Close-out guard**, the one hook here that sends a turn back: it reads
+`last_assistant_message`, keeps only the closing paragraph with code spans and
+quoted strings removed (earlier paragraphs may legitimately quote the failure
+they fixed), and matches phrasings such as "tell me when", "say the word",
+"want me to", "merge it yourself", or "belongs to repository X", in every
+language the repository's humans write. A closing paragraph that carries a
+recommendation, or names an action the harness reserves for humans, passes.
+It returns `{"decision": "block", "reason": ...}` at most once per turn:
+when `stop_hook_active` is set the model has already been sent back, and its
+second close stands, so a genuinely reserved ask gets through by saying so.
+The reason text points at the **Decide by default** rule in `AGENTS.md`.
 
 **Starting point**, once per session, keyed by the session id, silent when all
 four are fine: editing on the default branch; a tree that was already dirty,

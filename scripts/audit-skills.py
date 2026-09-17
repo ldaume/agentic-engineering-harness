@@ -397,6 +397,43 @@ def validate_prose_style(errors: list[str]) -> None:
                 )
 
 
+# This catalog is public and portable. It must not know the maintainer's
+# private coordinators, workspaces, machine paths, company, or member
+# repositories: a pointer to any of them is a leak for every consumer and a
+# dead reference on every machine but one. The maintainer's public name and
+# this repository's own URL are not pointers and stay allowed.
+PORTFOLIO_PATTERNS = (
+    (re.compile(r"(?<![\w-])(?:private-harness|lennys-harness)(?![\w-])"), "a coordinator name"),
+    (re.compile(r"/Users/[^/\s]+/|~/dev/(?:ws|private)/|private/wsp\b"), "a machine or workspace path"),
+    (re.compile(r"gitea\.daume\.dev"), "the maintainer's private forge"),
+    (re.compile(r"(?i)(?<![\w])oh-so(?![\w])"), "the maintainer's company"),
+    (re.compile(r"(?<![\w-])(?:craft-gauge|hugendubel|value-pipeline)(?![\w-])"), "a private member repository"),
+)
+# Where the patterns are defined and tested, they occur by construction.
+PORTFOLIO_SELF = {"scripts/audit-skills.py", "tests/test_portfolio_pointers.py"}
+
+
+def portfolio_pointer_reasons(line: str) -> list[str]:
+    return [reason for pattern, reason in PORTFOLIO_PATTERNS if pattern.search(line)]
+
+
+def validate_no_portfolio_pointers(errors: list[str]) -> None:
+    for path in repository_paths():
+        if not path.is_file() or is_skipped(path) or path.suffix not in TEXT_EXTS:
+            continue
+        relative = path.relative_to(ROOT).as_posix()
+        if relative in PORTFOLIO_SELF:
+            continue
+        for number, line in enumerate(
+            path.read_text(encoding="utf-8", errors="ignore").splitlines(), start=1
+        ):
+            for reason in portfolio_pointer_reasons(line):
+                errors.append(
+                    f"{relative}:{number}: points at {reason}; this catalog "
+                    "must not know the maintainer's portfolios"
+                )
+
+
 def validate_lock(skill_paths: list[Path], errors: list[str]) -> None:
     try:
         entries = json.loads(LOCK_PATH.read_text(encoding="utf-8"))["skills"]
@@ -443,6 +480,7 @@ def main() -> int:
     validate_plain_punctuation(errors)
     validate_prose_matcher(errors)
     validate_prose_style(errors)
+    validate_no_portfolio_pointers(errors)
     validate_lock(skill_paths, errors)
 
     if errors:
