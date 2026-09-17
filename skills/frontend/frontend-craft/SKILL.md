@@ -34,6 +34,14 @@ Before designing or changing UI:
   matter.
 - UI copy is product behavior. Buttons, errors, empty states, and confirmations
   must help the user proceed or recover.
+- State each page's one purpose in one sentence. If the object of that
+  purpose is not in the first screenful, the layout is wrong; everything else
+  steps back.
+- Every action ends on a surface that shows its result and the next step worth
+  taking. No blank page, no silent return, no dead end.
+- No control needs instructions to be found or operated. If it does, fix the
+  label, placement, or affordance. Domain consequences may still be explained
+  next to the action, never the control itself.
 
 ## Read First
 
@@ -166,7 +174,12 @@ Do not ship a polished happy path with broken silence everywhere else.
 
 ## Review Checklist
 
-- Does the screen answer one primary question?
+- Does the screen answer one primary question, and does the entry point
+  promise that question?
+- Does each primary action land on a surface that shows its result and the
+  next step?
+- Which control needs instructions to be found or operated, and what label,
+  placement, or affordance removes that need?
 - Is the primary action obvious, reachable, and accurately labeled?
 - Does the flow have an exit and a recovery path?
 - Are loading, empty, error, and success states present?
@@ -188,3 +201,5 @@ Stop and revise when you see:
 - UI copy added outside the repo's localization system
 - AI surfaces with no review, provenance, or recovery
 - animation that delays the user's work
+- an action that ends on a blank page or a silent return
+- a tooltip or tour that explains how to find or operate a control
