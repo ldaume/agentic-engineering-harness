@@ -32,6 +32,7 @@ loop only when evidence cannot resolve a material decision.
 | [scaffold-distributed-context](./scaffold-distributed-context/SKILL.md) | bounded contexts, contracts, projections, Graphify |
 | [grill-harness-with-docs](./grill-harness-with-docs/SKILL.md) | shared understanding, material critique, unresolved decision |
 | [write-a-skill](./write-a-skill/SKILL.md)                   | create skill, SKILL.md, skill frontmatter, skills CLI      |
+| [system-one-routing](./system-one-routing/SKILL.md)         | route subagent, capability tier, effort, model, spike gate, iteration gate |
 | [documentation-and-adrs](./documentation-and-adrs/SKILL.md) | ADRs, runbooks, public API docs, durable decisions         |
 | [pnpm](./pnpm/SKILL.md)                                     | pnpm workspaces, lockfiles, Corepack, overrides, patches   |
 | [scaffold-monorepo](./scaffold-monorepo/SKILL.md)           | new monorepo, pnpm workspaces, CI, Renovate, quality gates |
