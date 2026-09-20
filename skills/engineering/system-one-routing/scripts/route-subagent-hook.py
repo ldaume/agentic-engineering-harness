@@ -30,6 +30,12 @@ from pathlib import Path
 ROUTER = Path(os.environ.get("ROUTE_SUBAGENT_SCRIPT", Path(__file__).resolve().parent / "route-subagent.py"))
 LOG = Path.home() / ".claude" / "hooks" / "route-subagent.log"
 FALLBACK = {"model": "sonnet", "effort": "medium", "tier": "balanced", "task_class": "unknown", "confident": False}
+# Used when the router is unavailable; otherwise the router's own brief wins.
+JEV_BRIEF = (
+    "Consider Jev: before you write a classifier, judgment, ranking, gate, or threshold as an LLM pr"
+    "ompt, check whether a typed System One decision fits (route-subagent.py, iteration-gate.py, and"
+    " the System One Decisions list); say in your report whether Jev was used or why not."
+)
 
 
 def route(prompt: str) -> dict:
@@ -72,7 +78,7 @@ def main() -> int:
     )
     updated = dict(tool_input)
     updated["model"] = model
-    updated["prompt" if "prompt" in tool_input or "instructions" not in tool_input else "instructions"] = f"{header}\n\n{prompt}"
+    updated["prompt" if "prompt" in tool_input or "instructions" not in tool_input else "instructions"] = f"{header}\n{decision.get('brief') or JEV_BRIEF}\n\n{prompt}"
     try:
         LOG.parent.mkdir(parents=True, exist_ok=True)
         with LOG.open("a", encoding="utf-8") as log:

@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `system-one-routing` 1.1.0: every routed child prompt now opens with the
+  router's `Consider Jev:` brief (new `brief` field, printed and injected by
+  the Claude Code hook), so a worker in any repository checks whether a typed
+  System One decision fits before it writes a classifier, judgment, ranking,
+  gate, or threshold as an LLM prompt, and reports whether Jev was used or
+  why not.
 - `completion-gate` 1.5.0: a check that said nothing did not necessarily pass.
   A command whose output is discarded reports success by being silent, and
   reports the same thing when it never started. Observed 2026-09-15: a helper

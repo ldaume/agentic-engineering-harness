@@ -54,6 +54,15 @@ INPUT_USD_PER_TOKEN = 0.042 / 1_000_000  # TypeSafe list price observed 2026-09-
 # pilot set disagrees.
 AMBIGUITY_THRESHOLD = 0.8
 
+# Every routed child gets this line after the Routed header, so a worker in
+# any repository considers a typed System One decision before it improvises
+# an LLM judgment. The parent copies it; the Claude Code hook injects it.
+JEV_BRIEF = (
+    "Consider Jev: before you write a classifier, judgment, ranking, gate, or threshold as an LLM pr"
+    "ompt, check whether a typed System One decision fits (route-subagent.py, iteration-gate.py, and"
+    " the System One Decisions list); say in your report whether Jev was used or why not."
+)
+
 TASK_CLASSES = {
     "mechanical": "Clear extraction, inventory, renaming, formatting, or a mechanical check with a deterministic or easily sampled result.",
     "implementation": "Bounded implementation, research, or debugging with a known target and a check that shows it works.",
@@ -254,7 +263,7 @@ def route(task: str, host: str, context: dict | None = None, min_confidence: flo
     except (RuntimeError, KeyError, TypeError) as error:
         reason = f"router unavailable ({error}); default route, parent decides"
         return {**resolve(host, "balanced", "medium", host_models), **UNAVAILABLE, "reasons": [reason],
-                "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None,
+                "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None, "brief": JEV_BRIEF,
                 "model_router": None}
     resolved = resolve(host, decision["tier"], decision["effort"], host_models)
     return {
@@ -265,6 +274,7 @@ def route(task: str, host: str, context: dict | None = None, min_confidence: flo
         "usage": payload.get("usage"),
         "cost_usd": round(cost_usd(payload.get("usage")), 6),
         "latency_ms": latency_ms,
+        "brief": JEV_BRIEF,
         "model_router": payload.get("model", MODEL),
     }
 
@@ -289,6 +299,7 @@ def main(argv: list[str] | None = None) -> int:
         for reason in result["reasons"]:
             print(f"  - {reason}")
         print(f"  jev {result['latency_ms']} ms, {result['usage']}, ${result['cost_usd']}")
+        print(f"  brief: {result['brief']}")
     return 0
 
 
