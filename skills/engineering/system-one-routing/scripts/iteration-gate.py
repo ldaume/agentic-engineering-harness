@@ -22,9 +22,12 @@ Without a key, `hypothesis` and `continue` still run: they print a "gate
 unavailable" verdict, exit 0, and tell the caller to decide for itself.
 `rank` has no code-only fallback and exits 2 instead.
 
-Reads TYPESAFE_API_KEY from the environment, then from
-`~/.config/typesafe/api-key`, then from `.env` next to this script, same as
-route-subagent.py. Every decision (including `no-measurements` and
+Two backends, one key: `scripts/jev_client.py` calls TypeSafe directly with
+`TYPESAFE_API_KEY`, or the Vercel AI Gateway (model `typesafe-ai/jev`) with
+`VERCEL_AI_GATEWAY_API_KEY`, same as route-subagent.py. Keys are read from a
+`.env` beside this Skill first, then the environment, then
+`~/.config/typesafe/api-key` or `~/.config/vercel/ai-gateway-key`;
+`JEV_BACKEND` forces one backend. Every decision (including `no-measurements` and
 `unavailable`) is appended as one JSON line to
 `~/.harness/jev-iteration-log.jsonl` -- timestamp, command, verdict,
 confidences, and an `outcome` field left empty for later evidence to fill
@@ -41,18 +44,15 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
-import time
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-API_URL = "https://api.typesafe.ai/v1/systemone"
-MODEL = "jev-latest"
-INPUT_USD_PER_TOKEN = 0.042 / 1_000_000  # TypeSafe list price observed 2026-09-20; output is free
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import jev_client as jev  # noqa: E402  (same directory; the Skill ships both files)
+
+ROOT = Path(__file__).resolve().parents[1]
+BACKEND = "typesafe"  # set by load_api_key(); "gateway" when the Vercel AI Gateway key is used
 LOG_PATH = Path.home() / ".harness" / "jev-iteration-log.jsonl"
 
 NOUL_READY_THRESHOLD = 0.6
@@ -90,48 +90,28 @@ def _confidences(answers: dict) -> dict:
 
 # --- shared: request, call, key loading (mirrors route-subagent.py) ---
 
-def build_request(state: dict, questions: dict, api_key: str) -> urllib.request.Request:
-    body = {"state": json.dumps(state, ensure_ascii=False), "model": MODEL, "questions": questions}
-    return urllib.request.Request(
-        API_URL,
-        data=json.dumps(body).encode("utf-8"),
-        method="POST",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-    )
+def build_request(state: dict, questions: dict, api_key: str):
+    return jev.build_request(state, questions, BACKEND, api_key)
 
 
 def evaluate(state: dict, questions: dict, api_key: str, timeout: float = 30.0) -> tuple[dict, int]:
-    """Call Jev. Raises RuntimeError with a short, key-free message on any failure."""
-    started = time.monotonic()
-    try:
-        with urllib.request.urlopen(build_request(state, questions, api_key), timeout=timeout) as response:
-            payload = json.load(response)
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(f"TypeSafe API {error.code}: {error.read().decode('utf-8', 'replace')[:200]}") from None
-    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
-        raise RuntimeError(f"TypeSafe API unreachable: {str(error)[:200]}") from None
-    return payload, int((time.monotonic() - started) * 1000)
+    """Call Jev on the selected backend. Raises RuntimeError with a short, key-free message on any failure."""
+    return jev.evaluate(state, questions, BACKEND, api_key, timeout)
 
 
 def cost_usd(usage: dict | None) -> float:
-    return float((usage or {}).get("input_tokens", 0)) * INPUT_USD_PER_TOKEN
+    return jev.cost_usd(usage, BACKEND)
 
 
 def load_api_key() -> str:
-    """Return the TypeSafe API key, or raise RuntimeError if none is configured.
-    Every caller here catches RuntimeError and fails open (see module docstring)."""
-    key = os.environ.get("TYPESAFE_API_KEY")
-    key_file = Path.home() / ".config" / "typesafe" / "api-key"
-    if not key and key_file.is_file():
-        key = key_file.read_text(encoding="utf-8").strip()
-    if not key:
-        env_file = HERE.parent / ".env"
-        if env_file.exists():
-            for line in env_file.read_text(encoding="utf-8").splitlines():
-                if line.startswith("TYPESAFE_API_KEY="):
-                    key = line.split("=", 1)[1].strip().strip('"').strip("'")
-    if not key:
-        raise RuntimeError("TYPESAFE_API_KEY is not set (environment, ~/.config/typesafe/api-key, or .env)")
+    """Pick the backend and key per jev_client.load_credentials (a `.env` beside
+    the Skill first). Raises RuntimeError when no key is configured; every caller
+    here catches it and fails open (see module docstring)."""
+    global BACKEND
+    try:
+        BACKEND, key = jev.load_credentials(ROOT)
+    except SystemExit as error:
+        raise RuntimeError(str(error)) from None
     return key
 
 
