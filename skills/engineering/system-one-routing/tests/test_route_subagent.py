@@ -1,7 +1,9 @@
 import importlib.util
 import json
 import os
+import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 
@@ -162,6 +164,16 @@ class OutageTests(unittest.TestCase):
         # Then it still returns a usable default route instead of crashing the caller
         self.assertEqual((result["model"], result["effort"]), ("sonnet", "medium"))
         self.assertFalse(result["confident"])
+        self.assertIn("router unavailable", result["reasons"][0])
+
+    def test_no_credentials_anywhere_still_yields_default_route(self):
+        # Given jev_client finds no key at all (it exits rather than raising)
+        mod = load_module()
+        mod.jev = types.SimpleNamespace(load_credentials=lambda root: sys.exit("no Jev credentials"))
+        # When the parent routes a task
+        result = mod.route("Do something", "claude")
+        # Then the Balanced default still comes back instead of a SystemExit escaping
+        self.assertEqual((result["model"], result["effort"]), ("sonnet", "medium"))
         self.assertIn("router unavailable", result["reasons"][0])
 
 

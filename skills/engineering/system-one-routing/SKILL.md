@@ -17,11 +17,12 @@ integration and checks.
 ## Quickstart: key only, everything else has a default
 
 ```bash
-export TYPESAFE_API_KEY=sk-...          # or ~/.config/typesafe/api-key
+export TYPESAFE_API_KEY=sk-...          # or VERCEL_AI_GATEWAY_API_KEY
 python3 scripts/route-subagent.py --host claude "Rename a variable in one file"
 ```
 
-That is the entire setup. The built-in host model table already covers
+That is the entire setup: exactly one key, either backend (see **Backends
+and credentials** below). The built-in host model table already covers
 Claude Code, Codex, Cursor, and Gemini CLI; no config file is required. If
 `TYPESAFE_API_KEY` is missing, unset, or the API is unreachable, every
 script below still runs to completion: it prints the Balanced default (for
@@ -133,6 +134,31 @@ Only the hosts and tiers you name are overridden; everything else keeps the
 built-in default. This lets a consumer repin one model without forking the
 script or maintaining a full copy of the table.
 
+## Backends and credentials
+
+`scripts/jev_client.py` reaches the same Jev model over two backends and
+normalizes both answers to one shape, so the decision code never sees the
+difference:
+
+| Backend | Endpoint | Key | Input price |
+|---|---|---|---|
+| `typesafe` | `https://api.typesafe.ai/v1/systemone`, model `jev-latest` | `TYPESAFE_API_KEY` | $0.042 per million |
+| `gateway` | Vercel AI Gateway evaluation-model protocol, model `typesafe-ai/jev` | `VERCEL_AI_GATEWAY_API_KEY` | $0.04 per million |
+
+A consumer needs exactly one of the two keys. Output tokens are free on
+both. Credentials are resolved in this order:
+
+1. a `.env` beside the Skill (the checkout decides how it pays),
+2. the environment,
+3. `~/.config/typesafe/api-key` or `~/.config/vercel/ai-gateway-key`.
+
+Within each source, `TYPESAFE_API_KEY` wins over the gateway key; set
+`JEV_BACKEND=typesafe` or `JEV_BACKEND=gateway` to force one backend
+regardless. A repository whose `.env` holds only the gateway key therefore
+routes every Jev call through the gateway, even on a machine that also
+exports a TypeSafe key. The plain-text route line names the backend it used
+(`jev via gateway ...`), and the JSON decision carries it as `backend`.
+
 ## Iteration and spike gates
 
 ```bash
@@ -231,12 +257,13 @@ credentials, or content that must never leave the local environment.
 python3 -m unittest discover -s tests
 ```
 
-Covers `tests/test_route_subagent.py` (tier decisions, host resolution, the
+Covers `tests/test_jev_client.py` (both backends: credential order, the
+gateway request shape and protocol headers, answer normalization, per-backend
+price), `tests/test_route_subagent.py` (tier decisions, host resolution, the
 models-file override, fail-open behavior), `tests/test_iteration_gate.py`
 (all three gate subcommands, fail-open, the no-measurements refusal), and
 `tests/test_route_subagent_hook.py` (the Claude Code PreToolUse hook: fail-open,
 fast-route rejection, fork and already-routed pass-through).
 
-Then run the quickstart twice: once with `TYPESAFE_API_KEY` set, once with a
-clean `HOME` and no key anywhere, and confirm both exit 0 with a route
-printed.
+Then run the quickstart twice: once with a key set, once with a clean `HOME`
+and no key anywhere, and confirm both exit 0 with a route printed.
