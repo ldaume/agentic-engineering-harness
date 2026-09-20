@@ -1,5 +1,7 @@
 import importlib.util
 import json
+import sys
+import types
 from pathlib import Path
 import unittest
 
@@ -205,6 +207,14 @@ class FailOpenTests(unittest.TestCase):
         exit_code = mod.run_hypothesis(args)
         # Then it prints gate unavailable and exits 0 so the agent decides itself
         self.assertEqual(exit_code, 0)
+
+    def test_no_credentials_anywhere_exits_zero(self):
+        # Given jev_client finds no key at all (it exits rather than raising)
+        mod = load_module()
+        mod.jev = types.SimpleNamespace(load_credentials=lambda root: sys.exit("no Jev credentials"))
+        args = argparse_namespace(goal="g", hypothesis="h", measure="m", increment="i", min_confidence=0.6, json=False, no_record=True)
+        # When the hypothesis gate runs, then it still exits 0 and the agent decides
+        self.assertEqual(mod.run_hypothesis(args), 0)
 
     def test_continue_unreachable_exits_zero(self, tmp_log=None):
         import tempfile
