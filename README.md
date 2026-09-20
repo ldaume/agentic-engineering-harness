@@ -320,7 +320,8 @@ The core contains methods that transfer across stacks:
   [`build-autonomous-agents`](./skills/engineering/build-autonomous-agents/SKILL.md),
   [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md),
   [`learn-agentic-engineering`](./skills/engineering/learn-agentic-engineering/SKILL.md),
-  [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md)
+  [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md),
+  [`system-one-routing`](./skills/engineering/system-one-routing/SKILL.md)
 - Engineering method: [`start-gate`](./skills/engineering/start-gate/SKILL.md),
   [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),
   [`completion-gate`](./skills/engineering/completion-gate/SKILL.md),
