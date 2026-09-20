@@ -1,0 +1,296 @@
+#!/usr/bin/env python3
+"""Route a delegated subagent task to a capability tier, effort, and host model.
+
+Calls Jev, TypeSafe AI's System One model (`https://api.typesafe.ai/v1/systemone`),
+to answer typed questions about the task with calibrated probabilities. The
+decision itself lives in code below: the model says what kind of task this
+is, the code maps that to a tier and effort, and the parent still owns
+integration and checks. See SKILL.md for the behavior contract.
+
+The parent's own model plays no role here. A frontier parent may get an
+efficient route for a mechanical subtask; an efficient parent may get a
+frontier route for a material critique.
+
+Quickstart (no config file needed):
+    export TYPESAFE_API_KEY=sk-...
+    python3 route-subagent.py --host claude "Rename a variable in one file"
+
+Without a key, every command below still runs: it prints the Balanced
+default and says the router was unavailable. Nothing here can block a caller.
+
+Usage:
+    python3 route-subagent.py [--host claude|codex|cursor|gemini] [--json]
+        [--min-confidence 0.6] [--context FILE] [--models FILE] TASK...
+
+Reads TYPESAFE_API_KEY from the environment, then from
+`~/.config/typesafe/api-key`, then from `.env` next to this script. Jev is
+the only model this script calls.
+
+Host model table: a small built-in default (see HOST_MODELS below) covers
+Claude Code, Codex, Cursor, and Gemini CLI as of this Skill's last review.
+Override it per consumer by pointing `--models FILE` (or the
+`ROUTE_SUBAGENT_MODELS` environment variable) at a JSON file shaped like
+HOST_MODELS; unset entries fall back to the built-in default. No override
+file is required.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+API_URL = "https://api.typesafe.ai/v1/systemone"
+MODEL = "jev-latest"
+INPUT_USD_PER_TOKEN = 0.042 / 1_000_000  # TypeSafe list price observed 2026-09-20; output is free
+# Jev rates most bounded task descriptions as somewhat under-specified (0.3 to
+# 0.75 observed); only clearly vague tasks exceed 0.85. Re-check if your own
+# pilot set disagrees.
+AMBIGUITY_THRESHOLD = 0.8
+
+TASK_CLASSES = {
+    "mechanical": "Clear extraction, inventory, renaming, formatting, or a mechanical check with a deterministic or easily sampled result.",
+    "implementation": "Bounded implementation, research, or debugging with a known target and a check that shows it works.",
+    "research": "Reading, searching, or comparing sources to answer a bounded question; the output is a report, not a change.",
+    "review": "Normal independent review of a change or document for concrete findings.",
+    "critique": "Material critique of a decision, architecture, security boundary, or migration that is hard to reverse.",
+    "integration": "Consequential integration: merging, releasing, deploying, or reconciling shared state across repositories or systems.",
+}
+
+QUESTIONS = {
+    "task_class": {
+        "type": "choice",
+        "instructions": "Which task class fits this delegated task best?",
+        "criteria": TASK_CLASSES,
+    },
+    "ambiguous": {
+        "type": "noul",
+        "instructions": "The task cannot be started as written: the goal, the target files or system, or the acceptance criterion is missing, so the worker would have to guess or ask before doing anything.",
+    },
+    "consequential": {
+        "type": "noul",
+        "instructions": "Would a wrong result be hard to reverse or affect systems, data, secrets, releases, or people outside the local checkout?",
+    },
+    "depth": {
+        "type": "score",
+        "instructions": "How much reasoning depth does this task need?",
+        "criteria": [
+            "Routine: a pattern to follow, no judgment beyond reading carefully.",
+            "Moderate: a few decisions inside a known frame.",
+            "Hard: root-cause analysis, competing constraints, or design judgment.",
+            "Extreme: novel architecture, security, or a decision that needs independent evidence.",
+        ],
+    },
+}
+
+# Default host adapters. Observed against live catalogs as of this Skill's
+# last review; treat as a dated starting point, not a permanent assignment.
+# Override without editing this file: pass --models FILE or set
+# ROUTE_SUBAGENT_MODELS to a JSON file with the same shape. A consumer
+# overriding only one host still inherits the built-in defaults for the rest.
+DEFAULT_HOST_MODELS = {
+    "claude": {"efficient": "haiku", "balanced": "sonnet", "frontier": "opus"},
+    "codex": {"efficient": "gpt-5.6-luna", "balanced": "gpt-5.6-terra", "frontier": "gpt-5.6-sol"},
+    "cursor": {
+        "efficient": "composer-2.5",
+        "balanced": {"low": "cursor-grok-4.6-medium", "medium": "cursor-grok-4.6-medium", "high": "cursor-grok-4.6-high"},
+        "frontier": "cursor-grok-4.6-high",
+    },
+    "gemini": {"efficient": "gemini-flash-lite", "balanced": "gemini-flash", "frontier": "gemini-pro"},
+}
+
+CONTROL_BY_HOST = {
+    "claude": "Agent tool `model` parameter; effort as an instruction in the prompt",
+    "codex": "`model` plus `model_reasoning_effort` on the subagent, or --model / -c",
+    "cursor": "`--model` on cursor-agent; effort is part of the model ID",
+    "gemini": "explicit per-agent `model` or `modelConfig`; effort as an instruction in the prompt",
+}
+
+UNAVAILABLE = {"tier": "balanced", "effort": "medium", "task_class": "unknown", "confident": False,
+               "ambiguous": False, "consequential": False, "depth": 0.0}
+
+
+def load_host_models(path: Path | None) -> dict:
+    """Merge a consumer override file over DEFAULT_HOST_MODELS. Missing hosts and
+    tiers fall back to the default; a missing or unreadable file is silently
+    ignored so the router never requires configuration to run."""
+    models = json.loads(json.dumps(DEFAULT_HOST_MODELS))  # deep copy
+    source = path or (Path(os.environ["ROUTE_SUBAGENT_MODELS"]) if os.environ.get("ROUTE_SUBAGENT_MODELS") else None)
+    if source and source.is_file():
+        try:
+            override = json.loads(source.read_text(encoding="utf-8"))
+            for host, tiers in override.items():
+                models.setdefault(host, {}).update(tiers)
+        except (ValueError, OSError):
+            pass
+    return models
+
+
+def build_request(task: str, context: dict | None, api_key: str) -> urllib.request.Request:
+    state = {"task": task, "context": context or {}}
+    body = {"state": json.dumps(state, ensure_ascii=False), "model": MODEL, "questions": QUESTIONS}
+    return urllib.request.Request(
+        API_URL,
+        data=json.dumps(body).encode("utf-8"),
+        method="POST",
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+    )
+
+
+def evaluate(task: str, context: dict | None, api_key: str, timeout: float = 30.0) -> tuple[dict, int]:
+    """Call Jev. Raises RuntimeError with a short, key-free message on any failure."""
+    started = time.monotonic()
+    try:
+        with urllib.request.urlopen(build_request(task, context, api_key), timeout=timeout) as response:
+            payload = json.load(response)
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f"TypeSafe API {error.code}: {error.read().decode('utf-8', 'replace')[:200]}") from None
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
+        raise RuntimeError(f"TypeSafe API unreachable: {str(error)[:200]}") from None
+    return payload, int((time.monotonic() - started) * 1000)
+
+
+def cost_usd(usage: dict | None) -> float:
+    return float((usage or {}).get("input_tokens", 0)) * INPUT_USD_PER_TOKEN
+
+
+def decide(payload: dict, min_confidence: float = 0.6) -> dict:
+    answers = payload["answers"]
+    task_class = answers["task_class"]["choice"]
+    class_confidence = answers["task_class"].get("confidence", 1.0)
+    top = answers["task_class"].get("probabilities", {}).get(task_class, 1.0)
+    ambiguous = answers["ambiguous"]["noul"] >= AMBIGUITY_THRESHOLD
+    consequential = answers["consequential"]["noul"] >= 0.5
+    depth = answers["depth"]["score"]
+    reasons: list[str] = []
+
+    confident = class_confidence >= min_confidence and top >= 0.5
+    if not confident:
+        reasons.append(f"low confidence on task class ({class_confidence}, p={top:.2f}); default route, parent decides")
+        return {"tier": "balanced", "effort": "medium", "task_class": task_class, "confident": False, "reasons": reasons,
+                "ambiguous": ambiguous, "consequential": consequential, "depth": depth}
+
+    if task_class in ("critique", "integration"):
+        tier, effort = "frontier", "high"
+        reasons.append(f"{task_class} is frontier by policy")
+    elif task_class == "review":
+        tier, effort = "balanced", "high"
+        reasons.append("normal review runs balanced at high effort")
+    elif task_class == "mechanical" and not ambiguous:
+        tier, effort = "efficient", "low"
+        reasons.append("clear mechanical work runs efficient at low effort")
+    else:
+        tier, effort = "balanced", "medium"
+        reasons.append(f"{task_class} defaults to balanced at medium effort")
+
+    if consequential and tier != "frontier":
+        tier, effort = "frontier", "high"
+        reasons.append("consequential: the consequence boundary lifts the tier to frontier")
+    if ambiguous and depth >= 2 and tier != "frontier":
+        tier, effort = "frontier", "high"
+        reasons.append("ambiguous and hard: frontier for independent judgment")
+    if depth >= 2 and effort != "high":
+        effort = "high"
+        reasons.append("hard reasoning raises effort to high")
+
+    return {"tier": tier, "effort": effort, "task_class": task_class, "confident": True, "reasons": reasons,
+            "ambiguous": ambiguous, "consequential": consequential, "depth": depth}
+
+
+def resolve(host: str, tier: str, effort: str, host_models: dict) -> dict:
+    entry = host_models[host][tier]
+    model = entry.get(effort, entry.get("medium", next(iter(entry.values())))) if isinstance(entry, dict) else entry
+    if "fast" in model.lower():
+        raise ValueError(f"fast route is forbidden: {model}")
+    control = CONTROL_BY_HOST.get(host, "consult the host's subagent model control")
+    return {"host": host, "model": model, "effort": effort, "control": control}
+
+
+def detect_host() -> str:
+    if os.environ.get("CLAUDECODE") or os.environ.get("CLAUDE_CODE_ENTRYPOINT"):
+        return "claude"
+    if os.environ.get("CODEX_SANDBOX") or os.environ.get("CODEX_HOME"):
+        return "codex"
+    if os.environ.get("CURSOR_AGENT") or os.environ.get("CURSOR_API_KEY"):
+        return "cursor"
+    if os.environ.get("GEMINI_CLI") or os.environ.get("GEMINI_API_KEY"):
+        return "gemini"
+    return "claude"
+
+
+def load_api_key() -> str:
+    """Return the TypeSafe API key, or raise RuntimeError if none is configured.
+    Every caller in this script catches RuntimeError and fails open to the
+    Balanced default, so a consumer without a key still gets a working route."""
+    key = os.environ.get("TYPESAFE_API_KEY")
+    key_file = Path.home() / ".config" / "typesafe" / "api-key"
+    if not key and key_file.is_file():
+        key = key_file.read_text(encoding="utf-8").strip()
+    if not key:
+        env_file = HERE.parent / ".env"
+        if env_file.exists():
+            for line in env_file.read_text(encoding="utf-8").splitlines():
+                if line.startswith("TYPESAFE_API_KEY="):
+                    key = line.split("=", 1)[1].strip().strip('"').strip("'")
+    if not key:
+        raise RuntimeError("TYPESAFE_API_KEY is not set (environment, ~/.config/typesafe/api-key, or .env)")
+    return key
+
+
+def route(task: str, host: str, context: dict | None = None, min_confidence: float = 0.6,
+          models_file: Path | None = None) -> dict:
+    """Route the task. A missing key or router outage never blocks the caller: it
+    yields the Balanced default and says so."""
+    host_models = load_host_models(models_file)
+    try:
+        payload, latency_ms = evaluate(task, context, load_api_key())
+        decision = decide(payload, min_confidence)
+    except (RuntimeError, KeyError, TypeError) as error:
+        reason = f"router unavailable ({error}); default route, parent decides"
+        return {**resolve(host, "balanced", "medium", host_models), **UNAVAILABLE, "reasons": [reason],
+                "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None,
+                "model_router": None}
+    resolved = resolve(host, decision["tier"], decision["effort"], host_models)
+    return {
+        **resolved,
+        **decision,
+        "probabilities": payload["answers"]["task_class"].get("probabilities", {}),
+        "confidence": {k: v.get("confidence") for k, v in payload["answers"].items() if "confidence" in v},
+        "usage": payload.get("usage"),
+        "cost_usd": round(cost_usd(payload.get("usage")), 6),
+        "latency_ms": latency_ms,
+        "model_router": payload.get("model", MODEL),
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("task", nargs="+", help="task description for the subagent")
+    parser.add_argument("--host", choices=sorted(DEFAULT_HOST_MODELS), default=detect_host())
+    parser.add_argument("--context", type=Path, help="JSON file with extra state (repo, files, constraints)")
+    parser.add_argument("--models", type=Path, help="JSON file overriding the host model table (see ROUTE_SUBAGENT_MODELS)")
+    parser.add_argument("--min-confidence", type=float, default=0.6)
+    parser.add_argument("--json", action="store_true", help="print the full decision as JSON")
+    args = parser.parse_args(argv)
+    context = json.loads(args.context.read_text(encoding="utf-8")) if args.context else None
+    result = route(" ".join(args.task), args.host, context, args.min_confidence, args.models)
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        flag = "" if result["confident"] else " (not confident: parent decides)"
+        print(f"{result['host']}: model={result['model']} effort={result['effort']} tier={result['tier']} "
+              f"class={result['task_class']}{flag}")
+        for reason in result["reasons"]:
+            print(f"  - {reason}")
+        print(f"  jev {result['latency_ms']} ms, {result['usage']}, ${result['cost_usd']}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
