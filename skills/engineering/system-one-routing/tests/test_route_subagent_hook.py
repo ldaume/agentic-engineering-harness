@@ -96,6 +96,7 @@ class HookEventTests(unittest.TestCase):
         updated = payload["hookSpecificOutput"]["updatedInput"]
         self.assertEqual(updated["model"], "sonnet")
         self.assertTrue(updated["prompt"].startswith("Routed: model=sonnet effort=medium"))
+        self.assertTrue(updated["prompt"].splitlines()[1].startswith("Consider Jev: "))
         self.assertIn("Rename x to y", updated["prompt"])
 
 
