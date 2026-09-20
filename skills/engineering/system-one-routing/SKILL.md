@@ -189,7 +189,10 @@ a pilot showed ordinary terse task text scoring 0.3 to 0.75 on "ambiguous".
 
 `scripts/route-subagent-hook.py` is a PreToolUse hook for the Agent tool: it
 routes every subagent spawn automatically, rewriting `model` to the routed
-alias and prepending a `Routed: model=... effort=...` line to the prompt so
+alias and prepending a `Routed: model=... effort=...` line plus the router's
+`Consider Jev:` brief (the `brief` field: check whether a typed System One
+decision fits before writing a classifier, judgment, ranking, gate, or
+threshold as an LLM prompt, and report whether Jev was used or why not) so
 the child works at the intended effort. Forks, spawns that already carry a
 `Routed:` line, and sessions with `CLAUDE_CODE_SUBAGENT_MODEL` set pass
 through untouched. Fails open to `sonnet` at `medium` effort and logs the

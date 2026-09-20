@@ -185,3 +185,20 @@ class RequestTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BriefTests(unittest.TestCase):
+    def test_every_route_carries_the_consider_jev_brief(self):
+        """Given any routed or fail-open decision, when the parent reads it,
+        then it carries the standing brief for the child."""
+        routed_mod = load_module()
+        routed_mod.load_api_key = lambda: "key"
+        routed_mod.evaluate = lambda *a, **k: (answers("mechanical"), 5)
+        routed = routed_mod.route("rename a helper", "claude")
+        fallen_mod = load_module()
+        fallen_mod.load_api_key = lambda: "key"
+        fallen_mod.evaluate = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("TypeSafe API unreachable"))
+        fallen = fallen_mod.route("rename a helper", "claude")
+        for result in (routed, fallen):
+            self.assertTrue(result["brief"].startswith("Consider Jev: "))
+            self.assertIn("iteration-gate.py", result["brief"])
