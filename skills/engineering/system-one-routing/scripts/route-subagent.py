@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Route a delegated subagent task to a capability tier, effort, and host model.
 
-Calls Jev, TypeSafe AI's System One model (`https://api.typesafe.ai/v1/systemone`),
-to answer typed questions about the task with calibrated probabilities. The
+Calls Jev, TypeSafe AI's System One model, to answer typed questions about the task with calibrated probabilities. The
 decision itself lives in code below: the model says what kind of task this
 is, the code maps that to a tier and effort, and the parent still owns
 integration and checks. See SKILL.md for the behavior contract.
@@ -22,8 +21,11 @@ Usage:
     python3 route-subagent.py [--host claude|codex|cursor|gemini] [--json]
         [--min-confidence 0.6] [--context FILE] [--models FILE] TASK...
 
-Reads TYPESAFE_API_KEY from the environment, then from
-`~/.config/typesafe/api-key`, then from `.env` next to this script. Jev is
+Two backends, one key: `scripts/jev_client.py` calls TypeSafe directly with
+`TYPESAFE_API_KEY`, or the Vercel AI Gateway (model `typesafe-ai/jev`) with
+`VERCEL_AI_GATEWAY_API_KEY`. Keys are read from a `.env` beside this Skill
+first, then the environment, then `~/.config/typesafe/api-key` or
+`~/.config/vercel/ai-gateway-key`; `JEV_BACKEND` forces one backend. Jev is
 the only model this script calls.
 
 Host model table: a small built-in default (see HOST_MODELS below) covers
@@ -40,15 +42,13 @@ import argparse
 import json
 import os
 import sys
-import time
-import urllib.error
-import urllib.request
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-API_URL = "https://api.typesafe.ai/v1/systemone"
-MODEL = "jev-latest"
-INPUT_USD_PER_TOKEN = 0.042 / 1_000_000  # TypeSafe list price observed 2026-09-20; output is free
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import jev_client as jev  # noqa: E402  (same directory; the Skill ships both files)
+
+ROOT = Path(__file__).resolve().parents[1]
+BACKEND = "typesafe"  # set by load_api_key(); "gateway" when the Vercel AI Gateway key is used
 # Jev rates most bounded task descriptions as somewhat under-specified (0.3 to
 # 0.75 observed); only clearly vague tasks exceed 0.85. Re-check if your own
 # pilot set disagrees.
@@ -141,32 +141,17 @@ def load_host_models(path: Path | None) -> dict:
     return models
 
 
-def build_request(task: str, context: dict | None, api_key: str) -> urllib.request.Request:
-    state = {"task": task, "context": context or {}}
-    body = {"state": json.dumps(state, ensure_ascii=False), "model": MODEL, "questions": QUESTIONS}
-    return urllib.request.Request(
-        API_URL,
-        data=json.dumps(body).encode("utf-8"),
-        method="POST",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-    )
+def build_request(task: str, context: dict | None, api_key: str):
+    return jev.build_request({"task": task, "context": context or {}}, QUESTIONS, BACKEND, api_key)
 
 
 def evaluate(task: str, context: dict | None, api_key: str, timeout: float = 30.0) -> tuple[dict, int]:
-    """Call Jev. Raises RuntimeError with a short, key-free message on any failure."""
-    started = time.monotonic()
-    try:
-        with urllib.request.urlopen(build_request(task, context, api_key), timeout=timeout) as response:
-            payload = json.load(response)
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(f"TypeSafe API {error.code}: {error.read().decode('utf-8', 'replace')[:200]}") from None
-    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
-        raise RuntimeError(f"TypeSafe API unreachable: {str(error)[:200]}") from None
-    return payload, int((time.monotonic() - started) * 1000)
+    """Call Jev on the selected backend. Raises RuntimeError with a short, key-free message on any failure."""
+    return jev.evaluate({"task": task, "context": context or {}}, QUESTIONS, BACKEND, api_key, timeout)
 
 
 def cost_usd(usage: dict | None) -> float:
-    return float((usage or {}).get("input_tokens", 0)) * INPUT_USD_PER_TOKEN
+    return jev.cost_usd(usage, BACKEND)
 
 
 def decide(payload: dict, min_confidence: float = 0.6) -> dict:
@@ -234,21 +219,15 @@ def detect_host() -> str:
 
 
 def load_api_key() -> str:
-    """Return the TypeSafe API key, or raise RuntimeError if none is configured.
-    Every caller in this script catches RuntimeError and fails open to the
-    Balanced default, so a consumer without a key still gets a working route."""
-    key = os.environ.get("TYPESAFE_API_KEY")
-    key_file = Path.home() / ".config" / "typesafe" / "api-key"
-    if not key and key_file.is_file():
-        key = key_file.read_text(encoding="utf-8").strip()
-    if not key:
-        env_file = HERE.parent / ".env"
-        if env_file.exists():
-            for line in env_file.read_text(encoding="utf-8").splitlines():
-                if line.startswith("TYPESAFE_API_KEY="):
-                    key = line.split("=", 1)[1].strip().strip('"').strip("'")
-    if not key:
-        raise RuntimeError("TYPESAFE_API_KEY is not set (environment, ~/.config/typesafe/api-key, or .env)")
+    """Pick the backend and key per jev_client.load_credentials (a `.env` beside
+    the Skill first). Raises RuntimeError when no key is configured; every caller
+    in this script catches it and fails open to the Balanced default, so a
+    consumer without a key still gets a working route."""
+    global BACKEND
+    try:
+        BACKEND, key = jev.load_credentials(ROOT)
+    except SystemExit as error:
+        raise RuntimeError(str(error)) from None
     return key
 
 
@@ -263,8 +242,8 @@ def route(task: str, host: str, context: dict | None = None, min_confidence: flo
     except (RuntimeError, KeyError, TypeError) as error:
         reason = f"router unavailable ({error}); default route, parent decides"
         return {**resolve(host, "balanced", "medium", host_models), **UNAVAILABLE, "reasons": [reason],
-                "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None, "brief": JEV_BRIEF,
-                "model_router": None}
+                "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None,
+                "backend": BACKEND, "brief": JEV_BRIEF, "model_router": None}
     resolved = resolve(host, decision["tier"], decision["effort"], host_models)
     return {
         **resolved,
@@ -274,8 +253,9 @@ def route(task: str, host: str, context: dict | None = None, min_confidence: flo
         "usage": payload.get("usage"),
         "cost_usd": round(cost_usd(payload.get("usage")), 6),
         "latency_ms": latency_ms,
+        "backend": BACKEND,
         "brief": JEV_BRIEF,
-        "model_router": payload.get("model", MODEL),
+        "model_router": payload.get("model", jev.GATEWAY_MODEL if BACKEND == "gateway" else jev.TYPESAFE_MODEL),
     }
 
 
@@ -298,7 +278,7 @@ def main(argv: list[str] | None = None) -> int:
               f"class={result['task_class']}{flag}")
         for reason in result["reasons"]:
             print(f"  - {reason}")
-        print(f"  jev {result['latency_ms']} ms, {result['usage']}, ${result['cost_usd']}")
+        print(f"  jev via {result['backend']} {result['latency_ms']} ms, {result['usage']}, ${result['cost_usd']}")
         print(f"  brief: {result['brief']}")
     return 0
 

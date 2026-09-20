@@ -5,6 +5,21 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `system-one-routing` 1.2.0: a second backend for the same typed model. Jev
+  is now reachable either directly at TypeSafe or through the Vercel AI
+  Gateway as `typesafe-ai/jev` over the AI SDK evaluation protocol, at $0.04
+  per million input tokens against $0.042 direct. Both live behind one new
+  `scripts/jev_client.py`, which translates the gateway dialect (a `noul`
+  question is `boolean` there, confidence arrives in `providerMetadata`, usage
+  in `inputTokens`) back into the shape the decision code already reads, so
+  nothing above the client changes. A consumer needs exactly one key,
+  `TYPESAFE_API_KEY` or `VERCEL_AI_GATEWAY_API_KEY`, resolved from a `.env`
+  beside the Skill first, then the environment, then
+  `~/.config/typesafe/api-key` or `~/.config/vercel/ai-gateway-key`, with
+  `JEV_BACKEND` forcing one backend. Which backend answered is printed and
+  carried in the decision as `backend`. Fail-open is unchanged: no key
+  anywhere still yields the Balanced default and exit 0.
+
 - `system-one-routing` 1.1.0: every routed child prompt now opens with the
   router's `Consider Jev:` brief (new `brief` field, printed and injected by
   the Claude Code hook), so a worker in any repository checks whether a typed
