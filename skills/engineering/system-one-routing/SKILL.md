@@ -210,6 +210,13 @@ immediately, since both check the input rather than predict an outcome.
 Never assume a noul threshold is 0.5 -- set it from your own observed
 distribution the way `AMBIGUITY_THRESHOLD` (0.8, not 0.5) was set here after
 a pilot showed ordinary terse task text scoring 0.3 to 0.75 on "ambiguous".
+The same holds for confidence, with a sharper lesson: the confidence Jev
+attaches to the `teach_decisive` score measured 0.21 to 0.67 across nine real
+hypotheses on 2026-09-21 and returned 0.34 and then 0.22 for the same
+quickstart input minutes apart. It is not a stable signal, so it no longer
+gates: the verdict comes from the four nouls, and the score and its
+confidence are reported beside it. Every recorded decision carries
+`details.nouls` and `details.score`; recalibrate from those.
 
 ## Claude Code hook (optional, host-specific)
 

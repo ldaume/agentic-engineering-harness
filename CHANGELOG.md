@@ -5,6 +5,15 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `system-one-routing` 1.3.0: the hypothesis verdict comes from the four
+  nouls alone. Jev's confidence in the `teach_decisive` score measured 0.21 to
+  0.67 on nine real hypotheses and 0.34 then 0.22 for the same quickstart
+  input minutes apart, so the 0.6 confidence gate returned `grill` for every
+  increment while the nouls were stable and discriminating. The score and its
+  confidence are now reported, not gated (`TEACH_CONFIDENCE_THRESHOLD` labels
+  the printout), and every recorded decision carries `details.nouls` and
+  `details.score` so the next calibration reads the log instead of guessing.
+
 - `system-one-routing` 1.2.0: a second backend for the same typed model. Jev
   is now reachable either directly at TypeSafe or through the Vercel AI
   Gateway as `typesafe-ai/jev` over the AI SDK evaluation protocol, at $0.04

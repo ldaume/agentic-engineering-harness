@@ -73,12 +73,41 @@ class HypothesisTests(unittest.TestCase):
         self.assertEqual(decision["verdict"], "grill")
         self.assertIn("smallest_increment", " ".join(decision["reasons"]))
 
-    def test_low_confidence_yields_grill_even_with_passing_nouls(self):
-        # Given every noul passes but Jev is not confident about the score
+    def test_low_score_confidence_is_reported_not_gated(self):
+        # Given every noul passes but Jev's confidence in the score is low, as it
+        # is for most real inputs (0.21 to 0.67 measured, and unstable per input)
         decision = self.mod.decide_hypothesis(hypothesis_payload(teach_confidence=0.2))
-        # Then the verdict is grill
-        self.assertEqual(decision["verdict"], "grill")
+        # When the hypothesis is decided
+        # Then the verdict is ready, and the low confidence is visible as a label
+        self.assertEqual(decision["verdict"], "ready")
         self.assertFalse(decision["confident"])
+        self.assertEqual(decision["reasons"], [])
+
+    def test_a_failing_noul_still_grills_whatever_the_confidence(self):
+        # Given the increment is not the smallest step, at high score confidence
+        decision = self.mod.decide_hypothesis(
+            hypothesis_payload(smallest_increment=0.35, teach_confidence=0.95)
+        )
+        # Then the nouls decide: grill, naming the criterion
+        self.assertEqual(decision["verdict"], "grill")
+        self.assertIn("smallest_increment", " ".join(decision["reasons"]))
+
+    def test_the_record_carries_the_answers_the_verdict_came_from(self):
+        # Given a hypothesis decision and a log path in a temporary directory
+        import argparse, json, pathlib, tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            self.mod.LOG_PATH = pathlib.Path(tmp) / "log.jsonl"
+            decision = self.mod.decide_hypothesis(hypothesis_payload(smallest_increment=0.35))
+            # When it is recorded
+            self.mod._record(
+                argparse.Namespace(no_record=False), "hypothesis", decision["verdict"],
+                decision["confidences"], {"nouls": decision["nouls"], "score": decision["teach_decisive"]},
+            )
+            # Then the noul values and the score are in the entry, so a later
+            # calibration can read the distribution instead of guessing it
+            entry = json.loads(self.mod.LOG_PATH.read_text().splitlines()[-1])
+            self.assertEqual(entry["details"]["nouls"]["smallest_increment"], 0.35)
+            self.assertEqual(entry["details"]["score"], 2.5)
 
     def test_exit_codes_ready_and_grill(self):
         self.assertEqual(self.mod.EXIT_READY, 0)
