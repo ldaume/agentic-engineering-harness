@@ -57,6 +57,17 @@ LOG_PATH = Path.home() / ".harness" / "jev-iteration-log.jsonl"
 
 NOUL_READY_THRESHOLD = 0.6
 HIGH_CONFIDENCE = 0.7
+# The confidence Jev attaches to the teach_decisive score is not a stable
+# signal: measured 2026-09-21 on nine real hypothesis calls at 0.21 to 0.67,
+# and the same quickstart input returned 0.34 and then 0.22 minutes apart. A
+# 0.6 gate on that number turned every increment into "grill" on confidence
+# alone while the four nouls were stable and discriminating (smallest_increment
+# 0.65 for a throwaway spike, 0.35 and 0.26 for multi-commit series). So the
+# verdict is decided by the nouls only; the score and its confidence are
+# reported, and `confident` below is a label for the printout, not a gate.
+# Recalibrate from `details.nouls` and `details.score` in the log, never by
+# assumption.
+TEACH_CONFIDENCE_THRESHOLD = 0.3
 DISTANCE_LOWEST_LEVEL = 1.0  # score band 0: at or past a shippable outcome now
 
 EXIT_READY, EXIT_GRILL = 0, 3
@@ -65,8 +76,15 @@ EXIT_RANK_UNAVAILABLE = 2
 EXIT_NO_MEASUREMENTS = 6
 
 
-def _record(args: argparse.Namespace, command: str, verdict: str, confidences: dict) -> None:
-    """Append one JSON-line decision to the pilot log. Never blocks the caller."""
+def _record(
+    args: argparse.Namespace, command: str, verdict: str, confidences: dict, details: dict | None = None
+) -> None:
+    """Append one JSON-line decision to the pilot log. Never blocks the caller.
+
+    `details` carries the answers the verdict was computed from (noul values,
+    scores), so a threshold can later be set from the recorded distribution
+    instead of from the confidences alone.
+    """
     if getattr(args, "no_record", False):
         return
     entry = {
@@ -74,6 +92,7 @@ def _record(args: argparse.Namespace, command: str, verdict: str, confidences: d
         "command": command,
         "verdict": verdict,
         "confidences": confidences,
+        "details": details or {},
         "outcome": None,
     }
     try:
@@ -139,7 +158,7 @@ HYPOTHESIS_QUESTIONS = {
 }
 
 
-def decide_hypothesis(payload: dict, min_confidence: float = 0.6) -> dict:
+def decide_hypothesis(payload: dict, min_confidence: float = TEACH_CONFIDENCE_THRESHOLD) -> dict:
     answers = payload["answers"]
     nouls = {name: answers[name]["noul"] for name in HYPOTHESIS_NOULS}
     failing = [name for name, value in nouls.items() if value < NOUL_READY_THRESHOLD]
@@ -149,9 +168,8 @@ def decide_hypothesis(payload: dict, min_confidence: float = 0.6) -> dict:
     reasons: list[str] = []
     if failing:
         reasons.append("failing criteria: " + ", ".join(failing))
-    if not confident:
-        reasons.append(f"low confidence on teach_decisive ({score_confidence})")
-    verdict = "ready" if (not failing and confident) else "grill"
+    # The score's confidence is reported, not gated: see TEACH_CONFIDENCE_THRESHOLD.
+    verdict = "ready" if not failing else "grill"
     return {"verdict": verdict, "nouls": nouls, "teach_decisive": score, "confident": confident, "reasons": reasons,
             "confidences": _confidences(answers)}
 
@@ -168,7 +186,10 @@ def run_hypothesis(args: argparse.Namespace) -> int:
             str(error), EXIT_READY,
         )
     result = {**decision, "latency_ms": latency_ms, "usage": payload.get("usage"), "cost_usd": round(cost_usd(payload.get("usage")), 6)}
-    _record(args, "hypothesis", decision["verdict"], decision["confidences"])
+    _record(
+        args, "hypothesis", decision["verdict"], decision["confidences"],
+        {"nouls": decision["nouls"], "score": decision["teach_decisive"]},
+    )
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
@@ -426,7 +447,7 @@ def main(argv: list[str] | None = None) -> int:
     p_hyp.add_argument("--hypothesis", required=True)
     p_hyp.add_argument("--measure", required=True)
     p_hyp.add_argument("--increment", required=True)
-    p_hyp.add_argument("--min-confidence", type=float, default=0.6)
+    p_hyp.add_argument("--min-confidence", type=float, default=TEACH_CONFIDENCE_THRESHOLD)
     p_hyp.add_argument("--json", action="store_true")
     p_hyp.add_argument("--no-record", action="store_true", help="skip the ~/.harness/jev-iteration-log.jsonl entry")
     p_hyp.set_defaults(func=run_hypothesis)
