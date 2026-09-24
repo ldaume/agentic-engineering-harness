@@ -5,6 +5,13 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `documentation-and-adrs` 1.4.0: a diagram keeps its order in every layout
+  engine. Markdown previews lay Mermaid out with dagre or ELK, and an edge
+  back to a flow's entry makes a cycle each engine breaks differently; in one
+  lifecycle chart ELK moved the entry node from first to last. A return now
+  goes into its own end node, both engines are rendered, and the arrowheads
+  are checked: the tempting `a <---|x| b` flip draws no arrowhead at all.
+
 - `system-one-routing` 1.3.0: the hypothesis verdict comes from the four
   nouls alone. Jev's confidence in the `teach_decisive` score measured 0.21 to
   0.67 on nine real hypotheses and 0.34 then 0.22 for the same quickstart

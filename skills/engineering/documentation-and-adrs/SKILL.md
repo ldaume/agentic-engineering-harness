@@ -90,6 +90,17 @@ Accepted | Proposed | Superseded
   a real browser - JSDOM has no `CSSStyleSheet`, so `mermaid.render()` throws
   on it, and a browser driver refuses a `file:` URL, so serve the scratch
   directory over localhost.
+- A diagram renders differently in each viewer. Markdown previews lay Mermaid
+  out with different engines, dagre in one and ELK in another, and an edge back
+  to the start of a flow makes a cycle that engines can break differently: in
+  one real lifecycle chart ELK moved the entry node from first to last, while
+  dagre kept it first. Draw a return as an edge into its own node at the end
+  ("next signal, same entry") rather than back to the entry, keep short loops
+  inside one part of the flow as ordinary back edges, and render in both
+  engines before calling the layout done. Do not reach for `a <---|x| b` to
+  flip a back edge: it parses, but Mermaid draws it with no arrowhead at all,
+  so the edge loses its direction - check the arrowheads in the rendered SVG,
+  not only the node order.
 - A document that has outgrown its purpose is deleted, not maintained. Length
   is a defect of its own: nobody re-reads what they cannot finish, and the part
   nobody reaches is where stale claims survive. Version control is the archive.
