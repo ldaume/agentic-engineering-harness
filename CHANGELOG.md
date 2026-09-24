@@ -5,9 +5,16 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.13.0: the merge rule in the `HARNESS.md` and
+  `AGENTS.md` templates now says what green means. Every required job named for
+  that repository explicitly reports pass; "no checks reported", pending, and a
+  missing job are not green. A merge gate that carried one repository's job
+  names waited 30 minutes in another repository for jobs that never appear and
+  then refused a green change, so the jobs are named per repository.
+
 - `documentation-and-adrs` 1.4.0: a diagram keeps its order in every layout
   engine. Markdown previews lay Mermaid out with dagre or ELK, and an edge
-  back to a flow's entry makes a cycle each engine breaks differently; in one
+  back to a flow's entry makes a cycle engines can break differently; in one
   lifecycle chart ELK moved the entry node from first to last. A return now
   goes into its own end node, both engines are rendered, and the arrowheads
   are checked: the tempting `a <---|x| b` flip draws no arrowhead at all.

@@ -258,7 +258,12 @@ on. Recording is not raising.
    default matching remote.
 2. **Close the integration loop in the same session.** Autonomously merge
    session-owned PRs/MRs and fan-out tips when required checks are green and
-   there are no conflicts. Use the repository's normal merge path (clean
+   there are no conflicts. Green means every required job, named for that
+   repository, explicitly reports pass; "no checks reported", pending, and a
+   missing job are not green. Name the jobs per repository: another
+   repository's job names never appear, so a gate that waits for them stalls
+   until its timeout and then refuses a green change. Use the repository's
+   normal merge path (clean
    merge/rebase/squash as that repo uses - never force-push shared history).
    Do this before claiming done (local and remote). After the remote merge, update the primary default-branch checkout to
    origin's default with `git fetch` and **ff-only**. Never reset, rebase, or
