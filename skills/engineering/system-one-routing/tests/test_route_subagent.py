@@ -71,6 +71,13 @@ class DecideTests(unittest.TestCase):
         self.assertEqual((decision["tier"], decision["effort"]), ("balanced", "medium"))
         self.assertFalse(decision["confident"])
 
+    def test_live_route_marks_jev_as_source(self):
+        mod = self.mod
+        mod.load_api_key = lambda: "key"
+        mod.evaluate = lambda *a, **k: (answers("implementation"), 12)
+        result = mod.route("Implement a bounded change", "codex")
+        self.assertEqual(result["source"], "jev")
+
 
 class ResolveTests(unittest.TestCase):
     def setUp(self):
@@ -82,9 +89,9 @@ class ResolveTests(unittest.TestCase):
             ("claude", "efficient", "low"): "haiku",
             ("claude", "balanced", "medium"): "sonnet",
             ("claude", "frontier", "high"): "opus",
-            ("codex", "efficient", "low"): "gpt-5.6-luna",
-            ("codex", "balanced", "high"): "gpt-5.6-terra",
-            ("codex", "frontier", "high"): "gpt-5.6-sol",
+            ("codex", "efficient", "low"): "gpt-6-luna",
+            ("codex", "balanced", "high"): "gpt-6-sol",
+            ("codex", "frontier", "high"): "gpt-6-astra",
             ("cursor", "efficient", "low"): "composer-2.5",
             ("cursor", "balanced", "medium"): "cursor-grok-4.6-medium",
             ("cursor", "balanced", "high"): "cursor-grok-4.6-high",
@@ -114,7 +121,7 @@ class ResolveTests(unittest.TestCase):
             # Then claude balanced changes but other hosts and tiers keep the built-in default
             self.assertEqual(models["claude"]["balanced"], "custom-model")
             self.assertEqual(models["claude"]["efficient"], "haiku")
-            self.assertEqual(models["codex"]["balanced"], "gpt-5.6-terra")
+            self.assertEqual(models["codex"]["balanced"], "gpt-6-sol")
 
     def test_missing_override_file_uses_built_in_defaults(self):
         # No config file is required for the router to work
@@ -143,7 +150,8 @@ class OutageTests(unittest.TestCase):
         mod.load_api_key = lambda: "key"
         mod.evaluate = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("TypeSafe API unreachable: timed out"))
         result = mod.route("Anything", "codex")
-        self.assertEqual((result["model"], result["effort"], result["confident"]), ("gpt-5.6-terra", "medium", False))
+        self.assertEqual((result["model"], result["effort"], result["confident"]), ("gpt-6-sol", "medium", False))
+        self.assertEqual(result["source"], "fallback")
         self.assertIn("router unavailable", result["reasons"][0])
 
     def test_malformed_answer_yields_default_route(self):
