@@ -101,3 +101,8 @@ When porting:
   (exit 127 after an otherwise successful deploy or verify)
 - workflow YAML left unparsed after automated step injection (de-indented
   steps at column 0 that break Actions parse only after merge)
+- registry retention that deletes the `sha256:` child manifests behind a
+  multi-arch (OCI index) job-image tag, or trims tags by count or age without
+  checking every consumer repository's pins (the tag still lists in the
+  package UI, but pulls fail with `manifest unknown`; runners with a cached
+  image keep working until their cache is pruned)
