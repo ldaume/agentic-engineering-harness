@@ -150,11 +150,11 @@ ungrounded output is not economical.
 Use current model names only as a dated starting point. Inspect the live host
 and official sources before configuration:
 
-| Host | Parent starting point checked 2026-08-03 | Bounded worker policy |
+| Host | Dated parent starting point | Bounded worker policy |
 |---|---|---|
 | Claude Code | Opus 5 with `high` effort; Fable 5 for long-running or unusually ambiguous work when available | Sonnet 5 or a cheaper model only after the task class passes representative checks |
 | Cursor | Auto **Intelligence**; use a manually selected current frontier model when reproducibility matters | Auto **Balance** or **Cost** only for bounded work with checks |
-| Codex | GPT-5.6 Sol for complex, open-ended, or high-value integration; use the default effort first and raise it only when evidence requires more | GPT-5.6 Terra for everyday bounded workers and normal review; GPT-5.6 Luna for clear, repeatable, high-volume work; use Sol for material critique when correlated failure or consequence justifies it |
+| Codex, checked 2026-09-27 | GPT-6 Sol at medium effort for everyday coding and integration; raise effort or use Astra for material critique when local evidence requires it | GPT-6 Sol for Balanced work and normal review; GPT-6 Luna for clear, repeatable, high-volume work; GPT-6 Astra for consequential Frontier work after checking availability and completed-task economics |
 | Gemini CLI | Current Auto or Pro route after checking plan and live model selection | Flash or Flash-Lite for bounded work; set an explicit per-agent model or `modelConfig` when the route must not inherit or vary by built-in agent |
 
 If the named option is unavailable, select the current host-equivalent at the
@@ -191,13 +191,15 @@ changes context discovery, rule precedence, or project-root behavior.
 - **Codex:** Inspect the current runtime tool schema and available model
   overrides before delegating. Confirm model guidance and the applicable Codex
   rate card; capabilities can differ across app, CLI, API, and workspace plan.
-  The Codex subagent guide checked 2026-08-03 supports a project
+  The Codex subagent guide checked 2026-09-27 supports a project
   `[agents].default_subagent_model`, per-agent model and reasoning overrides,
   and project-scoped `.codex/agents/*.toml` files. Use those controls to keep
   Balanced workers as the default and to make Efficient or Frontier routes
-  explicit. Official Codex Speed guidance checked 2026-08-08 describes Fast
-  Mode as 1.5x model speed with GPT-5.6 credit consumption at 2.5x the Standard
-  rate. Never enable Fast Mode or analogous premium speed/service tiers (`-fast`,
+  explicit. Codex hooks checked 2026-09-27 can match `Agent|spawn_agent` at
+  `PreToolUse` and rewrite supported spawn arguments. Verify hook activation,
+  trust, fallback, and the resolved model; hooks are guardrails, not a complete
+  enforcement boundary. Never enable Fast Mode or analogous premium
+  speed/service tiers (`-fast`,
   `High Fast`, `fast=true`, or host equivalents). It is a premium service tier,
   not a capability tier; Efficient remains a cheaper model route, never Fast.
   Subagents remain allowed; parents must not spawn workers with Fast Mode. If
@@ -233,6 +235,7 @@ Checked on 2026-08-03 unless a later date is named above. Re-open at use:
 - OpenAI Codex rate card: <https://help.openai.com/en/articles/20001106-codex-rate-card>
 - OpenAI Codex speed and Fast Mode: <https://learn.chatgpt.com/docs/agent-configuration/speed>
 - OpenAI Codex subagents: <https://learn.chatgpt.com/docs/agent-configuration/subagents>
+- OpenAI Codex hooks: <https://learn.chatgpt.com/docs/hooks>
 - OpenAI Codex `AGENTS.md` loader: <https://github.com/openai/codex/blob/main/codex-rs/core/src/agents_md.rs>
 - Anthropic model overview: <https://platform.claude.com/docs/en/about-claude/models/overview>
 - Anthropic pricing: <https://platform.claude.com/docs/en/about-claude/pricing>

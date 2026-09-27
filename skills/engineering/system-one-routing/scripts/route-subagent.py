@@ -105,7 +105,7 @@ QUESTIONS = {
 # overriding only one host still inherits the built-in defaults for the rest.
 DEFAULT_HOST_MODELS = {
     "claude": {"efficient": "haiku", "balanced": "sonnet", "frontier": "opus"},
-    "codex": {"efficient": "gpt-5.6-luna", "balanced": "gpt-5.6-terra", "frontier": "gpt-5.6-sol"},
+    "codex": {"efficient": "gpt-6-luna", "balanced": "gpt-6-sol", "frontier": "gpt-6-astra"},
     "cursor": {
         "efficient": "composer-2.5",
         "balanced": {"low": "cursor-grok-4.6-medium", "medium": "cursor-grok-4.6-medium", "high": "cursor-grok-4.6-high"},
@@ -241,13 +241,14 @@ def route(task: str, host: str, context: dict | None = None, min_confidence: flo
         decision = decide(payload, min_confidence)
     except (RuntimeError, KeyError, TypeError) as error:
         reason = f"router unavailable ({error}); default route, parent decides"
-        return {**resolve(host, "balanced", "medium", host_models), **UNAVAILABLE, "reasons": [reason],
+        return {**resolve(host, "balanced", "medium", host_models), **UNAVAILABLE, "source": "fallback", "reasons": [reason],
                 "probabilities": {}, "confidence": {}, "usage": None, "cost_usd": 0.0, "latency_ms": None,
                 "backend": BACKEND, "brief": JEV_BRIEF, "model_router": None}
     resolved = resolve(host, decision["tier"], decision["effort"], host_models)
     return {
         **resolved,
         **decision,
+        "source": "jev",
         "probabilities": payload["answers"]["task_class"].get("probabilities", {}),
         "confidence": {k: v.get("confidence") for k, v in payload["answers"].items() if "confidence" in v},
         "usage": payload.get("usage"),
