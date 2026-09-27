@@ -105,7 +105,7 @@ QUESTIONS = {
 # overriding only one host still inherits the built-in defaults for the rest.
 DEFAULT_HOST_MODELS = {
     "claude": {"efficient": "haiku", "balanced": "sonnet", "frontier": "opus"},
-    "codex": {"efficient": "gpt-5.6-luna", "balanced": "gpt-5.6-terra", "frontier": "gpt-5.6-sol"},
+    "codex": {"efficient": "gpt-6-luna", "balanced": "gpt-6-sol", "frontier": "gpt-6-astra"},
     "cursor": {
         "efficient": "composer-2.5",
         "balanced": {"low": "cursor-grok-4.6-medium", "medium": "cursor-grok-4.6-medium", "high": "cursor-grok-4.6-high"},

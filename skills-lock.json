@@ -143,7 +143,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "2.13.0"
+      "version": "2.13.1"
     },
     "scaffold-monorepo": {
       "source": "local",
@@ -167,7 +167,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/system-one-routing/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.4.0"
     },
     "testing-strategies": {
       "source": "local",
