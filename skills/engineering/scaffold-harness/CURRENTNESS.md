@@ -147,14 +147,15 @@ preserve ownership boundaries, detect uncertainty, integrate results, and
 verify completion. A cheap model that creates retries or plausible but
 ungrounded output is not economical.
 
-Use current model names only as a dated starting point. Inspect the live host
-and official sources before configuration:
+Use current model names only as a dated starting point. Codex was checked on
+2026-09-27; the other host rows were checked on 2026-08-03. Inspect the live
+host and official sources before configuration:
 
 | Host | Parent starting point checked 2026-08-03 | Bounded worker policy |
 |---|---|---|
 | Claude Code | Opus 5 with `high` effort; Fable 5 for long-running or unusually ambiguous work when available | Sonnet 5 or a cheaper model only after the task class passes representative checks |
 | Cursor | Auto **Intelligence**; use a manually selected current frontier model when reproducibility matters | Auto **Balance** or **Cost** only for bounded work with checks |
-| Codex | GPT-5.6 Sol for complex, open-ended, or high-value integration; use the default effort first and raise it only when evidence requires more | GPT-5.6 Terra for everyday bounded workers and normal review; GPT-5.6 Luna for clear, repeatable, high-volume work; use Sol for material critique when correlated failure or consequence justifies it |
+| Codex | GPT-6 Sol for everyday coding and integration; GPT-6 Astra for the hardest or most consequential work; use the default effort first and raise it only when evidence requires more | GPT-6 Luna for clear, repeatable, high-volume work; Sol for normal review; Astra for material critique when consequence or correlated failure justifies it |
 | Gemini CLI | Current Auto or Pro route after checking plan and live model selection | Flash or Flash-Lite for bounded work; set an explicit per-agent model or `modelConfig` when the route must not inherit or vary by built-in agent |
 
 If the named option is unavailable, select the current host-equivalent at the
@@ -229,8 +230,9 @@ not in this portable Skill.
 Checked on 2026-08-03 unless a later date is named above. Re-open at use:
 
 - OpenAI model guidance: <https://developers.openai.com/api/docs/guides/latest-model>
-- OpenAI API pricing: <https://openai.com/api/pricing/>
-- OpenAI Codex rate card: <https://help.openai.com/en/articles/20001106-codex-rate-card>
+- OpenAI API pricing: <https://developers.openai.com/api/docs/pricing>
+- OpenAI Codex pricing and credits (checked 2026-09-27): <https://learn.chatgpt.com/docs/pricing>
+- OpenAI Codex coding guidance (checked 2026-09-27): <https://developers.openai.com/api/docs/guides/code-generation>
 - OpenAI Codex speed and Fast Mode: <https://learn.chatgpt.com/docs/agent-configuration/speed>
 - OpenAI Codex subagents: <https://learn.chatgpt.com/docs/agent-configuration/subagents>
 - OpenAI Codex `AGENTS.md` loader: <https://github.com/openai/codex/blob/main/codex-rs/core/src/agents_md.rs>

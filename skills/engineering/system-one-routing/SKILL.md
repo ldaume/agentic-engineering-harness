@@ -109,7 +109,7 @@ review:
 | Host | Efficient | Balanced | Frontier | Control |
 |---|---|---|---|---|
 | Claude Code | `haiku` | `sonnet` | `opus` | Agent tool `model` parameter; effort as an instruction in the prompt |
-| Codex | `gpt-5.6-luna` | `gpt-5.6-terra` | `gpt-5.6-sol` | `model` plus `model_reasoning_effort`, or `--model` / `-c` |
+| Codex | `gpt-6-luna` | `gpt-6-sol` | `gpt-6-astra` | `model` plus `model_reasoning_effort`, or `--model` / `-c` |
 | Cursor | `composer-2.5` | `cursor-grok-4.6-medium` (`-high` for review) | `cursor-grok-4.6-high` | `--model` on cursor-agent; effort is part of the model ID |
 | Gemini CLI | `gemini-flash-lite` | `gemini-flash` | `gemini-pro` | explicit per-agent `model` or `modelConfig`; effort as an instruction in the prompt |
 
