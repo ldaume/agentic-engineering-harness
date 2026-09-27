@@ -39,6 +39,11 @@ jobs:
       - name: Run unit tests
         run: python3 -m unittest discover -s tests
 
+      - name: Test Jev routing and JSON questions
+        run: |
+          python3 -m unittest discover -s skills/engineering/system-one-routing/tests
+          node --test skills/engineering/system-one-routing/tests/test_ask_jev.mjs
+
       - name: Install catalog for supported clients
         shell: bash
         run: |

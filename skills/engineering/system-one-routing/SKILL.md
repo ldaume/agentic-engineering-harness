@@ -1,6 +1,6 @@
 ---
 name: system-one-routing
-description: Routes delegated subagent tasks to a capability tier, effort, and host model, and gates spikes and iteration loops, using a typed System One model (Jev, TypeSafe AI) with a fail-open Balanced default. Use when spawning subagents across Claude Code, Codex, Cursor, or Gemini; deciding effort or model for a worker; judging whether a spike or iteration is ready, should continue, switch, or stop; or ranking candidate work items.
+description: Routes subagents to a model tier and effort through Jev with a visible Balanced fallback. Asks custom noul, options, and score questions from JSON and gates iteration loops. Use before spawning workers in Codex, Claude Code, Cursor, or Gemini; for bounded Jev decision questions; or to judge, continue, switch, stop, or rank work.
 license: MIT
 ---
 
@@ -24,8 +24,8 @@ python3 scripts/route-subagent.py --host claude "Rename a variable in one file"
 That is the entire setup: exactly one key, either backend (see **Backends
 and credentials** below). The built-in host model table already covers
 Claude Code, Codex, Cursor, and Gemini CLI; no config file is required. If
-`TYPESAFE_API_KEY` is missing, unset, or the API is unreachable, every
-script below still runs to completion: it prints the Balanced default (for
+`TYPESAFE_API_KEY` is missing, unset, or the API is unreachable, the
+subagent router still runs to completion: it prints the Balanced default (for
 example `sonnet` at `medium` effort on Claude Code) and says the router was
 unavailable, exit code 0. A consumer that never sets the key still gets a
 working, if unrouted, harness -- adopting this Skill cannot break a caller.
@@ -71,7 +71,7 @@ default and says so; it never blocks a spawn.
 
 ```json
 {
-  "host": "claude", "model": "sonnet", "effort": "medium", "tier": "balanced",
+  "host": "claude", "model": "sonnet", "effort": "medium", "tier": "balanced", "source": "jev",
   "task_class": "implementation", "confident": true,
   "reasons": ["implementation defaults to balanced at medium effort"]
 }
@@ -80,10 +80,39 @@ default and says so; it never blocks a spawn.
 `--json` prints the full decision; the plain-text form is a one-line summary
 plus reasons. `--context FILE` passes extra state (repo, files, constraints)
 as JSON alongside the task text.
+The `source` field is `jev` only after a valid answer. It is `fallback` when
+credentials, network access, the service, or its answer are unavailable. A
+fallback is an operating default, not Jev's judgment.
 
-## Fail-open, always
+## Ask a custom typed question
 
-Every script in this Skill fails open on any router problem: missing key,
+With Node.js 22.18 or later, run the bundled TypeScript script directly.
+The local [package.json](./package.json) marks the Skill's scripts as ES modules
+without changing a consuming repository's package type:
+
+```bash
+node scripts/ask-jev.ts examples/public-harness-question.json
+```
+
+The JSON file has a `state` object and a `questions` object. Each named
+question uses `type: "noul"` for a probability, `type: "options"` with an
+`options` label-to-description map for a choice and probabilities, or
+`type: "score"` with an ordered `criteria` array for a graded score. All
+three require `instructions`. The script uses the same credential order and
+TypeSafe or gateway backend as the Python router. It prints normalized JSON
+answers with backend and model identity. It makes no policy decision from
+those answers: the caller owns evidence, thresholds, and final authority.
+
+Missing credentials, denied network access, timeout, HTTP failure, or malformed
+response produce `status: "unavailable"` with no answers and exit code 2.
+Invalid input exits 1. A valid Jev answer exits 0. Do not report an
+`unavailable` result as a Jev verdict. In a sandbox, grant the network access
+required by the selected backend and retry the same input; the script does
+not bypass host permissions or silently switch providers.
+
+## Router and iteration gates fail open
+
+The routing and iteration scripts fail open on a router problem: missing key,
 unreachable API, malformed answer, or timeout. The caller always gets a
 usable default and an explanation, never a crash or a hang:
 
@@ -109,7 +138,7 @@ review:
 | Host | Efficient | Balanced | Frontier | Control |
 |---|---|---|---|---|
 | Claude Code | `haiku` | `sonnet` | `opus` | Agent tool `model` parameter; effort as an instruction in the prompt |
-| Codex | `gpt-5.6-luna` | `gpt-5.6-terra` | `gpt-5.6-sol` | `model` plus `model_reasoning_effort`, or `--model` / `-c` |
+| Codex | `gpt-6-luna` | `gpt-6-sol` | `gpt-6-astra` | `model` plus `model_reasoning_effort`, or `--model` / `-c` |
 | Cursor | `composer-2.5` | `cursor-grok-4.6-medium` (`-high` for review) | `cursor-grok-4.6-high` | `--model` on cursor-agent; effort is part of the model ID |
 | Gemini CLI | `gemini-flash-lite` | `gemini-flash` | `gemini-pro` | explicit per-agent `model` or `modelConfig`; effort as an instruction in the prompt |
 
@@ -242,17 +271,18 @@ cp scripts/route-subagent.py scripts/route-subagent-hook.py ~/.claude/hooks/
 # merge templates/settings.snippet.json into your settings.json PreToolUse array
 ```
 
-Other hosts translate the same routing decision through their own worker
-config (Codex `.codex/agents/*.toml` or `--model`/`model_reasoning_effort`,
-Cursor `--model` on `cursor-agent`, Gemini CLI per-agent `model` or
-`modelConfig`) instead of a PreToolUse hook, since none of them expose an
-equivalent pre-spawn rewrite point as of this Skill's last review.
+Codex also supports a trusted `PreToolUse` hook matching `Agent|spawn_agent`
+that can rewrite spawn arguments. Consumers may adapt the same route at that
+boundary; verify hook trust, the resolved child model, and fallback behavior
+in their own host. Host-specific activation stays with the consumer. Cursor
+and Gemini CLI use their native worker model controls.
 
 ## Data flow
 
-Jev's direct API has no per-request zero-data-retention switch; task text
-and any `--context` you pass leave for TypeSafe AI's processor without a
-retention guarantee (their policy states no model is trained on it).
+Jev's direct API has no per-request zero-data-retention switch; task text,
+`--context`, and every custom JSON `state` and question instruction leave for
+TypeSafe AI's processor without a retention guarantee (their policy states
+no model is trained on it).
 Decide, per your own data-handling policy, whether task descriptions are
 safe to send before adopting this Skill in a repository with contractual or
 regulatory retention constraints. Do not route tasks containing secrets,
@@ -271,6 +301,12 @@ models-file override, fail-open behavior), `tests/test_iteration_gate.py`
 (all three gate subcommands, fail-open, the no-measurements refusal), and
 `tests/test_route_subagent_hook.py` (the Claude Code PreToolUse hook: fail-open,
 fast-route rejection, fork and already-routed pass-through).
+`tests/test_ask_jev.mjs` covers the TypeScript JSON input, both backend
+request shapes, valid answers, and network and response failures:
+
+```bash
+node --test tests/test_ask_jev.mjs
+```
 
 Then run the quickstart twice: once with a key set, once with a clean `HOME`
 and no key anywhere, and confirm both exit 0 with a route printed.
