@@ -5,6 +5,15 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `manage-infrastructure-as-code` 1.1.0: an identity binding must name a value
+  somebody has read from the live system, never one taken from provider
+  documentation. A deployment identity narrowed to the OIDC subject its provider
+  documents as the default was refused every exchange, because the organization
+  had customized that claim; the binding and the claim mapping were both correct
+  when read back. Make the workload print the identity it presents, since an
+  authorization refusal names the permission and never the value it compared.
+  And allow for IAM propagation before concluding a correct repair was wrong.
+
 - `completion-gate` 1.6.0: two rules about gates that answer. A check nobody
   has watched fail is not evidence, because a check answers about a subject, by
   a route, at a time, and a wrong one of the three still returns something
