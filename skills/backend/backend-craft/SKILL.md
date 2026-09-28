@@ -133,6 +133,11 @@ acrobatics that slow compilation or hide intent are a design smell.
   or route convenience code.
 - Migrations need rollback or repair thinking, even when rollback is not
   automated.
+- Two changes that each add a migration on the same parent revision merge into
+  two heads, and the failure lands on the deploy rather than on either review.
+  Check the head before merging the second one. Re-pointing a revision that has
+  not run anywhere yet is a rebase; re-pointing one that has already run is an
+  incident.
 - Data changes that affect access control need targeted tests.
 
 ## PocketBase Rules

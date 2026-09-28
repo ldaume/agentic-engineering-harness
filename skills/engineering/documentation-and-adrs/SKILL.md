@@ -78,6 +78,13 @@ Accepted | Proposed | Superseded
   query behind a count, the conversion behind a schema claim - and say in the
   change which claims you ran what against. A reviewer aimed at named claims
   re-derives; an unaimed one reads.
+- Where a document names parts of the system - directories, services,
+  lifecycle stages - the half a machine can check gets a test: every path it
+  names exists, every stage it names matches the declaration the running code
+  reads. That turns pointer rot, which otherwise surfaces when a reader follows
+  a moved link, into a red check for a few lines of test. What such a test
+  cannot reach is the prose, which is the argument for keeping the prose short
+  and the table long.
 - A diagram is checked by rendering it, not by reading it. Diagram grammars
   reserve words that look like ordinary node ids - in Mermaid's flowchart
   `call` parses as a callback name and fails the whole graph, and `end`,
