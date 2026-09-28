@@ -117,6 +117,25 @@ privilege and prevent concurrent writers to the same state or target.
 Verify preconditions immediately before apply. Stop if the source, variables,
 state lineage, plan, policy result, approval, or actual environment changed.
 
+An identity binding must name a value somebody has read from the live system,
+never one taken from provider documentation. A deployment identity was narrowed
+to the OIDC subject its provider documents as the default; the organization had
+customized that claim, so every token exchange was refused and nothing could
+deploy for an hour. Both the binding and the claim mapping were correct when
+read back - the one value nobody had read was the claim the token actually
+carries. Read the claim first, and prefer a claim the workload can be made to
+print over one only the documentation asserts.
+
+Make the workload report the identity it presents. An authorization refusal
+names the permission and never the value it compared, so a mismatch between a
+binding and a claim is invisible at the moment it costs the most. A run that
+prints its own subject, ref and repository - piped straight into a decoder, so
+no variable or argument holds the token - turns that hour into a minute.
+
+Allow for propagation before concluding a binding is wrong. An IAM change takes
+minutes to take effect, and the first run after a correct repair can fail for no
+other reason.
+
 After failure or cancellation, preserve recovery state, inspect both recorded
 state and actual resources, and produce a fresh reviewed plan before retrying.
 Never reuse a stale plan blindly. If a backend write fails and the tool emits
