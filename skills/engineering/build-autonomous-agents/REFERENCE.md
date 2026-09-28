@@ -64,40 +64,53 @@ bounded objective, budget, stop condition, and recoverable artifact.
 
 ## Flue Implementation Notes
 
-Checked against the official Flue documentation and package metadata on
-2026-07-30. The reviewed stable package line was `1.0.0-beta.9`; upstream also
-published newer nightlies. Resolve live versions again before adoption or
-upgrade.
+Checked against the official Flue documentation and package metadata
+(`@flue/runtime` and `@flue/cli`, npm `latest` dist-tag `2.1.1`) on 2026-09-28.
+Flue 2.0 (2026-08-01) was a breaking rewrite of the `1.0.0-beta.9` line
+reviewed previously: `defineAgent`, `defineWorkflow`, `invoke()`, and Actions
+are gone entirely, not renamed. Resolve live versions again before adoption or
+upgrade; a `2.2.0-next.1` prerelease exists on the `next` tag, do not adopt it
+merely because it is newer.
 
 Current public concepts:
 
 | Concept | Use |
 |---|---|
-| `defineAgent` | continuing stateful context |
-| `defineWorkflow` | finite operation with run, result, and event history |
-| Action | reusable application-controlled input, output, and handler |
-| Tool | bounded typed function available to the model |
-| `invoke()` | start a workflow from application-owned code |
-| `dispatch()` | continue a persistent agent conversation |
+| `'use agent'` function | the agent is the exported, capitalized function itself; continuing stateful conversation |
+| `defineTool` / `useTool` | bounded typed function available to the model (`harness: true` covers what Actions used to do) |
+| `defineSubagent` / `useSubagent` | focused delegate with its own context; only its final answer returns |
+| `init()` | get an application-owned handle to one agent conversation (scripts, cron, workflow steps) |
+| `dispatch()` | submit a message to an agent conversation: `handle.dispatch()` returns a durable receipt, the top-level export fires channel or schedule input without waiting |
 
 Important boundaries:
 
-- A discovered workflow is private unless its route or run access is explicitly
-  exported and authenticated.
-- A run identifier is not a credential; run data may contain sensitive inputs,
-  results, and model activity.
-- Flue does not prescribe the scheduler. Use the platform scheduler or a durable
-  queue when production recovery, replicas, or step orchestration require it.
-- Continuing agent persistence and finite workflow recovery are different.
-  Do not assume arbitrary TypeScript workflow execution is checkpointed.
-- Virtual sandboxes are not network isolation. Local host sandboxes execute
-  with host authority and are suitable only for trusted work.
-- Conversation persistence, workspace persistence, and domain persistence are
-  separate design decisions.
-- Keep tests outside directories whose files are auto-discovered as workflows
-  or agents unless the installed version documents a safe convention.
+- Registration comes from a build-time `'use agent'` file scan, not a route
+  export: any registered agent is reachable from server-side `dispatch(...)`
+  with no mount at all. A mounted agent has no built-in authentication either;
+  the conversation id is a caller-chosen path segment, not a secret, so the
+  application owns both authentication and per-conversation authorization.
+- A conversation id is not a credential; conversation history may contain
+  sensitive inputs, results, and model activity.
+- Flue does not prescribe the scheduler. Each target pairs its own cron
+  mechanism with the same `dispatch()` surface; use a durable workflow engine
+  (Cloudflare Workflows, Inngest, Temporal, or similar) when a multi-step
+  script around several sends must itself survive a crash between steps.
+- Durability covers one accepted submission end to end, not the script that
+  issues it. A script that dies between two dispatches re-runs from its start
+  unless each dispatch is checkpointed by a durable workflow engine.
+- Virtual sandboxes are ephemeral and rebuilt on every recovery attempt, not
+  network isolation. Local host sandboxes execute with host authority and are
+  suitable only for trusted work.
+- Conversation persistence (the database), workspace persistence (a durable
+  sandbox adapter keyed on the agent instance id), and domain persistence are
+  three separate design decisions; a durable database does not make a sandbox
+  durable.
+- The `'use agent'` scan registers every exported, capitalized function in any
+  marked file. Keep tests and other non-agent code out of files carrying the
+  directive.
 
-Use the installed CLI documentation because public APIs changed during beta:
+Use the installed CLI documentation because public APIs changed across the
+2.0 rewrite:
 
 ```bash
 flue docs search "workflows"
@@ -106,23 +119,30 @@ flue docs search "durability"
 flue docs search "sandboxes"
 ```
 
-Use exact paths reported by `flue docs search`; do not assume the examples above
-remain unchanged.
+`flue docs read` also accepts the website URL or path directly
+(`/docs/guide/durability/`, `guide/durability`), and reads from the locally
+installed CLI, not the live site, so results match the installed version.
+Use exact paths reported by `flue docs search`; do not assume the examples
+above remain unchanged.
 
 ## Flue Migration Review
 
 When reviewing an older integration, search for:
 
-- `@flue/runtime/internal`
+- `@flue/runtime/internal` (not a documented public boundary in any version)
+- `defineAgent`, `defineWorkflow`, `invoke()`, or `defineAction`/Actions —
+  removed in 2.0; an Action becomes a tool, commonly with `harness: true`
 - removed configuration sentinels such as `model: false`
-- direct in-process runtime bridges that bypass public `invoke`, `dispatch`,
+- direct in-process runtime bridges that bypass public `dispatch`, `init`,
   HTTP, or SDK boundaries
 - model output applied without schema validation
 - business persistence or credentials owned by the agent runtime
-- test files accidentally placed in discovered module directories
-- schedules assumed to survive process restarts
+- test files accidentally carrying the `'use agent'` directive
+- schedules or driving scripts assumed to survive process restarts without a
+  durable workflow engine
 - retries without idempotency protection
-- exposed workflow or run routes without resource-specific authentication
+- mounted agent routes without resource-specific authentication and
+  authorization on the conversation id
 
 Do not rewrite a working integration from memory. Compare its installed docs,
 types, tests, and changelog; migrate one representative vertical slice and
@@ -148,7 +168,7 @@ retain a rollback path.
 - [Flue repository and Apache-2.0 license](https://github.com/withastro/flue)
 - [Flue workflows](https://flueframework.com/docs/guide/workflows/)
 - [Flue agents](https://flueframework.com/docs/guide/building-agents/)
-- [Flue durable execution](https://flueframework.com/docs/concepts/durable-execution/)
+- [Flue durability](https://flueframework.com/docs/guide/durability/)
 - [Flue sandboxes](https://flueframework.com/docs/guide/sandboxes/)
 - [Flue schedules](https://flueframework.com/docs/guide/schedules/)
 - [Flue channels](https://flueframework.com/docs/guide/channels/)
