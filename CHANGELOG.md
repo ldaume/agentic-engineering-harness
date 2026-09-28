@@ -5,6 +5,40 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `completion-gate` 1.6.0: two rules about gates that answer. A check nobody
+  has watched fail is not evidence, because a check answers about a subject, by
+  a route, at a time, and a wrong one of the three still returns something
+  shaped like a pass - the suite that tested a stale build on a reused port, the
+  merge gate handed a path where it wanted `OWNER/NAME`, the grep that matched
+  "failed" inside the failure line and pushed on red. And a gate that is
+  intermittent randomizes rather than gates: one browser flow racing its own
+  navigation failed a release run on a commit that had passed on its branch
+  minutes before, so the coin toss decided whether a deploy happened. Break a
+  new gate's subject on purpose once; do not rerun a red gate to green.
+
+- `api-design` 1.2.0: a field and its replacement do not change places in one
+  release. Both versions of every consumer are live while a deploy rolls out,
+  and a client on its own schedule reads the old field for longer than that.
+  Removing a `role` field in the change that introduced `roles` hid the
+  administration menu from an installation's own administrator, and every
+  request still answered 200.
+
+- `backend-craft` 1.2.0: two changes that each add a migration on the same
+  parent revision merge into two heads, and the failure lands on the deploy
+  rather than on either review. Re-pointing a revision that has not run
+  anywhere is a rebase; re-pointing one that has run is an incident.
+
+- `playwright-best-practices` 1.1.0: leaving a page through a client-side
+  navigation is not finished when the click returns. A `goto` into a navigation
+  still in flight aborts it, which is intermittent, which in a release gate
+  means the gate decides by coin toss. Added as a rule and as a red flag.
+
+- `documentation-and-adrs` 1.5.0: where a document names parts of the system,
+  the half a machine can check gets a test - every path it names exists, every
+  stage it names matches the declaration the running code reads. Pointer rot
+  becomes a red check instead of a reader following a moved link. What the test
+  cannot reach is the prose, which is the argument for keeping it short.
+
 - `scaffold-harness` 2.13.0: the merge rule in the `HARNESS.md` and
   `AGENTS.md` templates now says what green means. Every required job named for
   that repository explicitly reports pass; "no checks reported", pending, and a
