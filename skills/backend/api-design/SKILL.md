@@ -28,6 +28,13 @@ Before changing an API:
   guards, limits, and auth it has to preserve, and the correction costs more
   than the reading would have.
 - Validate input at the boundary.
+- A field and its replacement do not change places in one release. While a
+  deploy rolls out, both versions of every consumer are live, and a client that
+  deploys on its own schedule reads the old field for longer than that. Add the
+  replacement, answer both, and remove the old field a release later. Removing a
+  `role` field in the change that introduced `roles` hid the administration menu
+  from an installation's own administrator, and every request still answered
+  200.
 - Make response shape stable and documented.
 - Use machine-readable error codes plus human-readable messages.
 - Keep outcomes distinct when their causes differ. A request the system chose

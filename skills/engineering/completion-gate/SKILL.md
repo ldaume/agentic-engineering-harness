@@ -74,6 +74,25 @@ assert on something the run must have changed, and never let a neighbouring
 command's green stand in for the one you did not watch. If you cannot say what
 the check printed, you did not run it.
 
+A check nobody has watched fail is not evidence. A check answers about a
+subject, by a route, at a time, and when any of the three is wrong it still
+returns something that reads exactly like a pass: the suite that reused whatever
+server already answered on its port and tested a stale build; the merge gate
+handed a filesystem path where it wanted `OWNER/NAME`, which read every failed
+API call as "no job has reported yet" and waited out its timeout in silence; the
+grep for `passed|failed` that matched the word "failed" inside the failure line
+and pushed on red. So before a new gate, test or probe is trusted, break its
+subject on purpose once, watch it go red, put it back, and say in the change
+that you did.
+
+A gate that is intermittent does not gate, it randomizes. A browser flow that
+raced its own navigation failed the release run of the default branch on a
+commit that had passed on its own branch minutes earlier, and a sibling test
+doing the same thing passed in the same run. Whichever side of that race won
+decided whether a deploy happened, and neither outcome was about the change
+under review. Fix the race where it is. Do not restore a red gate to green by
+running it again.
+
 Once merged, check continuous integration on the branch you merged into. A
 pull request runs against its own head; the target branch runs against the
 merge, so pull requests that were each green can merge in sequence and leave it
