@@ -23,6 +23,10 @@ Before writing tests:
 - Prefer role, label, text, and stable test ids over CSS selectors.
 - Assert the outcome, not every implementation step.
 - Keep tests isolated and repeatable.
+- Leaving a page through a client-side navigation is not finished when the
+  click returns. Wait for the destination before starting the next navigation:
+  a `goto` into a navigation still in flight aborts it, and the failure is
+  intermittent, which in a release gate means the gate decides by coin toss.
 - Use fixtures for auth and shared setup.
 - Mock external services at the boundary when real services make tests slow or
   flaky.
@@ -47,6 +51,7 @@ Before writing tests:
 ## Red Flags
 
 - `waitForTimeout`
+- `goto` immediately after a click that navigates
 - broad CSS selectors
 - tests depend on run order
 - production third-party service required for normal CI
