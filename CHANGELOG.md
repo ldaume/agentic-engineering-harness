@@ -5,6 +5,21 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `backend-craft` 1.3.0: two data rules from dogfooding a product in production.
+  A test suite that builds its schema from the ORM models never sees migrations
+  drift from them - keep one test that migrates an empty database and compares
+  it with the models. And a strict read model over a column nothing bounds on
+  write turns one oversized or naive row into a permanent 500 for that record
+  while the list stays green - bound on write where your code writes, tolerate
+  on read where a provider or model writes, and test past every limit.
+
+- `build-autonomous-agents` 2.1.0: three recovery rules for agent loops. Show a
+  resuming agent the outcome of the job it handed off and refuse a second
+  hand-off of unchanged input; fire deterministic backstops on the agent's
+  failure paths too, and let a person's newer send-back outrank prompt text as
+  a typed transition condition; answer a call to an unavailable tool with an
+  explicit refusal and keep the conversation after a turn without a valid call.
+
 - `manage-infrastructure-as-code` 1.1.0: an identity binding must name a value
   somebody has read from the live system, never one taken from provider
   documentation. A deployment identity narrowed to the OIDC subject its provider
