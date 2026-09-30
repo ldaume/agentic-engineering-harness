@@ -1,5 +1,6 @@
 ---
 name: build-autonomous-agents
+license: MIT
 description: Designs and implements bounded autonomous agent systems for product features and software or product SDLC automation with runtime-neutral contracts. Use when building an agent, finite workflow, subagent, scheduled or overnight job, CI agent, chat or channel integration, observable agent service, adding Flue to an application, or migrating an older Flue integration.
 ---
 
@@ -118,6 +119,19 @@ generalized abstractions.
   and external effects before a bounded requeue; alert the named failure owner
   when safe recovery is not possible.
 - Put external side effects behind application-owned idempotency keys.
+- When an agent hands work to an asynchronous job and resumes afterwards, put
+  the finished job's outcome into its context and refuse a second hand-off of
+  unchanged input deterministically. Without both, a review agent re-delegated
+  a paid review after every clean one, for hours.
+- A deterministic backstop that moves a stage forward when the agent does not
+  must also fire on the agent's failure paths (turn limit, idle turns) once the
+  stage's output exists. A person's newer decision - sending work back - must
+  outrank any prompt text telling the agent to move on: make it a typed
+  condition on the transition, not an instruction.
+- Answer a call to a tool the run does not hold with an explicit refusal that
+  names the available tools, and keep the conversation after a turn without a
+  valid tool call. Dropping either silently made agents ask the user for
+  context they already had.
 - Use a durable external orchestrator when step-level resumability is required.
 - Keep model-visible data, logs, traces, and run history free of unnecessary
   secrets and personal data.
