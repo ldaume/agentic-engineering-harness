@@ -1,5 +1,6 @@
 ---
 name: backend-craft
+license: MIT
 description: Guides backend architecture, TypeScript boundaries, APIs, data models, PocketBase, Flue workflows, BullMQ queues, workers, AI integrations, provider secrets, security, tests, and operability. Use when designing or changing backend systems, runtime validation, migrations, job queues, workflow orchestration, LLM outputs, or deployment-sensitive code.
 ---
 
@@ -138,6 +139,17 @@ acrobatics that slow compilation or hide intent are a design smell.
   Check the head before merging the second one. Re-pointing a revision that has
   not run anywhere yet is a rebase; re-pointing one that has already run is an
   incident.
+- A test suite that builds its schema from the ORM models never sees the
+  migrations drift from them. A migration that added a timestamp without time
+  zone under a timezone-aware model passed every test and returned 500 in
+  production. Keep one test that runs the migrations on an empty database and
+  compares every column type, nullability and index with the models.
+- A strict read model (length limits, timezone-aware datetimes, patterns) built
+  straight from a column nothing bounds on write turns one oversized or naive
+  row into a permanent 500 for that record, while the list endpoint stays
+  green. Bound the value where your code writes it, tolerate it where a
+  provider or a model writes it, and pin both with a test that writes past
+  every limit through the real write path and reads the record back.
 - Data changes that affect access control need targeted tests.
 
 ## PocketBase Rules
