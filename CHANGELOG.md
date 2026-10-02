@@ -5,6 +5,17 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.16.0: choose and switch the operating level. The
+  catalog README gives a one-screen L3-L7 overview (what agents do alone, what
+  the human still does, minimum prerequisites). At scaffold time the Skill
+  recommends the highest level the repository's checks, CI, deploy, rollback,
+  and telemetry support, asks the owner, records the choice as one `Level:`
+  line under `HARNESS.md` **Operating Level**, and generates the sections that
+  level adds (the owner-delegated profile only at L7). Rerunning it with
+  another level switches up (missing gates recorded as pending and closed
+  first) or down (sections above the target removed at once); a matching level
+  is a no-op. Existing harnesses without the line read as L3.
+
 - `scaffold-harness` 2.15.0: an optional L7 owner-delegated operating profile.
   An owner who chooses it moves humans on or out of the loop: agents decide
   everything outside a short closed list of owner-reserved classes, reserved

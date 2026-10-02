@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Use this reference when assessing a harness level, proposing a move beyond
-repository-level work, changing human oversight, or discussing organizational
-transformation.
+Use this reference when assessing a harness level, choosing or switching the
+level of a harness, proposing a move beyond repository-level work, changing
+human oversight, or discussing organizational transformation.
 
 The levels describe the widest unit of work that can be delegated reliably.
 They are capability profiles, not status, model intelligence, or a mandatory
@@ -147,6 +147,62 @@ control is the first increment, not a reason to claim the profile anyway. The
 operating text lives in the `templates/HARNESS.md` subsection **Optional:
 Owner-Delegated Operating Profile** and the specialist table in **Review
 Loops**; copy them only when the owner chooses the profile.
+
+## Choosing and Switching the Operating Level
+
+The lowest scaffolded level is L3; L1 and L2 need no harness, only a Skill.
+Each level includes the prerequisites of every level below it. In a scaffolded
+harness, choosing L7 is the owner's explicit choice of the owner-delegated
+profile.
+
+| Level | Minimum prerequisites observed in the repository | What the generated harness adds |
+|---|---|---|
+| L3 | Runnable Fast Check and Full Gates; Git as recovery | Template defaults: **Operating Level**, **Oversight** human-in-the-loop |
+| L4 | Each external source or tool has an owner, access scope, currentness, and failure path | Those sources in `CONTEXT-MAP.md` and **Agent Context Architecture** |
+| L5 | Durable workflow state, retries and recovery, run observability, a stop path | `STATUS.md` as workflow and promotion index; runtimes per `RUNTIMES.md` |
+| L6 | Required CI checks at merge, a checked deployment, executable rollback, production telemetry and alerts, an incident owner | **Oversight** promotion loop with each human-on-the-loop class named; **run-product-engineering** closes the loop |
+| L7 | Proven L6 plus trusted product signals, budgets, kill criteria, and an owner stop path | **Optional: Owner-Delegated Operating Profile**, its **Oversight** paragraph, and the **Review Loops** specialist table |
+
+**Record.** The first line under `HARNESS.md` **Operating Level** is the single
+record of the repository-wide level:
+
+```text
+Level: L<n> - <name>; scope: <repository or decision domain>; chosen <YYYY-MM-DD> by <owner>; pending gates: <none | list>
+```
+
+Fill every placeholder. The README **Current Operating Envelope** projects it
+for humans; a decision domain there may sit lower than the line, never higher.
+
+**Choose at scaffold time.** After grounding, recommend the highest level whose
+prerequisites all exist, or a lower one when the owner's goal needs no more.
+Name what was found (checks, CI, deploy, rollback, telemetry) and what is
+missing, and ask the owner once with the table above. The owner may pick lower
+or higher; a higher pick is recorded with its pending gates.
+
+**Switch later** (scaffold-harness owns this; rerun it with the target level):
+
+1. Read the `Level:` line. When it is absent, infer the current level from the
+   sections present and the README envelope, confirm it with the owner, and
+   record it; a missing line never counts as a move down. When the line names
+   the target with no pending gates and the target's sections are present,
+   report no change and stop. When it names the target with pending gates,
+   continue closing them and keep the `chosen` date.
+2. **Up:** a higher level changes the human role, so only the owner chooses
+   it. Check the prerequisites of every level up to the target. Record the
+   target with every missing gate under `pending gates`; agents close those
+   gates as the first increments. Until the list is empty, the highest fully
+   proven level's sections and rules apply: add a level's sections only once
+   its gates are closed, and never duplicate a section that exists.
+3. **Down:** needs no prerequisites and takes effect at once; an owner stop or
+   a boundary, observability, or recovery failure is reason enough. Remove
+   what the levels above the target added: below L7 the owner-delegated
+   subsection, its **Oversight** paragraph, and the specialist table; below L6
+   the promoted human-on-the-loop classes (return them to human-in-the-loop
+   and record why); below L5 unattended runtimes (pause them through their
+   documented stop path); below L4 external tool access beyond read-only
+   sources. Keep `STATUS.md` and the evidence the higher level produced.
+4. Update the `Level:` line and the README envelope row, then commit with the
+   from and to levels and the reason.
 
 ## Organizational Change
 

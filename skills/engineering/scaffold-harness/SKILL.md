@@ -71,6 +71,13 @@ Default to a reliable repository-level harness. Add grounded tools,
 stateful workflows, delivery automation, or product loops only when evidence
 supports the wider delegated unit.
 
+Choose the operating level with the owner: recommend the highest level whose
+prerequisites the repository already has, or less when the goal needs less,
+ask once, and record the choice per
+**Choosing and Switching the Operating Level** in [MATURITY.md](./MATURITY.md).
+Rerunning this Skill with a different target level switches up or down through
+the same procedure; it is a no-op when the recorded level already matches.
+
 Complete assessment when the current level, target level, and evidence for
 each proposed addition are explicit.
 
@@ -321,10 +328,9 @@ reconcile infrastructure desired state.
 - At L6-L7, close the product loop from attributable signals through delivery,
   production observation, incident and bug feedback, outcome review, and an
   explicit next decision. Release alone is not completion.
-- Offer the L7 owner-delegated operating profile in
-  [MATURITY.md](./MATURITY.md) only as an explicit owner choice for a named
-  scope with proven L6 controls. Keep the default oversight contract
-  otherwise.
+- Generate the sections the chosen level adds in MATURITY.md; the L7
+  owner-delegated profile only on the owner's explicit choice of L7. Keep the
+  default oversight contract otherwise.
 - For product work that uses shared investment or issue tracking, at any level,
   treat Now/Next/Later/Never as investment decisions rather than date promises.
   Keep Later coarse, record Never with rationale and a revisit trigger, and
@@ -376,7 +382,8 @@ reconcile infrastructure desired state.
 6. For a context-economy change, verify the complete routing path and compare
    successful-task quality, tokens, latency, retries, and recovery with the
    baseline.
-7. State the operating level, remaining gaps, and next evidence trigger.
+7. Verify the `Level:` line matches the chosen level and its pending gates,
+   and state the remaining gaps and next evidence trigger.
 
 The scaffold is complete only when:
 
