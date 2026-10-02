@@ -36,6 +36,7 @@ or multi-team prompt only when that is the real authority boundary.
 |---|---|
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
+| Choose or switch how much agents do alone | [`Operating levels`](#operating-levels) |
 | Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
 | Onboard a new sibling (simplest) | Session in the coordinator; ask the agent to fully onboard it and pass context - [`Simplest path`](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) |
 | Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
@@ -45,6 +46,25 @@ or multi-team prompt only when that is the real authority boundary.
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
+
+## Operating levels
+
+Every harness records one operating level: how much agents do on their own.
+`scaffold-harness` recommends a level from what your repository already has,
+asks you to choose, sets the harness up to match, and switches it up or down
+when you rerun it with another level. L1 (one supervised task) and L2 (one
+repeatable Skill) need no harness.
+
+| Level | Agents do on their own | You still do | Minimum prerequisites |
+|---|---|---|---|
+| L3 Living repository | Change code, run checks, keep context and learnings, commit | Own intent, domain meaning, and material decisions | Runnable Fast Check and Full Gates |
+| L4 Grounded system | Also use external sources and tools within named access | Approve new access and consequential external effects | Owner, scope, and failure path for each source or tool |
+| L5 Stateful workflow | Also run a recurring workflow end to end, retry, and recover | Handle exceptions and open decisions | Durable workflow state, recovery, run observability, a stop path |
+| L6 Governed value stream | Also merge, deploy, and roll back proven change classes | Set goals and risk; veto, incidents, accountability | Required CI checks, checked deploy, executable rollback, production alerts, incident owner |
+| L7 Adaptive product system | Also choose bounded problems and experiments; with the owner-delegated profile, decide everything outside a short owner-reserved list | Set vision, budgets, the reserved list; confirm reserved items; stop the system | Proven L6, trusted product signals, budgets, kill criteria |
+
+Details, the switch procedure, and where the level is recorded:
+[Choosing and Switching the Operating Level](./skills/engineering/scaffold-harness/MATURITY.md#choosing-and-switching-the-operating-level).
 
 ## Install
 
@@ -137,8 +157,9 @@ only that missing Skill project-locally for the active agent host. Do not
 install globally or expand permissions without explicit authority.
 
 Use scaffold-harness to assess this repository and add only the context,
-capabilities, feedback, and governance it needs. Preserve local truth, use the
-lowest reliable delegation level, name the real Fast Check and Full Gates, and
+capabilities, feedback, and governance it needs. Preserve local truth,
+recommend an operating level from what the repository already has and let me
+choose it, name the real Fast Check and Full Gates, and
 verify the result with those repository checks. Use grill-harness-with-docs
 for shared understanding, material critique, and unresolved decisions, and
 run agent-sync before completion.

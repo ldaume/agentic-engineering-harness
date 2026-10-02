@@ -25,7 +25,9 @@ control plane.
 | <repository changes, release, security, product discovery, or other domain> | <L1-L7> | <what the human owns and may stop> | <checks, recovery, observability, repeated runs, or named gap> |
 
 Levels are assessed per decision domain. The weakest required control sets the
-safe level; installed models or tools do not prove maturity.
+safe level; installed models or tools do not prove maturity. The `Level:` line
+in `HARNESS.md` **Operating Level** is the canonical record; keep this table in
+step with it.
 
 ## How Human and Agent Work Change by Level
 
