@@ -117,6 +117,37 @@ credential custodians, exception and incident operators, feedback providers,
 and an effective stop path. Keep those contributions visible and durable
 without turning them into mandatory approval gates for already authorized work.
 
+### L7 Owner-Delegated Operating Profile
+
+An optional operating style an accountable owner may choose for a named scope.
+It does not replace the L7 decision-domain definition above, and it is not the
+catalog default; without an explicit owner choice, the default
+human-in-the-loop **Oversight** contract applies.
+
+The profile moves the human on or out of the loop: agents decide everything
+except a short closed list of owner-reserved classes (vision, values, risk
+budgets, the list itself, and loosening safety controls; spending money or
+sending to people outside the system; new external exposure or loosened
+authentication on exposed surfaces; irreversible loss without an
+independently verified restore; new third-party trust). Reserved decisions
+arrive as a ready recommendation the owner only confirms, outcomes are recorded
+as `accepted-as-recommended`, `changed`, or `rejected`, and agents propose
+retiring a gate from that evidence. An in-session owner stop always wins.
+
+Safety comes from agents on the loop rather than human approval: spike-first
+craft with no document gates, specialist reviewers triggered by risk class,
+tested fallbacks for every external dependency, commits that carry the durable
+why and PRs that carry review evidence as labeled data, and a host-parity check
+over each agent host's permission file.
+
+Choose it only when the L6 controls it replaces are real for that scope:
+deterministic gates at the moment of change, checked deployments,
+observability, executable rollback, and an effective stop path. A missing
+control is the first increment, not a reason to claim the profile anyway. The
+operating text lives in the `templates/HARNESS.md` subsection **Optional:
+Owner-Delegated Operating Profile** and the specialist table in **Review
+Loops**; copy them only when the owner chooses the profile.
+
 ## Organizational Change
 
 At L5 and above, changing the harness changes how work and responsibility flow.
@@ -143,6 +174,7 @@ changes inside an engineering implementation.
 - adding multi-agent orchestration before one-agent work is reliable
 - using a graph or generated summary as canonical domain truth
 - moving to human-on-the-loop without meaningful observability and a stop path
+- adopting the owner-delegated profile as a default instead of an explicit owner choice
 - calling autonomous merge an L6 software factory without production feedback
 - optimizing a metric and calling it L7 product judgment
 - expanding autonomy across domains because one bounded workflow succeeded
