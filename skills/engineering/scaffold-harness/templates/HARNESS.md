@@ -2,8 +2,11 @@
 
 ## Operating Level
 
-Current default: reliable repository-level work. Add wider delegation only
-from observed evidence.
+Level: L3 - Living repository; scope: <repository>; chosen <YYYY-MM-DD> by <owner>; pending gates: none
+
+This line is the single record of the chosen level; change it only through the
+`scaffold-harness` `MATURITY.md` **Choosing and Switching the Operating
+Level** procedure. Add wider delegation only from observed evidence.
 
 - **Commit / push / merge:** when repository policy authorizes routine git
   completion, do it by default after checks pass. Closing the git loop is part
@@ -629,7 +632,8 @@ For each active promotion candidate:
    workflow to human-in-the-loop, record the hold reason, and reset its evidence
    before any new promotion run.
 
-Under the optional owner-delegated profile, agents run this loop themselves:
+Under the optional owner-delegated profile (include this paragraph only with
+it), agents run this loop themselves:
 they promote a demonstrated class and, on such a failure, narrow it back to
 its proven scope and record why. Only owner-reserved items reach the owner.
 
