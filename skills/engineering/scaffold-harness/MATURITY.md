@@ -119,8 +119,9 @@ without turning them into mandatory approval gates for already authorized work.
 
 ### L7 Owner-Delegated Operating Profile
 
-An optional profile an accountable owner may choose for a named scope. It is
-not the catalog default; without an explicit owner choice, the default
+An optional operating style an accountable owner may choose for a named scope.
+It does not replace the L7 decision-domain definition above, and it is not the
+catalog default; without an explicit owner choice, the default
 human-in-the-loop **Oversight** contract applies.
 
 The profile moves the human on or out of the loop: agents decide everything
