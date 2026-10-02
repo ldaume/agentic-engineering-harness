@@ -321,6 +321,10 @@ reconcile infrastructure desired state.
 - At L6-L7, close the product loop from attributable signals through delivery,
   production observation, incident and bug feedback, outcome review, and an
   explicit next decision. Release alone is not completion.
+- Offer the L7 owner-delegated operating profile in
+  [MATURITY.md](./MATURITY.md) only as an explicit owner choice for a named
+  scope with proven L6 controls. Keep the default oversight contract
+  otherwise.
 - For product work that uses shared investment or issue tracking, at any level,
   treat Now/Next/Later/Never as investment decisions rather than date promises.
   Keep Later coarse, record Never with rationale and a revisit trigger, and
