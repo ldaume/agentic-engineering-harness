@@ -57,7 +57,8 @@ unchanged. When included, it replaces the human-in-the-loop default for the
 named scope; record the owner's choice and its date here.
 
 - **Human on or out of the loop, never in it.** Agents do not wait for a human
-  to decide, approve, review, merge, deploy, or roll back. Safety comes from
+  to decide, approve, review, merge, deploy, or roll back, except for the
+  owner-reserved items below. Safety comes from
   agents on the loop: specialist reviewers (see **Review Loops**),
   deterministic gates at the moment of change, checked deployments,
   observability, and executable rollback. A missing gate is closed as the
@@ -74,8 +75,8 @@ named scope; record the owner's choice and its date here.
      reachable from the internet, or loosening authentication on an exposed
      surface.
   4. Irreversible loss: deleting data, schemas, backups, or repositories
-     without an independently verified restore path; force-pushing or
-     rewriting shared history.
+     without an independently verified restore path. Force-pushing or
+     rewriting shared history is always reserved.
   5. New third-party trust: new accounts or credentials at third parties, or
      granting another person access. Using and rotating existing credentials
      through their documented path is agent work.
