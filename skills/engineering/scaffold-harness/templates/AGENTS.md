@@ -73,6 +73,9 @@
   ("say the word and I will ..."), waiting for the human to do a routine
   step, or a handoff of a finding in a sibling repository. When a real
   decision remains open, close with options and one recommendation.
+  When `HARNESS.md` includes the optional owner-delegated profile, prepare a
+  reserved item as a ready recommendation, record its outcome, and keep
+  working on everything that does not depend on it.
 - Execute authorized routine completion without asking again. When repository
   policy makes commit/push/merge the default, perform it after checks pass;
   when this session opened a PR/MR and required checks are green with no
