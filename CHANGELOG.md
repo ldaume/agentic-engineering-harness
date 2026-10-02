@@ -5,6 +5,16 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.15.0: an optional L7 owner-delegated operating profile.
+  An owner who chooses it moves humans on or out of the loop: agents decide
+  everything outside a short closed list of owner-reserved classes, reserved
+  items arrive as a ready recommendation with a recorded outcome, and agents
+  propose retiring a gate from that evidence. The profile adds spike-first
+  craft without document gates, risk-class specialist reviewers, tested
+  fallbacks for every external dependency, commit and PR evidence rules, and a
+  host-parity check. Opt-in only: harnesses that do not include the template
+  subsection keep the existing human-in-the-loop default.
+
 - `backend-craft` 1.3.0: two data rules from dogfooding a product in production.
   A test suite that builds its schema from the ORM models never sees migrations
   drift from them - keep one test that migrates an empty database and compares

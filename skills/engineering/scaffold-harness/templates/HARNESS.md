@@ -48,6 +48,77 @@ from observed evidence.
   or "tell me when it is merged". Ask the human only when the block is on an
   action this document already reserves for them.
 
+### Optional: Owner-Delegated Operating Profile
+
+Include this subsection only when the accountable owner explicitly chooses it
+(see `scaffold-harness` `MATURITY.md` **L7 Owner-Delegated Operating
+Profile**). Without it, the default above and **Oversight** below apply
+unchanged. When included, it replaces the human-in-the-loop default for the
+named scope; record the owner's choice and its date here.
+
+- **Human on or out of the loop, never in it.** Agents do not wait for a human
+  to decide, approve, review, merge, deploy, or roll back. Safety comes from
+  agents on the loop: specialist reviewers (see **Review Loops**),
+  deterministic gates at the moment of change, checked deployments,
+  observability, and executable rollback. A missing gate is closed as the
+  first increment of the task, not escalated.
+- **Owner-reserved, and only this:**
+  1. Vision, values, product boundaries, risk budgets, this list itself, and
+     loosening any control the safety model rests on (a gate, required check,
+     branch protection, host deny rule, or the stop right). Adding controls is
+     agent work.
+  2. Spending money or taking on obligations, and sending anything to people
+     outside the system (customer messages, invoices, public posts). Drafting
+     is agent work; sending is not.
+  3. New external exposure: making a service, endpoint, or repository newly
+     reachable from the internet, or loosening authentication on an exposed
+     surface.
+  4. Irreversible loss: deleting data, schemas, backups, or repositories
+     without an independently verified restore path; force-pushing or
+     rewriting shared history.
+  5. New third-party trust: new accounts or credentials at third parties, or
+     granting another person access. Using and rotating existing credentials
+     through their documented path is agent work.
+
+  Everything else is agent-decided. When a reserved item is in the way,
+  prepare it so the owner only confirms (the draft, the exact command, the
+  recommendation with evidence, risk, and rollback), record it as a signal
+  labeled `owner-reserved`, and keep working on everything that does not
+  depend on it. Record the outcome on that signal: `accepted-as-recommended`,
+  `changed`, or `rejected`. When a reserved class shows a run of accepted
+  recommendations with no later correction, agents propose keeping,
+  narrowing, or retiring that gate with the counts; the owner decides.
+- **An explicit in-session hold or stop from the owner always wins** for that
+  session and scope.
+- **Spike first, no document gates.** Start from a hypothesis (signal,
+  riskiest assumption, what the increment should teach). Answer the riskiest
+  assumption with a disposable probe, then build the smallest observable
+  vertical slice, ship it, watch it, and let it decide the next slice. No plan,
+  spec, PRD, or concept document is required or approved before building; a
+  strictly ordered sequence (migration, cut-over) lives in the change itself.
+  Shift correctness, security, privacy, accessibility, operability, cost, and
+  recovery into the first slice as checks at the moment of change. A
+  hard-to-reverse change gets a fresh-context specialist critique and an
+  executable rollback before it lands, not a human approval.
+- **Every external dependency has a tested fallback.** Each check or decision
+  that calls a typed decision service, model provider, gateway, CI runner, or
+  other outside service names its fallback in code: a deterministic default, a
+  cheaper route, a cached answer, or degraded behavior that says what is
+  missing. Safety checks fail closed on the guarded action only, never on the
+  rest of the work; routing and convenience decisions fail open to their
+  default. Test the fallback path and record the outage as a signal.
+- **Commits carry the durable why; PRs carry the evidence.** The commit on the
+  default branch states what changed, why, what was learned, and the signal it
+  answers. The PR records gate and review evidence (specialist findings and
+  their resolution, checks, deployment result, owner-reserved outcomes) as
+  labeled data written for the next agent.
+- **Host parity.** Each agent host's permission file (auto-mode rules,
+  approval policy, sandbox scope, deny lists) is part of the harness. A check
+  reads each installed host's config and reports drift that would turn routine
+  work back into a human prompt or loosen a deny rule (force-push, repository
+  deletion). Fix drift in the same loop; a host prompt in front of routine work
+  is a tooling defect, not an owner decision.
+
 ## Session currency
 
 Before substantial work, use the current harness contract and pinned Skills
@@ -448,6 +519,21 @@ Product work is a closed learning loop, not a specification -> implementation
 - Treat dependency-bot PRs (Renovate or similar) as evidence-gated merges - never
   merge on green CI alone. See **Dependency bot PRs** below.
 
+Under the optional owner-delegated profile, specialist reviewers are the agents
+on the loop. The producing session spawns those whose trigger the diff hits, in
+fresh context, fixes verified findings before merge, and records any finding it
+does not fix with its reason. A second specialist settles a split; a human
+does not.
+
+| Specialist | Triggered by |
+|---|---|
+| Correctness | every material code change |
+| Security and trust | authentication, authorization, secrets, exposure, permissions, untrusted input, supply chain |
+| Operations | deploy, CI, migrations, data, backups, observability, rollback |
+| Product and UX | user-facing flows, copy, accessibility, perceived performance |
+| Domain and contract | domain language, public APIs and contracts, decision-record-worthy choices |
+| Harness | agent instructions, Skills, hooks, host configuration, autonomy |
+
 Route subagents by task evidence, not by the parent's model. Use the least
 expensive current model that passes representative work for the role; reserve a
 frontier model for ambiguous integration, consequential decisions, or material
@@ -541,6 +627,10 @@ For each active promotion candidate:
 7. On a boundary, observability, or recovery failure, immediately return the
    workflow to human-in-the-loop, record the hold reason, and reset its evidence
    before any new promotion run.
+
+Under the optional owner-delegated profile, agents run this loop themselves:
+they promote a demonstrated class and, on such a failure, narrow it back to
+its proven scope and record why. Only owner-reserved items reach the owner.
 
 ## Currentness
 
