@@ -113,6 +113,8 @@
   human confirmation; return surviving session/primary-sibling checkouts to
   the default branch while still holding the lease unless the human asked to
   remain on the task branch).
+- Name the cleanup path of every artifact the change creates, and automate
+  it for recurring ones, per **Cleanup Is Part of Done** in `HARNESS.md`.
 - Answer the Stewardship questions before claiming done (manifest here; port
   within your authority only - never write back to a foreign public upstream).
 - Use `agent-sync` to retain durable evidence and harness improvements.

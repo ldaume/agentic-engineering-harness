@@ -402,6 +402,32 @@ on. Recording is not raising.
 6. Leave the repository no worse for your own artifacts than you found it. Do
    not clean another session's footprint on the way out.
 
+## Cleanup Is Part of Done
+
+A change that creates something on a host, a registry, or a checkout is done
+only when that thing has a cleanup path. The class: images built, pulled,
+pushed, or pre-pulled; containers, volumes, networks, build cache; worktrees,
+branches, temp files, caches, backup copies, and test infrastructure.
+
+- **One-off artifacts** this session made are removed before it claims done,
+  or the change names who removes them and when.
+- **Recurring artifacts** (one per deploy, run, build, or session) get an
+  automated cleanup in the same change: retention in the script that creates
+  them, or a scheduled job that prunes them, with a dry run and with
+  protection for whatever a rollback still needs (pinned digests, declared
+  rollback targets, the newest backups behind a verified restore). A note
+  that someone should clean up is not a cleanup path.
+- **Never by cleanup:** data volumes, backups without a verified restore,
+  pinned or declared rollback artifacts, foreign worktrees, or registry
+  packages outside their retention job.
+- A disk, registry, or checkout that fills up because a path leaves copies
+  behind is a missing gate; closing it comes first.
+
+Enforce it where it runs, not only here: name in this section the job or
+check that owns each recurring artifact class (host image and cache
+retention, registry retention, a check that names abandoned worktrees), and
+keep the **completion-gate** cleanup item in the finish path.
+
 ## Agent-Native Design
 
 Optimize sources, contracts, state, and checks for reliable agent navigation.

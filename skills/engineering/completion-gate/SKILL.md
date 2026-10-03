@@ -127,7 +127,26 @@ deployed gets no deployment check. Say which it was.
 **If the check fails:** revert or roll forward immediately, then investigate -
 the value here is the short broken window, not the noticing.
 
-### 7. Agent sync (significant sessions)
+### 7. Cleanup
+
+Everything the change created needs a way out, or it accumulates until a disk,
+registry, or checkout fills up: images built, pulled, or pre-pulled;
+containers, volumes, build cache; worktrees, branches, temp files, caches,
+backup copies, and test infrastructure.
+
+- [ ] One-off artifacts this session made are removed, or the change names
+      who removes them and when
+- [ ] Recurring artifacts (one per deploy, run, build, or session) have an
+      automated cleanup in the same change: retention where they are created
+      or a scheduled prune, with a dry run, that never touches what a
+      rollback still needs (pinned digests, declared rollback targets, the
+      newest backups behind a verified restore)
+- [ ] Nothing was cleaned that belongs to data, to a backup without a
+      verified restore, or to another session
+
+"Someone should clean this up later" is not a cleanup path.
+
+### 8. Agent sync (significant sessions)
 
 - [ ] Durable learnings merged per skill **agent-sync** (or explicitly none)
 - [ ] The repository's learning artifact updated if durable evidence changed
@@ -139,12 +158,14 @@ Before finishing non-trivial work, tell the user:
 1. **What changed** - concrete, scoped summary
 2. **How verified** - commands run and outcomes, plus the deployment check or
    why the change deployed nothing
-3. **Uncertain or risky** - gaps, follow-ups, assumptions
+3. **Uncertain or risky** - gaps, follow-ups, assumptions, and any artifact
+   left behind with who removes it
 4. **Agent sync** - what durable evidence was persisted (or "nothing durable")
 
 ## Do not
 
 - Claim "done" without running applicable checks
 - Call a deploying change done at merge, before its environment was checked
+- Call a change done that leaves recurring artifacts without automated cleanup
 - Add documentation the user did not need
 - Skip the closing statement on non-trivial work

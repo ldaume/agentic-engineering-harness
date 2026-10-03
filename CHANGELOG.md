@@ -5,6 +5,18 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `completion-gate` 1.7.0: a Cleanup step. Every artifact a change creates
+  (images, containers, volumes, build cache, worktrees, branches, temp files,
+  caches, backup copies, test infrastructure) has a cleanup path before the
+  change is called done; recurring ones get automated retention or a
+  scheduled prune with a dry run that never touches what a rollback needs.
+  The closing statement names any artifact left behind.
+
+- `scaffold-harness` 2.17.0: generated harnesses carry **Cleanup Is Part of
+  Done** in `HARNESS.md` and a matching Completion line in `AGENTS.md`, so
+  every future harness names who owns each recurring artifact class and where
+  that cleanup is enforced.
+
 - `scaffold-harness` 2.16.0: choose and switch the operating level. The
   catalog README gives a one-screen L3-L7 overview (what agents do alone, what
   the human still does, minimum prerequisites). At scaffold time the Skill
