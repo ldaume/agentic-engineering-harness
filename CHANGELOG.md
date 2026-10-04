@@ -5,6 +5,12 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `system-one-routing` 1.5.0: the default host table follows the current
+  catalogs. Codex Balanced is `gpt-6.1-sol` (same rates as GPT-6 Sol, half
+  the cached rate, stronger on published agentic coding results); Cursor
+  Balanced and Frontier lead with Grok 4.7 (`grok-4.7-medium`, `grok-4.7-high`
+  for review and Frontier), which costs the same as Grok 4.6.
+
 - `completion-gate` 1.7.0: a Cleanup step. Every artifact a change creates
   (images, containers, volumes, build cache, worktrees, branches, temp files,
   caches, backup copies, test infrastructure) has a cleanup path before the

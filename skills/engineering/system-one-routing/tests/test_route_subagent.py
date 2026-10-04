@@ -90,13 +90,13 @@ class ResolveTests(unittest.TestCase):
             ("claude", "balanced", "medium"): "sonnet",
             ("claude", "frontier", "high"): "opus",
             ("codex", "efficient", "low"): "gpt-6-luna",
-            ("codex", "balanced", "high"): "gpt-6-sol",
+            ("codex", "balanced", "high"): "gpt-6.1-sol",
             ("codex", "frontier", "high"): "gpt-6-astra",
             ("cursor", "efficient", "low"): "composer-2.5",
-            ("cursor", "balanced", "medium"): "cursor-grok-4.6-medium",
-            ("cursor", "balanced", "high"): "cursor-grok-4.6-high",
-            ("cursor", "frontier", "high"): "cursor-grok-4.6-high",
-            ("cursor", "balanced", "low"): "cursor-grok-4.6-medium",
+            ("cursor", "balanced", "medium"): "grok-4.7-medium",
+            ("cursor", "balanced", "high"): "grok-4.7-high",
+            ("cursor", "frontier", "high"): "grok-4.7-high",
+            ("cursor", "balanced", "low"): "grok-4.7-medium",
             ("gemini", "efficient", "low"): "gemini-flash-lite",
             ("gemini", "balanced", "medium"): "gemini-flash",
             ("gemini", "frontier", "high"): "gemini-pro",
@@ -121,7 +121,7 @@ class ResolveTests(unittest.TestCase):
             # Then claude balanced changes but other hosts and tiers keep the built-in default
             self.assertEqual(models["claude"]["balanced"], "custom-model")
             self.assertEqual(models["claude"]["efficient"], "haiku")
-            self.assertEqual(models["codex"]["balanced"], "gpt-6-sol")
+            self.assertEqual(models["codex"]["balanced"], "gpt-6.1-sol")
 
     def test_missing_override_file_uses_built_in_defaults(self):
         # No config file is required for the router to work
@@ -150,7 +150,7 @@ class OutageTests(unittest.TestCase):
         mod.load_api_key = lambda: "key"
         mod.evaluate = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("TypeSafe API unreachable: timed out"))
         result = mod.route("Anything", "codex")
-        self.assertEqual((result["model"], result["effort"], result["confident"]), ("gpt-6-sol", "medium", False))
+        self.assertEqual((result["model"], result["effort"], result["confident"]), ("gpt-6.1-sol", "medium", False))
         self.assertEqual(result["source"], "fallback")
         self.assertIn("router unavailable", result["reasons"][0])
 
