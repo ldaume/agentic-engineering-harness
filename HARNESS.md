@@ -243,7 +243,7 @@ target-specific truth into this repository.
 ## Website Projection
 
 Every change in this repository must end with a website projection result.
-Inspect the local sibling [`../website-astro`](../website-astro) first. When it
+Inspect the local sibling `../website-astro` first. When it
 is unavailable, inspect the published site before deciding that no update is
 needed. The maintainer's own checkout and its remote are not named here: this
 repository is world-readable, and a private host URL in it tells every reader

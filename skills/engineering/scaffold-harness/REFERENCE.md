@@ -297,6 +297,27 @@ contracts and checks over recurring synchronization meetings. Use a software
 catalog or policy engine only after scale creates an observed discovery or
 enforcement failure.
 
+## Language and Punctuation
+
+Write harness artifacts in US English with plain punctuation (straight
+quotes, hyphen `-`, `...`) unless the human explicitly requests another
+language for a named artifact. Do not introduce curly or angle quotes,
+ellipsis characters, exotic or no-break spaces, invisible format and
+direction characters, decorative separators, or the hyphens indistinguishable
+from `-` (`U+2010`, `U+2011`, `U+2212`). Do not ban em or en dashes: they are
+correct typography, and a gate that calls a considered choice a defect is
+wrong more often than it is right. This is not an ASCII-only
+rule: natural-language letters in any script, arrows, box drawing, and math
+or currency signs stay allowed where they carry meaning. Ban a character only
+when its ASCII spelling is strictly better. The rule is about prose, not
+design: a separator glyph in rendered markup is a typographic device someone
+chose, and rewriting it is a different design, not a correction. A gate can
+report it, because it cannot tell a label from a sentence, but an automatic
+fix is the wrong instrument there. And a fixer must never corrupt what it
+fixes - a straight quote is syntax inside a JSON string, a TypeScript
+literal, a YAML scalar, so escape it where the format can be parsed and
+treat the rest as a draft the repository's own checks confirm.
+
 ## Artifact Test
 
 Before adding an artifact, answer:

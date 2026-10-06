@@ -111,7 +111,13 @@ Fast Check:
 python3 scripts/audit-skills.py
 python3 scripts/verify-plain-punctuation.py
 python3 -m unittest discover -s tests
+python3 -m unittest discover -s skills/engineering/completion-gate/tests
+python3 -m unittest discover -s skills/engineering/system-one-routing/tests
+node --test skills/engineering/system-one-routing/tests/test_ask_jev.mjs
 ```
+
+The last command needs Node (CI uses the current LTS). The Fast Check matches
+the commands in `.github/workflows/validate.yml`.
 
 `audit-skills.py` reuses the punctuation table from
 `verify-plain-punctuation.py`, so the two never disagree. Run the standalone
@@ -121,6 +127,8 @@ the table.
 For each new or materially changed Skill:
 
 1. Run the Fast Check.
+   Run a representative activation check per `write-a-skill`: one prompt that
+   must trigger the Skill and one that must not.
 2. Run `scripts/audit-skill-provenance.py` against the relevant checked-out
    public sources.
 3. Install-test the changed Skill in a temporary target with the supported
