@@ -78,7 +78,7 @@ ask once, and record the choice per
 Rerunning this Skill with a different target level switches up or down through
 the same procedure; it is a no-op when the recorded level already matches.
 A granted level also needs the matching declaration in the host's permission
-context (template `HARNESS.md` **Autonomy is declared where it is enforced**).
+context (template `HARNESS.md` bullet **Autonomy is declared where it is enforced**).
 
 Complete assessment when the current level, target level, and evidence for
 each proposed addition are explicit.
@@ -124,9 +124,7 @@ Read [CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md) when deciding what
 belongs locally or behind MCP, RAG, search, projections, or memory; or when
 large tool output, long sessions, handoffs, instruction growth, token pressure,
 RTK, Context Mode, Headroom, or another compression layer affects the design.
-When auditing token bloat, measure what an agent receives at start and gate it:
-add the Startup Context Budget check to the fast check and the section to the
-target `HARNESS.md`.
+When auditing token bloat, follow **Startup Context Budget** there.
 
 Read [CAPABILITY-GATES.md](./CAPABILITY-GATES.md) on every significant harness
 stewardship pass: decide whether Graphify-class discovery, Headroom/Context
@@ -154,24 +152,9 @@ reconcile infrastructure desired state.
   preference or conversation evidence; ask once only when it remains unclear.
   Store personal preference in user-scoped or untracked state unless it is a
   shared repository rule. Chat language never changes artifact language.
-- Write harness artifacts in US English with plain punctuation (straight
-  quotes, hyphen `-`, `...`) unless the human explicitly requests another
-  language for a named artifact. Do not introduce curly or angle quotes,
-  ellipsis characters, exotic or no-break spaces, invisible format and
-  direction characters, decorative separators, or the hyphens indistinguishable
-  from `-` (`U+2010`, `U+2011`, `U+2212`). Do not ban em or en dashes: they are
-  correct typography, and a gate that calls a considered choice a defect is
-  wrong more often than it is right. This is not an ASCII-only
-  rule: natural-language letters in any script, arrows, box drawing, and math
-  or currency signs stay allowed where they carry meaning. Ban a character only
-  when its ASCII spelling is strictly better. The rule is about prose, not
-  design: a separator glyph in rendered markup is a typographic device someone
-  chose, and rewriting it is a different design, not a correction. A gate can
-  report it, because it cannot tell a label from a sentence, but an automatic
-  fix is the wrong instrument there. And a fixer must never corrupt what it
-  fixes - a straight quote is syntax inside a JSON string, a TypeScript
-  literal, a YAML scalar, so escape it where the format can be parsed and
-  treat the rest as a draft the repository's own checks confirm.
+- Write harness artifacts in US English with plain punctuation unless the
+  human explicitly requests another language for a named artifact. Character
+  rules and fixer limits: `REFERENCE.md` **Language and Punctuation**.
 - Preserve an existing repository voice or style owner. Repository prose should
   be direct and concrete: lead with the problem or working model, state
   trade-offs and system effects, and remove generic hype, defensive setup, and
@@ -330,9 +313,7 @@ reconcile infrastructure desired state.
   mismatch, re-evaluate the affected owner and keep, change, remove, supersede,
   or rebuild it. Do not preserve incremental structure when replacement is the
   smaller reliable system.
-- At L6-L7, close the product loop from attributable signals through delivery,
-  production observation, incident and bug feedback, outcome review, and an
-  explicit next decision. Release alone is not completion.
+- At L6-L7, close the product loop; see `MATURITY.md` **Product Loop**.
 - Generate the sections the chosen level adds in MATURITY.md; the L7
   owner-delegated profile only on the owner's explicit choice of L7. Keep the
   default oversight contract otherwise.

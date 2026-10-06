@@ -23,6 +23,7 @@
 | How is confirmed ISO/IEC 27001, TISAX, PCI DSS, or contractual control scope integrated? | `skills/product/integrate-product-compliance/SKILL.md` |
 | How are IaC, GitOps or GitOps-near, infrastructure state, plans, and drift managed? | `skills/infrastructure/manage-infrastructure-as-code/SKILL.md` |
 | How is domain context coordinated across repositories? | `skills/engineering/scaffold-distributed-context/SKILL.md` |
+| Which gate Skills run before work starts, before finishing, and for typed routing decisions? | `skills/engineering/start-gate/SKILL.md` / `skills/engineering/completion-gate/SKILL.md` / `skills/engineering/system-one-routing/SKILL.md` |
 | How is durable evidence routed during work? | `skills/engineering/agent-sync/SKILL.md` |
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |
 | How are portable Skills created, revised, packaged, and verified across hosts? | `skills/engineering/write-a-skill/SKILL.md` |
