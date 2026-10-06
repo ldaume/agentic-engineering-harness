@@ -2,9 +2,8 @@
 
 Do not report a suspected vulnerability in a public issue.
 
-Use GitHub private vulnerability reporting. This repository must not be
-published until that private reporting channel is enabled. If the channel is
-temporarily unavailable, do not disclose the report in a public issue.
+Use GitHub private vulnerability reporting: open the repository's Security
+tab and choose Report a vulnerability.
 
 Include the affected Skill or file, impact, reproduction conditions, and any
 safe mitigation you already tested. Do not include real credentials, customer
