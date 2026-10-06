@@ -101,6 +101,34 @@ MCP is one delivery mechanism in this stack, not the stack itself.
 The session is grounded when the agent knows what is local, what is derived,
 what must be fetched live, and which source wins on conflict.
 
+## Startup Context Budget
+
+The unconditional payload is the cost every session pays before work starts, so
+measure it instead of estimating it. Sum, in bytes:
+
+- the entry chain: `CLAUDE.md`, `AGENTS.md`, local untracked notes such as
+  `CLAUDE.local.md`, every @-import, and the same files in parent directories
+- the stdout of each session-start hook
+- plugin and Skill listings (name plus description of every installed Skill)
+- tool lists, including MCP tool schemas
+
+Then set a byte budget per part from those numbers, a little above today's
+measured chain, so growth fails loudly instead of drifting. Put a small
+dependency-free script in the repository's fast check that reads the chain
+(following imports, each file once), runs the repository's session-start hooks
+and counts their stdout, and exits non-zero over budget with a per-file
+breakdown. Host-local inputs such as user settings do not exist in CI; run that
+check only where they do.
+
+Keep every hook output under the host's inline limit (Claude Code persists a
+larger hook output to a file and shows the agent a 2 KB preview, so the bytes
+are paid and not seen). Hooks print a pointer and Skill names; Skills and
+reference documents load on demand, behind a trigger. When a part is over
+budget, move branch-specific text to a document the entry file links by
+section, shorten the listing descriptions, or drop the part. The numbers
+belong to the repository that measured them: record the measurement date and
+values next to the budget, and do not copy another repository's limits.
+
 ## Context Economy Ladder
 
 Stop at the first reliable rung:
