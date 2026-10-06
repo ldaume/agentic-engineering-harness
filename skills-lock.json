@@ -29,7 +29,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/build-autonomous-agents/SKILL.md",
-      "version": "2.1.0"
+      "version": "2.2.0"
     },
     "coding-discipline": {
       "source": "local",
@@ -143,7 +143,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "2.17.0"
+      "version": "2.18.0"
     },
     "scaffold-monorepo": {
       "source": "local",
@@ -173,13 +173,13 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "update-harness": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/update-harness/SKILL.md",
-      "version": "1.6.0"
+      "version": "1.7.0"
     },
     "write-a-skill": {
       "source": "local",
