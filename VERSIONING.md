@@ -2,6 +2,9 @@
 
 ## Purpose
 
+This is the maintainer's release procedure; consumers can skip to
+[Consumers](#consumers).
+
 Version Skills independently so consumers can pin, review, and update only the
 capabilities they use. `skills-lock.json` is the canonical catalog index and
 declares the current version of every local Skill.
@@ -29,8 +32,8 @@ require version bumps for unrelated Skills.
 
 1. Review the changed Skill's behavior contract and provenance.
 2. Update only its version in `skills-lock.json`.
-3. Run `python3 scripts/audit-skills.py` plus the required provenance, install,
-   and representative activation checks for the change.
+3. Run the Fast Check from [`AGENTS.md`](./AGENTS.md) plus the required
+   provenance, install, and representative activation checks for the change.
 4. Commit and push the coherent release state.
 5. Wait for the validation workflow to pass on that exact commit for every
    supported client.
@@ -41,7 +44,7 @@ require version bumps for unrelated Skills.
 
 Do not create or move a tag for an uncommitted tree. Do not claim done after a
 `skills-lock.json` version bump until steps 5-8 are finished for every bumped
-Skill on the validated commit, or a named blocker is recorded in `STATUS.md`.
+Skill on the validated commit, or a named blocker is recorded in the pull request or the release issue.
 Add catalog-wide releases only if evidence shows real bulk consumers;
 independent Skill tags are the default.
 
