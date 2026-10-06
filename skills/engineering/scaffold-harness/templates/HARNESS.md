@@ -690,6 +690,20 @@ use. Cooldowns reduce fresh-release risk but do not justify unattended merges:
 inspect the jump, run the repository gates, then merge or record why it is
 deferred.
 
+## Startup Context Budget
+
+An agent pays for every byte it receives before the first prompt. Measure what
+a session actually starts with: the entry chain (`CLAUDE.md`, `AGENTS.md`,
+`CLAUDE.local.md`, their @-imports, and parent-directory instruction files),
+the stdout of every session-start hook, plugin and Skill listings, and tool
+lists. Set a byte budget from the measured numbers, just above today's chain,
+and keep a script in the fast check that fails when the chain or any hook
+output exceeds it. Keep each hook output under the host's inline limit; above
+it the host persists the output and shows the agent only a short preview, so
+the cost is paid and the content is not read. A hook prints a pointer plus
+Skill names, not Skill bodies. Load Skills and reference material on demand.
+Raise a budget only with the measurement that justifies it.
+
 ## Agent Context Architecture
 
 Optimize cost, latency, and risk per correctly completed task. Retrieve the
