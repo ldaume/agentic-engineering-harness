@@ -1,6 +1,6 @@
 ---
 name: completion-gate
-description: Pre-finish review gate for code changes - correctness, patterns, security, tests, verification, and checking the deployment a change targets before claiming work complete. Use when finishing a task, creating commits, opening PRs, merging, or preparing to claim work complete.
+description: Pre-finish review gate for code changes - correctness, patterns, security, tests, verification, and checking the deployment a change targets before claiming work complete. Use when finishing a task, creating commits, opening PRs, gating a merge on required checks, or preparing to claim work complete.
 ---
 
 # Completion Gate
@@ -151,6 +151,23 @@ backup copies, and test infrastructure.
 - [ ] Durable learnings merged per skill **agent-sync** (or explicitly none)
 - [ ] The repository's learning artifact updated if durable evidence changed
 
+### 9. Merge gate (only when this session merges)
+
+A merge waits for evidence, not for the absence of bad news:
+
+- [ ] Every required job is **named** and has explicitly reported pass. A
+      missing job is not green, and "no checks reported" is not green.
+- [ ] The verdict was measured against the **current** base. A branch behind
+      its base is updated by merge (never force-push) and re-checked, whether
+      it was green or red.
+- [ ] A branch that never ran a newly required job is stalled. Bring it
+      forward instead of waiting out a timeout.
+
+Pass the required names as one explicit list. Read
+[MERGE-GATE.md](./MERGE-GATE.md) for the reasons, the background-waiter rules,
+and the bundled dependency-free script
+[`scripts/merge-if-green.py`](./scripts/merge-if-green.py).
+
 ## Required closing statement
 
 Before finishing non-trivial work, tell the user:
@@ -167,5 +184,6 @@ Before finishing non-trivial work, tell the user:
 - Claim "done" without running applicable checks
 - Call a deploying change done at merge, before its environment was checked
 - Call a change done that leaves recurring artifacts without automated cleanup
+- Merge on a verdict that was silent, partial, or measured against an old base
 - Add documentation the user did not need
 - Skip the closing statement on non-trivial work
