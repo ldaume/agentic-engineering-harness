@@ -62,6 +62,14 @@ Before planning tests:
   "Nothing was fetched" proves nothing when the fake signals the breach by
   throwing and the code under test catches a failure as an ordinary outcome.
   Count the reaches on the fake and assert zero.
+- Run an offline evaluation of an advice, retrieval, or agent system against
+  historical outcomes as of each item's date: only records, comments, and
+  states that existed before the cutoff, or future knowledge inflates the
+  score. Exclude or flag undated sources. Filter interim or holding replies
+  out of the reference set.
+- Trust a model judge's number only after an explicit rubric (including when
+  "unanswerable" is allowed), a check against a second judge, and agreement
+  with human labels.
 - Add regression tests before bug fixes when feasible.
 - Define the cheapest decisive signal before or with the behavior it guides;
   do not create a downstream QA handoff.

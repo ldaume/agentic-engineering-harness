@@ -5,6 +5,19 @@ This repository versions each Skill independently. See `VERSIONING.md` and
 
 ## Unreleased
 
+- `scaffold-harness` 2.18.0 and `update-harness` 1.7.0: a granted operating
+  level must also be declared in the host's permission or safety-classifier
+  context per workspace, or delegated routine work is read as a bypass. A
+  permission block is narrowed and recorded, never widened around.
+
+- `build-autonomous-agents` 2.2.0: orchestrators of background workers reset a
+  one-shot watchdog every turn and never wait blind; delegate for speed and
+  lean context, read conclusions not transcripts.
+
+- `testing-strategies` 1.5.0: offline evaluations run as of each item's date
+  with undated sources excluded; model judges need a rubric, a second judge,
+  and human agreement before their number is trusted.
+
 - `system-one-routing` 1.5.0: the default host table follows the current
   catalogs. Codex Balanced is `gpt-6.1-sol` (same rates as GPT-6 Sol, half
   the cached rate, stronger on published agentic coding results); Cursor

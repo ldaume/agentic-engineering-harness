@@ -50,6 +50,18 @@ Level** procedure. Add wider delegation only from observed evidence.
   automatically once it clears. Do not end the turn with "merge it yourself"
   or "tell me when it is merged". Ask the human only when the block is on an
   action this document already reserves for them.
+- **Autonomy is declared where it is enforced:** the operating level granted
+  here binds only the agent's instructions. The host enforces permissions
+  separately, per workspace, so declare the same delegation in the host's
+  permission or safety-classifier context: trusted repositories and
+  organizations, cloud projects, and delegated routine actions (spawning
+  subagents, using local credentials inline without printing them).
+  Otherwise the classifier reads delegated routine work as a bypass and the
+  level silently degrades to asking the owner. A permission block is not a
+  stop: continue with the rest, narrow the blocked task to a form the rules
+  allow, escalate only what stays blocked, and record the missing rule for
+  the owner in one line. Never widen around a block in a way that defeats its
+  intent.
 
 ### Optional: Owner-Delegated Operating Profile
 

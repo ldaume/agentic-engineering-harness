@@ -48,6 +48,10 @@ Inventory:
 - automated update coverage, routine release cooldowns, security-update
   exceptions, and evidence-gated merge behavior
 - Fast Check, Full Gates, install checks, and rollback path
+- whether the operating level the harness grants is also declared in each
+  host's permission or safety-classifier context for the workspace; a grant
+  that exists only in instructions degrades to asking the owner, so report the
+  missing rule in one line
 
 Do not create a dependency manifest merely because one is preferred. Add one
 only when the target actually manages external Skills or harness components.

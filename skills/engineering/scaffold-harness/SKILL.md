@@ -77,6 +77,8 @@ ask once, and record the choice per
 **Choosing and Switching the Operating Level** in [MATURITY.md](./MATURITY.md).
 Rerunning this Skill with a different target level switches up or down through
 the same procedure; it is a no-op when the recorded level already matches.
+A granted level also needs the matching declaration in the host's permission
+context (template `HARNESS.md` **Autonomy is declared where it is enforced**).
 
 Complete assessment when the current level, target level, and evidence for
 each proposed addition are explicit.
