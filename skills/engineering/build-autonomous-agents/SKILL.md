@@ -1,7 +1,7 @@
 ---
 name: build-autonomous-agents
 license: MIT
-description: Designs and implements bounded autonomous agent systems for product features and software or product SDLC automation with runtime-neutral contracts. Use when building an agent, finite workflow, subagent, scheduled or overnight job, CI agent, chat or channel integration, observable agent service, adding Flue to an application, or migrating an older Flue integration.
+description: Designs and implements bounded autonomous agent systems for product features and software or product SDLC automation with runtime-neutral contracts. Use when building an agent, finite workflow, subagent, scheduled or overnight job, CI agent, chat or channel integration, observable agent service, adding Flue to an application, migrating an older Flue integration, or designing review loops, human questions, and orchestrator watchdogs.
 ---
 
 # Build Autonomous Agents
@@ -42,10 +42,15 @@ Use a subagent only when its independent context, tools, or evaluation boundary
 improves the result enough to justify delegation.
 
 Delegate for speed and to keep the orchestrator's context lean: ask children
-for conclusions and numbers, never read their raw transcripts. An orchestrator
-that hands work to background workers never waits blind: at every turn start it
-(re)sets a one-shot watchdog (for example 15 minutes) and, when it fires,
-checks for hung workers, CI runs, or jobs and stops or restarts them.
+for conclusions and numbers, never read their raw transcripts. Workers emit
+heartbeats; an orchestrator re-arms a short one-shot watchdog at every turn, so
+a missing heartbeat is noticed and hung workers, CI runs, or jobs are stopped
+or restarted instead of waited on silently.
+
+For review loops, questions to people, repair bounds, and permission-classifier
+blocks, read [REVIEW-LOOPS.md](./REVIEW-LOOPS.md). Core rules: a send-back
+always records what to fix; a person is asked only what only they can answer,
+after the agents repaired what they could within a shared bound.
 
 ## 3. Write the Execution Contract
 
