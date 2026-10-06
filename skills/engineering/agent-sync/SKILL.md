@@ -163,7 +163,7 @@ Run only loops that can change the next action:
    the version jump for this repo's usage, run Fast Check / Full Gates (plus
    feature smoke if runtime behavior is touched), and merge only with safety
    evidence. If not merging, comment with rationale and unblock criteria - never
-   silent-merge or silent-ignore. See harness **Dependency bot PRs**.
+   silent-merge or silent-ignore. See template `HARNESS.md` **Dependency bot PRs**.
 
 Every loop ends with keep, change, remove, supersede, rebuild, or explicitly no
 action.
@@ -181,7 +181,7 @@ future behavior.
 | Portable harness default for future scaffolds | Catalog you own or are authorized to change (`scaffold-harness` templates and/or this Skill there); never a foreign public upstream you only consume |
 | Live member discovery / snippet fan-out | Coordinator `SYNC.md` + `MEMBER-AGENTS-SNIPPET.md` |
 | Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, leases, cross-agent non-interference) | Harness contract (Git Working Tree Hygiene); ADR when accepted |
-| Dependency-bot PR merge or defer | Harness contract (Dependency bot PRs) + PR comment |
+| Dependency-bot PR merge or defer | Template `HARNESS.md` (Dependency bot PRs) + PR comment |
 | Repeated model, worker, budget, or review routing | Orchestration policy |
 | Current workflow or engagement state | Status document |
 | Accepted consequential trade-off | ADR |

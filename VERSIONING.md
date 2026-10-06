@@ -32,8 +32,9 @@ require version bumps for unrelated Skills.
 
 1. Review the changed Skill's behavior contract and provenance.
 2. Update only its version in `skills-lock.json`.
-3. Run the Fast Check from [`AGENTS.md`](./AGENTS.md) plus the required
-   provenance, install, and representative activation checks for the change.
+3. Run the Fast Check from [`AGENTS.md`](./AGENTS.md) plus the checks
+   that list requires for a new or changed Skill (provenance, install,
+   activation).
 4. Commit and push the coherent release state.
 5. Wait for the validation workflow to pass on that exact commit for every
    supported client.
