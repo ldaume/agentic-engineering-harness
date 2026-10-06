@@ -41,6 +41,12 @@ sufficient.
 Use a subagent only when its independent context, tools, or evaluation boundary
 improves the result enough to justify delegation.
 
+Delegate for speed and to keep the orchestrator's context lean: ask children
+for conclusions and numbers, never read their raw transcripts. An orchestrator
+that hands work to background workers never waits blind: at every turn start it
+(re)sets a one-shot watchdog (for example 15 minutes) and, when it fires,
+checks for hung workers, CI runs, or jobs and stops or restarts them.
+
 ## 3. Write the Execution Contract
 
 Define before implementation:
