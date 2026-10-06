@@ -313,7 +313,7 @@ reconcile infrastructure desired state.
   mismatch, re-evaluate the affected owner and keep, change, remove, supersede,
   or rebuild it. Do not preserve incremental structure when replacement is the
   smaller reliable system.
-- At L6-L7, close the product loop; see `MATURITY.md` **Product Loop**.
+- At L6-L7, close the product loop; see `MATURITY.md` **L6: Operating-Model Transformation**.
 - Generate the sections the chosen level adds in MATURITY.md; the L7
   owner-delegated profile only on the owner's explicit choice of L7. Keep the
   default oversight contract otherwise.

@@ -79,13 +79,7 @@ bounded runs. Expand autonomy one risk class or decision domain at a time.
 Use **run-product-engineering** to close the value stream from attributable
 signals through release, production observation, incidents and bugs, outcome
 review, and an explicit next decision. An L6 system that stops at merge or
-deployment is incomplete.
-
-## Product Loop
-
-At L6-L7, close the product loop from attributable signals through delivery,
-production observation, incident and bug feedback, outcome review, and an
-explicit next decision. Release alone is not completion.
+deployment is incomplete. Release alone is not completion at L6-L7.
 
 ## L7: Bounded Product Autonomy
 
