@@ -172,6 +172,13 @@ Do not ship a polished happy path with broken silence everywhere else.
 - Preserve user agency: suggestions should be easy to accept, reject, edit, or
   ignore.
 
+## Guiding Screens
+
+When a screen tells someone what to do next (task, status, approval, or review
+flows), read [GUIDING-SCREENS.md](GUIDING-SCREENS.md): three first-viewport
+answers, server-computed acts, links to where a person checks, two registers,
+and suggestions that name the act of their button.
+
 ## Review Checklist
 
 - Does the screen answer one primary question, and does the entry point
