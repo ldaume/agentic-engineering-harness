@@ -118,7 +118,8 @@ dependency-free script in the repository's fast check that reads the chain
 (following imports, each file once), runs the repository's session-start hooks
 and counts their stdout, and exits non-zero over budget with a per-file
 breakdown. Host-local inputs such as user settings do not exist in CI; run that
-check only where they do.
+check only where they do. Add the Startup Context Budget section to the target
+`HARNESS.md`.
 
 Keep every hook output under the host's inline limit (Claude Code persists a
 larger hook output to a file and shows the agent a 2 KB preview, so the bytes

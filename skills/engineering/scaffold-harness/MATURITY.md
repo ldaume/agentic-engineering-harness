@@ -81,6 +81,12 @@ signals through release, production observation, incidents and bugs, outcome
 review, and an explicit next decision. An L6 system that stops at merge or
 deployment is incomplete.
 
+## Product Loop
+
+At L6-L7, close the product loop from attributable signals through delivery,
+production observation, incident and bug feedback, outcome review, and an
+explicit next decision. Release alone is not completion.
+
 ## L7: Bounded Product Autonomy
 
 L7 extends proven delivery autonomy into selected product decisions. It may
