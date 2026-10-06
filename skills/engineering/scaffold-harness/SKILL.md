@@ -124,6 +124,9 @@ Read [CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md) when deciding what
 belongs locally or behind MCP, RAG, search, projections, or memory; or when
 large tool output, long sessions, handoffs, instruction growth, token pressure,
 RTK, Context Mode, Headroom, or another compression layer affects the design.
+When auditing token bloat, measure what an agent receives at start and gate it:
+add the Startup Context Budget check to the fast check and the section to the
+target `HARNESS.md`.
 
 Read [CAPABILITY-GATES.md](./CAPABILITY-GATES.md) on every significant harness
 stewardship pass: decide whether Graphify-class discovery, Headroom/Context
