@@ -31,7 +31,6 @@
 | How does a member session find siblings or teams and decide task relevance? | [`MULTI-REPO-HARNESS.md` - Find Sibling Scope and Decide Relevance](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) / [`HARNESS-OPERATIONS.md` - How a Session Finds Related Repositories](HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
 | How do I admit a sibling without a dedicated onboarding Skill? | [`HARNESS-OPERATIONS.md` - Simplest path](HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) / [Add a Team or Member](HARNESS-OPERATIONS.md#add-a-team-or-member) |
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
-| Does a repository change require an update to the public website projection? | [`HARNESS.md`](HARNESS.md#website-projection) owns the trigger, routing, authority, and completion result |
 | Which durable findings should change future work? | `LEARNINGS.md` |
 | How can people report a vulnerability or understand consume-only policy? | `SECURITY.md` / `CONTRIBUTING.md` |
 | What are a target's product facts, commands, and permissions? | The target repository and its local instruction hierarchy |
