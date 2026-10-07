@@ -31,6 +31,11 @@ Use the least expensive worker that meets the required quality. Include retry,
 review, latency, and failure impact in total cost. Do not delegate when
 coordination costs more than the work.
 
+A worker reads code only from its own fresh worktree or from
+`origin/<default>`, never from a primary checkout: a primary checkout can sit
+far behind origin, and a child exploring it returns confident findings about
+code that no longer exists. Say so in every child prompt that researches code.
+
 Map provider models to three roles from current evidence:
 
 - **Efficient:** clear, repeatable, high-volume extraction, mapping, or mechanical
@@ -85,6 +90,11 @@ enforce.
 - Independent review: `<risk trigger and reviewer independence>`
 - Cross-repository contract check: `<command or source>`
 - Recovery and rollback: `<mechanism>`
+
+Wait for a deploy by containment, not by name: poll until a completed deploy's
+head contains the merge commit (`git merge-base --is-ancestor <merge>
+<deployed>`). Deploy runs can coalesce, so a later merge carries an earlier
+one and no run ever names the earlier commit.
 
 ## Current Evidence
 
