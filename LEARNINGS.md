@@ -18,6 +18,20 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-10-07 - A leak guard must not hold the names it guards
+
+- Signal: The audit gate that keeps the maintainer's private names out of this
+  public catalog listed those names as plain-text patterns, so the gate itself
+  published them and every clone carried them in history.
+- Evidence: `scripts/audit-skills.py` and `tests/test_portfolio_pointers.py`
+  exempted themselves from the scan "by construction"; a history rewrite of
+  50 per-Skill tags was needed to remove the names afterwards.
+- Decision or change: The gate compares SHA-256 digests of token runs; its
+  tests use stand-in names. Only generic patterns, such as a machine path,
+  stay readable and keep a narrow self-exemption.
+- Re-check trigger: A new guard, test fixture, or example needs a private name
+  in a world-readable file.
+
 ## 2026-08-07 - Port Gitea CI traps into gitea-actions
 
 - Signal: Private-system CI hit three portable traps that future Gitea
