@@ -42,6 +42,9 @@ jobs:
       - name: Test merge gate script
         run: python3 -m unittest discover -s skills/engineering/completion-gate/tests
 
+      - name: Test review-surface attribution check
+        run: python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
+
       - name: Test Jev routing and JSON questions
         run: |
           python3 -m unittest discover -s skills/engineering/system-one-routing/tests

@@ -221,7 +221,8 @@ lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
      `claude-...`, `cursor-...`, `gpt-...`, `copilot-...`, `agent-...`).
 5. **Review-surface attribution:** Git review surfaces describe the change, not
    which agent or coding tool produced it. Producer chrome does not improve
-   review quality or agent quality.
+   review quality or agent quality. This item is the scaffold default; an owner
+   who wants attribution removes it, with its enforcement, at scaffold time.
   - Commits: do not add AI/tool producer credit in subjects, bodies, or
      trailers. Strip it before push when a host injected it. Forbidden examples
      include `Co-authored-by:` trailers that name Cursor, Claude, Codex,
@@ -236,6 +237,15 @@ lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
      license or copyright attribution; operational host/session fields in
      `.agent-lease` or `STATUS.md` where those owners exist; orchestration and
      model-routing docs; explicit human request for disclosure.
+  - Enforcement, in the repository rather than in one contributor's user
+     scope, because a rule held only in prose or a personal hook does not reach
+     the next contributor's session: turn the host's attribution off in its
+     checked-in settings where the host has one; run
+     `scripts/verify-agent-attribution.py` from `scaffold-harness` as the
+     `commit-msg` hook; and run it again in CI over every commit of a pull
+     request and its body (`--range base..head` with `PR_BODY`). The CI job is
+     the layer `--no-verify` cannot skip; keep it inside the required gate and
+     make it a no-op rather than skipped on pushes that are not pull requests.
 6. **Isolation default:** Default to an isolated workspace for edit work.
    Prefer the host's native worktree or isolation tool when available.
    Otherwise use a project-local git worktree under an ignored `.worktrees/`

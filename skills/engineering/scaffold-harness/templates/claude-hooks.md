@@ -18,6 +18,7 @@ A hook that speaks on every turn is ignored on the turn that mattered.
 ```json
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "attribution": { "commit": "", "pr": "", "sessionUrl": false },
   "hooks": {
     "SessionStart": [
       {
@@ -73,6 +74,11 @@ A hook that speaks on every turn is ignored on the turn that mattered.
   }
 }
 ```
+
+`attribution` belongs to the default **Review-surface attribution** choice in
+the template `HARNESS.md`: it stops Claude Code from adding its co-author
+trailer, footer, and session link. Drop the key when the owner chose
+attribution at scaffold time.
 
 ## The five moments
 
