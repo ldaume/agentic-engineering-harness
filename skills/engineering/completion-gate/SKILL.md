@@ -168,6 +168,10 @@ Pass the required names as one explicit list. Read
 and the bundled dependency-free script
 [`scripts/merge-if-green.py`](./scripts/merge-if-green.py).
 
+When several sessions wait on merges in parallel, stop only your own waiter by
+its PID or a pattern that names your pull request; a broad `pkill` silently ends
+other sessions' waiters.
+
 ## Required closing statement
 
 Before finishing non-trivial work, tell the user:
