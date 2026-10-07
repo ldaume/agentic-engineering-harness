@@ -112,6 +112,7 @@ python3 scripts/audit-skills.py
 python3 scripts/verify-plain-punctuation.py
 python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
+python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 python3 -m unittest discover -s skills/engineering/system-one-routing/tests
 node --test skills/engineering/system-one-routing/tests/test_ask_jev.mjs
 ```

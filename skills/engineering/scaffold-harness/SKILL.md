@@ -80,6 +80,12 @@ the same procedure; it is a no-op when the recorded level already matches.
 A granted level also needs the matching declaration in the host's permission
 context (template `HARNESS.md` bullet **Autonomy is declared where it is enforced**).
 
+Ask once whether review surfaces stay free of agent attribution. The default
+and the recommendation are yes: keep template `HARNESS.md` item
+**Review-surface attribution** with its enforcement. A no removes that item and
+its enforcement as a unit; record the choice in the target's `HARNESS.md`
+either way, so a later run does not ask again or add it back.
+
 Complete assessment when the current level, target level, and evidence for
 each proposed addition are explicit.
 
@@ -416,6 +422,7 @@ The scaffold is complete only when:
 | Root instructions | [templates/AGENTS.md](./templates/AGENTS.md) |
 | Claude Code bridge | [templates/CLAUDE.md](./templates/CLAUDE.md) |
 | Claude Code activation hooks | [templates/claude-hooks.md](./templates/claude-hooks.md) |
+| Review-surface attribution check | [scripts/verify-agent-attribution.py](./scripts/verify-agent-attribution.py), tested by [tests/test_verify_agent_attribution.py](./tests/test_verify_agent_attribution.py) |
 | Gemini CLI bridge | [templates/GEMINI.md](./templates/GEMINI.md) |
 | Google Antigravity bridge | [templates/.agents/rules/harness.md](./templates/.agents/rules/harness.md) |
 | Harness contract | [templates/HARNESS.md](./templates/HARNESS.md) |
