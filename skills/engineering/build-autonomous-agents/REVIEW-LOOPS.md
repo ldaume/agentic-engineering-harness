@@ -43,6 +43,11 @@ a question, or when an orchestrator runs delegated workers.
   noticed, never waited on silently.
 - **Delegate for speed and to keep the parent's context lean.** Ask children
   for conclusions and numbers, never for raw transcripts.
+- **A child may not load the project's instructions.** A read-only search
+  child often loads none of the project instruction files, and a child on
+  another host loads only that host's files. The parent's prompt carries every
+  rule, shared state link, and item id the child must act on instead of relying
+  on the child to find them.
 - **When a host's permission classifier blocks delegated work,** propose the
   narrowest allow rule that covers it to the owner. Never add permission rules
   to your own host configuration: that changes the autonomy level, and the
