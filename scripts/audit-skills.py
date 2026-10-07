@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import re
@@ -402,19 +403,49 @@ def validate_prose_style(errors: list[str]) -> None:
 # repositories: a pointer to any of them is a leak for every consumer and a
 # dead reference on every machine but one. The maintainer's public name and
 # this repository's own URL are not pointers and stay allowed.
-PORTFOLIO_PATTERNS = (
-    (re.compile(r"(?<![\w-])(?:private-harness|lennys-harness)(?![\w-])"), "a coordinator name"),
-    (re.compile(r"/Users/[^/\s]+/|~/dev/(?:ws|private)/|private/wsp\b"), "a machine or workspace path"),
-    (re.compile(r"gitea\.daume\.dev"), "the maintainer's private forge"),
-    (re.compile(r"(?i)(?<![\w])oh-so(?![\w])"), "the maintainer's company"),
-    (re.compile(r"(?<![\w-])(?:craft-gauge|hugendubel|value-pipeline)(?![\w-])"), "a private member repository"),
-)
-# Where the patterns are defined and tested, they occur by construction.
+#
+# Those names are held only as SHA-256 digests, so this gate does not publish
+# what it guards. A line is split into lowercase tokens (letters and digits
+# joined by `-` or `.`), and every contiguous run of a token's parts is hashed:
+# `acme-hub` checks `acme`, `hub`, and `acme-hub`. To add a name, append
+# hashlib.sha256(name.lower().encode()).hexdigest().
+PORTFOLIO_NAME_HASHES = frozenset({
+    "475eb4db8540ae70e4704a9a30dc2cfabeaaae8279d1bc3b8f67380337763745",
+    "87425959d63f6d1d5a577f0c6d303cba7b50d7abf270ffa63dfe40f59f75dd81",
+    "2811965dcdeca45070fef7d4a0db8ccc935c1e9153e54c19ade240e0afaab259",
+    "5577102f96f0e5cff7ae86bfc7fc70c592cd14d1d9d5cfa94feeb0efe6381574",
+    "adb51dd78327da9ed8ae9ec668a2c35de40e94608eb64d2998e7ad0753d4eb89",
+    "17ec76caa60d1027ad4ac1fbcc488831192f69c70e9278b9370ce9dbab23fc03",
+    "9fc4069cccc724cf6f5ac4827c1942b8e245bcd332a7a619f25e9aa1347b5921",
+    "e043763ff290bc5015199294090ab39b23ef0c39896ef05d06b30bff1a6d7868",
+    "b319cd645089aed72ded9284090238c1eda5d9368dfcef227eccfe79890cb1bf",
+    "eb34a9582315514a681fa0b00aa93a66cd4e824d8dabe2bfd8b41368da0e54e2",
+})
+PORTFOLIO_PATH = re.compile(r"/Users/[^/\s]+/")
+PORTFOLIO_TOKEN = re.compile(r"[a-z0-9]+(?:[-.][a-z0-9]+)*")
+# The path pattern and its tests contain a machine path by construction.
 PORTFOLIO_SELF = {"scripts/audit-skills.py", "tests/test_portfolio_pointers.py"}
 
 
+def portfolio_hash(name: str) -> str:
+    return hashlib.sha256(name.lower().encode()).hexdigest()
+
+
 def portfolio_pointer_reasons(line: str) -> list[str]:
-    return [reason for pattern, reason in PORTFOLIO_PATTERNS if pattern.search(line)]
+    reasons = []
+    if PORTFOLIO_PATH.search(line):
+        reasons.append("a machine path")
+    for token in PORTFOLIO_TOKEN.findall(line.lower()):
+        parts = re.split(r"([-.])", token)
+        runs = (
+            "".join(parts[start : end + 1])
+            for start in range(0, len(parts), 2)
+            for end in range(start, len(parts), 2)
+        )
+        if any(portfolio_hash(run) in PORTFOLIO_NAME_HASHES for run in runs):
+            reasons.append("a private portfolio name")
+            break
+    return reasons
 
 
 def validate_no_portfolio_pointers(errors: list[str]) -> None:
