@@ -39,6 +39,15 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
   cut to the state at creation. Status and assignee fields were read as of
   today."
 
+## Point estimate judged against a target
+
+- Text: "Subgroup rate: 60% (26 of 43). Target 50%: Reached."
+- Misread as: the target is met. The 95% interval, 46 to 74%, still includes
+  50%, so the sample cannot tell. A person caught it by checking the math.
+- Fix: "Likely, not proven: 26 of 43 (60%, 95% interval 46 to 74%) against a
+  proposed 50% target. An independent replication gave 22 of 37 (43 to 74%).
+  A stricter self-set 70% target was missed."
+
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.
