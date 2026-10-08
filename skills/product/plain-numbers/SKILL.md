@@ -18,6 +18,8 @@ meeting"). Then apply to every number:
 
 1. One idea per sentence. Meaning first, then the number with its raw counts:
    "The prepared answer matched what the desk did in 85 of 227 requests (37%)."
+   A statement about change names its baseline (from what) and, where known,
+   its target (to what): "still at today's level", never "has not changed yet".
 2. State what it does not mean when a likely misreading exists. A match rate is
    not fewer requests; a sample share is not a population share.
 3. State how numbers on one page relate: part of, extra to, or a different set.

@@ -48,6 +48,15 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
   proposed 50% target. An independent replication gave 22 of 37 (43 to 74%).
   A stricter self-set 70% target was missed."
 
+## Change without a baseline
+
+- Text: "The outcome this work is about has not changed yet."
+- Misread as: unclear. The reader asked "changed from what to what?"
+- Fix: state the current value as the baseline, why it cannot have moved yet,
+  and what is not measured: "Still at today's level: a median of 15.5 hours to
+  a real answer, 45 of 96 the same working day. Nothing is live yet, so it
+  cannot have moved. Reopened requests are not measured."
+
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.

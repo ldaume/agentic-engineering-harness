@@ -113,7 +113,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/plain-numbers/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "playwright-best-practices": {
       "source": "local",
