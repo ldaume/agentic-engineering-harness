@@ -109,6 +109,12 @@
       "skillPath": "skills/infrastructure/multi-stage-dockerfile/SKILL.md",
       "version": "1.0.0"
     },
+    "plain-numbers": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/product/plain-numbers/SKILL.md",
+      "version": "1.0.0"
+    },
     "playwright-best-practices": {
       "source": "local",
       "sourceType": "path",

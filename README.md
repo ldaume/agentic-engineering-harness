@@ -33,6 +33,7 @@ uses stay on one repository.
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
+| Write numbers a non-participant reads correctly | [`plain-numbers`](./skills/product/plain-numbers/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
 
