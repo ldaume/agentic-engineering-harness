@@ -32,6 +32,9 @@ meeting"). Then apply to every number:
 8. Claim no more than the method does. If a replay cuts the data to a past date
    but reads some fields in today's state, say exactly what was cut and what was
    not.
+9. Judge a verdict against a target (reached, above, below) by the interval,
+   not the point estimate. When the interval contains the target, write
+   "likely, not proven" and show the interval and the sample size.
 
 Check the figures against the source data before writing prose around them.
 
