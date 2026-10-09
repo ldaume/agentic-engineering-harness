@@ -113,6 +113,12 @@ templates and examples out of the common path when only one branch needs them.
 ## 5. Write for Execution
 
 - Lead with the action and its purpose.
+- Give every rule, default, and step its why: what goes wrong without it, or
+  what it protects. An agent that knows the reason applies the rule to the
+  case the text did not foresee; one that only knows the rule guesses, or
+  follows it where it no longer fits. One clause is usually enough ("because
+  titles are written by whoever sent the invite"); a reason that would take a
+  paragraph belongs in a referenced file.
 - Use ordered steps only when order changes correctness.
 - End fragile steps with an observable completion criterion.
 - Give one default and a short escape hatch instead of an equal-weight menu.
@@ -122,7 +128,7 @@ templates and examples out of the common path when only one branch needs them.
 - Remove duplicated, stale, speculative, and behavior-neutral prose.
 
 The body is ready when every line changes activation, execution, verification,
-or recovery.
+or recovery, and every rule in it says why it exists.
 
 ## 6. Protect Provenance
 
@@ -166,7 +172,8 @@ Then:
 4. Exercise the description against realistic positive and near-miss prompts
    when activation behavior changed.
 5. Run the Skill on a representative task when its execution behavior changed.
-6. Review the result for missed steps, false activation, wasted work, and
+6. Review the result for missed steps, false activation, wasted work, a rule
+   whose reason is missing or wrong, and
    premature completion.
 7. Confirm the Skill was actually loaded on each declared host, not merely
    installed and plausible. A Skill nobody activates is indistinguishable from
