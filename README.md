@@ -9,15 +9,18 @@ through small experiments, evolve domain models with DDD, build vertical slices
 with TDD, shift quality, security, compliance, and operability left, and expand
 autonomy only when evidence supports it.
 
-The repository combines a portable Skill catalog with harness blueprints for
-single-repository, multi-repository, and multi-team systems. Humans retain
-goals, policy, risk, and accountability; agents carry as much execution as the
-proven controls allow. You pick by what you need today: install Skills alone
-(each works on its own, no harness required), read the blueprints alone
-([`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md),
+This catalog is the open part of a larger system: the craft Skills in full,
+and the harness for one repository. The [levels](./docs/LEVELS.md) show the
+whole path to L7. I build and run the upper levels across many repositories;
+that implementation stays private.
+
+Humans retain goals, policy, risk, and accountability; agents carry as much
+execution as the proven controls allow. You pick by what you need today:
+install Skills alone (each works on its own, no harness required), read the
+blueprints alone ([`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md),
 [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md)), or take both, which the
-prompts below assume. This is not a control plane for another system. Most first
-uses stay on one repository.
+prompts below assume. This is not a control plane for another system. Most
+first uses stay on one repository.
 
 ## Start here
 
@@ -25,7 +28,7 @@ uses stay on one repository.
 |---|---|
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
-| Choose or switch how much agents do alone | [`Operating levels`](#operating-levels) |
+| Choose or switch how much agents do alone | [`Operating levels`](./docs/LEVELS.md) |
 | Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
 | Onboard a new sibling (simplest) | Session in the coordinator; ask the agent to fully onboard it and pass context - [`Simplest path`](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) |
 | Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
@@ -40,21 +43,19 @@ uses stay on one repository.
 ## Operating levels
 
 Every harness records one operating level: how much agents do on their own.
-`scaffold-harness` recommends a level from what your repository already has,
-asks you to choose, sets the harness up to match, and switches it up or down
-when you rerun it with another level. L1 (one supervised task) and L2 (one
-repeatable Skill) need no harness.
 
-| Level | Agents do on their own | You still do | Minimum prerequisites |
-|---|---|---|---|
-| L3 Living repository | Change code, run checks, keep context and learnings, commit | Own intent, domain meaning, and material decisions | Runnable Fast Check and Full Gates |
-| L4 Grounded system | Also use external sources and tools within named access | Approve new access and consequential external effects | Owner, scope, and failure path for each source or tool |
-| L5 Stateful workflow | Also run a recurring workflow end to end, retry, and recover | Handle exceptions and open decisions | Durable workflow state, recovery, run observability, a stop path |
-| L6 Governed value stream | Also merge, deploy, and roll back proven change classes | Set goals and risk; veto, incidents, accountability | Required CI checks, checked deploy, executable rollback, production alerts, incident owner |
-| L7 Adaptive product system | Also choose bounded problems and experiments; with the owner-delegated profile, decide everything outside a short owner-reserved list | Set vision, budgets, the reserved list; confirm reserved items; stop the system | Proven L6, trusted product signals, budgets, kill criteria |
+| Level | Agents do on their own | You still do |
+|---|---|---|
+| L1 Directly supervised task | One bounded task in one session | Frame the task and review the result |
+| L2 Repeatable procedure | One recurring method from a versioned Skill | Choose the procedure and judge repeated results |
+| L3 Living repository | Change code, run checks, keep context and learnings, commit | Own intent, domain meaning, and material decisions |
+| L4 Grounded system | Also use external sources and tools within named access | Approve new access and consequential external effects |
+| L5 Stateful workflow | Also run a recurring workflow end to end, retry, and recover | Handle exceptions and open decisions |
+| L6 Governed value stream | Also merge, deploy, and roll back proven change classes | Set goals and risk; veto, incidents, accountability |
+| L7 Adaptive product system | Also choose bounded problems and experiments | Set strategy, budgets, and decision domains; stop the system |
 
-Details, the switch procedure, and where the level is recorded:
-[Choosing and Switching the Operating Level](./skills/engineering/scaffold-harness/MATURITY.md#choosing-and-switching-the-operating-level).
+What each level means, what a human still does there, and the evidence that
+earns the next one: [`docs/LEVELS.md`](./docs/LEVELS.md).
 
 ## Install
 
