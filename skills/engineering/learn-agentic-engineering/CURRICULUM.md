@@ -3,11 +3,11 @@
 ## Contents
 
 - [How to Use This Path](#how-to-use-this-path)
-- [L1 - Bounded Agent-Assisted Work](#l1--bounded-agent-assisted-work)
-- [L2 - Repeatable Procedures](#l2--repeatable-procedures)
-- [L3 - Living Repository Harness](#l3--living-repository-harness)
-- [L4 - Grounded System Work](#l4--grounded-system-work)
-- [L5-L7 - What the Upper Levels Ask](#l5-l7--what-the-upper-levels-ask)
+- [L1 - Bounded Agent-Assisted Work](#l1---bounded-agent-assisted-work)
+- [L2 - Repeatable Procedures](#l2---repeatable-procedures)
+- [L3 - Living Repository Harness](#l3---living-repository-harness)
+- [L4 - Grounded System Work](#l4---grounded-system-work)
+- [L5-L7 - What the Upper Levels Ask](#l5-l7---what-the-upper-levels-ask)
 - [Question and Blocker Routes](#question-and-blocker-routes)
 
 ## How to Use This Path

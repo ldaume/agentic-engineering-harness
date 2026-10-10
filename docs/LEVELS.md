@@ -130,10 +130,9 @@ and stop authority.
 experiment boundaries, budgets, kill criteria, and human-governed investment
 decisions stay proven. A breach narrows the domain back to its proven scope.
 
-**In this catalog:** Described here, built with teams. L7 runs today: I operate
-my own repositories under an owner-delegated profile, in which agents decide
-everything outside a short list of decisions I reserve, and bring those to me as
-prepared recommendations.
+**In this catalog:** Described here, built with teams. L7 runs today in my own
+systems within bounded decision domains: agents decide and ship from evidence,
+and the few decisions I reserve come to me as prepared recommendations.
 
 ## Not a status model
 

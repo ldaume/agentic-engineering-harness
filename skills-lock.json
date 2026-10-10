@@ -161,7 +161,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/start-gate/SKILL.md",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     "testing-strategies": {
       "source": "local",

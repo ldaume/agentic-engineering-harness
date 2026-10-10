@@ -48,8 +48,7 @@ Read that output before deciding anything:
 - **Your own leftovers from an earlier session** get committed or explicitly
   discarded now, as their own decision, never folded into the new task.
 - **A lease, claim, or status file** the repository uses to mark an occupied
-  checkout (commonly `.agent-lease` plus a STATUS lease row) is checked here,
-  and honored.
+  checkout is checked here, and honored.
 
 ### 2. Get current
 

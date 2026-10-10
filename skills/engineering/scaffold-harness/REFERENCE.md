@@ -157,25 +157,6 @@ Propose human-on-the-loop only when:
 Human-on-the-loop supervises outcomes and exceptions. It does not remove
 accountability or decision rights.
 
-For an active promotion candidate, define one bounded change or risk class and
-its exclusions. Use the target's existing workflow-state owner as the promotion
-index and summary; link checks, reviews, audit logs, incidents, and other
-evidence from their authoritative owners instead of copying them. Each
-qualifying run records its durable change and check result, declared class and
-scope, recovery or rollback evidence, and outcome. A run that changes a gate
-counts only after fresh-context critique and a negative proof that the gate
-catches the failure it owns.
-
-One representative successful live run may be sufficient for a bounded,
-reversible class when meaningful checks, observation, and recovery readiness are
-demonstrated. Require further qualifying runs only when variability, risk, or
-failure impact needs more evidence; exercise recovery when target policy or the
-class's risk requires it. Apply the target policy's promotion process only to
-the demonstrated class. A breach, unobservable failure, failed recovery, or
-unresolved material decision immediately returns the workflow to
-human-in-the-loop, records the hold reason, and resets its evidence before any
-new promotion run.
-
 ## Language and Punctuation
 
 Write harness artifacts in US English with plain punctuation (straight

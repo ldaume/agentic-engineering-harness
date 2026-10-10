@@ -12,7 +12,8 @@ autonomy only when evidence supports it.
 This catalog is the open part of a larger system: the craft Skills in full,
 and the harness for one repository. The [levels](./docs/LEVELS.md) show the
 whole path to L7. I build and run the upper levels across many repositories;
-that implementation stays private.
+that implementation stays private; I build them with teams:
+[daume.dev](https://daume.dev).
 
 Humans retain goals, policy, risk, and accountability; agents carry as much
 execution as the proven controls allow. You pick by what you need today:
@@ -26,7 +27,7 @@ for another system.
 |---|---|
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
-| Choose or switch how much agents do alone | [`Operating levels`](./docs/LEVELS.md) |
+| Choose or switch how much agents do alone | [`MATURITY.md`](./skills/engineering/scaffold-harness/MATURITY.md#choosing-and-switching-the-operating-level) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
