@@ -4,7 +4,6 @@
 
 - [Portable Architecture](#portable-architecture)
 - [Product Capability Pattern](#product-capability-pattern)
-- [SDLC Automation Pattern](#sdlc-automation-pattern)
 - [Flue Implementation Notes](#flue-implementation-notes)
 - [Flue Migration Review](#flue-migration-review)
 - [Verification Checklist](#verification-checklist)
@@ -44,23 +43,6 @@ adapter; never place raw credentials in prompts, tool results, or run history.
 
 Product UI should expose the states a user can act on. A generic spinner hides
 queues, partial failure, review needs, and stale results.
-
-## SDLC Automation Pattern
-
-```text
-trusted trigger
-  -> immutable repository revision
-  -> isolated workspace with bounded tools and credentials
-  -> agent produces patch or report
-  -> Fast Check and relevant Full Gates
-  -> review or policy gate
-  -> authorized merge, release, or no action
-```
-
-The scheduler should own admission, concurrency, deadlines, cancellation,
-retention, and notifications when it already provides them. An overnight
-window is a schedule, not an authorization expansion. The job still needs a
-bounded objective, budget, stop condition, and recoverable artifact.
 
 ## Flue Implementation Notes
 

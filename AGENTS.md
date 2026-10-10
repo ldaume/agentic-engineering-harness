@@ -21,7 +21,7 @@ blueprints. It does not depend on a private coordinator or another repository.
   `README.md`, `VERSIONING.md`, and `skills/engineering/write-a-skill/SKILL.md`.
 - Inspect `git status` and `git worktree list` before editing. Preserve foreign
   work and never silently overwrite or delete it. Apply **Git Working Tree
-  Hygiene** in `HARNESS.md` (branch gate, worktree default, leases,
+  Hygiene** in `HARNESS.md` (branch gate, worktree default,
   ordinary branch names, no agent/tool producer chrome in commits or PR/MR
   surfaces; never delete or move another agent's live worktree).
 - Use existing repository patterns and commands before adding anything new.
@@ -113,12 +113,9 @@ python3 scripts/verify-plain-punctuation.py
 python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
 python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
-python3 -m unittest discover -s skills/engineering/system-one-routing/tests
-node --test skills/engineering/system-one-routing/tests/test_ask_jev.mjs
 ```
 
-The last command needs Node (CI uses the current LTS). The Fast Check matches
-the commands in `.github/workflows/validate.yml`.
+The Fast Check matches the commands in `.github/workflows/validate.yml`.
 
 `audit-skills.py` reuses the punctuation table from
 `verify-plain-punctuation.py`, so the two never disagree. Run the standalone

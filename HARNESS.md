@@ -66,10 +66,8 @@ Before edits: confirm the correct branch or create one with an ordinary name
 and PR/MR surfaces free of agent/tool producer chrome (forbid and strip
 `Co-authored-by` trailers naming AI tools and footers such as `Made with
 Cursor`), default to a worktree beside the primary checkout (not nested inside
-the repo), claim it with `.agent-lease` + STATUS lease, preserve foreign WIP,
-and never delete or move another agent's live worktree. Never auto-delete
-foreign orphans. When the active checkout's parent is not the workspace sibling
-root, run Full Gates from the primary checkout. The reusable baseline lives in
+the repo), preserve foreign WIP, and never delete or move another agent's live
+worktree. Never auto-delete foreign orphans. The reusable baseline lives in
 `skills/engineering/scaffold-harness/templates/HARNESS.md`.
 
 ## Always-On Skill Quality
@@ -164,8 +162,8 @@ harness, context, status, learning, template, and Skill owners only when the
 active branch needs them; route to a section or query before reading a full
 large file.
 
-`skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns the detailed
-placement, selection, and evaluation method.
+`skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns the context
+stack, the startup budget, and the context economy ladder.
 
 ## Shared Understanding and Grilling
 
@@ -237,23 +235,20 @@ permissions, and implementation state. A coordinating repository may own only
 cross-repository maps, public contracts, dependency relationships, shared
 workflow state, and cross-cutting verification.
 
-Follow `HARNESS-OPERATIONS.md` to choose the correct working root. Never copy
-target-specific truth into this repository.
+Start a session inside the repository it changes. Never copy target-specific
+truth into this repository.
 
 ## Canonical Method
 
 - `skills/engineering/scaffold-harness/` owns harness assessment and upgrades.
 - `skills/engineering/scaffold-harness/MATURITY.md` owns L1-L7 capability,
-  oversight, and operating-model effects.
-- `skills/engineering/scaffold-harness/RUNTIMES.md` owns CI, scheduled, durable,
-  specialist, chat, and observable agent-runtime selection.
-- `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns local and
-  external context placement, MCP routing, context budgeting, and compression.
-- `skills/engineering/scaffold-distributed-context/` owns bounded-context,
-  contract, projection, and retrieval design across repositories.
+  oversight, and choosing or switching the level; `docs/LEVELS.md` is its
+  human projection.
+- `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` owns the context
+  stack, startup budgeting, and context economy.
 - `skills/engineering/agent-sync/` owns continuous evidence routing.
-- `skills/engineering/update-harness/` owns explicit versioned dependency and
-  currentness updates.
+- `skills/engineering/update-harness/` owns managed Skill checks, installs,
+  updates, and cleanup.
 - `skills/engineering/grill-harness-with-docs/` owns shared understanding,
   material critique, and unresolved decisions.
 - `skills/product/run-product-engineering/` owns the closed product lifecycle
@@ -263,10 +258,7 @@ target-specific truth into this repository.
   authority.
 - `VERSIONING.md` owns per-Skill release semantics.
 - `CONTEXT-MAP.md` routes repository-local sources.
-- `MULTI-REPO-HARNESS.md` owns the portable multi-repository and multi-team
-  operating model, including demand-driven sibling and team relevance under
-  **Find Sibling Scope and Decide Relevance**.
-- `HARNESS-OPERATIONS.md` owns operator prompts and the session discovery path
-  into a coordinator.
+- `docs/BEYOND-ONE-REPOSITORY.md` motivates multi-repository harnesses without
+  specifying them; this catalog does not build them.
 
 Reference these owners instead of duplicating their procedures.

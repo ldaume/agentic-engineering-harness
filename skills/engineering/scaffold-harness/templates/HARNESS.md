@@ -36,12 +36,9 @@ Level** procedure. Add wider delegation only from observed evidence.
   faster; `grill-harness-with-docs` when material), then act. Involve the
   human only for what this document reserves for them (name that list here
   as the repository's current default), and then with options and one
-  recommendation, never with a bare offer or a wait. A finding in a sibling
-  repository is not handed back as "belongs to repository X": open that
-  repository as the working root (its own lease, branch, and instructions
-  apply) and fix it in a small PR, or record it as a linked signal with what
-  was found and why it was not fixed. "Not worth doing" is a recorded decision
-  with a reason, never a silent drop.
+  recommendation, never with a bare offer or a wait. "Not worth doing" is a
+  recorded decision with a reason, never a silent drop, because a silent drop
+  looks the same as a forgotten one.
 - **Host block is not a handoff:** when the host's permission layer (auto
   mode classifier, permission rule, hook) denies a routine close-out command
   such as `gh pr merge`, that denial is a tooling blocker, not a decision for
@@ -62,78 +59,6 @@ Level** procedure. Add wider delegation only from observed evidence.
   allow, escalate only what stays blocked, and record the missing rule for
   the owner in one line. Never widen around a block in a way that defeats its
   intent.
-
-### Optional: Owner-Delegated Operating Profile
-
-Include this subsection only when the accountable owner explicitly chooses it
-(see `scaffold-harness` `MATURITY.md` **L7 Owner-Delegated Operating
-Profile**). Without it, the default above and **Oversight** below apply
-unchanged. When included, it replaces the human-in-the-loop default for the
-named scope; record the owner's choice and its date here.
-
-- **Human on or out of the loop, never in it.** Agents do not wait for a human
-  to decide, approve, review, merge, deploy, or roll back, except for the
-  owner-reserved items below. Safety comes from
-  agents on the loop: specialist reviewers (see **Review Loops**),
-  deterministic gates at the moment of change, checked deployments,
-  observability, and executable rollback. A missing gate is closed as the
-  first increment of the task, not escalated.
-- **Owner-reserved, and only this:**
-  1. Vision, values, product boundaries, risk budgets, this list itself, and
-     loosening any control the safety model rests on (a gate, required check,
-     branch protection, host deny rule, or the stop right). Adding controls is
-     agent work.
-  2. Spending money or taking on obligations, and sending anything to people
-     outside the system (customer messages, invoices, public posts). Drafting
-     is agent work; sending is not.
-  3. New external exposure: making a service, endpoint, or repository newly
-     reachable from the internet, or loosening authentication on an exposed
-     surface.
-  4. Irreversible loss: deleting data, schemas, backups, or repositories
-     without an independently verified restore path. Force-pushing or
-     rewriting shared history is always reserved.
-  5. New third-party trust: new accounts or credentials at third parties, or
-     granting another person access. Using and rotating existing credentials
-     through their documented path is agent work.
-
-  Everything else is agent-decided. When a reserved item is in the way,
-  prepare it so the owner only confirms (the draft, the exact command, the
-  recommendation with evidence, risk, and rollback), record it as a signal
-  labeled `owner-reserved`, and keep working on everything that does not
-  depend on it. Record the outcome on that signal: `accepted-as-recommended`,
-  `changed`, or `rejected`. When a reserved class shows a run of accepted
-  recommendations with no later correction, agents propose keeping,
-  narrowing, or retiring that gate with the counts; the owner decides.
-- **An explicit in-session hold or stop from the owner always wins** for that
-  session and scope.
-- **Spike first, no document gates.** Start from a hypothesis (signal,
-  riskiest assumption, what the increment should teach). Answer the riskiest
-  assumption with a disposable probe, then build the smallest observable
-  vertical slice, ship it, watch it, and let it decide the next slice. No plan,
-  spec, PRD, or concept document is required or approved before building; a
-  strictly ordered sequence (migration, cut-over) lives in the change itself.
-  Shift correctness, security, privacy, accessibility, operability, cost, and
-  recovery into the first slice as checks at the moment of change. A
-  hard-to-reverse change gets a fresh-context specialist critique and an
-  executable rollback before it lands, not a human approval.
-- **Every external dependency has a tested fallback.** Each check or decision
-  that calls a typed decision service, model provider, gateway, CI runner, or
-  other outside service names its fallback in code: a deterministic default, a
-  cheaper route, a cached answer, or degraded behavior that says what is
-  missing. Safety checks fail closed on the guarded action only, never on the
-  rest of the work; routing and convenience decisions fail open to their
-  default. Test the fallback path and record the outage as a signal.
-- **Commits carry the durable why; PRs carry the evidence.** The commit on the
-  default branch states what changed, why, what was learned, and the signal it
-  answers. The PR records gate and review evidence (specialist findings and
-  their resolution, checks, deployment result, owner-reserved outcomes) as
-  labeled data written for the next agent.
-- **Host parity.** Each agent host's permission file (auto-mode rules,
-  approval policy, sandbox scope, deny lists) is part of the harness. A check
-  reads each installed host's config and reports drift that would turn routine
-  work back into a human prompt or loosen a deny rule (force-push, repository
-  deletion). Fix drift in the same loop; a host prompt in front of routine work
-  is a tooling defect, not an owner decision.
 
 ## Session currency
 
@@ -165,7 +90,7 @@ answer in the same loop:
 
 1. **Manifest here?** Should this evidence become or update a hard owner in
    this repository's harness (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill,
-   STATUS, LEARNINGS)? Prefer a hard adaptation when the same mistake would
+   LEARNINGS)? Prefer a hard adaptation when the same mistake would
    otherwise recur. Explicit no-change is valid when the signal is transient.
 2. **Port within your authority?** After every harness change, decide in the
    same loop whether a generalized portable variant belongs in a catalog you
@@ -179,40 +104,30 @@ answer in the same loop:
    have no owned shared catalog - harden locally instead; still never write
    back to a foreign public upstream. Ask only when placement is ambiguous or
    a port would leak private authority.
-3. **Fan-out live members?** If this repository coordinates members, follow
-   the fan-out checklist in `SYNC.md`: pointer-only policy needs no sibling
-   edits; discovery/snippet changes refresh every listed member, including
-   experiments, in the same
-   loop. Parent sessions own fan-out after subagents.
-4. **Siblings in view?** Keep the member map truthful; admit or graduate new
-   siblings via `SYNC.md`; coordinator verify should fail on unlisted
-   repo-like siblings or missing mapped members.
-5. After changes to purpose, autonomy, working roots, git hygiene, or the
+3. After changes to purpose, autonomy, working roots, git hygiene, or the
    harness cycle: does the human `README.md` still teach a new reader?
 
 ## Git Working Tree Hygiene
 
-Applies to every repository an agent edits, no matter which host or working
-root spawned the session. Goal: mandatory branch and isolation gates before
-edits, ordinary branch names, review surfaces free of agent/tool producer
-chrome, session-owned cleanup, checkout leases (isolated worktree or primary),
-hard non-interference with foreign checkouts, and return of surviving session
-and primary-sibling checkouts to the default branch when finish is otherwise
-complete - not auto-reclaim of foreign state. A lease is coordination, not a
-lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
+Applies to every edit an agent makes in this repository, no matter which host
+spawned the session. Goal: branch and isolation gates before edits, ordinary
+branch names, review surfaces free of agent/tool producer chrome, and a
+session that leaves nothing of its own behind - without touching work it did
+not create.
 
 ### Before editing
 
 1. Run `git status --short --branch` and, when available, `git worktree list`.
-2. Note dirty paths, current branch, existing worktrees, and any `STATUS.md`
-   **Worktree leases** (checkout lease) rows or `.agent-lease` markers.
+2. Note dirty paths, current branch, and existing worktrees.
 3. If the tree is dirty or unexpected worktrees exist: report them. Do not
-   silently overwrite unrelated WIP. Ask when ownership of the dirt is unclear.
+   silently overwrite unrelated WIP, because it is someone's unsaved work. Ask
+   when ownership of the dirt is unclear.
 4. **Branch gate (mandatory before any edit):** Confirm the current branch is
    the correct place for this work.
   - Do not edit shared integration branches (`main`, `master`, the repository
      default branch, or other protected shared branches) in place - including
-     typo and docs fixes. Create or check out a dedicated task branch first.
+     typo and docs fixes. Create or check out a dedicated task branch first,
+     so every change passes the same review and checks.
   - If already on the correct task branch for this work, continue. If on the
      wrong branch, stop and move to the right branch before editing.
   - Name branches with ordinary descriptive names (kebab-case or the
@@ -234,9 +149,7 @@ lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
      `Made with Cursor`, `Generated by Claude`, `via Codex`, or equivalent
      signatures immediately.
   - Allowed: the tool or agent is the subject of the change; third-party
-     license or copyright attribution; operational host/session fields in
-     `.agent-lease` or `STATUS.md` where those owners exist; orchestration and
-     model-routing docs; explicit human request for disclosure.
+     license or copyright attribution; explicit human request for disclosure.
   - Enforcement, in the repository rather than in one contributor's user
      scope, because a rule held only in prose or a personal hook does not reach
      the next contributor's session: turn the host's attribution off in its
@@ -250,67 +163,16 @@ lock. When this trade-off is accepted in a live repo, record it in `docs/adr/`.
    Prefer the host's native worktree or isolation tool when available.
    Otherwise use a project-local git worktree under an ignored `.worktrees/`
    beside the primary checkout (for example `../.worktrees/<repo>-<task>/`),
-   not nested inside the repository tree. In-repo nests break scripts and
-   multi-repo discovery that resolve siblings via the checkout's parent.
-   When the active checkout's parent is not the workspace sibling root, run
-   Full Gates from the primary checkout after the change is available there.
-   Stay put only when already in a linked worktree or host-isolated workspace
+   not nested inside the repository tree, because in-repo nests break scripts
+   that resolve paths from the checkout. Stay put only when already in a linked worktree or host-isolated workspace
    on the correct branch. Narrow exception: a trivial single-path edit on an
    already-correct task branch in a clean tree may stay in place. Do not nest
    worktrees. Do not fight an already-isolated host workspace with a second
    `git worktree add`.
-7. **Checkout lease (before any edit):** Before substantive edit in a
-   repository, claim the checkout this session will use - a new isolated
-   worktree **or** the primary/session root when staying put:
-  - Write `.agent-lease` in that workspace (JSON: `path`, `branch`, `repo`,
-     `session`, `host`, `kind`, `claimed_at`, `heartbeat_at`, `state`).
-  - `kind` is `worktree` or `primary`. `state` is `active`, `done`, or
-     `abandoned`.
-  - Upsert a row in the nearest `STATUS.md` **Worktree leases** table when
-     that file exists; otherwise keep the marker and report the claim. Include
-     `kind` when the table has that column.
-  - **Multi-repo sessions:** one lease row per repository checkout. Release
-     each row when that repo's footprint finishes.
-  - **Multi-agent same repo:** each session claims its own checkout. If
-     another session holds an `active` lease on the same path or branch,
-     create a new uniquely named worktree/branch instead of sharing.
-  - Use a unique session id. Refresh `heartbeat_at` on long work.
-  - Keep `.agent-lease` ignored by git (do not commit it).
-  - Do not invent a second STATUS presence table. Lease is coordination, not
-     a mutex.
-8. **Critical-step re-check:** Before edit, branch checkout, local merge,
-   worktree remove, force ops, or return-to-default, re-read lease rows and
-   `.agent-lease` on the target path. Treat foreign `active` claims as
-   protected; do not force past them.
-
-### Cross-agent non-interference
-
-Treat every worktree, linked checkout, primary checkout, and dirty tree you
-did not claim in **this** session as foreign protected state.
-
-1. Never delete, move, empty, or overwrite another agent's working directory,
-   worktree path, or branch checkout - including via `rm -rf`, `git worktree
-   remove`, `git worktree prune` of live trees, `git clean -fdx` outside your
-   own tree, host "reset workspace", or bulk cleanup of `.worktrees/` /
-   `worktrees/`. Deleting a specific unregistered leftover directory under
-   **On finish** is required husk cleanup, not bulk tidy of the parent.
-2. Never force-checkout, reset, or delete a branch that another worktree
-   currently has checked out, or that another session's `active` lease names.
-3. Before any remove: read `.agent-lease` and any STATUS lease row. Remove only
-   when `session` matches this session and `state` is `active` (then set
-   `done` or `abandoned` before removal). If unmarked, foreign, or uncertain:
-   list the path; do not delete; reclaim only with explicit human confirmation
-   naming the path.
-4. Never reclaim live or leased worktrees because they look unused or have a
-   stale heartbeat. No silent TTL delete of listed checkouts. Unregistered
-   leftover directories with no `.git` are husks, not foreign worktrees;
-   remove them per **On finish**.
-5. Prefer creating a **new** uniquely named worktree/branch over replacing one
-   whose ownership is unclear.
 
 ### Whose work is it
 
-Checkout non-interference is above; this is the same rule one level up, at the
+Leaving foreign WIP alone is above; this is the same rule one level up, at the
 record of a decision. A session acts for one human, and some artifacts carry
 an owner: a work item names one, a pull request belongs to whoever opened it,
 a review comment to whoever wrote it, a progress value to whoever set it.
@@ -344,84 +206,32 @@ on. Recording is not raising.
 
 1. Integrate ready work via the repository's commit/push/merge or PR policy.
    When that policy authorizes routine completion, perform commit and push
-   after checks pass without asking again. When a session-owned PR/MR has
-   green required checks and no conflicts, merge it through the normal path in
-   the same loop. Strip any review-surface producer chrome from the commit and
-   from any PR/MR title or body before and after create. Do not force-merge
-   onto a shared branch as ceremony or past red required checks. Do not leave
-   "should I commit/merge?" as a human chore. Do not send a completion that
-   still asks the human to merge, pull, or confirm ordinary git close-out.
-   Optional next-work questions wait until the session root is on local
-   default matching remote.
-2. **Close the integration loop in the same session.** Autonomously merge
-   session-owned PRs/MRs and fan-out tips when required checks are green and
-   there are no conflicts. Green means every required job, named for that
-   repository, explicitly reports pass; "no checks reported", pending, and a
-   missing job are not green. Name the jobs per repository: another
-   repository's job names never appear, so a gate that waits for them stalls
-   until its timeout and then refuses a green change. Use the repository's
-   normal merge path (clean
-   merge/rebase/squash as that repo uses - never force-push shared history).
-   Do this before claiming done (local and remote). After the remote merge, update the primary default-branch checkout to
-   origin's default with `git fetch` and **ff-only**. Never reset, rebase, or
-   merge onto primary default to force the match. If ff-only cannot proceed
-   (dirty primary, diverged history, foreign `active` lease on that path, or
-   another checkout already holding default with unclear ownership), record
-   the named blocker in `STATUS.md` and stop; do not make primary match by
-   destroying foreign state. A remote merge without that local update is not
-   a closed loop unless that blocker is recorded. Do not leave mergeable session-owned PRs open for a human
-   reminder. If merge is blocked (failing required checks, conflicts, or
-   foreign WIP), record the named blocker in `STATUS.md` with a clear next
-   action. Do not force-merge past red required checks. A host permission
-   denial is not one of these: monitor and resume, per **Host block is not a
-   handoff** above.
-3. **Return surviving checkouts to the default branch while still holding the
-   lease.** After steps 1-2, for every repository this session edited (or
-   whose checkout this session left off the default branch): leave the session
-   working root and the repository's primary sibling checkout on the default
-   integration branch (`main`, `master`, or the configured default) with a
-   clean working tree, at the merged tip from step 2. When the session is in a task worktree, move the **host session/workspace
-   root** to the primary default checkout instead of trying to check out
-   default in the worktree (primary already holds it). Shell `cd` is not
-   enough. Skip this move when the human explicitly asked to remain on the
-   task branch; that skip is not an open git loop once remote and primary
-   already match.
-   - Keep remote task branches that still back open PRs or unmerged work -
-     this step is a checkout, not a branch delete or history rewrite.
-   - If this session's tree is still dirty, finish or explicitly abandon that
-     work before switching; do not force-checkout over unresolved dirt.
-   - If switching is blocked (another worktree already holds the default
-     branch, a foreign `active` lease covers the path, conflicts, or foreign
-     WIP ownership is unclear), report the named blocker; do not force past it.
-   - Skip when the human explicitly asked to remain on the task branch.
-   - After the primary is already at the merged remote tip from step 2,
-     checkout only on other surviving session checkouts - do not pull, reset,
-     or merge the default branch as part of this step.
-4. Release leases this session holds: set `state` to `done` (or `abandoned`),
-   update STATUS when present, then remove only those worktrees. Move the host session/workspace root off those worktrees first. Do not
-   delete a worktree while it is still the host workspace root. Do not claim
-   done from a task worktree unless the remain-on-branch skip above applies. Prefer cleanup
-   from the primary checkout. Run `git worktree prune` only for stale metadata
-   of already-removed trees.
-   After `git worktree remove` of a session-owned path: confirm the host
-   workspace root is not that path and `git worktree list` no longer names that
-   exact path. If the directory still exists, it is an unregistered leftover
-   (ignored files such as `node_modules` or `.agent-lease` often survive `git
-   worktree remove`). Delete that directory; if it is a symlink, unlink it
-   without following it. Do not leave husks. Never `rm -rf` the parent
-   `.worktrees/` or `worktrees/` directory. Never delete the current host
-   workspace root. Never delete a path that `git worktree list` still names
-   (exact path) or that contains a `.git` file or directory.
-   On finish, also delete other leftover sibling directories that fail those
-   same tests, but only when the parent directory's basename is `.worktrees` or
-   `worktrees`. If this session's worktree was not under one of those dedicated
-   parents, delete only the just-removed path. Report each deleted path. Those
-   directories are not live checkouts.
-5. If ownership of a live checkout is uncertain, leave the worktree. Listing
-   live orphans is required; deleting them needs explicit human confirmation.
-   Do not treat an unregistered husk (no `.git`, absent from `git worktree
-   list`) as an uncertain live checkout.
-6. Leave the repository no worse for your own artifacts than you found it. Do
+   after checks pass without asking again. Strip any review-surface producer
+   chrome from the commit and from any PR/MR title or body before and after
+   create. Do not send a completion that still asks the human to merge, pull,
+   or confirm ordinary git close-out; that turns a finished task into a chore.
+2. **Close the integration loop in the same session.** Merge session-owned
+   PRs/MRs when required checks are green and there are no conflicts. Green
+   means every required job named for this repository explicitly reports pass;
+   "no checks reported", pending, and a missing job are not green, because a
+   check that never ran proves nothing. Use the repository's normal merge path
+   and never force-push shared history. After the remote merge, update the
+   local default-branch checkout with `git fetch` and **ff-only**; never reset
+   or rebase it to force the match. If merge or ff-only is blocked (red checks,
+   conflicts, foreign WIP, diverged history), report the named blocker with a
+   next action. A host permission denial is not one of these: monitor and
+   resume, per **Host block is not a handoff** above.
+3. **Return to the default branch.** Leave the session working root on the
+   default branch with a clean tree at the merged tip, unless the human asked
+   to remain on the task branch. Keep remote task branches that still back
+   open PRs or unmerged work.
+4. Remove only the worktrees this session created, after moving the session
+   off them. If a directory survives `git worktree remove` (ignored files such
+   as `node_modules` often do), delete that one path; never `rm -rf` the parent
+   `.worktrees/` directory, never delete a path `git worktree list` still
+   names, and never delete a worktree this session did not create, because it
+   may hold another session's live work.
+5. Leave the repository no worse for your own artifacts than you found it. Do
    not clean another session's footprint on the way out.
 
 ## Cleanup Is Part of Done
@@ -487,24 +297,8 @@ privilege, secrets policy, cancellation, deterministic gates, telemetry,
 retained checkpoints, automatic wake or reconciliation, failure ownership, and
 stall alerts. Routine progress must not depend on a later human prompt. Required
 human decisions remain durable correlated waits with deadlines and escalation;
-they are never auto-approved. A framework such as Flue is optional and must
-pass the runtime gate in the active `scaffold-harness` `RUNTIMES.md` reference.
-
-## Repository and Team Topology
-
-Use the smallest topology that matches actual ownership:
-
-- A single repository owns its instructions, context, checks, and learnings.
-- A multi-repository coordinator owns relationships, public contracts, shared
-  workflow state, oversight, and integration evidence, never member-local truth.
-- A multi-team coordinator additionally records team/context decision rights,
-  contract and risk owners, cross-team compatibility checks, shared-policy
-  versions, and escalation paths. It does not become every team's product or
-  domain authority.
-
-Every listed repository, including an experiment, has a local agent entrypoint
-and safe coordinator fallback. Session discovery is mandatory; unattended
-autonomy remains separately gated by local evidence.
+they are never auto-approved. That is L5 work; a runtime framework is optional
+and enters only for one bounded, repeated workload.
 
 ## Progressive Product Engineering
 
@@ -571,42 +365,6 @@ Product work is a closed learning loop, not a specification -> implementation
 - Treat dependency-bot PRs (Renovate or similar) as evidence-gated merges - never
   merge on green CI alone. See **Dependency bot PRs** below.
 
-Under the optional owner-delegated profile, specialist reviewers are the agents
-on the loop. The producing session spawns those whose trigger the diff hits, in
-fresh context, fixes verified findings before merge, and records any finding it
-does not fix with its reason. A second specialist settles a split; a human
-does not.
-
-| Specialist | Triggered by |
-|---|---|
-| Correctness | every material code change |
-| Security and trust | authentication, authorization, secrets, exposure, permissions, untrusted input, supply chain |
-| Operations | deploy, CI, migrations, data, backups, observability, rollback |
-| Product and UX | user-facing flows, copy, accessibility, perceived performance |
-| Domain and contract | domain language, public APIs and contracts, decision-record-worthy choices |
-| Harness | agent instructions, Skills, hooks, host configuration, autonomy |
-
-Route subagents by task evidence, not by the parent's model. Use the least
-expensive current model that passes representative work for the role; reserve a
-frontier model for ambiguous integration, consequential decisions, or material
-review. Count retries, review, latency, and failure impact in total cost. Keep
-provider-specific aliases and checked dates in `ORCHESTRATION.md` or a thin
-host adapter. Maintain one adapter for every active host that can route models;
-Codex configuration is not a substitute for Claude Code, Cursor, Gemini CLI,
-Pi, CI, or later host controls. Re-evaluate a route when a model, alias,
-allowlist, plan, price, host fallback, or representative quality result changes.
-New models enter a measured candidate lane before they replace a proven route.
-Before the first delegated task in a session, resolve the active host adapter.
-If it is absent, stale, or unenforceable, inspect the live controls and either
-refresh the adapter or keep the task with the capable parent.
-Capability selection never authorizes a premium speed/service tier. All agents
-use normal provider processing; Codex Fast Mode and provider equivalents stay
-disabled. Subagents remain allowed; parents must not spawn Task tools,
-subagents, or workers with Fast Mode, `-fast`, `High Fast`, `fast=true`, or any
-premium speed flag. If the host defaults a child to Fast, cancel and re-spawn
-without Fast. A host override that cannot be rejected or detected is not
-eligible for autonomous dispatch.
-
 Every review ends with keep, change, remove, supersede, rebuild, or no action.
 
 ### Dependency bot PRs
@@ -660,45 +418,8 @@ For a material human-in-the-loop branch, present two or three options,
 including no change when meaningful, with evidence, trade-offs, blast radius,
 reversibility, and a recommendation. The human may veto the branch.
 
-For each active promotion candidate:
-
-1. Name one bounded change or risk class, its owner, and its exclusions.
-2. Make the smallest missing promotion gate part of each qualifying run.
-3. Use the existing workflow-state owner as the promotion index. Record the
-   durable change and check result, scope, recovery, and outcome there while
-   linking authoritative checks, reviews, audit logs, and incidents.
-4. Do not let a gate-changing run count until fresh critique and a negative
-   proof show that the gate catches the failure it owns.
-5. One representative successful live run may be sufficient for a bounded,
-   reversible class when meaningful checks, observation, and recovery readiness
-   are demonstrated. Require further qualifying runs only when variability,
-   risk, or failure impact needs more evidence; exercise recovery when target
-   policy or the class's risk requires it.
-6. Present a ready promote-or-hold decision immediately. Promote only the
-   demonstrated class; retain human veto, incident authority, and accountability.
-7. On a boundary, observability, or recovery failure, immediately return the
-   workflow to human-in-the-loop, record the hold reason, and reset its evidence
-   before any new promotion run.
-
-Under the optional owner-delegated profile (include this paragraph only with
-it), agents run this loop themselves:
-they promote a demonstrated class and, on such a failure, narrow it back to
-its proven scope and record why. Only owner-reserved items reach the owner.
-
-## Currentness
-
-Do not freeze volatile model catalogs, prices, or platform features here.
-Discover the live environment, consult current official sources, test
-representative tasks, and record a check date plus re-check trigger only when a
-durable routing decision exists. Expired evidence becomes stale and is refreshed
-when a decision or active adapter consumes it; adapter mismatch is an immediate
-trigger. Every significant harness review may keep, change, remove, supersede,
-or rebuild an owner; preserve no structure merely because it already exists.
-
-Keep update automation configured for every dependency ecosystem actually in
-use. Cooldowns reduce fresh-release risk but do not justify unattended merges:
-inspect the jump, run the repository gates, then merge or record why it is
-deferred.
+Moving a change class from human-in-the-loop to human-on-the-loop is outside
+this harness; [the levels](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md) describe what it takes.
 
 ## Startup Context Budget
 
@@ -748,7 +469,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Agent behavior and scope | `AGENTS.md` |
 | Domain language | `CONTEXT.md` |
 | Source routing | `CONTEXT-MAP.md` |
-| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, checkout leases including primary, multi-repo/multi-agent announce, return to default branch, cross-agent non-interference) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
+| Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, return to default branch) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
 | Accepted trade-offs | ADR |
 | Durable observations | `LEARNINGS.md` |
 | Repeated probabilistic procedure | Skill |
@@ -758,44 +479,6 @@ Follow the installed `scaffold-harness` capability gate when present.
 | Compliance scope and policy semantics | Target ISMS or GRC system and named control owners |
 
 Reference the owner instead of duplicating its content.
-
-## Goal-Driven Skill Routing
-
-- Infer the outcome and current lifecycle stage; users do not need to name
-  Skills.
-- Select one owning Skill and only the complements needed for the current
-  stage.
-- Use managed `write-a-skill` as the portable owner for Skill creation and
-  revision. Host-native creators, commands, and plugins are adapters only;
-  verify discovery independently for every declared host.
-- Resolve Skills in this order: (1) first-party portable Skills from this
-  catalog / `https://github.com/ldaume/agentic-engineering-harness` and Skills
-  or pins the consumer harness references; (2) installed managed bootstrap
-  copies of those first-party Skills; (3) project-local Skills or wrappers only
-  for genuine local deltas -  do not invent local duplicates of first-party
-  methods; (4) explicitly managed private organization or team Skills for
-  non-public procedures. Keep installed user or global Skills to the small
-  bootstrap and discovery role. Inspect the host's actual load precedence
-  separately.
-- Keep project semantics local, organization procedures in their private
-  catalog, portable methods in their public upstream, and only the small
-  bootstrap global. A coordinator owns placement and policy, not every Skill's
-  source text.
-- When a required public complement is missing, verify its source,
-  technology-version fit, permissions, maintenance, license, and overlap.
-  Install it project-locally only when harness changes are authorized, then
-  use it in the same loop.
-- Use an installed upstream `find-skills` or `npx skills find` when no named
-  complement fits. Popularity is only a discovery signal.
-- Select one owner for each workflow. Do not stack overlapping planning, TDD,
-  debugging, review, or style profiles by default.
-- Do not vendor public Skill text unless a distinct local delta and attribution
-  justify the maintenance cost.
-
-Use a current capable parent model for framing, integration, and consequential
-judgment. Cheaper workers must first pass representative checks for their
-bounded task. If no suitable model is available, reduce scope or autonomy
-instead of retrying low-quality output.
 
 Prefer an existing implementation, native capability, or installed dependency
 before adding code or another layer. Never simplify away validation at trust

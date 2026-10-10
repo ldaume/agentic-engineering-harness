@@ -3,13 +3,11 @@
 ## Contents
 
 - [How to Use This Path](#how-to-use-this-path)
-- [L1 - Bounded Agent-Assisted Work](#l1--bounded-agent-assisted-work)
-- [L2 - Repeatable Procedures](#l2--repeatable-procedures)
-- [L3 - Living Repository Harness](#l3--living-repository-harness)
-- [L4 - Grounded System Work](#l4--grounded-system-work)
-- [L5 - Stateful Agent Workflows](#l5--stateful-agent-workflows)
-- [L6 - Governed Value Stream](#l6--governed-value-stream)
-- [L7 - Adaptive Product System](#l7--adaptive-product-system)
+- [L1 - Bounded Agent-Assisted Work](#l1---bounded-agent-assisted-work)
+- [L2 - Repeatable Procedures](#l2---repeatable-procedures)
+- [L3 - Living Repository Harness](#l3---living-repository-harness)
+- [L4 - Grounded System Work](#l4---grounded-system-work)
+- [L5-L7 - What the Upper Levels Ask](#l5-l7---what-the-upper-levels-ask)
 - [Question and Blocker Routes](#question-and-blocker-routes)
 
 ## How to Use This Path
@@ -118,81 +116,40 @@ Practice:
 Common traps: treating retrieval as truth, sharing customer or domain context
 without authority, or giving broad tool access for convenience.
 
-## L5 - Stateful Agent Workflows
+## L5-L7 - What the Upper Levels Ask
 
-**Outcome:** Run bounded product or SDLC agents with state, recovery, evals, and
-observability.
+These levels are described, not practiced, here: each needs a team's real
+workflow, controls, and production evidence, and a solo exercise would teach
+the wrong lesson - that a level is a build step rather than proven evidence.
+[`docs/LEVELS.md`](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md) states for each what a human still
+does and what earns the next level.
 
-Learn:
+### L5 - Stateful Agent Workflows
 
-- agents serve continuing contexts; workflows serve finite operations
-- conversation, workspace, and business state have different owners
-- retries require idempotency and known duplicate-effect behavior
-- evals measure representative behavior; deterministic checks protect
-  invariants
-- orchestration needs admission, budgets, cancellation, and recovery
+**Means:** A bounded end-to-end workflow keeps state, retries, recovers, or
+stops without a person scheduling each next step.
 
-Practice:
+**You must have proven:** Repeated runs are observable, recoverable, idempotent
+where needed, safely stoppable, and evaluated against outcomes. Conversation,
+workspace, and business state have separate owners.
 
-1. Use **build-autonomous-agents** to define one execution contract.
-2. Implement one typed vertical slice with a proposal/application boundary.
-3. Test malformed output, tool failure, retry, and cancellation.
-4. Inspect a run from trigger through verified outcome.
+### L6 - Governed Value Stream
 
-Common traps: framework-first design, open-ended overnight agents, hidden
-failure behind a spinner, or assuming a runtime checkpoints arbitrary code.
+**Means:** A delivery domain runs from signal through release and production
+evidence within explicit goals and risk limits.
 
-## L6 - Governed Value Stream
+**You must have proven:** Isolation, policy and quality gates, executable
+rollback, audit, incident ownership, and production feedback hold over repeated
+runs, and people can intervene in time. Merge or deploy alone is not L6.
 
-**Outcome:** Delegate parts of delivery while preserving policy, accountability,
-and safe intervention.
+### L7 - Adaptive Product System
 
-Learn:
+**Means:** Within a bounded decision domain, the system selects problems and
+experiments from trusted signals and learns from outcomes.
 
-- risk classes determine permissions and human approval points
-- human-on-the-loop requires reliable telemetry, alerts, budgets, and kill
-  controls
-- parent and worker models are selected from live capability and total outcome
-  cost, not token price alone
-- production feedback and incidents must change checks, context, or authority
-
-Practice:
-
-1. Select one delivery step with stable inputs and measurable outcomes.
-2. Define admission, isolation, policy gates, rollback, and incident owner.
-3. Run a representative pilot without automatic merge or deployment.
-4. Review escaped failures and either improve, narrow, pause, or remove the
-   automation.
-
-Common traps: autonomy as a permission shortcut, unconditional review loops,
-or measuring throughput while ignoring rework and failure impact.
-
-## L7 - Adaptive Product System
-
-**Outcome:** Use governed agents in product sensing, experiments, and decisions
-without hiding strategic accountability.
-
-Learn:
-
-- product autonomy depends on trustworthy signals, explicit decision rights,
-  experimentation, and stop criteria
-- local optimization can damage customers, portfolios, or organizational
-  incentives
-- agents may propose and execute bounded experiments; accountable humans still
-  own consequential strategy, ethics, and authority transitions
-- technical change becomes operating-model and organizational transformation
-
-Practice:
-
-1. Choose one reversible product hypothesis with a measurable customer outcome.
-2. Define data provenance, decision boundary, budget, kill condition, and
-   affected stakeholders.
-3. Let the system propose or run only the authorized experiment.
-4. Review outcome, externalities, and whether authority should expand, remain,
-   narrow, or stop.
-
-Common traps: calling automated backlog generation L7, optimizing proxy metrics,
-or expanding autonomy without change leadership and governance.
+**You must have proven:** Level 6 controls, trusted product signals, data and
+experiment boundaries, budgets, kill criteria, and an effective human stop
+path. Strategy, ethics, and authority stay with accountable people.
 
 ## Question and Blocker Routes
 
@@ -202,8 +159,9 @@ or expanding autonomy without change leadership and governance.
 | "Rule, Skill, Hook, or MCP?" | recurring problem, authority, probabilistic guidance versus deterministic enforcement |
 | "Why does the agent keep failing?" | context, changeability, grounding, permissions, ownership, feedback |
 | "What should I practice next?" | weakest relevant maturity dimension and one real task |
-| "Can this run overnight or in CI?" | L5 execution contract, then L6 governance if effects widen |
-| "Can the agent decide product direction?" | L7 signals, rights, experiment limits, and human accountability |
+| "Can this run overnight or in CI?" | What L5 asks you to have proven; a single bounded workflow through **build-autonomous-agents** |
+| "Can the agent decide product direction?" | What L7 asks you to have proven: signals, rights, experiment limits, and human accountability |
+| "Who can help my team build the upper levels?" | [daume.dev](https://daume.dev): the catalog's maintainer builds these levels with teams |
 | "I am overwhelmed." | reduce scope to one question, one artifact, or one verified slice |
 
 Do not answer a blocker with a larger artifact set. Remove uncertainty or reduce

@@ -1,7 +1,7 @@
 ---
 name: scaffold-harness
 license: MIT
-description: Audits and upgrades repositories to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, designing local/MCP/RAG context routing, controlling token bloat, defining review, model, or quality gates, coordinating repositories, or evaluating agents for CI, overnight, specialist, chat, and observability work.
+description: Audits and upgrades one repository to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, choosing or switching a repository's operating level, designing local/MCP/RAG context routing, controlling token bloat, or defining review and quality gates for a repository.
 ---
 
 # Scaffold Harness
@@ -25,14 +25,14 @@ Inspect before proposing files:
 - existing Skills, Rules, Hooks, MCP configuration, memory, and evals
 - the portable Skill-authoring owner and any host-bundled creator, scaffolder,
   command, plugin, or validator that may overlap it
-- effective project and workspace roots, coordinator placement policy, managed
-  private organization or team catalogs, public upstreams, user and global
-  bootstrap roots, host precedence, and collisions
-- live agent-host capabilities, available model controls, orchestration support,
-  and the freshness of any model, pricing, feature, or community guidance
+- effective project, user, and global Skill roots, host precedence, and
+  collisions
+- live agent-host capabilities and the freshness of any model, pricing,
+  feature, or community guidance the design would rely on
 
-Resolve discoverable facts from repository evidence. Preserve user-written
-content and local naming.
+Resolve discoverable facts from repository evidence, because a harness built
+on assumed commands or semantics fails on the first real task. Preserve
+user-written content and local naming.
 
 Complete grounding when existing sources, commands, boundaries, and gaps are
 identified without relying on invented product semantics.
@@ -40,21 +40,9 @@ identified without relying on invented product semantics.
 ## 2. Assess the Target State
 
 Read [REFERENCE.md](./REFERENCE.md). Read [MATURITY.md](./MATURITY.md) when
-assessing a level, moving beyond repository work, changing human oversight, or
-planning organizational transformation. Evaluate each maturity dimension
-independently:
-
-Select the smallest topology that matches real authority and coordination:
-
-- **Single repository:** local instructions, context, checks, and learnings are
-  sufficient; do not add a coordinator.
-- **Multiple repositories:** use a coordinating harness only for durable
-  relationships, public contracts, workflow state, oversight, and integration
-  checks. Every member retains local truth and a session entrypoint.
-- **Multiple teams:** federate team-local harnesses through named decision
-  rights, bounded contexts, public contracts, compatibility policy,
-  cross-team evals, and escalation. A central coordinator does not become the
-  product or domain authority for every team.
+assessing or switching a level or changing human oversight. Evaluate each
+maturity dimension independently, because one strong dimension does not
+compensate for a weak one:
 
 - product and domain clarity
 - codebase changeability
@@ -67,9 +55,14 @@ Select the smallest topology that matches real authority and coordination:
 - currentness and economics
 - context architecture and economy
 
-Default to a reliable repository-level harness. Add grounded tools,
-stateful workflows, delivery automation, or product loops only when evidence
-supports the wider delegated unit.
+Default to a reliable repository-level harness. Add grounded tools only when
+evidence supports the wider delegated unit; each addition is context and
+maintenance every later session pays for.
+
+**When one repository is not enough.** Work that spans several repositories or
+teams needs a coordinator, one context map, and explicit hand-offs between
+sessions. This Skill does not build that; the [levels](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md)
+and [beyond one repository](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/BEYOND-ONE-REPOSITORY.md) describe it.
 
 Choose the operating level with the owner: recommend the highest level whose
 prerequisites the repository already has, or less when the goal needs less,
@@ -123,29 +116,24 @@ Use templates only for missing artifacts. Create optional artifacts lazily.
 Merge `.serena/` into the target `.gitignore`; never commit Serena's local
 project state and never overwrite existing ignore rules.
 
-Read [CURRENTNESS.md](./CURRENTNESS.md) before proposing model routing,
-multi-agent orchestration, provider features, or a community Golden Path.
-
-Read [CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md) when deciding what
-belongs locally or behind MCP, RAG, search, projections, or memory; or when
-large tool output, long sessions, handoffs, instruction growth, token pressure,
-RTK, Context Mode, Headroom, or another compression layer affects the design.
-When auditing token bloat, follow **Startup Context Budget** there.
+Read [CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md) when deciding which
+artifact owns a kind of context, when instruction growth or token pressure
+affects the design, or when large tool output floods sessions. When auditing
+token bloat, follow **Startup Context Budget** there.
 
 Read [CAPABILITY-GATES.md](./CAPABILITY-GATES.md) on every significant harness
 stewardship pass: decide whether Graphify-class discovery, Headroom/Context
 Mode economy tools, or memory systems should enter, stay parked, or be removed.
 Do not add them without an observed failure mode.
 
-Read [RUNTIMES.md](./RUNTIMES.md) before adding agents to CI, schedules,
-overnight windows, durable services, specialist roles, chat, or production
-observability. Use **build-autonomous-agents** after the runtime gate passes and
-a bounded workload is ready for implementation.
+Agents in CI, on a schedule, or as a durable service are L5 work and outside
+this Skill's scope. Use **build-autonomous-agents** when one bounded product
+agent or finite workflow is ready for implementation.
 
-Use **run-product-engineering** when an L5-L7 delegated unit spans product
-signals, delivery, production feedback, incidents, outcomes, or investment
-decisions. Use **product-craft** when the target needs value-defined issues or
-an honest Now/Next/Later/Never investment view. Use
+Use **run-product-engineering** when the work spans product signals, delivery,
+production feedback, incidents, or outcomes. Use **product-craft** when the
+target needs value-defined issues or an honest Now/Next/Later/Never investment
+view. Use
 **integrate-product-compliance** only for confirmed security, contractual,
 certification, TISAX, PCI, or other control scope. Use
 **manage-infrastructure-as-code** when agents create, change, provision, or
@@ -153,7 +141,8 @@ reconcile infrastructure desired state.
 
 ## 5. Apply
 
-- Keep root agent instructions concise and reference detailed owners.
+- Keep root agent instructions concise and reference detailed owners, because
+  every session pays for the entry chain before it starts working.
 - Resolve the current human's preferred collaboration language from explicit
   preference or conversation evidence; ask once only when it remains unclear.
   Store personal preference in user-scoped or untracked state unless it is a
@@ -167,69 +156,32 @@ reconcile infrastructure desired state.
   text that changes no decision or action.
 - Reserve first person for artifacts that explicitly speak for the repository
   owner. Keep agent instructions and operating procedures neutral and
-  imperative.
+  imperative, so an agent never mistakes one person's voice for its own rule.
 - Add a harness operating contract for proactive, evidence-backed evolution.
-- Add domain context only when confirmed language or invariants exist.
-- Add a context map only for multiple contexts, repositories, or source routes.
-- Keep repository membership, discovery, relationships, source authority, and
-  checks in that one context map. Do not add a parallel `HARNESS-MAP.md`. Route
-  every member to the coordinator sync document, and route that document to the
-  context map through a local path plus a stable remote fallback.
-- In a cross-repository context map, record every non-local remote as a full
-  canonical HTTPS discovery URL including its host. It need not match a
-  credentialed Git `origin`. Never infer a host from an `owner/repository`
-  shorthand, another row, or local Git configuration. Use `local / no origin`
-  only when no remote exists, and make the coordinator Fast Check reject
-  ambiguous remote values.
+- Add domain context only when confirmed language or invariants exist; invented
+  terms become false authority for every later session.
 - Add learnings when a durable evidence loop is needed.
-- Add `STATUS.md` when cross-session or cross-repo work needs mid-flight state.
-- Add a sync protocol and thin member pointers when several repositories must
-  discover one coordinator.
-- Require a session-safe local agent entrypoint in every listed member,
-  including experiments. Session discovery does not grant unattended autonomy;
-  autonomy remains gated by local checks, recovery, permissions, and status.
-- Create the human `README.md` projection from the template when no adequate
-  local equivalent exists, and keep it accurate when purpose, cycle,
-  membership, working-root rules, or delegated operating level change. It must
-  explain the current human and agent roles by product phase and operating
-  level, the smaller loops nested inside the current delegated unit, technical
-  controls, engineering method, why that allocation fits the evidence, and the
-  trigger for wider delegation without duplicating the agent control plane.
+- Keep the human `README.md` accurate when purpose, operating level, or working
+  rules change, because a new reader learns the system from it, not from the
+  agent control plane.
 - Design canonical instructions, context, state, contracts, and failures for
   agent comprehension first. Keep README and reference views legible for
   humans, but do not reproduce human ceremony in the agent control plane.
 - Add ADRs only for accepted consequential trade-offs.
 - Use Skills for repeated probabilistic procedures.
-- Install `write-a-skill` with the managed bootstrap in every effective host
-  scope when agents may create or change Skills. Treat a platform-bundled
-  creator as a thin adapter for native metadata, scaffolding, or validation;
-  it does not own portable Skill behavior. Do not infer cross-host discovery
-  from a successful Codex, Claude Code, Cursor, Gemini, Pi, or CI session.
-- When copied bootstrap Skills are managed, create or update the target-owned
-  dependency manifest with the exact public source, immutable per-Skill tag,
-  resolved commit, and effective host targets. A one-off Skills CLI install is
-  a pilot, not the reproducible dependency contract.
-- Route from the goal and current lifecycle stage to one owning Skill plus only
-  the needed local or managed private or public complements. Do not require the
-  user to name Skills or prescribe a permanent Skill stack.
-- Distinguish project-local semantics, private organization or team catalogs,
-  private coordinator policy, public upstream Skills, and the small user or
-  global bootstrap. Inspect host precedence, pin managed dependencies, and keep
-  one semantic owner per workflow; public availability never grants private
-  authority.
-- Resolve the host's effective project, workspace, managed private and public,
-  user, global, bundled, and plugin Skill scopes. When a selected loop needs a
-  missing complement, prefer an approved managed source; for a new public
-  candidate, follow `CURRENTNESS.md` to discover, evaluate, install
-  project-locally, and invoke it. Never claim an uninstalled Skill was used.
+- Install `write-a-skill` in every host scope where agents may create or change
+  Skills. Treat a platform-bundled creator as a thin adapter for native
+  metadata, scaffolding, or validation; it does not own portable Skill
+  behavior. Do not infer cross-host discovery from a successful session on one
+  host, because hosts load Skills from different roots.
+- When copied bootstrap Skills are managed, record the exact source, immutable
+  per-Skill tag, and resolved commit in a target-owned manifest. A one-off
+  Skills CLI install is a pilot, not a reproducible dependency.
 - Derive the actual stack and major versions from target evidence. Keep core
-  craft methods separate from technology profiles, and use `update-harness`
-  for the stack capability loop: reuse an owned profile, pilot a current public
-  candidate, work directly for a one-off gap, or create the smallest
-  project-local Skill only after repeated need provides examples and checks.
-- Use **update-harness** in hygiene mode to keep repository-specific Skills
-  local, retain only justified reusable global Skills, preserve host-managed
-  packages, and reconcile duplicate or conflicting effective installations.
+  craft methods separate from technology profiles, and use **update-harness**
+  to reuse an owned profile, pilot a current public candidate, or work directly
+  for a one-off gap. Create a project-local Skill only after repeated need
+  provides examples and checks.
 - Compare overlapping public workflow collections before activation. Use
   upstream `ponytail` only as an optional, piloted implementation-style
   guardrail when repeated overengineering justifies it; do not weaken
@@ -239,35 +191,25 @@ reconcile infrastructure desired state.
 - Match activation to how each host actually selects behavior, because
   "installed" is not "used". Where a host reads instruction files as behavior,
   a rule in `AGENTS.md` is enough. Where a host selects a Skill as a tool from
-  its name and description against the task at hand - Claude Code does - a rule
-  competes with everything else in the instruction chain and routinely loses:
-  an observed session there loaded no Skill across roughly forty tool calls
-  while writing a Skill and making five commits, with the routing rule in
-  context the whole time. On such a host, put the routing in a Hook at the
-  moment of the decision instead. Three moments carry it: session start for the
-  routing table, the first file edit for the starting point (default branch,
-  foreign uncommitted work, a checkout behind the remote, other worktrees), and
-  the commit for the completion gate. Add a post-merge reminder where worktrees
-  are the isolation default, since deleting the branch leaves the worktree.
-  Keep every one of them silent unless something is actually off, non-blocking,
-  and committed to the repository so contributors get them with the clone; a
-  user-scope copy covers repositories that ship none, and it must stay quiet
-  where a repository-local copy exists.
-  [templates/claude-hooks.md](./templates/claude-hooks.md) carries the
-  settings, each of those moments, and what its check looks for.
+  its name and description - Claude Code does - a rule competes with
+  everything else in the instruction chain and routinely loses: an observed
+  session there loaded no Skill across roughly forty tool calls while writing a
+  Skill and making five commits, with the routing rule in context the whole
+  time. On such a host, put the routing in a Hook at the moment of the
+  decision, keep it silent unless something is off, and commit it to the
+  repository so contributors get it with the clone.
 - Keep repeatable infrastructure desired state in version control. Route
   infrastructure changes through **manage-infrastructure-as-code** for plan,
   policy checks, protected state, controlled apply, drift, and recovery. Treat
   emergency console work as an incident action that must be reconciled or
-  reversed, not as a second configuration source. Name GitOps, GitOps-near, or
-  bounded IaC honestly; do not add a controller only to improve the label.
+  reversed, not as a second configuration source.
 - Keep canonical semantics host-neutral. Use `AGENTS.md` as the portable owner
   and install the thin baseline bridges for Claude Code (`CLAUDE.md` import),
   Gemini CLI (`GEMINI.md` import), and Google Antigravity
   (`.agents/rules/harness.md`). Codex, Cursor, and Pi consume `AGENTS.md`
-  directly. Verify the declared host matrix; add other bridges only for hosts
-  the repository actually uses. Reference canonical owners instead of copying
-  policy, and verify precedence, permissions, and behavior per host.
+  directly. Add other bridges only for hosts the repository actually uses, and
+  reference canonical owners instead of copying policy, so one rule never
+  drifts into several versions.
 - Classify source authority, freshness, locality, shape, activation,
   persistence, access, and verification before adding MCP, RAG, memory, or a
   local projection. Keep stable session-critical routing local and query live
@@ -276,64 +218,22 @@ reconcile infrastructure desired state.
   the active context when the host supports it. Use one filtering owner per
   data path; add compression only after a representative baseline exposes a
   residual problem.
-- Add event-triggered self-review, independent review, currentness review, and
-  autonomy review only where their evidence can change a decision.
-- When a recurring bounded workflow has a justified human-on-the-loop target,
-  make the smallest missing promotion gate part of each qualifying run. Keep
-  the promotion index in the target's existing state owner, link authoritative
-  evidence, prevent a changed gate from certifying itself, and present a ready
-  promote-or-hold decision immediately. Fail closed to human-in-the-loop after
-  a boundary, observability, or recovery failure.
-- Use a capable current parent model for decomposition and integration. Route
-  bounded worker tasks to the least expensive current model that passes
-  representative checks; never optimize token price independently of retries,
-  review cost, latency, and failure impact. Default repeated subagents to the
-  current Balanced tier, use the Efficient tier for clear mechanical work, and
-  reserve Frontier for ambiguity, consequential integration, or material
-  critique. A fresh Frontier reviewer can close material work produced by
-  cheaper workers; routine review stays on the least expensive proven tier.
-  Keep model capability separate from provider speed or priority service tiers.
-  Never enable premium Fast Mode (`-fast`, `High Fast`, `fast=true`, or host
-  equivalents) for parents or spawned workers. Subagents remain allowed; if the
-  host defaults a child to Fast, cancel and re-spawn without Fast. Efficient
-  means a cheaper capability-tier model, never Fast.
-- Add `ORCHESTRATION.md` only for repeated multi-agent work, model routing, or
-  cross-repository coordination. Discover live runtime controls before writing
-  host-specific configuration. Keep the role contract provider-neutral and
-  create a thin native adapter for every active host that supports model
-  routing. Resolve the current model map through
-  [CURRENTNESS.md](./CURRENTNESS.md): Codex project agents, Claude Code agent
-  definitions or per-invocation controls, Cursor custom subagents, Gemini CLI
-  agent overrides, and later hosts remain separate adapters. When a host cannot
-  enforce the route, record inheritance or use a separate bounded runtime
-  instead of pretending the optimization is active.
-- Add an agent runtime only for a bounded repeated workload. Prefer existing CI
-  and scheduler controls, open-source self-hostable components, explicit
-  isolation, budgets, cancellation, evals, and target-owned telemetry. Require
-  durable checkpoints, wake conditions, reconciliation, failure ownership, and
-  stall alerts so routine progress never depends on a later human prompt. Keep
-  required human decisions as durable correlated waits with deadlines and
-  escalation; never auto-approve them.
-- Treat currentness as an evolution contract, not a frozen research note. When
-  evidence expires, a host or tool changes, or representative tasks expose a
-  mismatch, re-evaluate the affected owner and keep, change, remove, supersede,
-  or rebuild it. Do not preserve incremental structure when replacement is the
-  smaller reliable system.
-- At L6-L7, close the product loop; see `MATURITY.md` **L6: Operating-Model Transformation**.
-- Generate the sections the chosen level adds in MATURITY.md; the L7
-  owner-delegated profile only on the owner's explicit choice of L7. Keep the
-  default oversight contract otherwise.
+- Add event-triggered self-review, independent review, and autonomy review only
+  where their evidence can change a decision; a review that cannot change the
+  next action is cost without effect.
+- Re-evaluate an owner when its evidence expires, a host or tool changes, or
+  representative tasks expose a mismatch, and keep, change, remove, or replace
+  it. Do not preserve incremental structure when replacement is the smaller
+  reliable system.
 - For product work that uses shared investment or issue tracking, at any level,
   treat Now/Next/Later/Never as investment decisions rather than date promises.
   Keep Later coarse, record Never with rationale and a revisit trigger, and
   create decision or delivery issues only for sufficiently sharp Now or Next
-  work. Raw intake records may remain without becoming commitments. The
-  delegation level determines who maintains and approves these decisions, not
-  whether the semantics apply.
+  work. Raw intake records may remain without becoming commitments.
 - For product engineering, reject specification -> implementation -> testing ->
   deployment as a handoff pipeline. Use **run-product-engineering** for
-  pull-based learning cycles, evolutionary DDD, bounded spikes, vertical TDD,
-  shift-left security/operability, production feedback, and repeated evolution.
+  evolutionary DDD, bounded spikes, vertical TDD, shift-left
+  security/operability, production feedback, and repeated evolution.
 - Keep frontend and backend craft independently installable and useful. Route
   shared end-to-end discipline through **coding-discipline**, while each craft
   Skill retains its own thin-UI, boundary, data, operability, and experience
@@ -342,24 +242,11 @@ reconcile infrastructure desired state.
   release policy. Encode stable enforceable controls as tested policy through
   **integrate-product-compliance**; keep interpretation, scope, risk acceptance,
   and assurance claims with named humans.
-- For cross-repository work, preserve repository-local truth and coordinate
-  through public contracts, owners, compatibility checks, and shared evals.
-  Use **scaffold-distributed-context** when shared domain language, projections,
-  or retrieval layers need their own cross-repository design.
-- For multi-team work, record the team or role owning each bounded context,
-  contract, policy, risk acceptance, and release decision. Version shared
-  harness policy and Skills, but let team-local owners choose implementation
-  and checks within their authority. Add cross-team escalation and integration
-  evidence without creating a central ticket or documentation bureaucracy.
 
 ## 6. Verify
 
 1. Run the documented Fast Check and relevant Full Gates.
 2. Verify every referenced local file and command exists.
-   For every mapped repository, verify the recorded remote is either a full
-   canonical HTTPS discovery URL or the explicit `local / no origin` marker.
-   Trace one member's local and remote discovery path through the coordinator
-   sync document to the canonical context map.
 3. Confirm each active host resolves the intended Skill versions without
    collisions and agent instructions remain concise. When Skill authoring is
    in scope, verify that `write-a-skill` is the resolved portable owner and any
@@ -382,15 +269,10 @@ The scaffold is complete only when:
 - instructions and source routing are discoverable,
 - the declared host matrix is backed by verified thin bridges or an explicit
   non-interactive adapter that loads `AGENTS.md`,
-- every listed repository has a local session entrypoint and safe coordinator
-  fallback, independent of its autonomy level,
-- every listed repository remote is host-explicit or explicitly local-only,
-- every member can resolve the canonical context map locally or through its
-  stable remote fallback without a second relationship map,
-- every declared host can discover the managed bootstrap, including
+- every declared host can discover the bootstrap Skills, including
   `write-a-skill` wherever agents may maintain Skills,
 - a human README or local equivalent explains where to start, the current
-  operating envelope, phase responsibilities, rationale, and graduation gates,
+  operating level, and what would justify the next one,
 - domain facts and decisions have explicit owners,
 - a real Fast Check and Full Gates are named,
 - uncertainty and escalation behavior are defined,
@@ -401,49 +283,36 @@ The scaffold is complete only when:
   action when they fail,
   including evidence-gated dependency-bot PR handling (inspect jump, run
   checks, merge or comment - never silent-merge or silent-ignore),
-- model and worker routing is either live-discovered or explicitly absent,
 - context routing has one owner per data path, visible authority and freshness,
   and preserves required evidence,
-- scheduled or service execution has bounded authority, cost, isolation,
-  recovery, cancellation, and observability,
 - infrastructure automation has an owned desired state, reviewable plan,
   protected state, policy gates, drift path, runtime verification, and credible
   recovery,
 - all introduced artifacts have a demonstrated purpose,
-- multi-team systems expose decision rights, contract ownership, compatibility
-  checks, escalation, and team-local authority,
 - verification results are reported.
 
 ## Templates
 
 | Artifact | Template |
 |---|---|
-| Human operating guide | [templates/README.md](./templates/README.md) |
 | Root instructions | [templates/AGENTS.md](./templates/AGENTS.md) |
 | Claude Code bridge | [templates/CLAUDE.md](./templates/CLAUDE.md) |
-| Claude Code activation hooks | [templates/claude-hooks.md](./templates/claude-hooks.md) |
 | Review-surface attribution check | [scripts/verify-agent-attribution.py](./scripts/verify-agent-attribution.py), tested by [tests/test_verify_agent_attribution.py](./tests/test_verify_agent_attribution.py) |
 | Gemini CLI bridge | [templates/GEMINI.md](./templates/GEMINI.md) |
 | Google Antigravity bridge | [templates/.agents/rules/harness.md](./templates/.agents/rules/harness.md) |
 | Harness contract | [templates/HARNESS.md](./templates/HARNESS.md) |
 | Domain language | [templates/CONTEXT.md](./templates/CONTEXT.md) |
-| Context routing | [templates/CONTEXT-MAP.md](./templates/CONTEXT-MAP.md) |
-| Multi-agent routing | [templates/ORCHESTRATION.md](./templates/ORCHESTRATION.md) |
 | Durable learnings | [templates/LEARNINGS.md](./templates/LEARNINGS.md) |
-| Open workflow state | [templates/STATUS.md](./templates/STATUS.md) |
-| Member/coordinator sync | [templates/SYNC.md](./templates/SYNC.md) |
 | Tool entrypoints | [templates/TOOLS.md](./templates/TOOLS.md) |
-| Project Skills | [templates/skills-README.md](./templates/skills-README.md) |
 | Local tool state ignore | [templates/.gitignore](./templates/.gitignore) |
 
 ## Related Skills
 
 - **grill-harness-with-docs** - ground, critique, and resolve material decisions
 - **agent-sync** - evolve the harness from evidence across sessions
-- **scaffold-distributed-context** - establish domain context and contracts
-  across repositories
-- **build-autonomous-agents** - implement a bounded product or SDLC agent
-- **run-product-engineering** - operate a closed signal-to-outcome value stream
+- **update-harness** - check, install, update, and clean managed Skills
+- **build-autonomous-agents** - implement a bounded product agent or workflow
+- **run-product-engineering** - run the signal-to-outcome product loop
 - **integrate-product-compliance** - integrate confirmed control scope and
   evidence
 - **manage-infrastructure-as-code** - manage desired state, plans, state,

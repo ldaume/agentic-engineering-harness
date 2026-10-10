@@ -18,6 +18,25 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-10-10 - The public line covers one repository
+
+- Signal: The public catalog carried the full multi-repository operating
+  system, so it was both a build plan for the upper levels and hard to start
+  from for a single repository.
+- Evidence: Eight operating-system Skills and two root blueprints totaled
+  about 55k words; most first uses stay on one repository.
+- Decision or change: `scaffold-harness`, `agent-sync`, `update-harness`,
+  `build-autonomous-agents`, `run-product-engineering`, and
+  `learn-agentic-engineering` took major versions scoped to one repository;
+  `system-one-routing` and `scaffold-distributed-context` were retired;
+  `MULTI-REPO-HARNESS.md` and `HARNESS-OPERATIONS.md` were replaced by
+  `docs/BEYOND-ONE-REPOSITORY.md`, and `docs/LEVELS.md` shows L1-L7 for
+  people. Earlier entries below that name the retired files describe what was
+  true at their date.
+- Re-check trigger: Consumers repeatedly need multi-repository guidance the
+  public line no longer gives, or a reduced Skill no longer runs a real
+  single-repository harness end to end.
+
 ## 2026-10-07 - A leak guard must not hold the names it guards
 
 - Signal: The audit gate that keeps the maintainer's private names out of this
@@ -34,44 +53,21 @@ Use this shape:
 
 ## 2026-08-07 - Port Gitea CI traps into gitea-actions
 
-- Signal: Private-system CI hit three portable traps that future Gitea
-  harnesses will relearn if left only in a private coordinator log.
+- Signal: CI hit three portable traps that future Gitea harnesses would
+  relearn if they were recorded nowhere public.
 - Evidence: sparse-checkout omitted CI helpers (exit 127 after successful
   deploy); `docker/build-push-action` Complete job `CreateArtifact` timeouts on
   self-hosted Gitea; automated step injection de-indented workflow YAML.
 - Decision or change: Expand public `gitea-actions` Workflow Rules and Red
-  Flags; minor-bump to 1.1.0. Keep private Rocket.Chat and member-specific
-  summary scripts out of the public Skill.
+  Flags; minor-bump to 1.1.0. Keep target-specific notification and summary
+  scripts out of the public Skill.
 - Re-check trigger: New Gitea consumers still hit Complete-job artifact hangs,
   sparse exit 127, or merge-breaking workflow YAML after bulk edits.
 
-## 2026-08-05 - No dedicated sibling-onboarding Skill
+## 2026-08-05 - Sibling onboarding and relevance
 
-- Signal: Temptation to add an onboarding Skill so agents know multi-repo vs
-  multi-team and how to admit siblings; humans still needed one plain recipe.
-- Evidence: Topology prompts, `scaffold-harness`, coordinator `SYNC` admit
-  checklist, and Find Sibling already cover the path; Skill Placement forbids
-  one-off Skills without repeated failure evidence.
-- Decision or change: Reject a dedicated onboarding Skill until repeated
-  failure with examples and checks appears. State the human recipe once:
-  session in the coordinator, ask to fully onboard the sibling, pass context
-  (`HARNESS-OPERATIONS` Simplest path); keep the checklist as detail only.
-- Re-check trigger: Agents repeatedly mis-detect topology or skip admit despite
-  these docs; then reconsider a Skill with real examples.
-
-## 2026-08-05 - Document demand-driven sibling and team relevance
-
-- Signal: Humans could not reconstruct from the public catalog alone how a
-  member session finds siblings and decides task relevance; ownership tables
-  existed, but the SYNC -> CONTEXT-MAP match step was private-narrative only.
-- Evidence: Public `MULTI-REPO-HARNESS.md` / scaffold REFERENCE named map and
-  sync owners without a multi-repo and multi-team relevance walkthrough.
-- Decision or change: Add **Find Sibling Scope and Decide Relevance**; mirror
-  concisely in scaffold REFERENCE and SYNC / CONTEXT-MAP templates; minor-bump
-  `scaffold-harness` to 1.34.0. Keep one coordinator inventory; no member
-  Private system reinforcement.
-- Re-check trigger: New readers still ask which files to open; scaffolds omit
-  the relevance match; teams preload every repository despite map owners.
+- Decision or change: The multi-repository line these entries shaped is no
+  longer part of this catalog (see the 2026-10-10 entry).
 
 ## 2026-08-04 - Ban agent/tool producer chrome on review surfaces
 
@@ -82,7 +78,7 @@ Use this shape:
 - Decision or change: Extend Git Working Tree Hygiene with Review-surface
   attribution (forbid and strip). Port into scaffold templates; minor-bump
   `scaffold-harness` to 1.33.0. Keep human co-authors, license attribution,
-  lease/STATUS host fields, and subject-matter tool mentions.
+  and subject-matter tool mentions.
 - Re-check trigger: New PRs still show Made-with / Generated-by footers; new
   commits carry AI tool co-author trailers; a jurisdiction requires mandatory
   AI disclosure on integration surfaces.
@@ -96,7 +92,7 @@ Use this shape:
 - Decision or change: Prefer `../.worktrees/<repo>-<task>/` beside the primary
   checkout; run Full Gates from the primary checkout when parent is wrong;
   fan-out on dedicated branches from `main` and re-verify after formatters.
-  Harden scaffold `HARNESS.md` / `SYNC.md` templates accordingly. Patch-bump
+  Harden the scaffold `HARNESS.md` template accordingly. Patch-bump
   `scaffold-harness` to 1.32.3.
 - Re-check trigger: In-repo nested worktrees again; fan-out on `codex/` or
   product WIP; green claimed without primary Full Gates.
@@ -105,26 +101,19 @@ Use this shape:
 
 - Signal: Live `.worktrees/` checkouts made `audit-skills.py` fail on
   incomplete nested trees (missing sibling links), even when ignored by Git.
-- Evidence: Repeated Fast Check failures during harness sessions while a leased
+- Evidence: Repeated Fast Check failures during harness sessions while a live
   or leftover worktree existed under `.worktrees/`.
 - Decision or change: Add `.worktrees` and `worktrees` to audit `SKIP_DIRS`.
   Ignore rules alone are not enough because the audit walks the filesystem.
-  Also ignore `.agent-lease` in catalog and scaffold `.gitignore`. Patch-bump
+  Patch-bump
   `scaffold-harness` to 1.32.2.
 - Re-check trigger: Audit fails again because of a local worktree path; new
   isolation directory names appear outside the skip set.
 
-## 2026-08-04 - Worktree leases over runtime registries
+## 2026-08-04 - Worktree leases
 
-- Signal: Concurrent agents destroyed each other's live worktrees; owner
-  rejected SQLite/BullMQ for this class and chose Git-native leases.
-- Evidence: Grill of prose vs STATUS+`.agent-lease` vs SQLite/hooks vs Redis;
-  throwaway prototypes showed both B and C are advisory against `rm -rf`.
-- Decision or change: Scaffold `HARNESS.md` requires `.agent-lease` + STATUS
-  lease rows, cross-agent non-interference, and human-gated foreign reclaim.
-  Record the trade-off in `docs/adr/` when accepted in a live repo.
-- Re-check trigger: Systematic lease ignore; pressure to add SQLite/hooks
-  without that evidence; silent TTL deletes.
+- Decision or change: Checkout leases belong to the multi-repository line,
+  which is no longer part of this catalog (see the 2026-10-10 entry).
 
 ## 2026-08-04 - Branch gate, worktree default, ordinary names
 
@@ -134,9 +123,9 @@ Use this shape:
   default isolation path, and ordinary descriptive branch names in every
   harness including future scaffolds.
 - Decision or change: Strengthen `Git Working Tree Hygiene` in scaffold
-  templates, catalog `HARNESS.md` / `AGENTS.md`, `MULTI-REPO-HARNESS.md`, and
-  `agent-sync` routing. Bump `agent-sync` and `scaffold-harness` minor
-  versions in `skills-lock.json`.
+  templates, catalog `HARNESS.md` / `AGENTS.md`, and `agent-sync` routing.
+  Bump `agent-sync` and `scaffold-harness` minor versions in
+  `skills-lock.json`.
 - Re-check trigger: New scaffolds still say "isolate only when needed"; agents
   create `codex/` or `claude/` branches; non-trivial edits land on `main`.
 
@@ -170,7 +159,7 @@ Use this shape:
 
 - Signal: Stewardship "Port to future harnesses" was soft; consumers could
   leave portable harness lessons only in one live repository.
-- Evidence: Coordinator owner instruction that "future harnesses" means this
+- Evidence: Owner instruction that "future harnesses" means this
   public upstream, and every harness change must decide whether a generalized
   portable variant belongs here.
 - Decision or change: Strengthen stewardship in `HARNESS.md`, `AGENTS.md`,

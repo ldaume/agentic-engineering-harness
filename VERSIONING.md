@@ -59,6 +59,13 @@ immutable and retry the missing projection. Before completion, verify an
 existing Release targets the same tag; never move or recreate the tag as
 recovery.
 
+## Retiring a Skill
+
+Remove the Skill directory and its `skills-lock.json` entry in the same commit,
+and list it in its category README with its last public tag. Do not delete or
+move that tag: consumers pinned to it keep working, and the README row tells
+them the line is no longer maintained.
+
 ## Consumers
 
 Pin managed Skills to exact per-Skill tags and record the resolved commit when
@@ -67,9 +74,7 @@ managed directories.
 
 Use
 [`update-harness`](./skills/engineering/update-harness/SKILL.md) to check,
-classify, synchronize, and verify updates. Its
-[managed update reference](./skills/engineering/update-harness/REFERENCE.md)
-contains a target manifest and Renovate custom-manager example.
+classify, synchronize, and verify updates.
 
 The Skills CLI's own lockfiles and update behavior may evolve independently.
 Do not treat them as a reproducible target manifest unless the installed CLI

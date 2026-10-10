@@ -1,6 +1,6 @@
 ---
 name: run-product-engineering
-description: Runs an evidence-driven product engineering system from signals and ideas through triage, problem framing, discovery, bets, small-batch implementation, validation, release, observability, incidents, bug fixing, outcome review, and evolution. Use when coordinating an end-to-end product lifecycle, designing a product operating model, connecting discovery with delivery and operations, or delegating bounded L5-L7 value streams to agents.
+description: Runs an evidence-driven product engineering system from signals and ideas through triage, problem framing, discovery, bets, small-batch implementation, validation, release, observability, incidents, bug fixing, outcome review, and evolution. Use when a team coordinates an end-to-end product lifecycle, shapes how its product work flows, or connects discovery with delivery and operations.
 ---
 
 # Run Product Engineering
@@ -13,10 +13,8 @@ deployment handoffs. Domain discovery, examples, tests, security, operability,
 delivery, and production learning advance together in the smallest useful
 cycles.
 
-Run only the loop the current decision needs. A task loop may sit inside a
-repository loop, which may sit inside a stateful workflow or governed value
-stream. Higher delegation wraps proven smaller loops; it does not require every
-task to traverse a portfolio process.
+Run only the loop the current decision needs; a small change does not have to
+traverse a portfolio process to be done well.
 
 For one isolated implementation or bug fix with no lifecycle decision, use the
 relevant craft Skill, upstream **diagnosing-bugs**, **coding-discipline**, and
@@ -67,9 +65,8 @@ product loop.
 ## 3. Frame the Smallest Decision
 
 Use **product-craft** for problem framing, opportunities, bets, outcome
-boundaries, and strategic trade-offs. Use **scaffold-distributed-context** for
-cross-repository bounded contexts and upstream **domain-modeling** when shared
-language is unclear.
+boundaries, and strategic trade-offs. Use upstream **domain-modeling** when
+shared language is unclear.
 
 Create or update only the target's smallest equivalent of:
 
@@ -179,26 +176,9 @@ examples, invariants, contracts, and context map together with the implementing
 slice. Do not let code, tests, and domain artifacts describe different models.
 
 Read [references/operating-model.md](./references/operating-model.md) when
-designing stages, metrics, exceptional paths, or L5-L7 agent ownership.
+designing stages, metrics, or exceptional paths.
 
-## 8. Expand Autonomy from Evidence
-
-- At L1-L4, agents support bounded tasks, procedures, repository work, and
-  grounded decisions.
-- At L5, an agent workflow may coordinate a stable end-to-end procedure with
-  state, recovery, evals, and exception handling.
-- At L6, a governed agent system may operate a bounded value stream through
-  production feedback under risk, policy, rollback, incident, and veto controls.
-- At L7, agents may select signals, propose or run bounded experiments, and
-  recommend investment changes only inside an accountable decision domain with
-  trusted signals, budgets, kill criteria, audit, and a human stop path.
-
-Expand one decision domain or risk class at a time. A capable agent does not
-create product, security, legal, employment, financial, or strategic authority.
-At department or company scale, explicitly connect product, engineering, data,
-operations, support, customer success, sales, marketing, finance, security,
-compliance, legal, and people responsibilities without erasing their distinct
-accountability.
+## 8. Complete
 
 The loop is complete when signal, decision, slice, release, production evidence,
 outcome, and next action are traceable; every artifact has an owner; and the
@@ -209,10 +189,9 @@ value.
 
 - **product-craft** - shape problems, opportunities, bets, and outcomes
 - **integrate-product-compliance** - add confirmed control scope and evidence
-- **build-autonomous-agents** - implement bounded product or SDLC agents
-- **scaffold-distributed-context** - preserve DDD language and boundaries
+- **build-autonomous-agents** - implement a bounded product agent or workflow
 - **coding-discipline**, **testing-strategies**, and upstream **tdd** - design
   and implement changeable slices through executable feedback
 - **completion-gate** - verify before release or completion claims
 - **agent-sync** - route durable production learning
-- **scaffold-harness** - assess L1-L7 capability and oversight
+- **scaffold-harness** - assess the repository harness and its operating level

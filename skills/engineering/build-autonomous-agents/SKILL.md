@@ -1,14 +1,14 @@
 ---
 name: build-autonomous-agents
 license: MIT
-description: Designs and implements bounded autonomous agent systems for product features and software or product SDLC automation with runtime-neutral contracts. Use when building an agent, finite workflow, subagent, scheduled or overnight job, CI agent, chat or channel integration, observable agent service, adding Flue to an application, migrating an older Flue integration, or designing review loops, human questions, and orchestrator watchdogs.
+description: Designs and implements a bounded agent for a product feature, or one finite agent workflow, with a runtime-neutral contract. Use when building an agent, finite workflow, subagent, tool, or channel integration into an application, adding Flue to an application, migrating an older Flue integration, or designing review loops and when an agent should ask a person.
 ---
 
 # Build Autonomous Agents
 
-Build the smallest autonomous system that can produce and verify the intended
-outcome. Keep the workload contract portable even when Flue is the selected
-runtime.
+Build the smallest agent that can produce and verify the intended outcome.
+Keep the workload contract portable even when Flue is the selected runtime, so
+the product does not have to change when the runtime does.
 
 ## 1. Ground the Workload
 
@@ -18,14 +18,13 @@ controls, security boundaries, and existing runtime integration.
 State:
 
 - the user or operational outcome
-- whether the workload is a product capability or SDLC automation
 - trigger, owner, input, output, and completion condition
 - allowed data, tools, repositories, network access, secrets, and side effects
 - required human approval, cancellation, and rollback points
 
 First test whether deterministic code, an existing application service, a
 script, or a CI job can solve the problem. Do not add an agent when those are
-sufficient.
+sufficient: they are cheaper, testable, and never improvise.
 
 ## 2. Select the Smallest Unit
 
@@ -41,16 +40,10 @@ sufficient.
 Use a subagent only when its independent context, tools, or evaluation boundary
 improves the result enough to justify delegation.
 
-Delegate for speed and to keep the orchestrator's context lean: ask children
-for conclusions and numbers, never read their raw transcripts. Workers emit
-heartbeats; an orchestrator re-arms a short one-shot watchdog at every turn, so
-a missing heartbeat is noticed and hung workers, CI runs, or jobs are stopped
-or restarted instead of waited on silently.
-
-For review loops, questions to people, repair bounds, and permission-classifier
-blocks, read [REVIEW-LOOPS.md](./REVIEW-LOOPS.md). Core rules: a send-back
-always records what to fix; a person is asked only what only they can answer,
-after the agents repaired what they could within a shared bound.
+For review loops, questions to people, and repair bounds, read
+[REVIEW-LOOPS.md](./REVIEW-LOOPS.md). Core rules: a send-back always records
+what to fix; a person is asked only what only they can answer, after the agents
+repaired what they could within a shared bound.
 
 ## 3. Write the Execution Contract
 
@@ -94,21 +87,14 @@ public integration boundary.
 
 ## 5. Implement One Vertical Slice
 
-For a product capability:
+The application stays the authority over its users and data, because an agent
+runtime that owns them turns every model mistake into a business-state defect:
 
 - keep authentication, authorization, business data, provider credentials,
   persistence, and application of results application-owned
 - expose meaningful queued, running, review, success, and failure states
 - make any consequential result reviewable before application where risk
   requires it
-
-For SDLC automation:
-
-- pin the repository revision and use an isolated worktree or sandbox
-- grant the minimum repository, network, and secret permissions
-- produce a reviewable patch, report, or other bounded artifact
-- run the repository's Fast Check and relevant Full Gates
-- never merge, deploy, or publish without explicit authority
 
 Start deterministic seams with a failing behavior test and agent judgment with
 a representative failing eval case. Implement the narrowest path from input
@@ -169,9 +155,8 @@ reason, owner, retained checkpoint, and next wake or escalation condition.
 
 ## Related Skills
 
-- **scaffold-harness** - assess maturity and runtime need
+- **scaffold-harness** - assess maturity and the repository harness
 - **coding-discipline** - implement the smallest safe change
 - **completion-gate** - verify before claiming completion
 - **product-craft** - define product value and human oversight
-- **scaffold-distributed-context** - coordinate contracts across repositories
 - upstream **tdd** - drive deterministic seams from behavior

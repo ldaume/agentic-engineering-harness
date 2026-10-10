@@ -23,8 +23,8 @@ effective project, user, global, bundled, and plugin scopes rather than
 assuming the active host represents Claude Code, Codex, Cursor, Gemini, Pi,
 CI, or a later runtime.
 
-Before creating a new Skill, use `update-harness` to check project, private,
-public, bundled, and plugin owners. Create only when no suitable owned
+Before creating a new Skill, use `update-harness` to check project, bundled,
+and plugin owners and public candidates. Create only when no suitable owned
 capability exists and repeated work supplies real examples and checks. Complete
 a one-off task directly, even when it is difficult or risky. Use a local
 wrapper instead of a fork when only target semantics differ.
@@ -90,8 +90,7 @@ carry the trigger on its own, in the vocabulary of the task rather than of the
 method, so selection never depends on a rule being read or remembered. A host
 that supports hooks or an equivalent can additionally put the routing at the
 moment of the decision - that is a few lines of host configuration, not a
-harness, though **scaffold-harness** carries a worked template for anyone
-building one. Either way it stays out of the portable Skill: the description is
+harness. Either way it stays out of the portable Skill: the description is
 the contract, the host wiring is target-local.
 
 ## 4. Budget the Information
