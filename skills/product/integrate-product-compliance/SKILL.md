@@ -178,7 +178,7 @@ and no agent-generated claim exceeds verified assurance.
 
 - **run-product-engineering** - operate the enclosing signal-to-outcome loop
 - **product-craft** - shape trust, customer value, and viable bets
-- **scaffold-harness** - assess governance and L5-L7 autonomy evidence
+- **scaffold-harness** - assess governance and the operating level
 - **coding-discipline** and **completion-gate** - implement and verify controls
 - **build-autonomous-agents** - constrain agent runtime data, tools, and effects
 - **manage-infrastructure-as-code** - plan, policy-check, apply, and reconcile

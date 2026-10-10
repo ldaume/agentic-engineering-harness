@@ -9,27 +9,22 @@
 | How does this harness evolve and where are its boundaries? | `HARNESS.md` |
 | How should repository prose sound? | `VOICE.md` |
 | What do core harness terms mean? | `CONTEXT.md` |
-| Where should a target or cross-repository session run? | `HARNESS-OPERATIONS.md` |
+| What do the operating levels mean for people? | `docs/LEVELS.md` |
 | How is a repository harness assessed and upgraded? | `skills/engineering/scaffold-harness/SKILL.md` |
 | What is the harness target state? | `skills/engineering/scaffold-harness/REFERENCE.md` |
-| How are L1-L7 capability, oversight, and operating-model effects assessed? | `skills/engineering/scaffold-harness/MATURITY.md` |
-| How are volatile claims checked? | `skills/engineering/scaffold-harness/CURRENTNESS.md` |
-| How are local context, MCP, retrieval, persistence, and context economy designed? | `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` |
+| How are L1-L7 capability and oversight assessed, and a level chosen or switched? | `skills/engineering/scaffold-harness/MATURITY.md` |
+| Which artifact owns which context, and how are startup budget and context economy kept? | `skills/engineering/scaffold-harness/CONTEXT-ARCHITECTURE.md` |
 | When should Graphify, Headroom, Context Mode, or memory systems enter? | `skills/engineering/scaffold-harness/CAPABILITY-GATES.md` |
-| How are CI, scheduled, durable, specialist, chat, and observable agent runtimes selected? | `skills/engineering/scaffold-harness/RUNTIMES.md` |
-| How is a bounded product or SDLC agent designed and implemented? | `skills/engineering/build-autonomous-agents/SKILL.md` |
-| How is Agentic Engineering learned or taught from immediate questions through L7? | `skills/engineering/learn-agentic-engineering/SKILL.md` |
+| How is a bounded product agent or finite workflow designed and implemented? | `skills/engineering/build-autonomous-agents/SKILL.md` |
+| How is Agentic Engineering learned or taught, and what do the upper levels require? | `skills/engineering/learn-agentic-engineering/SKILL.md` |
 | How is the product-engineering loop run from signal through production evidence and evolution? | `skills/product/run-product-engineering/SKILL.md` |
 | How is confirmed ISO/IEC 27001, TISAX, PCI DSS, or contractual control scope integrated? | `skills/product/integrate-product-compliance/SKILL.md` |
 | How are IaC, GitOps or GitOps-near, infrastructure state, plans, and drift managed? | `skills/infrastructure/manage-infrastructure-as-code/SKILL.md` |
-| How is domain context coordinated across repositories? | `skills/engineering/scaffold-distributed-context/SKILL.md` |
-| Which gate Skills run before work starts, before finishing, and for typed routing decisions? | `skills/engineering/start-gate/SKILL.md` / `skills/engineering/completion-gate/SKILL.md` / `skills/engineering/system-one-routing/SKILL.md` |
+| Which gate Skills run before work starts and before finishing? | `skills/engineering/start-gate/SKILL.md` / `skills/engineering/completion-gate/SKILL.md` |
 | How is durable evidence routed during work? | `skills/engineering/agent-sync/SKILL.md` |
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |
 | How are portable Skills created, revised, packaged, and verified across hosts? | `skills/engineering/write-a-skill/SKILL.md` |
-| How do public, private, coordinator, project-local, and global Skill sources interact? | `MULTI-REPO-HARNESS.md` / `HARNESS-OPERATIONS.md` |
-| How does a member session find siblings or teams and decide task relevance? | [`MULTI-REPO-HARNESS.md` - Find Sibling Scope and Decide Relevance](MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) / [`HARNESS-OPERATIONS.md` - How a Session Finds Related Repositories](HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
-| How do I admit a sibling without a dedicated onboarding Skill? | [`HARNESS-OPERATIONS.md` - Simplest path](HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) / [Add a Team or Member](HARNESS-OPERATIONS.md#add-a-team-or-member) |
+| What changes when work spans several repositories? | `docs/BEYOND-ONE-REPOSITORY.md` |
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
 | Which durable findings should change future work? | `LEARNINGS.md` |
 | How can people report a vulnerability or understand consume-only policy? | `SECURITY.md` / `CONTRIBUTING.md` |

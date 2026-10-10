@@ -7,15 +7,12 @@ Git-owned truth, checks, ADRs, Skills, and handoffs stay authoritative.
 External tools improve findability, continuity, blast-radius analysis, or
 context economy. They do not receive decision authority by default.
 
-Detailed placement and economy rules live in
-[CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md). Distributed discovery
-tools (Graphify, Zoekt, Sourcegraph, catalogs) also route through
-`scaffold-distributed-context`.
+Placement and economy rules live in
+[CONTEXT-ARCHITECTURE.md](./CONTEXT-ARCHITECTURE.md).
 
 ## Always ask
 
-On significant harness work, session start for a coordinator, or after repeated
-friction, answer:
+On significant harness work or after repeated friction, answer:
 
 1. Which **information class** is failing (working, semantic, episodic,
    procedural)?

@@ -1,145 +1,61 @@
 ---
 name: update-harness
-description: Checks, installs, updates, and cleans repository or cross-repository harness Skills across project, private organization or team, public, user, and global scopes. Use for Skill installation, updates, synchronization, duplicate or conflicting Skill cleanup, missing public complements, Renovate Skill changes, source federation, or stale harness dependencies and platform assumptions.
+description: Checks, installs, updates, and cleans a repository's managed Agent Skills against its skills-lock.json. Use for Skill installation, version checks and updates, duplicate or conflicting project Skill cleanup, a Renovate or bot Skill update, or a missing Skill a task needs.
 ---
 
 # Update Harness
 
-Update managed capabilities without replacing target-local truth or silently
-changing autonomy.
+Update managed Skills without replacing repository-local truth or silently
+changing what agents are allowed to do.
 
 ## 1. Select the Mode
 
-Infer the narrowest mode from the request:
+Infer the narrowest mode from the request, because a wider mode touches files
+the user did not ask about:
 
-- `check` - inspect available updates and report options without changing files
-- `skills` - check or update only managed Skill dependencies
-- `hygiene` - reconcile effective Skill scopes, ownership, duplicates, and stale
-  installations
-- `apply` - apply approved or policy-allowed harness and Skill updates
-- no explicit mode - check first, then apply only reversible updates clearly
-  authorized by the request and target policy
+- `check` - report available updates and options without changing files
+- `install` - add a missing Skill project-locally
+- `update` - move managed Skills to newer pinned versions
+- `clean` - remove duplicate, conflicting, or stale project Skill copies
 
-Treat `/update-harness`, `update-harness skills`, and equivalent natural
-language as invocation hints, not as platform-specific implementation.
+With no explicit mode, check first, then apply only reversible updates the
+request and repository policy clearly authorize.
 
-## 2. Ground the Target
+## 2. Ground the Repository
 
-Read the applicable instruction hierarchy, harness contract, context map,
-current dependency manifest, checks, and ownership boundaries. For several
-repositories, work from their coordinating repository and preserve each
-target's local authority.
+Read the instruction hierarchy, harness contract, `skills-lock.json` (or the
+repository's equivalent manifest), checks, and any local wrappers that must not
+be overwritten. Inventory the Skill roots each active host actually loads, and
+duplicate names or versions across them: hosts differ in precedence, so a
+second copy can silently win.
 
-Inventory:
+## 3. Resolve Versions
 
-- effective project, workspace, user, and global Skill scopes and host
-  precedence
-- private organization or team catalogs, public upstreams, coordinator policy,
-  and the exact source authority for each managed Skill
-- duplicate names, conflicting versions, invalid packages, and unnecessary
-  copies across the roots each active host actually loads
-- managed Skills, source repositories, exact refs, content digests, and targets
-- public complements referenced by the selected loop and whether they are
-  required now
-- local wrappers or target-specific deltas that must not be overwritten
-- harness artifacts and currentness claims affected by the update
-- runtime lines, CI actions, container images, package managers, and dependency
-  ecosystems that can emit support or deprecation warnings
-- automated update coverage, routine release cooldowns, security-update
-  exceptions, and evidence-gated merge behavior
-- Fast Check, Full Gates, install checks, and rollback path
-- whether the operating level the harness grants is also declared in each
-  host's permission or safety-classifier context for the workspace; a grant
-  that exists only in instructions degrades to asking the owner, so report the
-  missing rule in one line
+Prefer immutable per-Skill release tags (`<name>-v<semver>`) and their commit,
+because a moving default branch is not a reproducible dependency. Read the
+release notes and diff between the pinned and the candidate version.
 
-Do not create a dependency manifest merely because one is preferred. Add one
-only when the target actually manages external Skills or harness components.
+For a missing Skill, derive the technology and major version from the
+repository's manifests and lockfiles, then search with an installed
+`find-skills` or `npx skills find "<technology> <version> <task>"` and inspect
+the candidate itself rather than trusting its ranking. If nothing passes
+source, version, license, permission, and overlap checks, finish a one-off task
+directly; use `write-a-skill` only when repeated work supplies real examples.
 
-## 3. Reconcile Skill Scope
+## 4. Apply
 
-Keep one intentional owner for each effective Skill:
+1. Replace only the managed Skill directory; keep local wrappers outside it.
+2. Update the `skills-lock.json` entry and its ref together, so the manifest
+   never describes content that is not there.
+3. Run the source's Skill audit when it has one, an install check, and the
+   repository's smallest relevant checks.
+4. If a check fails, restore the previous content and manifest entry. Do not
+   leave a half-synchronized dependency.
 
-1. Keep repository-specific procedures and adaptations project-locally.
-2. Keep genuinely shared non-public procedures, approved pins, and internal
-   adapters in a private organization or team catalog.
-3. Keep portable generic procedures in their public upstream and consume them
-   through immutable refs instead of copying their lifecycle into private
-   policy repositories.
-4. Let a private coordinator own placement, compatibility, and shared policy;
-   it does not become the source owner for public or project-local Skill text.
-5. Keep only a small reusable bootstrap globally when it is useful across
-   repositories.
-6. For harnesses whose agents may maintain Skills, keep `write-a-skill` in the
-   managed bootstrap of every active host. Treat bundled or plugin-provided
-   Skill creators as host adapters, not as portable semantic owners.
-7. Treat a host-required client copy as intentional only when that host cannot
-   load the shared source without it.
-8. Preserve system, bundled, plugin-managed, and unrelated installations.
-9. Compare content and precedence before moving a duplicate; do not infer
-   ownership from the Skill name alone.
-10. Quarantine obsolete, conflicting, or mis-scoped user installations with an
-   inventory and rollback path. Global cleanup requires explicit user intent.
-11. Install a missing selected complement project-locally and invoke it in the
-   current loop.
-
-Do not confuse semantic ownership with host load precedence. Inspect what the
-active host actually loads, then ensure the project-local owner or wrapper
-supplies target semantics and exactly one managed private or public dependency
-supplies the reusable procedure.
-
-Complete hygiene when every active host resolves the intended version without
-collisions, global context contains only justified reusable Skills, local
-dependencies match the target, and removed entries are recoverable or were
-explicitly approved for deletion.
-
-## 4. Resolve Current Versions
-
-Prefer immutable per-Skill release tags and exact commit digests. Fetch or
-refresh a local source clone before comparing versions. Do not treat a moving
-default branch as a reproducible release.
-
-For runtimes and tools, prefer the latest supported stable LTS line when the
-ecosystem publishes one and the current stable line otherwise. Keep a declared
-older line only for an explicit compatibility owner and re-check trigger. Pin
-exact action commits and container digests where integrity or reproducibility
-requires it; update the human-readable release comment with the pin.
-
-Use the repository's dependency bot or native platform updater for every
-ecosystem it can actually manage. Apply a short routine-release cooldown;
-security updates must not wait behind it. Treat a deprecation, end-of-support,
-or forced-runtime annotation as a failed currentness check and update the
-owning runtime, action, image, or adapter rather than hiding the annotation.
-
-For a missing public Skill, derive the target technology and version from
-manifests, lockfiles, runtime output, and official documentation. Prefer an
-explicit upstream complement named by the selected local Skill. Otherwise use
-an installed upstream `find-skills` or
-`npx skills find "<technology> <major-version> <task>"`, then inspect the exact
-candidate rather than trusting its ranking.
-
-If no candidate passes source, version, license, permission, overlap,
-maintenance, and representative-task checks:
-
-- complete a one-off task directly without creating a Skill
-- when repeated work exposes the gap, use managed `write-a-skill` to create the
-  smallest project-local profile from real examples and checks
-- promote that profile only after reuse proves a wider audience: portable
-  generic behavior to its public upstream, shared non-public behavior to the
-  private organization or team catalog, and target semantics to a local
-  wrapper
-
-Research stack facts and test reversible candidates autonomously. Use
-`grill-harness-with-docs` only when architecture, adoption, authority,
-security, cost, or another consequential branch remains unresolved; route a
-resolved material selection through fresh-context critique.
-
-Use upstream release notes, source diffs, and current primary documentation
-when behavior, platform support, pricing, model routing, security, or community
-practice may have changed. Mark missing or ambiguous compatibility evidence.
-
-Read [REFERENCE.md](./REFERENCE.md) only when creating or migrating a managed
-Skill manifest, configuring Renovate, or resolving release-tag semantics.
+A `scaffold-harness` update is also a harness update: its templates are the
+source of the repository's `AGENTS.md`, `HARNESS.md`, and bridges. Carry each
+changed rule into the repository's own words instead of pasting a template
+over a file it has adapted.
 
 ## 5. Classify the Update
 
@@ -151,77 +67,26 @@ observed diff conservatively:
 - major - changed invocation, ownership, completion, authority, output, or
   other behavior that may invalidate a consumer assumption
 
-Separate source changes from target-local adaptations. Never infer that a
-newer Skill is automatically appropriate for the target's maturity.
-
-A `scaffold-harness` release is also a harness update, not only a Skill copy:
-its templates are the source of the target's `AGENTS.md`, `HARNESS.md`, host
-bridges, and hooks. Diff the changed templates against the target's copies
-and carry over each changed rule or hook in the target's own words and
-structure, preserving local truth; do not paste a template over a file the
-target has adapted. Route that pass through `agent-sync` and record what was
-carried and what was deliberately not.
+Separate source changes from local adaptations. Never infer that a newer Skill
+is automatically appropriate for the repository's operating level.
 
 ## 6. Decide the Gate
 
 Apply a patch or minor update autonomously only when it is reversible, within
-documented target policy, and covered by relevant checks.
+documented repository policy, and covered by relevant checks.
 
-Before a major update, changed autonomy, new permissions, wider repository
-scope, destructive migration, or uncertain compatibility:
+Before a major update, new permissions, a destructive cleanup, or uncertain
+compatibility, because those can change what agents do without anyone
+noticing:
 
 1. present two or three options, including keeping the current version
 2. show the material behavior diff, evidence, blast radius, and rollback
 3. recommend one option
 4. wait for human acceptance before applying the dependent branch
 
-## 7. Apply Atomically
+## 7. Complete
 
-For every selected dependency:
-
-1. require `ref` to match `<name>-v<semver>`, resolve it through the exact
-   `refs/tags/<ref>` identity, and confirm that tag resolves to the recorded
-   commit digest
-2. verify that the tagged `SKILL.md` frontmatter name matches both the manifest
-   name and Skill path basename and, when the source has a catalog, that its
-   path and declared version match
-3. replace only the managed target directory, or install a new public Skill
-   project-locally; global installation requires explicit user intent
-4. preserve target-local wrappers outside that directory
-5. update the manifest ref and resolved commit digest together
-6. update affected harness references without copying source-owned prose
-7. run the source Skill audit or validator, an install check, and the target's
-   smallest relevant checks
-8. for CI or runtime changes, run the real workflow when possible and verify
-   that support and deprecation annotations are empty
-
-For hygiene changes, record exact source and quarantine paths, update any
-owning lock or manifest, and verify the host's effective Skill list after the
-move.
-
-If a required check fails, restore the previous managed content and manifest
-state. Do not leave a partially synchronized dependency.
-
-## 8. Complete
-
-Report:
-
-- updated, unchanged, and deferred dependencies
-- old and new versions
-- behavior or harness implications
-- checks run and rollback availability
-- effective global and local Skill owners after reconciliation
-- any decision still requiring a human
-
-Persist only evidence that changes future work. A routine successful update
-does not require a learning entry.
-
-The update is complete when tag identity, manifest identity, resolved content,
-effective host scope, manifest state, and checks agree, and no target-local
-authority or wrapper was overwritten.
-
-## Platform Wrappers
-
-If a host supports slash commands, keep `/update-harness` as a thin wrapper
-that invokes this Skill and forwards the requested mode. Do not duplicate this
-workflow in Cursor, Claude Code, Codex, or other host-specific command files.
+Report updated, unchanged, and deferred Skills with old and new versions, the
+behavior implications, checks run, and any decision still open. The update is
+complete when the tag, manifest entry, installed content, and checks agree and
+no local wrapper was overwritten.

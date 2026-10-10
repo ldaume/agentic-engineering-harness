@@ -26,10 +26,8 @@
 - Before editing: run `git status --short --branch` and, when available,
   `git worktree list`; preserve foreign WIP; then apply **Git Working Tree
   Hygiene** in `HARNESS.md` (branch gate; worktree default; ordinary names; no
-  agent/tool producer chrome in commits or PR/MR surfaces; claim each edit
-  checkout - worktree or primary - with `.agent-lease` + STATUS lease; one
-  lease row per repo in multi-repo sessions; never share a path/branch under a
-  foreign `active` lease; never delete another agent's live worktree).
+  agent/tool producer chrome in commits or PR/MR surfaces; never delete a
+  worktree this session did not create).
 - Use existing repository conventions and commands before adding new ones.
 
 ## Harness
@@ -70,12 +68,9 @@
   facts, then spike or grill (yourself or a fresh subagent), whichever answers
   faster. Ask only for what `HARNESS.md` **Operating Level** reserves for
   humans; that list is not restated here. A turn never ends with a bare offer
-  ("say the word and I will ..."), waiting for the human to do a routine
-  step, or a handoff of a finding in a sibling repository. When a real
-  decision remains open, close with options and one recommendation.
-  When `HARNESS.md` includes the optional owner-delegated profile, prepare a
-  reserved item as a ready recommendation, record its outcome, and keep
-  working on everything that does not depend on it.
+  ("say the word and I will ..."), or waiting for the human to do a routine
+  step. When a real decision remains open, close with options and one
+  recommendation.
 - Execute authorized routine completion without asking again. When repository
   policy makes commit/push/merge the default, perform it after checks pass;
   when this session opened a PR/MR and required checks are green with no
@@ -107,12 +102,9 @@
 - Run the relevant checks.
 - Review the diff against scope and non-goals.
 - Finish git footprint per **Git Working Tree Hygiene** in `HARNESS.md`
-  (strip agent/tool producer chrome from commits and PR/MR surfaces; claim and
-  release leases for every edited checkout including primary; never delete
-  another agent's live worktree; reclaim foreign paths only with explicit
-  human confirmation; return surviving session/primary-sibling checkouts to
-  the default branch while still holding the lease unless the human asked to
-  remain on the task branch).
+  (strip agent/tool producer chrome from commits and PR/MR surfaces; remove
+  only worktrees this session created; return to the default branch unless
+  the human asked to remain on the task branch).
 - Name the cleanup path of every artifact the change creates, and automate
   it for recurring ones, per **Cleanup Is Part of Done** in `HARNESS.md`.
 - Answer the Stewardship questions before claiming done (manifest here; port

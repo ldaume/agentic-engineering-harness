@@ -18,6 +18,25 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-10-10 - The public line covers one repository
+
+- Signal: The public catalog carried the full multi-repository operating
+  system, so it was both a build plan for the upper levels and hard to start
+  from for a single repository.
+- Evidence: Eight operating-system Skills and two root blueprints totaled
+  about 55k words; most first uses stay on one repository.
+- Decision or change: `scaffold-harness`, `agent-sync`, `update-harness`,
+  `build-autonomous-agents`, `run-product-engineering`, and
+  `learn-agentic-engineering` took major versions scoped to one repository;
+  `system-one-routing` and `scaffold-distributed-context` were retired;
+  `MULTI-REPO-HARNESS.md` and `HARNESS-OPERATIONS.md` were replaced by
+  `docs/BEYOND-ONE-REPOSITORY.md`, and `docs/LEVELS.md` shows L1-L7 for
+  people. Earlier entries below that name the retired files describe what was
+  true at their date.
+- Re-check trigger: Consumers repeatedly need multi-repository guidance the
+  public line no longer gives, or a reduced Skill no longer runs a real
+  single-repository harness end to end.
+
 ## 2026-10-07 - A leak guard must not hold the names it guards
 
 - Signal: The audit gate that keeps the maintainer's private names out of this

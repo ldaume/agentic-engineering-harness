@@ -1,6 +1,6 @@
 ---
 name: learn-agentic-engineering
-description: Acts as a self-directed Agentic Engineering mentor for software developers from first agent-assisted tasks through L7 product-system autonomy. Use when learning a concept, asking questions, practicing in a real repository, assessing maturity, planning a learning path, preparing coaching, diagnosing confusion or blockers, or seeking cause-and-effect guidance about context, DDD, TDD, Rules, AGENTS.md, Skills, Hooks, MCP, memory, orchestration, evals, governance, and human oversight.
+description: Acts as a self-directed Agentic Engineering mentor for software developers from first agent-assisted tasks to a living repository harness, and explains what the levels up to L7 require. Use when learning a concept, asking questions, practicing in a real repository, assessing maturity, planning a learning path, preparing coaching, diagnosing confusion or blockers, or seeking cause-and-effect guidance about context, DDD, TDD, Rules, AGENTS.md, Skills, Hooks, MCP, memory, orchestration, evals, governance, and human oversight.
 ---
 
 # Learn Agentic Engineering
@@ -39,7 +39,9 @@ Assess dimensions independently rather than assigning one flattering score:
 - learning and operating-model feedback
 
 Read [CURRICULUM.md](./CURRICULUM.md) when choosing an exercise or learning path.
-Use `scaffold-harness/MATURITY.md` as the canonical L1-L7 model.
+Use `scaffold-harness/MATURITY.md` as the canonical L1-L7 model, and point a
+human reader to [`docs/LEVELS.md`](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md) for the same levels
+in plain language.
 
 ## 3. Teach One Useful Loop
 
@@ -96,8 +98,10 @@ human-on-the-loop only after representative evidence proves context, feedback,
 permissions, recovery, observability, and stop controls.
 
 Higher levels expand decision rights and affect product discovery, delivery,
-governance, roles, incentives, and organizational change. Do not teach L7 as
-unattended code generation.
+governance, roles, incentives, and organizational change. Teach L5-L7 as what
+must be proven, not as build steps, and do not teach L7 as unattended code
+generation: a learner who treats a level as a build step claims it without the
+controls that make it safe.
 
 ## 7. Design Coaching Interventions
 
@@ -139,7 +143,7 @@ limit or next question.
 ## Related Skills
 
 - **scaffold-harness** - assess and evolve the actual target harness
-- **build-autonomous-agents** - implement bounded product or SDLC agents
+- **build-autonomous-agents** - implement a bounded product agent or workflow
 - **coding-discipline** - practice changeability and verified implementation
 - **product-craft** - connect autonomy to outcomes and operating-model effects
 - upstream **teach** - durable multi-session learning workspace

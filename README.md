@@ -16,11 +16,9 @@ that implementation stays private.
 
 Humans retain goals, policy, risk, and accountability; agents carry as much
 execution as the proven controls allow. You pick by what you need today:
-install Skills alone (each works on its own, no harness required), read the
-blueprints alone ([`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md),
-[`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md)), or take both, which the
-prompts below assume. This is not a control plane for another system. Most
-first uses stay on one repository.
+install Skills alone (each works on its own, no harness required), or add the
+repository harness, which the prompt below sets up. This is not a control plane
+for another system.
 
 ## Start here
 
@@ -29,16 +27,12 @@ first uses stay on one repository.
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
 | Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Choose or switch how much agents do alone | [`Operating levels`](./docs/LEVELS.md) |
-| Set up a multi-repository or multi-team harness | [`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md) |
-| Onboard a new sibling (simplest) | Session in the coordinator; ask the agent to fully onboard it and pass context - [`Simplest path`](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling) |
-| Find which sibling or team is in scope for a task | [`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance) (human walkthrough) / [`How a Session Finds Related Repositories`](./HARNESS-OPERATIONS.md#how-a-session-finds-related-repositories) |
-| Understand the recommended defaults and alternatives | [`Golden Path and Known Alternatives`](./HARNESS-OPERATIONS.md#golden-path-and-known-alternatives) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Write numbers a non-participant reads correctly | [`plain-numbers`](./skills/product/plain-numbers/SKILL.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
-| Understand the complete operating model | [`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md) |
+| Understand what changes beyond one repository | [`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) |
 
 ## Operating levels
 
@@ -79,8 +73,7 @@ Replace the example client list with every agent host you actually use (`npx ski
 check that a real session loads what you installed: hosts differ in what
 triggers a Skill. Install only these five bootstrap Skills globally (installs track the default branch; for exact pins see [`VERSIONING.md`](./VERSIONING.md#consumers)); keep
 project and domain Skills in the target repository so they stay visible and
-scoped. [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md)
-carries a template for routing a host to Skills. Use
+scoped. Use
 [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md) whenever an agent
 creates or changes a Skill.
 
@@ -99,19 +92,8 @@ behavior; Pi, CI, and later runtimes need a target-owned adapter first.
 
 ## Choose a first prompt
 
-Start the agent inside the authority boundary it should change. The prompt
-selects the harness topology; there is no separate sibling-onboarding Skill.
-To add a sibling, open a session in the coordinating repository and ask the
-agent to fully onboard it
-([detail](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling)). To decide
-which sibling or team is in scope, see
-[`Find Sibling Scope and Decide Relevance`](./MULTI-REPO-HARNESS.md#find-sibling-scope-and-decide-relevance).
-
-| Scope | Start the session in |
-|---|---|
-| One repository | The target repository root |
-| Several repositories | The existing coordinating repository, or a workspace containing the intended repositories as siblings |
-| Several teams | A dedicated federated coordinating repository with access to the participating repositories |
+Start the agent inside the repository it should change, because the harness it
+builds is that repository's own.
 
 ### One repository
 
@@ -135,48 +117,9 @@ for shared understanding, material critique, and unresolved decisions, and
 run agent-sync before completion.
 ```
 
-### Several repositories
-
-Use the one-repository prompt with these changes; onboarding detail is in
-[`HARNESS-OPERATIONS.md`](./HARNESS-OPERATIONS.md#simplest-path-onboard-a-sibling).
-
-```text
-Verify that the working root is an existing coordinating repository or a
-workspace containing the intended repositories as siblings; do not infer
-membership from proximity alone. If no coordinator exists, resolve placement and
-authority first.
-
-Use scaffold-harness to establish the smallest reliable cross-repository
-harness. Each member stays the authority for its local truth; the coordinator
-holds only relationships, public contracts, shared workflow state, and
-cross-cutting verification, with one `CONTEXT-MAP.md` as the relationship map.
-Admit a sibling by composing scaffold-harness in it with the coordinator `SYNC.md`
-admit checklist. Present options with a recommendation when ownership is
-unresolved. Run the real member and integration checks and agent-sync before
-completion.
-```
-
-### Several teams
-
-Use the one-repository prompt with these changes.
-
-```text
-Verify that the working root is a dedicated federated coordinating repository
-with access to the participating repositories.
-
-Use scaffold-harness and scaffold-distributed-context to establish a
-multi-team harness. Preserve each team's local authority: map bounded contexts,
-public contracts, compatibility policy, risk, release, and autonomy decisions to
-named owners in one federated `CONTEXT-MAP.md`, without creating a central
-product or domain authority. Define cross-team checks and escalation. Present
-unresolved decision rights one at a time with a recommendation, then run the
-team-local and cross-team checks and agent-sync before completion.
-```
-
-For how the harness works and why, read
-[`MULTI-REPO-HARNESS.md`](./MULTI-REPO-HARNESS.md): L1-L7 delegation, topology,
-the nested product loops, review, memory, compliance, host portability, and
-Skill ownership.
+For what each level means and what changes once work spans several
+repositories, read [`docs/LEVELS.md`](./docs/LEVELS.md) and
+[`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md).
 
 ## Working principles
 
@@ -204,15 +147,13 @@ The core contains methods that transfer across stacks:
 - Infrastructure system:
   [`manage-infrastructure-as-code`](./skills/infrastructure/manage-infrastructure-as-code/SKILL.md)
 - Harness and agents: [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md),
-  [`scaffold-distributed-context`](./skills/engineering/scaffold-distributed-context/SKILL.md),
   [`agent-sync`](./skills/engineering/agent-sync/SKILL.md),
   [`update-harness`](./skills/engineering/update-harness/SKILL.md),
   [`grill-harness-with-docs`](./skills/engineering/grill-harness-with-docs/SKILL.md),
   [`build-autonomous-agents`](./skills/engineering/build-autonomous-agents/SKILL.md),
   [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md),
   [`learn-agentic-engineering`](./skills/engineering/learn-agentic-engineering/SKILL.md),
-  [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md),
-  [`system-one-routing`](./skills/engineering/system-one-routing/SKILL.md)
+  [`write-a-skill`](./skills/engineering/write-a-skill/SKILL.md)
 - Engineering method: [`start-gate`](./skills/engineering/start-gate/SKILL.md),
   [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),
   [`completion-gate`](./skills/engineering/completion-gate/SKILL.md),
@@ -237,6 +178,8 @@ Browse by category:
 - [Testing](./skills/testing/README.md)
 
 [`skills-lock.json`](./skills-lock.json) is the complete versioned catalog.
+`system-one-routing` and `scaffold-distributed-context` are retired; their
+last public tags are listed in the [engineering catalog](./skills/engineering/README.md).
 
 ## Repository maintenance
 

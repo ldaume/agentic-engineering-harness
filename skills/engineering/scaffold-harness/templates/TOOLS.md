@@ -11,7 +11,7 @@ Create this file only when several tools need different bridges.
 | Google Antigravity | product-specific context or Skill bridge | project or installed Skills | Discover the active application, IDE, CLI, or SDK surface; do not assume Gemini CLI behavior |
 | Pi coding agent | project or user instruction and Skill bridge | project or user Skills | Verify current extension, tool, and prompt loading behavior |
 | CI workflow | workflow plus bounded workload contract | repository-owned scripts, Skills, or code | Use native runner controls before adding a framework |
-| Flue runtime | bounded workload contract plus Flue adapter | repository-owned workload Skills or code | Add only after the runtime gate; verify non-interactive permissions, secrets, cancellation, gates, telemetry, and evidence |
+| Flue runtime | bounded workload contract plus Flue adapter | repository-owned workload Skills or code | Add only for one bounded, repeated workload; verify non-interactive permissions, secrets, cancellation, gates, telemetry, and evidence |
 
 The bridges point to host-neutral owning sources; they do not duplicate them.
 For each active host, record effective precedence, supported native controls,

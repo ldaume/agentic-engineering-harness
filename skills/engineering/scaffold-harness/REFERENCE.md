@@ -92,9 +92,8 @@ A reliable repository-level harness has:
 ## Delegation Levels and Evidence
 
 [MATURITY.md](./MATURITY.md) owns the L1-L7 capability profiles, transition
-gates, evidence requirements, human roles, and operating-model effects. Load it
-only when level assessment, increased autonomy, changed oversight, or
-organizational transformation affects the task.
+gates, evidence requirements, and human roles. Load it only when level
+assessment, increased autonomy, or changed oversight affects the task.
 
 Evidence belongs in the target or coordinating system, not in this Skills
 repository. Add a missing control only when its owner, expected effect, and
@@ -128,7 +127,7 @@ Use reviews when they can change an action:
 | Work self-review | Significant change before completion | Implementing agent plus deterministic checks | Scope, diff, Fast Check; fix or report |
 | Independent review | High coupling, material risk, integration, or weak failure detection | Fresh-context agent, preferably isolated | Findings tied to code, policy, tests, or sources |
 | Harness review | Repeated friction, harness change, stale owner, or failed instruction | `agent-sync` or an independent agent | Keep, change, remove, or supersede |
-| Currentness review | Volatile fact affects model, cost, feature, tool, or Golden Path choice | Research worker using `CURRENTNESS.md` | Refresh evidence or block the decision |
+| Currentness review | Volatile fact affects model, cost, feature, tool, or Golden Path choice | Research worker reading current primary sources | Refresh evidence or block the decision |
 | Autonomy review | Broader permissions, blast radius, repositories, or oversight mode | Capable parent, independent critic, and human where required | Prove controls or retain the lower level |
 
 Do not require multiple model reviews for trivial, reversible, well-checked
@@ -176,126 +175,6 @@ the demonstrated class. A breach, unobservable failure, failed recovery, or
 unresolved material decision immediately returns the workflow to
 human-in-the-loop, records the hold reason, and resets its evidence before any
 new promotion run.
-
-## Cross-Repository Harness
-
-### Topology Selection
-
-| Topology | Use when | Minimum coordination | Avoid |
-|---|---|---|---|
-| Single repository | One repository owns the behavior and its checks | Local `AGENTS.md`, real checks, local context and learning owners | A coordinator, copied policy, or organization tooling |
-| Multiple repositories | Durable provider/consumer relationships, shared workflow state, or integration checks span repositories | Member entrypoints, context map, public contracts, compatibility checks, sync/write-back | Moving member-local truth into the coordinator |
-| Multiple teams | Decision rights and delivery ownership cross team boundaries as well as repositories | Team/context owners, versioned shared policy, contract and risk owners, cross-team evals, escalation | Treating the central harness as universal domain or product authority |
-
-Topology and autonomy are independent. Every repository needs safe session
-discovery, including experiments; higher autonomy still requires local checks,
-permissions, recovery, observability, and evidence.
-
-Each repository owns its local architecture facts, commands, decisions,
-checks, instructions, and implementation state.
-
-A coordinating harness may own:
-
-- the cross-repository context map (members, remotes, checks, relationships)
-- public integration contracts and compatibility ranges
-- provider, consumer, and owner relationships
-- shared Golden Paths and versioned Skills references
-- cross-cutting evals and release evidence
-- workflow state (`STATUS.md`), recovery, isolation, and auditability
-- member discovery / write-back protocol (thin `AGENTS.md` pointers + sync doc)
-- oversight and autonomy policy for the coordinated system
-
-Minimum coordinating baseline (add only what evidence needs, but do not omit
-discovery or session survival):
-
-| Concern | Typical owner |
-|---|---|
-| Agent entry | `AGENTS.md` |
-| Oversight / autonomy | `HARNESS.md` |
-| Shared terms | `CONTEXT.md` |
-| Members / relationships | `CONTEXT-MAP.md` |
-| Discovery + write-back | sync protocol + member `AGENTS.md` pointers |
-| Mid-flight cross-repo work | `STATUS.md` |
-| Durable lessons | `LEARNINGS.md` |
-| Human map / cycle | `README.md` |
-| Coordinator verify | real Fast Check / Full Gates |
-
-The Skills catalog is a capability supplier. It must not become the
-coordinating control plane for target product or private-system work. Edit
-Skill source files in the catalog; decide multi-member Skill placement and
-system policy in the coordinator.
-
-### Skill and Policy Sources
-
-Keep source ownership explicit across layers:
-
-- public upstream: portable methods, releases, provenance, public compatibility
-- private organization or team catalog: shared non-public procedures, approved
-  pins, internal adapters, and organization controls
-- private coordinator: membership, policy, placement, compatibility, and
-  cross-repository evidence
-- project repository: local semantics, commands, wrappers, project-only Skills,
-  checks, and permissions
-- user or global scope: small discovery and maintenance bootstrap only
-
-These layers form a dependency and authority graph, not a universal filesystem
-precedence. Inspect the active host. Project-local semantics outrank generic
-procedure text; managed private or public content stays pinned and separate
-from local wrappers. Select one owner per workflow and do not copy portable
-source into a coordinator merely because several members consume it.
-
-The coordinating harness never overrides repository-local instructions or
-promotes inferred product semantics into shared truth.
-
-Member sessions should load coordinator oversight (for example by requiring a
-read of coordinator `HARNESS.md` from a Private system section) so autonomy
-policy is consistent without copying the full harness into every member.
-
-For demand-driven sibling and multi-team relevance (SYNC -> CONTEXT-MAP match,
-named-owner rule, stay local on no match), follow the portable walkthrough in
-[`MULTI-REPO-HARNESS.md`](../../../MULTI-REPO-HARNESS.md) under **Find
-Sibling Scope and Decide Relevance**. Keep one coordinator inventory; do not
-copy membership into every member.
-
-Prefer plain punctuation in harness prose - straight quotes, hyphen `-`, `...`
-- rather than an ASCII-only rule; letters, arrows, box drawing, and math signs
-keep their meaning. Routine commit/push when checks
-pass is normal completion when the owner authorizes that policy; ask only for
-critical git or irreversible external effects.
-
-When membership, sync, autonomy, or the cycle changes, update the human
-`README.md` in the same loop if a new reader would otherwise misunderstand the
-system.
-
-Use a capable parent agent to frame work, select workers, manage dependencies,
-integrate evidence, and own the final result. Give each worker a bounded
-contract: inputs, repository, permissions, model budget, expected output,
-verification, and stop condition.
-
-Delegate only when work is meaningfully independent. Prefer isolated branches
-or worktrees when supported. Use cheaper workers for bounded retrieval,
-mechanical transformation, and checks with strong verification; retain capable
-models for ambiguous design, security, high coupling, and final synthesis.
-Cross-repository completion requires public contract and compatibility checks,
-not only green local tests.
-
-### Multi-Team Federation
-
-For each participating team or role, record:
-
-- owned bounded contexts, repositories, services, and decision classes
-- public provider/consumer contracts and compatibility responsibility
-- who may change shared policy, accept risk, approve release, or widen autonomy
-- team-local Fast Check and Full Gates plus cross-team integration evidence
-- escalation path for semantic conflict, contract breakage, security, incident,
-  and competing priorities
-- version and rollout policy for shared Skills, templates, rules, and controls
-
-The coordinator owns relationships and shared evidence, not every team's
-backlog, implementation plan, or domain model. Prefer asynchronous Git-owned
-contracts and checks over recurring synchronization meetings. Use a software
-catalog or policy engine only after scale creates an observed discovery or
-enforcement failure.
 
 ## Language and Punctuation
 

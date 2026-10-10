@@ -4,15 +4,12 @@ Core workflow skills for AI-assisted development. Use together:
 
 1. **scaffold-monorepo** - optional greenfield pnpm toolchain (CI, Renovate, verify)
 2. **scaffold-harness** - establish or repair the repository harness
-3. **build-autonomous-agents** - implement a bounded agent workload after the
-   runtime gate passes
-4. **scaffold-distributed-context** - add cross-repository domain context only
-   when the system spans repositories or bounded contexts
-5. **start-gate** - before the first edit of a task
-6. **coding-discipline** - during implementation
-7. **completion-gate** - before claiming done
-8. **agent-sync** - evolve the harness during significant work
-9. **update-harness** - check or apply explicit harness and Skill updates
+3. **build-autonomous-agents** - implement a bounded product agent or workflow
+4. **start-gate** - before the first edit of a task
+5. **coding-discipline** - during implementation
+6. **completion-gate** - before claiming done
+7. **agent-sync** - evolve the harness during significant work
+8. **update-harness** - check, install, update, or clean managed Skills
 
 Use **grill-harness-with-docs** to establish shared understanding, route
 resolved material work through fresh-agent critique, and keep a human in the
@@ -24,18 +21,24 @@ loop only when evidence cannot resolve a material decision.
 | [coding-discipline](./coding-discipline/SKILL.md)           | implement, fix, refactor, any code change                  |
 | [completion-gate](./completion-gate/SKILL.md)               | done, commit, PR, ship, finish                             |
 | [deliver-dependency-upgrades](./deliver-dependency-upgrades/SKILL.md) | dependency bump, Renovate PR, upgrade migration, rollout, rollback |
-| [build-autonomous-agents](./build-autonomous-agents/SKILL.md) | agent, workflow, CI agent, overnight agent, Flue          |
+| [build-autonomous-agents](./build-autonomous-agents/SKILL.md) | product agent, finite workflow, tool, subagent, Flue      |
 | [learn-agentic-engineering](./learn-agentic-engineering/SKILL.md) | learn, teach, coach, question, blocker, maturity path    |
-| [agent-sync](./agent-sync/SKILL.md)                         | review loops, currentness, learnings, harness evolution     |
-| [update-harness](./update-harness/SKILL.md)                 | resolve, install, update, clean Skill scopes, Renovate PR   |
-| [scaffold-harness](./scaffold-harness/SKILL.md)             | bootstrap, audit, local/MCP context, context economy, cross-repo harness |
-| [scaffold-distributed-context](./scaffold-distributed-context/SKILL.md) | bounded contexts, contracts, projections, Graphify |
+| [agent-sync](./agent-sync/SKILL.md)                         | session start, learnings, harness evolution                 |
+| [update-harness](./update-harness/SKILL.md)                 | check, install, update, clean project Skills, Renovate PR   |
+| [scaffold-harness](./scaffold-harness/SKILL.md)             | bootstrap, audit, operating level, context economy, one repository |
 | [grill-harness-with-docs](./grill-harness-with-docs/SKILL.md) | shared understanding, material critique, unresolved decision |
 | [write-a-skill](./write-a-skill/SKILL.md)                   | create skill, SKILL.md, skill frontmatter, skills CLI      |
-| [system-one-routing](./system-one-routing/SKILL.md)         | route subagent, capability tier, effort, model, typed Jev JSON questions, spike gate, iteration gate |
 | [documentation-and-adrs](./documentation-and-adrs/SKILL.md) | ADRs, runbooks, public API docs, durable decisions         |
 | [pnpm](./pnpm/SKILL.md)                                     | pnpm workspaces, lockfiles, Corepack, overrides, patches   |
 | [scaffold-monorepo](./scaffold-monorepo/SKILL.md)           | new monorepo, pnpm workspaces, CI, Renovate, quality gates |
+
+Retired from this catalog. The last public tag stays installable by pin and is
+no longer maintained:
+
+| Skill | Status |
+| --- | --- |
+| system-one-routing | retired, last public tag `system-one-routing-v1.5.0` |
+| scaffold-distributed-context | retired, last public tag `scaffold-distributed-context-v1.2.0` |
 
 Pair **coding-discipline** with an installed **tdd** skill when one exists.
 Prefer the upstream
@@ -44,9 +47,7 @@ over copying it into this repository.
 
 Use the upstream
 [mattpocock/skills `domain-modeling`](https://github.com/mattpocock/skills/tree/main/skills/engineering/domain-modeling)
-when shared domain language is unresolved. Use
-**scaffold-distributed-context** for the repository boundaries, contracts,
-projections, and retrieval architecture around that language.
+when shared domain language is unresolved.
 
 Adjacent craft skills:
 
