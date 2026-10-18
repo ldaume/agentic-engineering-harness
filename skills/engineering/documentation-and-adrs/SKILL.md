@@ -42,6 +42,12 @@ Accepted | Proposed | Superseded
 
 ## Decision
 
+## Assumptions
+
+Facts the decision depends on, each one checkable (a file, a config value, a
+measurement, a newer ADR). Revisit when: the trigger that makes them worth
+re-checking.
+
 ## Consequences
 
 ## Alternatives Considered
@@ -51,6 +57,15 @@ Accepted | Proposed | Superseded
 
 ## Writing Rules
 
+- Before you follow, cite or build on an ADR, check its Assumptions against
+  the current system: code, config, measurements, newer ADRs. An ADR whose
+  assumptions no longer hold is followed or ignored by whoever reads it first,
+  and nothing records which. If one fails, do not follow it silently and do
+  not ignore it silently. Amend the ADR with a dated note, or write a new ADR
+  that supersedes it (old one set to Superseded, linked both ways), in the
+  same change. If that is out of your scope, record the stale ADR as a finding
+  for the owner of its repository. A decision that lives only in an ADR nobody
+  re-checks is a stale claim.
 - Prefer short, specific docs over sweeping essays.
 - Capture why, not every implementation detail.
 - Link to code, issues, PRs, or configs instead of duplicating them.
@@ -116,6 +131,7 @@ Accepted | Proposed | Superseded
 
 - doc repeats code or config verbatim
 - decision has no alternatives or consequences
+- an ADR was followed without checking its assumptions, or has none to check
 - runbook has no verification or rollback
 - a claim in a doc is not true of the code, or cannot be checked at all
 - no command would falsify the sentence, so nothing ever will
