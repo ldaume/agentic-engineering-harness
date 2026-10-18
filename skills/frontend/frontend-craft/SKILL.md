@@ -157,6 +157,11 @@ Do not ship a polished happy path with broken silence everywhere else.
 - Primary actions should be reachable in normal thumb zones.
 - No hover-only affordances for critical actions.
 - Avoid horizontal overflow at 320-375px.
+- Check phone UI at the target device width and again at an OS text scale of
+  about 1.3. Scale with page zoom; a root `font-size` change
+  misses px-sized layouts. Assert that visible control
+  boxes do not overlap (clip to scroll containers), targets stay at 44px, and
+  the page does not scroll horizontally.
 - Reserve space for async content to prevent layout jumps.
 - Keep forms short; use progressive disclosure for advanced inputs.
 - Safe areas matter for sticky bottom actions.
