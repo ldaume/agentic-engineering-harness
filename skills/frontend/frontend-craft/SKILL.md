@@ -119,6 +119,12 @@ Avoid:
   islands only where interactivity requires them.
 - Check `package.json` before importing libraries.
 - Use CSS variables or design tokens for colors, spacing, radius, and motion.
+- Hold every text-on-surface pair to WCAG AAA (7:1, or 4.5:1 for large text)
+  in light and dark, and enforce it with an automated test, not review: list
+  every text token on every surface it is drawn on (translucent tints
+  composited over their base), compute the ratio for both schemes, and fail
+  the build below AAA. Disabled controls are exempt. Text without an explicit
+  color must inherit a theme token from the root, not a framework default.
 - Use icons from the installed icon system instead of emojis for UI controls.
 - Use stable dimensions for buttons, toolbars, rows, grids, counters, and
   dynamic labels.
