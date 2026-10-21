@@ -1,6 +1,6 @@
 ---
 name: progressive-product-interfaces
-description: Use whenever designing or reworking screens of a SaaS product, app, admin tool, or internal tool - navigation and information architecture, settings, tables and bulk actions, permissions, notifications, search and command palettes, keyboard-first workflows, information density, loading and empty states, undo versus confirm, and AI-native interfaces where people review, correct, reject, or undo AI output (SaaS-Oberfläche, App-Screens, Navigation, Einstellungen, KI-Interface). Not for marketing sites or landing pages, which progressive-web-experiences owns. Implementation belongs to frontend-craft.
+description: Use whenever designing or reworking screens of a SaaS product, app, admin tool, or internal tool - navigation and information architecture, settings, tables and bulk actions, permissions, notifications, search and command palettes, keyboard-first workflows, information density, loading and empty states, undo versus confirm, and AI-native interfaces where people review, correct, reject, or undo AI output (SaaS-Oberfläche, App-Screens, Navigation, Einstellungen, KI-Interface). Not for marketing sites or landing pages (progressive-web-experiences) or dashboards and charts (progressive-data-visualization). Implementation belongs to frontend-craft.
 license: MIT
 ---
 
