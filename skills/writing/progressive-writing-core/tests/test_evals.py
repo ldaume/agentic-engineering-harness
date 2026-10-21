@@ -24,6 +24,21 @@ class EvalsTest(unittest.TestCase):
             self.assertTrue(named, case["id"])
             self.assertLessEqual(named, SIBLINGS, case["id"])
 
+    def test_given_claude_events_when_parsed_then_only_skill_tool_calls_count(self):
+        out = "\n".join([
+            '{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Skill","input":{"skill":"progressive-writing:progressive-editorial"}}]}}',
+            '{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Bash","input":{"command":"ls .claude/skills/progressive-design-core/SKILL.md"}}]}}',
+            '{"type":"user","message":{"content":[{"type":"tool_result","content":".claude/skills/progressive-ux-research/SKILL.md"}]}}',
+        ])
+        self.assertEqual(run_evals.loaded_skills("claude", out), {"progressive-editorial"})
+
+    def test_given_codex_events_when_parsed_then_only_reading_a_skill_file_counts(self):
+        out = "\n".join([
+            '{"type":"item.started","item":{"type":"command_execution","command":"/bin/zsh -lc \'cat .agents/skills/progressive-ux-research/SKILL.md\'"}}',
+            '{"type":"item.started","item":{"type":"command_execution","command":"/bin/zsh -lc \'ls .agents/skills\'","aggregated_output":"progressive-design-core/SKILL.md"}}',
+        ])
+        self.assertEqual(run_evals.loaded_skills("codex", out), {"progressive-ux-research"})
+
 
 if __name__ == "__main__":
     unittest.main()

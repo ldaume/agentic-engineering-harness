@@ -1,5 +1,5 @@
 {
- "note": "Replay with the writing family's runner or any headless host; each prompt runs in a fresh session in an empty directory.",
+ "note": "Replay with: python3 skills/writing/progressive-writing-core/tests/run_evals.py routing --host claude|codex --cases <this file> --cwd <project with the design skills installed>.",
  "cases": [
   {
    "id": "flows-onboarding-de",
