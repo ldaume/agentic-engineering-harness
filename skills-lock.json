@@ -53,13 +53,13 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
-      "version": "1.6.1"
+      "version": "1.6.2"
     },
     "frontend-craft": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/frontend/frontend-craft/SKILL.md",
-      "version": "1.5.0"
+      "version": "1.5.1"
     },
     "gitea-actions": {
       "source": "local",
@@ -131,37 +131,97 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/product-craft/SKILL.md",
-      "version": "1.3.1"
+      "version": "1.3.2"
+    },
+    "progressive-data-visualization": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-data-visualization/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-design-core": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-design-core/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-design-review": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-design-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-design-systems": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-design-systems/SKILL.md",
+      "version": "1.0.0"
     },
     "progressive-editorial": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/progressive-editorial/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "progressive-engineering": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/progressive-engineering/SKILL.md",
+      "version": "1.1.0"
+    },
+    "progressive-forms-interactions": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-forms-interactions/SKILL.md",
       "version": "1.0.0"
     },
     "progressive-marketing-ux": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/progressive-marketing-ux/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "progressive-product-agile": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/progressive-product-agile/SKILL.md",
+      "version": "1.1.0"
+    },
+    "progressive-product-interfaces": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-product-interfaces/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-slides-diagrams": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-slides-diagrams/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-user-flows": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-user-flows/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-ux-research": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-ux-research/SKILL.md",
+      "version": "1.0.0"
+    },
+    "progressive-web-experiences": {
+      "source": "local",
+      "sourceType": "path",
+      "skillPath": "skills/design/progressive-web-experiences/SKILL.md",
       "version": "1.0.0"
     },
     "progressive-writing-core": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/progressive-writing-core/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "run-product-engineering": {
       "source": "local",

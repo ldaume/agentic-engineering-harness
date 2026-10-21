@@ -44,7 +44,8 @@ detail destroys the trust the rest of the text earned.
    and misses a wrong order.
 5. Verify: classify each claim as sourced fact, inference, recommendation, or
    unknown. Re-check time-sensitive or externally published facts at the
-   source.
+   source. For AI-assisted text, fact-check body and metadata by hand
+   (`references/verification.md`).
 6. Gate: from this skill's directory run `python3 scripts/quality_gate.py --artifact <type> --lang <de|en> FILE`
    when the artifact type is listed there; fix every error, judge each warning.
 7. Return the finished artifact, without commentary unless asked.
@@ -98,3 +99,9 @@ gates all of them. `tests/test_quality_gate.py` and `tests/test_evals.py` run
 in CI. `tests/run_evals.py routing --host claude|codex` replays
 `tests/routing-cases.json` in fresh headless sessions to show which skill a
 host actually loads; run it after changing any description.
+
+`references/sources.json` is the evidence registry for all five writing
+skills (36 sources opened on 2026-10-21, each with access date, findings,
+limits, evidence level, and a revisit trigger); rules cite it as
+`[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
+citation without an entry.

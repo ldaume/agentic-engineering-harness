@@ -56,6 +56,10 @@ Length: flash 50 to 120 words, normal brief 120 to 300, complex decision one
 screen plus linked detail.
 
 Voice: direct, calm, evidence-led, no false certainty, no management theater.
+
+Bottom line first (BLUF) comes from military writing practice and mirrors the
+inverted pyramid; it is a convention, not a measured comprehension effect
+(supported as practice, hypothesis as effect) [SRC-WRITE-033].
 Remove implementation detail unless it changes cost, risk, timing, customer
 impact, or reversibility.
 

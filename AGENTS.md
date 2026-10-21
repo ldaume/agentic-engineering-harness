@@ -80,6 +80,7 @@ blueprints. It does not depend on a private coordinator or another repository.
 | `skills/engineering/` | Implementation, harness, context, agent, and Skill workflows |
 | `skills/product/` | Product discovery, delivery, outcomes, and compliance workflows |
 | `skills/frontend/` | Frontend and UX profile |
+| `skills/design/` | Progressive UI/UX design: research, flows, forms, product UI, web, data viz, slides and diagrams, design systems, review |
 | `skills/backend/` | API, backend, and data profiles |
 | `skills/infrastructure/` | CI, container, hosting, and automation adapters |
 | `skills/testing/` | Test strategy and browser automation |
@@ -115,6 +116,9 @@ python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
 python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 python3 -m unittest discover -s skills/writing/progressive-writing-core/tests
+for t in skills/design/*/tests; do ls "$t"/test_*.py >/dev/null 2>&1 && python3 -m unittest discover -s "$t"; done
+python3 scripts/check-knowledge.py
+npx playwright test -c skills/design/progressive-forms-interactions/tests
 ```
 
 The Fast Check matches the commands in `.github/workflows/validate.yml`.

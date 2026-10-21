@@ -49,6 +49,21 @@ Hi [Name],
 
 Never invent urgency, social proof, customer numbers, or outcomes.
 
+## Send readiness (Gmail)
+
+Copy alone does not make a campaign deliverable. For marketing or
+promotional mail from senders of more than 5,000 messages a day to Gmail,
+one-click unsubscribe is required: `List-Unsubscribe` plus
+`List-Unsubscribe-Post: List-Unsubscribe=One-Click`, an HTTPS POST target
+without redirect; a visible link in the body does not satisfy it. In force
+since 2024-02-01, with rejections ramping up since November 2025;
+transactional mail is exempt; keep the spam rate below 0.10% and never reach
+0.30% (verified) [SRC-WRITE-007] [SRC-WRITE-008] [SRC-WRITE-009]. Flag a
+missing header to whoever owns the sending setup.
+
+The CTA link text names the action ("Watch the 3-minute walkthrough"), never
+"click here" (verified) [SRC-WRITE-026].
+
 ## Golden example
 
 Input: feature automated audit evidence export; audience enterprise admins;

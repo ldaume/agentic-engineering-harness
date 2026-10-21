@@ -3,7 +3,9 @@
 Under uncertainty, progress is not percent complete. Shape Up's hill chart
 is a useful model: uphill is figuring out the unknowns, downhill is executing
 the known. "The central uncertainty is resolved" usually carries more
-information than "70% done". The hill chart is a lens, not a required metric.
+information than "70% done". The hill chart is a lens, not a required metric
+(context-dependent) [SRC-WRITE-031]: work moves over the top only when the unknowns
+are actually resolved, not on a theory of how they will be.
 
 ## Architecture
 

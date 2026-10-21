@@ -42,6 +42,9 @@ with vowel-group syllable heuristics.
 - Flesch Reading Ease (EN): 206.835 - 1.015 x words/sentences - 84.6 x
   syllables/words.
 - Flesch after Amstad (DE): 180 - words/sentences - 58.5 x syllables/words.
+  Word length dominates it, so German compounds score as hard even when
+  they are the clearest term; use it as a weak screen, never a gate
+  (supported) [SRC-WRITE-032].
 - Flesch-Kincaid Grade (EN): 0.39 x words/sentences + 11.8 x syllables/words
   - 15.59.
 - LIX: words/sentences + 100 x long_words/words, long word = more than six

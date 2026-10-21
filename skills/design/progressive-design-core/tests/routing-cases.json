@@ -1,0 +1,170 @@
+{
+ "note": "Replay with: python3 skills/writing/progressive-writing-core/tests/run_evals.py routing --host claude|codex --cases <this file> --cwd <project with the design skills installed>.",
+ "cases": [
+  {
+   "id": "flows-onboarding-de",
+   "prompt": "Entwirf einen Onboarding-Flow für ein B2B SaaS, bei dem neue Teams schnell zum ersten echten Wert kommen, inklusive Einladungen, unvollständigem Setup und Wiederaufnahme.",
+   "should_activate": [
+    "progressive-user-flows"
+   ]
+  },
+  {
+   "id": "flows-approval-en",
+   "prompt": "Create a complete user flow for a collaborative approval with several roles, conflicts, interruptions, and failure cases.",
+   "should_activate": [
+    "progressive-user-flows"
+   ]
+  },
+  {
+   "id": "forms-disabled-submit",
+   "prompt": "Improve this registration form. The submit button is disabled until all fields are valid. Check modern alternatives and implement the best one with accessibility and tests.",
+   "should_activate": [
+    "progressive-forms-interactions"
+   ]
+  },
+  {
+   "id": "forms-validation-de",
+   "prompt": "Wann soll unser Checkout-Formular Fehler anzeigen, beim Tippen oder erst beim Absenden?",
+   "should_activate": [
+    "progressive-forms-interactions"
+   ]
+  },
+  {
+   "id": "product-settings",
+   "prompt": "Redesign the settings area of our SaaS admin console; people get lost between workspace, billing, and member permissions.",
+   "should_activate": [
+    "progressive-product-interfaces"
+   ]
+  },
+  {
+   "id": "product-ai-review",
+   "prompt": "Design an interface where users can review, correct, reject, and undo AI-generated changes to their documents.",
+   "should_activate": [
+    "progressive-product-interfaces"
+   ]
+  },
+  {
+   "id": "web-marketing-site",
+   "prompt": "Design a distinctive website for a progressive software product. Avoid the generic AI landing page look and derive the visual direction from content and audience.",
+   "should_activate": [
+    "progressive-web-experiences"
+   ]
+  },
+  {
+   "id": "dataviz-ops-dashboard",
+   "prompt": "Rework a complex operations dashboard so people can spot anomalies, prioritize, and act on them.",
+   "should_activate": [
+    "progressive-data-visualization"
+   ]
+  },
+  {
+   "id": "slides-strategy-deck",
+   "prompt": "Build a presentation on our product strategy that lets the leadership team make one concrete decision.",
+   "should_activate": [
+    "progressive-slides-diagrams"
+   ]
+  },
+  {
+   "id": "diagrams-architecture-de",
+   "prompt": "Zeichne ein Architekturdiagramm für unseren Event-Ingestion-Service, das neue Entwickler verstehen.",
+   "should_activate": [
+    "progressive-slides-diagrams"
+   ]
+  },
+  {
+   "id": "systems-tokens",
+   "prompt": "Set up design tokens and a dark theme for our component library and check the colors for contrast.",
+   "should_activate": [
+    "progressive-design-systems"
+   ]
+  },
+  {
+   "id": "research-interviews",
+   "prompt": "Plan five discovery interviews to understand why admins abandon our data import.",
+   "should_activate": [
+    "progressive-ux-research"
+   ]
+  },
+  {
+   "id": "review-saas-audit",
+   "prompt": "Audit this SaaS screen for UX, accessibility, interaction quality, and visual craft, and prioritize concrete improvements.",
+   "should_activate": [
+    "progressive-design-review"
+   ]
+  },
+  {
+   "id": "core-motion",
+   "prompt": "What motion and animation guidelines should our product follow, including reduced motion?",
+   "should_activate": [
+    "progressive-design-core"
+   ]
+  },
+  {
+   "id": "near-miss-backend",
+   "prompt": "Fix the N+1 query in the orders API endpoint.",
+   "should_not_activate": [
+    "progressive-design-core",
+    "progressive-user-flows",
+    "progressive-forms-interactions",
+    "progressive-product-interfaces",
+    "progressive-design-review"
+   ]
+  },
+  {
+   "id": "near-miss-copy",
+   "prompt": "Write the email to Anna asking for her release decision by tomorrow noon.",
+   "should_not_activate": [
+    "progressive-web-experiences",
+    "progressive-design-core",
+    "progressive-slides-diagrams"
+   ]
+  },
+  {
+   "id": "near-miss-react-build",
+   "prompt": "Build this React settings page with our Tailwind components and wire the save button to the API.",
+   "should_not_activate": [
+    "progressive-design-review",
+    "progressive-ux-research",
+    "progressive-slides-diagrams"
+   ],
+   "note": "Implementation; frontend-craft owns it."
+  },
+  {
+   "id": "near-miss-hero-copy",
+   "prompt": "Write the hero headline and subhead for our audit export launch.",
+   "should_not_activate": [
+    "progressive-design-review",
+    "progressive-data-visualization",
+    "progressive-ux-research"
+   ],
+   "note": "Copy; progressive-marketing-ux owns it."
+  },
+  {
+   "id": "near-miss-status-numbers",
+   "prompt": "Check the percentages in this weekly status update before I send it to the client.",
+   "should_not_activate": [
+    "progressive-data-visualization",
+    "progressive-design-review"
+   ],
+   "note": "plain-numbers owns it."
+  },
+  {
+   "id": "near-miss-adr",
+   "prompt": "Write an ADR for moving the job queue from BullMQ to Postgres.",
+   "should_not_activate": [
+    "progressive-slides-diagrams",
+    "progressive-design-core"
+   ],
+   "note": "documentation-and-adrs owns it."
+  },
+  {
+   "id": "near-miss-flaky-test",
+   "prompt": "Fix this flaky Playwright test that times out on CI.",
+   "should_not_activate": [
+    "progressive-design-review",
+    "progressive-forms-interactions"
+   ],
+   "note": "playwright-best-practices owns it."
+  }
+ ]
+}

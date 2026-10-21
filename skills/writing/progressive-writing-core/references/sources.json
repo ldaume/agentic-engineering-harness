@@ -1,0 +1,729 @@
+{
+ "version": 1,
+ "cut": "2026-10-21",
+ "sources": [
+  {
+   "id": "SRC-WRITE-001",
+   "title": "ISO 18968:2026 listing (NORMSERVIS)",
+   "url": "https://eshop.normservis.sk/norma/iso-18968-2026-27.8.2026.html",
+   "publisher": "NORMSERVIS s.r.o. (retailer)",
+   "published": "2026-08-27",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "de",
+    "en"
+   ],
+   "findings": [
+    "Retailer lists ISO 18968:2026, release date 27.8.2026, 50 pages."
+   ],
+   "limits": "Retailer, not ISO; iso.org/standard/85512.html returned 403.",
+   "evidence_level": "supported",
+   "revisit": "check iso.org status page and BSI for final scope text"
+  },
+  {
+   "id": "SRC-WRITE-002",
+   "title": "ISO 18968 Shaping the Future of Translation-Oriented Writing (ATC ISO blog, draft stage)",
+   "url": "https://atc.org.uk/wp-content/uploads/ATC-ISO-Blog-18968-Translation-oriented-writing-—-Text-production-and-text-evaluation.pdf",
+   "publisher": "Association of Translation Companies",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Standard guides writing and evaluating texts meant for translation, for humans or machines; criteria include terminology, syntax, formatting, semantic clarity.",
+    "Excludes fiction, journalism, advertising."
+   ],
+   "limits": "Written while the standard was a draft; clause text not seen.",
+   "evidence_level": "supported",
+   "revisit": "buy or preview the final standard before citing clauses"
+  },
+  {
+   "id": "SRC-WRITE-003",
+   "title": "ISO 24495-3:2026 Plain language - Part 3: Science writing",
+   "url": "https://committee.iso.org/standard/86938.html",
+   "publisher": "ISO",
+   "published": "2026-05",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Edition 1, 2026-05, status Published.",
+    "Builds on ISO 24495-1 and is organized by its four principles.",
+    "Science writing for readers with varying education levels; not journal articles. Applies to mostly text-and-image material, most written languages."
+   ],
+   "limits": "Scope abstract only; part 1 not opened.",
+   "evidence_level": "verified",
+   "revisit": "open ISO 24495-1:2023 abstract when iso.org is reachable"
+  },
+  {
+   "id": "SRC-WRITE-004",
+   "title": "ISO House Style (committee.iso.org mirror)",
+   "url": "https://committee.iso.org/ISO-house-style.html",
+   "publisher": "ISO",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en",
+    "engineering"
+   ],
+   "findings": [
+    "Use plain language so readers can find, understand and use information; it reduces misunderstanding.",
+    "Documents have non-native readers and are often translated; clear concise writing avoids translation errors.",
+    "Short sentences and paragraphs, one idea per sentence, avoid sentences over 20 words.",
+    "\"shall\", \"must\", \"need to\" are not interchangeable; subtle differences do not translate."
+   ],
+   "limits": "Written for standards drafting; 20-word limit is a house rule, not a general law.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-005",
+   "title": "DIN 5008 - Rules for writing and layout of word and information processing",
+   "url": "https://www.dinmedia.de/en/topics-offers/din-5008",
+   "publisher": "DIN Media",
+   "published": "2020-03",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "Edition 2020-03 is marked CURRENT; commentary publication 2020-06.",
+    "Beuth record of the 2011 edition (https://www.dinmedia.de/de/norm/din-5008/137578108) says it was replaced by DIN 5008:2020-03."
+   ],
+   "limits": "No project/draft list consulted; absence of a notice is not proof of no revision.",
+   "evidence_level": "verified",
+   "revisit": "check DIN project portal for E DIN 5008 each quarter"
+  },
+  {
+   "id": "SRC-WRITE-006",
+   "title": "Google Search's guidance on using generative AI content on your website",
+   "url": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+   "publisher": "Google Search Central",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "marketing",
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Generating many pages with gen AI without adding user value may violate the scaled content abuse spam policy.",
+    "It is critical to manually fact-check and review all AI-generated content before publishing, including title, meta description, structured data, image alt text.",
+    "Models predict likely word sequences and may produce inaccurate output."
+   ],
+   "limits": "Not a ranking guarantee; page shows no visible date.",
+   "evidence_level": "verified",
+   "revisit": "quarterly"
+  },
+  {
+   "id": "SRC-WRITE-007",
+   "title": "Email sender guidelines (Gmail)",
+   "url": "https://support.google.com/a/answer/81126",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "marketing",
+    "en",
+    "de"
+   ],
+   "findings": [
+    "Since 2024-02-01 all senders to Gmail need SPF or DKIM, valid forward/reverse DNS, TLS, RFC 5322 format; spam rate below 0.3%.",
+    "Senders above 5,000 messages/day to Gmail must support one-click unsubscribe for marketing and subscribed mail via List-Unsubscribe-Post: List-Unsubscribe=One-Click plus List-Unsubscribe.",
+    "Keep spam rate below 0.10% and never reach 0.30%."
+   ],
+   "limits": "Thresholds are per Gmail, counted per day to Gmail accounts; other mailbox providers differ.",
+   "evidence_level": "verified",
+   "revisit": "quarterly"
+  },
+  {
+   "id": "SRC-WRITE-008",
+   "title": "Email sender guidelines FAQ (Gmail)",
+   "url": "https://support.google.com/mail/answer/14229414?hl=en",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "marketing"
+   ],
+   "findings": [
+    "One-click unsubscribe is required only for marketing and promotional messages; transactional (password reset, reservation or form confirmations) is excluded.",
+    "Senders who already had an unsubscribe link had until 2024-06-01 to implement one-click.",
+    "From November 2025 Gmail ramps up enforcement; non-compliant traffic sees temporary and permanent rejections.",
+    "Unsubscribe link at top of message shows only for messages passing automated eligibility checks."
+   ],
+   "limits": "Promotional vs transactional is judged by recipients, not Google.",
+   "evidence_level": "verified",
+   "revisit": "quarterly"
+  },
+  {
+   "id": "SRC-WRITE-009",
+   "title": "RFC 8058 Signaling One-Click Functionality for List Email Headers",
+   "url": "https://www.rfc-editor.org/rfc/rfc8058",
+   "publisher": "IETF / RFC Editor",
+   "published": "2017-01",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "marketing",
+    "engineering"
+   ],
+   "findings": [
+    "Sender provides HTTPS POST endpoint from the List-Unsubscribe URI; it MUST NOT answer with an HTTPS redirect.",
+    "Message needs a valid authentication identifier (e.g. DKIM); URI should contain an opaque identifier; request must not carry cookies."
+   ],
+   "limits": "Protocol spec, not deliverability policy.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-010",
+   "title": "DORA's software delivery performance metrics",
+   "url": "https://dora.dev/guides/dora-metrics/",
+   "publisher": "DORA (Google Cloud)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-agile",
+    "engineering"
+   ],
+   "findings": [
+    "Throughput: change lead time, deployment frequency, failed deployment recovery time.",
+    "Instability: change fail rate and deployment rework rate (unplanned deployments caused by a production incident)."
+   ],
+   "limits": "Page does not date the introduction of rework rate.",
+   "evidence_level": "verified",
+   "revisit": "yearly with DORA report"
+  },
+  {
+   "id": "SRC-WRITE-011",
+   "title": "DORA State of AI-assisted Software Development 2025",
+   "url": "https://dora.dev/research/2025/dora-report/",
+   "publisher": "DORA (Google Cloud)",
+   "published": "2025",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "engineering",
+    "product-agile"
+   ],
+   "findings": [
+    "AI's primary role is as an amplifier of existing organizational strengths and weaknesses.",
+    "Greatest returns come from the underlying organizational system, not the tools."
+   ],
+   "limits": "Landing page only; full report not read.",
+   "evidence_level": "supported",
+   "revisit": "read the full report"
+  },
+  {
+   "id": "SRC-WRITE-012",
+   "title": "DORA Report Finds AI Is an Amplifier ... But Trust Remains Low (InfoQ)",
+   "url": "https://www.infoq.com/news/2025/09/dora-state-of-ai-in-dev-2025",
+   "publisher": "InfoQ",
+   "published": "2025-09",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "AI adoption now correlates positively with delivery throughput, while delivery instability continues to rise.",
+    "Researchers tested whether speed offsets instability via fail-fast-fix-fast and found it did not."
+   ],
+   "limits": "Secondary summary; no verification/auditing-shift wording found.",
+   "evidence_level": "supported",
+   "revisit": "read primary report sections on review and batch size"
+  },
+  {
+   "id": "SRC-WRITE-013",
+   "title": "Writing good CL descriptions (Google eng-practices)",
+   "url": "https://google.github.io/eng-practices/review/developer/cl-descriptions.html",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "CL description is a public record answering what changes and why.",
+    "First line is a short focused summary; body gives problem, why this approach, shortcomings, background links.",
+    "External links may become unreadable, so include enough context."
+   ],
+   "limits": "Google-internal CL culture; Gerrit-style review.",
+   "evidence_level": "context-dependent",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-014",
+   "title": "Small CLs (Google eng-practices)",
+   "url": "https://google.github.io/eng-practices/review/developer/small-cls.html",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "Small CLs are reviewed more quickly and more thoroughly."
+   ],
+   "limits": "Practitioner guidance, no controlled study cited on the page.",
+   "evidence_level": "context-dependent",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-015",
+   "title": "Pull requests (GitHub Docs)",
+   "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+   "publisher": "GitHub",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "Pull requests let teams discuss and review changes before merging.",
+    "Conversation tab shows description, timeline, comments, reviews; separate tabs for commits, checks, files changed."
+   ],
+   "limits": "Product documentation.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-016",
+   "title": "Conventional Commits 1.0.0",
+   "url": "https://www.conventionalcommits.org/en/v1.0.0/",
+   "publisher": "Conventional Commits project",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "Format <type>[scope]: <description> + optional body/footers.",
+    "Stated purpose: explicit commit history that is easier to build automated tools on; maps fix->PATCH, feat->MINOR, BREAKING CHANGE->MAJOR."
+   ],
+   "limits": "Does not say to use it only with automation.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-017",
+   "title": "FaST Guide 2.1 (PDF)",
+   "url": "https://coach-agile.com/wp-content/uploads/2021/12/FAST-Guide-2.1-English.pdf",
+   "publisher": "Cron Technologies LLC (hosted by coach-agile.com)",
+   "published": "2021-06",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "product-agile"
+   ],
+   "findings": [
+    "FAST = Fluid Scaling Technology, combining Open Space Technology and Open Allocation.",
+    "Optimised for design, discovery and delivery, not only delivery.",
+    "Work emerges in a Marketplace; Tribe Members self-select into teams.",
+    "Maps and Discovery Trees represent and make work visible."
+   ],
+   "limits": "Vendor-authored guide, 2021; no outcome evidence.",
+   "evidence_level": "context-dependent",
+   "revisit": "Superseded for current terminology by FaST Guide v3.0 (SRC-WRITE-036), which uses Collective, not Tribe."
+  },
+  {
+   "id": "SRC-WRITE-018",
+   "title": "FAST - Fluid Adaptive Scaling Technology (official site)",
+   "url": "https://fastagile.io/",
+   "publisher": "fastagile.io",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "product-agile"
+   ],
+   "findings": [
+    "Site expands the acronym as Fluid Adaptive Scaling Technology and describes self-organising around work, for delivery and discovery."
+   ],
+   "limits": "Marketing site, testimonials; conflicts with the guide's expansion.",
+   "evidence_level": "aesthetic",
+   "revisit": "Superseded for current terminology by FaST Guide v3.0 (SRC-WRITE-036), which uses Collective, not Tribe."
+  },
+  {
+   "id": "SRC-WRITE-019",
+   "title": "Professional Editorial Standards 2024",
+   "url": "https://editors.ca/professional-editorial-standards",
+   "publisher": "Editors Canada",
+   "published": "2024-04-16",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Four editing stages from first iteration to last: structural, stylistic, copy editing, proofreading.",
+    "Part A fundamentals (2024 adds conscious language, accessibility); rewriting, indexing, localization out of scope."
+   ],
+   "limits": "English-language editing, Canadian body; definitions per stage not read (sub-pages not opened).",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-020",
+   "title": "GOV.UK A to Z style guide",
+   "url": "https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style",
+   "publisher": "GOV.UK (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "All GOV.UK content should be written in plain English with language the audience understands; \"words to avoid\" list exists."
+   ],
+   "limits": "UK English, government audience. The content design \"writing for GOV.UK\" URL only redirected and its target page was not opened.",
+   "evidence_level": "verified",
+   "revisit": "open the writing-guidelines target page"
+  },
+  {
+   "id": "SRC-WRITE-021",
+   "title": "Google developer documentation style guide - Highlights",
+   "url": "https://developers.google.com/style/highlights",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "Conversational tone, active voice, second person, writing for accessibility and a global audience, descriptive link text."
+   ],
+   "limits": "Developer docs context.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-022",
+   "title": "Write for a global audience (Google developer documentation style guide)",
+   "url": "https://developers.google.com/style/translation",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "engineering",
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Docs are written in US English with translation in mind.",
+    "Short unambiguous sentences, active voice, present tense, avoid colloquialisms, idioms, humor, seasonal references; keep terminology consistent."
+   ],
+   "limits": "Developer docs.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-023",
+   "title": "Cross-references and linking (Google developer documentation style guide)",
+   "url": "https://developers.google.com/style/link-text",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "engineering",
+    "marketing",
+    "en"
+   ],
+   "findings": [
+    "Link text should make sense without surrounding text; do not use \"click here\" or \"this document\"."
+   ],
+   "limits": "none",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-024",
+   "title": "Microsoft Writing Style Guide - brand voice (simple and human) and welcome",
+   "url": "https://learn.microsoft.com/en-us/style-guide/brand-voice-above-all-simple-human",
+   "publisher": "Microsoft",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Guide's voice principle is \"above all, simple and human\" (page title); detailed rules not extracted this session."
+   ],
+   "limits": "Only the voice and welcome pages were fetched (welcome: https://learn.microsoft.com/en-us/style-guide/welcome/); thin evidence.",
+   "evidence_level": "supported",
+   "revisit": "extract bias-free communication and procedures pages"
+  },
+  {
+   "id": "SRC-WRITE-025",
+   "title": "Mailchimp Content Style Guide - Voice and Tone",
+   "url": "https://styleguide.mailchimp.com/voice-and-tone/",
+   "publisher": "Mailchimp",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "marketing",
+    "en"
+   ],
+   "findings": [
+    "Voice stays constant, tone adapts to the situation.",
+    "Use active voice, avoid slang and jargon, write positively."
+   ],
+   "limits": "Company brand guide, not evidence of effect.",
+   "evidence_level": "aesthetic",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-026",
+   "title": "Understanding SC 2.4.4 Link Purpose (In Context)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "marketing",
+    "engineering",
+    "editorial"
+   ],
+   "findings": [
+    "Level A: users understand what each link does; provide descriptive link names or context.",
+    "Techniques accept link text alone or link text plus sentence or programmatic context."
+   ],
+   "limits": "Context-dependent: link text alone is not always required for conformance.",
+   "evidence_level": "verified",
+   "revisit": "when WCAG 3 advances"
+  },
+  {
+   "id": "SRC-WRITE-027",
+   "title": "Understanding SC 2.4.6 Headings and Labels",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "marketing",
+    "engineering",
+    "editorial"
+   ],
+   "findings": [
+    "Level AA: headings and labels describe topic or purpose; helps orientation."
+   ],
+   "limits": "Does not require headings to exist or to be unique.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-028",
+   "title": "git SubmittingPatches",
+   "url": "https://git-scm.com/docs/SubmittingPatches",
+   "publisher": "Git project",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "Describe changes in imperative mood, as if giving orders to the codebase.",
+    "Make the explanation understandable without external resources; summarize linked discussions instead of only linking."
+   ],
+   "limits": "Git project's own mailing-list workflow; git-commit man page (https://git-scm.com/docs/git-commit) opened but no subject-length rule extracted.",
+   "evidence_level": "context-dependent",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-029",
+   "title": "Creating a pull request template for your repository (GitHub Docs)",
+   "url": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository",
+   "publisher": "GitHub",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "engineering"
+   ],
+   "findings": [
+    "A PR template's contents appear automatically in the pull request body."
+   ],
+   "limits": "Location rules not extracted.",
+   "evidence_level": "verified",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-030",
+   "title": "Atlassian Design System - Content foundations",
+   "url": "https://atlassian.design/foundations/content/",
+   "publisher": "Atlassian",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "engineering",
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Content foundations aim for clear, concise, consistent language in Atlassian apps."
+   ],
+   "limits": "Product UI copy guidance, not Confluence documentation guidance. No official Atlassian doc-writing guide found; community posts seen in search were not opened.",
+   "evidence_level": "supported",
+   "revisit": "look for Atlassian Team Playbook or Confluence docs guidance"
+  },
+  {
+   "id": "SRC-WRITE-031",
+   "title": "Shape Up chapter 13 Show Progress (hill charts)",
+   "url": "https://basecamp.com/shapeup/3.4-chapter-13",
+   "publisher": "Basecamp",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "product-agile"
+   ],
+   "findings": [
+    "Hill chart: uphill = figuring things out, downhill = making it happen.",
+    "First third uphill = \"I've thought about this\", second = \"approach validated\", final = \"no other unknowns believed\".",
+    "Backsliding happens when uphill work was done \"with the head instead of the hands\"."
+   ],
+   "limits": "Method from one company; no outcome data.",
+   "evidence_level": "context-dependent",
+   "revisit": "no"
+  },
+  {
+   "id": "SRC-WRITE-032",
+   "title": "Lesbarkeitsindex (German Wikipedia)",
+   "url": "https://de.wikipedia.org/wiki/Lesbarkeitsindex",
+   "publisher": "Wikipedia",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "Amstad adapted Flesch for German: FRE_de = 180 - ASL - 58.5 x ASW (ASL average sentence length, ASW average syllables per word).",
+    "Word length dominates in both Flesch indices, which limits applicability to German with many compounds.",
+    "Formulas measure two surface features directly and others only indirectly."
+   ],
+   "limits": "Encyclopedia, secondary; LIX article not separately opened.",
+   "evidence_level": "supported",
+   "revisit": "replace with Amstad 1978 and Bjornsson (LIX) primary sources"
+  },
+  {
+   "id": "SRC-WRITE-033",
+   "title": "Bottom line up front (Wikipedia)",
+   "url": "https://en.wikipedia.org/wiki/Bottom_line_up_front",
+   "publisher": "Wikipedia",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "BLUF originates in US Army Regulation 25-50: main point first and active voice.",
+    "Resembles the journalistic inverted pyramid; deductive rather than inductive order."
+   ],
+   "limits": "Secondary; the AR itself and Minto's book not opened. Pyramid Principle primary not reached.",
+   "evidence_level": "supported",
+   "revisit": "open Minto and AR 25-50"
+  },
+  {
+   "id": "SRC-WRITE-034",
+   "title": "Mayer's 12 Principles of Multimedia Learning (summary)",
+   "url": "https://educationaltechnology.net/?p=1878",
+   "publisher": "Educational Technology (practitioner site)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "marketing",
+    "product-agile",
+    "editorial"
+   ],
+   "findings": [
+    "Signaling: cues emphasizing key information and structure help learning (outline slide, arrows, bold).",
+    "Redundancy: graphics with narration beat graphics plus narration plus on-screen text.",
+    "Coherence: remove irrelevant material."
+   ],
+   "limits": "Practitioner summary of lab-based learning research, not a meta-analysis; about learning lessons, not marketing persuasion or hero animation. Signaling meta-analysis page (rex.libraries.wsu.edu) opened but only a title, no content.",
+   "evidence_level": "hypothesis",
+   "revisit": "read Mayer 2009/2014 and the 2020 signaling meta-analysis in ETR&D 68(5)"
+  },
+  {
+   "id": "SRC-WRITE-035",
+   "title": "Duden Rechtschreibregeln",
+   "url": "https://www.duden.de/sprachwissen/rechtschreibregeln",
+   "publisher": "Duden",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "Free reference of spelling and punctuation rules by number (e.g. D 100 to D 108 for comma in enumerations; D 5 to D 11 for quotation marks)."
+   ],
+   "limits": "Rules index, not style advice; does not confirm the 2024 Regelwerk date.",
+   "evidence_level": "supported",
+   "revisit": "pair with Rat primary when reachable"
+  },
+  {
+   "id": "SRC-WRITE-036",
+   "title": "FaST Guide, Version 3.0",
+   "url": "https://www.fastagile.io/fast-guide",
+   "publisher": "Quinton Ronald Quartel",
+   "published": "2024-01",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "product-agile",
+    "fast"
+   ],
+   "findings": [
+    "Expands FaST as Fluid Scaling Technology.",
+    "The group of people working together is the Collective; everyone in it is a Member; a Collective can work on several products with several Product Managers.",
+    "Teams self-organize around work items in a Marketplace and record choices on a Marketplace Board; Discovery Trees break down work and track progress."
+   ],
+   "limits": "Read from a local PDF copy of v3.0 (January 2024); the web URL was not opened in this session. Licensed CC BY-NC-ND 4.0: cite, do not adapt.",
+   "evidence_level": "verified",
+   "revisit": "A FaST Guide version after 3.0."
+  }
+ ]
+}

@@ -32,6 +32,7 @@ for another system.
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Write numbers a non-participant reads correctly | [`plain-numbers`](./skills/product/plain-numbers/SKILL.md) |
+| Design a flow, form, product screen, site, dashboard, or deck with evidence | [`skills/design`](./skills/design/README.md) |
 | Write an email, status, hero, PR, or commit with its golden path | [`skills/writing`](./skills/writing/README.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
 | Understand what changes beyond one repository | [`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) |
@@ -175,6 +176,7 @@ Browse by category:
 - [Engineering](./skills/engineering/README.md)
 - [Product](./skills/product/README.md)
 - [Frontend](./skills/frontend/README.md)
+- [Design](./skills/design/README.md)
 - [Backend](./skills/backend/README.md)
 - [Infrastructure](./skills/infrastructure/README.md)
 - [Testing](./skills/testing/README.md)

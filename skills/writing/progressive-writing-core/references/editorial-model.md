@@ -55,7 +55,11 @@ text serve scanning and accessibility at once.
 abstractions, evidence over adjectives, one idea over sentence gymnastics,
 reader reality over internal terminology.
 
-**EDIT.** Separate passes:
+**EDIT.** Separate passes. The professional stages are structural,
+stylistic, copy editing, and proofreading, in that order, because polishing a
+sentence that the structural pass will cut wastes the work (verified)
+[SRC-WRITE-019]. The passes below map onto them: A to structural, B to D to
+stylistic, E to copy editing, F to proofreading.
 
 - A Structural: does the order match the reader's decision path?
 - B Meaning: is every claim precise and uncertainty honest?
@@ -68,6 +72,17 @@ reader reality over internal terminology.
 
 **TEST.** Deterministic structure, linguistic diagnostics, semantic rubric,
 and human judgment for high-impact artifacts. See `quality-model.md`.
+
+## Text that is presented or animated
+
+Slides, hero sections, and product UI may reveal text step by step. No
+evidence was found that progressive reveal helps comprehension in slides or
+web copy; the multimedia-learning principles behind it come from narrated
+instructional lessons (hypothesis) [SRC-WRITE-034]. So: write the full
+message so it reads correctly without motion, keep the key claim visible by
+default, and never make a reader wait for an animation to see the point. When
+a build is used, one step carries one idea. Motion design itself follows
+`progressive-design-core/references/motion.md` when that skill is installed.
 
 ## Golden paths in one line each
 

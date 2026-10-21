@@ -53,3 +53,5 @@ venv/
 *.tar
 *.tar.gz
 *.tgz
+test-results/
+playwright-report/
