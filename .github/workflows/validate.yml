@@ -48,6 +48,23 @@ jobs:
       - name: Test writing quality gate and golden outputs
         run: python3 -m unittest discover -s skills/writing/progressive-writing-core/tests
 
+      - name: Test design skill scripts
+        shell: bash
+        run: |
+          set -eu
+          for t in skills/design/*/tests; do
+            if ls "$t"/test_*.py >/dev/null 2>&1; then python3 -m unittest discover -s "$t"; fi
+          done
+
+      - name: Check knowledge registries
+        run: python3 scripts/check-knowledge.py
+
+      - name: Install Chromium for browser tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Run reference form in a real browser
+        run: npx playwright test -c skills/design/progressive-forms-interactions/tests
+
       - name: Install catalog for supported clients
         shell: bash
         run: |

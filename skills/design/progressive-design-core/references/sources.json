@@ -1,0 +1,3172 @@
+{
+ "version": 1,
+ "cut": "2026-10-21",
+ "sources": [
+  {
+   "id": "SRC-A11Y-001",
+   "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+   "url": "https://www.w3.org/TR/WCAG22/",
+   "publisher": "W3C",
+   "published": "2024-12-12",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "forms",
+    "focus",
+    "status-messages"
+   ],
+   "findings": [
+    "3.3.4 (AA) for pages with legal/financial commitments or that modify/delete user data requires at least one of reversible, checked-with-chance-to-correct, or confirmed-by-review submissions.",
+    "3.3.7 Redundant Entry (A, new in 2.2) requires info already given in the same process to be auto-populated or selectable, except when essential, security-required, or no longer valid.",
+    "3.3.8 Accessible Authentication Minimum (AA, new) bans cognitive function tests in auth unless an alternative or assisting mechanism exists; notes name password-manager support and copy/paste as satisfying mechanisms.",
+    "2.5.8 Target Size Minimum (AA, new) requires pointer targets of at least 24x24 CSS px, with exceptions (spacing, equivalent control, inline, user-agent control, essential).",
+    "2.4.11 Focus Not Obscured Minimum (AA, new) fails when a focused component is entirely hidden by author-created content (for example a sticky header or cookie banner).",
+    "4.1.3 Status Messages (AA) requires status messages (success, waiting, progress, errors) to be programmatically determinable by role or properties so AT can present them without focus moving.",
+    "3.3.3 Error Suggestion (AA) requires correction suggestions when an input error is auto-detected and a suggestion is known, unless that would jeopardize security or purpose.",
+    "Working group recommends sites adopt 2.2 as the conformance target even if regulation cites older versions."
+   ],
+   "limits": "Normative text only; I did not re-read 1.3.1, 1.4.3, 1.4.11, 2.1.1, 2.4.3, 2.4.7, 3.3.1, 3.3.2 wording in this session beyond the table of contents.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation; regulator moves to a newer version (EN 301 549, ADA rule updates)."
+  },
+  {
+   "id": "SRC-A11Y-002",
+   "title": "W3C Accessibility Guidelines (WCAG) 3.0, Working Draft",
+   "url": "https://www.w3.org/TR/wcag-3.0/",
+   "publisher": "W3C Accessibility Guidelines Working Group",
+   "published": "2026-09-10",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility"
+   ],
+   "findings": [
+    "Latest publication is a Working Draft dated 10 September 2026, not a Recommendation or Candidate Recommendation.",
+    "The status text says the draft includes requirements that reached \"developing\" status and that it is inappropriate to cite it other than as work in progress.",
+    "Sections carry maturity labels (placeholder, exploratory, developing, refining, mature); the Reporting section is still \"Exploratory\".",
+    "The reporting model (tiers vs scoring, Bronze/Silver/Gold) is undecided, with TBD counts of supplemental requirements.",
+    "Draft includes a focus-restoration requirement (return focus to the opener when a modal closes), matching current APG practice."
+   ],
+   "limits": "Draft; wording and structure may change; not a conformance basis.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 reaching Candidate Recommendation, or any regulator citing it."
+  },
+  {
+   "id": "SRC-A11Y-003",
+   "title": "GOV.UK Design System - Error summary",
+   "url": "https://design-system.service.gov.uk/components/error-summary/",
+   "publisher": "GOV.UK Design System (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "validation",
+    "focus",
+    "errors"
+   ],
+   "findings": [
+    "Must move keyboard focus to the error summary on a failed submit (govuk-frontend JS does this).",
+    "Summary heading is \"There is a problem\"; each item links to the answer in error.",
+    "Summary messages must match the wording of the inline messages next to the inputs.",
+    "Add \"Error: \" to the start of the page title."
+   ],
+   "limits": "Server-rendered, page-per-question context; behaviour on SPA validation is not specified.",
+   "evidence_level": "supported",
+   "revisit": "GOV.UK Frontend major release changing error summary behaviour."
+  },
+  {
+   "id": "SRC-A11Y-004",
+   "title": "GOV.UK Design System - Button (disabled buttons, double click)",
+   "url": "https://design-system.service.gov.uk/components/button/",
+   "publisher": "GOV.UK Design System (GDS)",
+   "published": "2026-07",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "buttons",
+    "double-submit"
+   ],
+   "findings": [
+    "Says disabled buttons have poor contrast and can confuse some users, so avoid them; use only if research shows they make the interface easier to understand.",
+    "Documents data-prevent-double-click=\"true\", which ignores a second click; recommended when production research shows users send information twice.",
+    "Cites GOV.UK Notify, where users received invitations twice because the sender double-clicked \"send\".",
+    "Names causes of double clicks: habit from double-click OS, slow connection with late feedback, motor impairment (tremor)."
+   ],
+   "limits": "Guidance rests on GDS team research, which is not published in detail on the page.",
+   "evidence_level": "supported",
+   "revisit": "Release notes for govuk-frontend 6.x."
+  },
+  {
+   "id": "SRC-A11Y-005",
+   "title": "GOV.UK Design System - Recover from validation errors",
+   "url": "https://design-system.service.gov.uk/patterns/validation/",
+   "publisher": "GOV.UK Design System (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "validation",
+    "errors"
+   ],
+   "findings": [
+    "On failure, re-show the page with fields as the user filled them in.",
+    "Prefix the page title with \"Error: \", show an error summary at the top and move keyboard focus to it, and show an error message next to each failing field.",
+    "Keeping failed input helps users see what went wrong, edit the previous answer and avoid re-entering."
+   ],
+   "limits": "Pattern assumes validation on submit.",
+   "evidence_level": "supported",
+   "revisit": "pattern revision."
+  },
+  {
+   "id": "SRC-A11Y-006",
+   "title": "GOV.UK Design System - Error message",
+   "url": "https://design-system.service.gov.uk/components/error-message/",
+   "publisher": "GOV.UK Design System (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "copy",
+    "errors"
+   ],
+   "findings": [
+    "Messages state what happened and how to fix it, in plain English with positive language.",
+    "Avoid jargon, \"forbidden/illegal/you forgot\", \"please\", \"sorry\", \"valid/invalid\", and \"oops\".",
+    "Do not repeat an example in the error if hint text on screen already shows it."
+   ],
+   "limits": "UK public-service English; localization not covered.",
+   "evidence_level": "supported",
+   "revisit": "copy guidance changes."
+  },
+  {
+   "id": "SRC-A11Y-007",
+   "title": "USWDS - Button",
+   "url": "https://designsystem.digital.gov/components/button/",
+   "publisher": "U.S. Web Design System (GSA/TTS)",
+   "published": "2024-10-04",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "buttons",
+    "accessibility"
+   ],
+   "findings": [
+    "USWDS supports both disabled and aria-disabled styling.",
+    "Native disabled prevents activation; aria-disabled=\"true\" only communicates state and styles, so app logic must block the action.",
+    "Always set the type attribute (a button without it behaves as submit)."
+   ],
+   "limits": "Does not say when disabled is appropriate; no recommendation against it was found on this page.",
+   "evidence_level": "supported",
+   "revisit": "USWDS 4.x."
+  },
+  {
+   "id": "SRC-A11Y-008",
+   "title": "USWDS - Validation (component)",
+   "url": "https://designsystem.digital.gov/components/validation/",
+   "publisher": "U.S. Web Design System (GSA/TTS)",
+   "published": "2025-03-26",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "forms",
+    "validation"
+   ],
+   "findings": [
+    "Latest change-log entry (2025-03-26, v3.12.0) notes the validation component is deprecated after v3.12.0."
+   ],
+   "limits": "I read only the update table; the body guidance on timing was not extracted. USWDS form page was fetched but not read in detail.",
+   "evidence_level": "context-dependent",
+   "revisit": "USWDS replacement guidance for validation."
+  },
+  {
+   "id": "SRC-A11Y-009",
+   "title": "10 Design Guidelines for Reporting Errors in Forms",
+   "url": "https://www.nngroup.com/articles/errors-forms-design-guidelines/",
+   "publisher": "Nielsen Norman Group",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "forms",
+    "errors"
+   ],
+   "findings": [
+    "A validation summary alone is not enough: it forces users to search for the field and to remember the message while fixing it; also mark each field in error."
+   ],
+   "limits": "Only guideline 8 was extracted in this session; remaining nine guidelines were not read.",
+   "evidence_level": "supported",
+   "revisit": "updated article."
+  },
+  {
+   "id": "SRC-A11Y-010",
+   "title": "Button States - Communicate Interaction",
+   "url": "https://www.nngroup.com/articles/button-states-communicate-interaction/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2025-04",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "buttons",
+    "feedback"
+   ],
+   "findings": [
+    "Defines the disabled state as the action being unavailable; gives \"submit inactive until required fields filled\" as a typical example.",
+    "Disabled labels need not match enabled contrast but must stay readable, and not so high that people think the button is clickable; advises testing with real users."
+   ],
+   "limits": "Describes state conventions; does not evaluate harm and gives no usability data for disabled submit.",
+   "evidence_level": "context-dependent",
+   "revisit": "NN/g article on disabled submit buttons specifically (the guessed URL /articles/disabled-buttons/ returned 404)."
+  },
+  {
+   "id": "SRC-A11Y-011",
+   "title": "Usability Testing of Inline Form Validation: 31% Don't Have It, 4% Get It Wrong",
+   "url": "https://baymard.com/blog/inline-form-validation",
+   "publisher": "Baymard Institute",
+   "published": "2024-01-09",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "forms",
+    "validation",
+    "checkout"
+   ],
+   "findings": [
+    "Three details: avoid premature validation, remove an error the moment the field is corrected, use positive inline validation.",
+    "Premature errors (firing on focus before typing) were disliked; users felt \"yelled at\".",
+    "Recheck must run per keystroke, not only on blur, otherwise users think corrected input is still wrong (notably email and password confirmation).",
+    "Page text reports 31% of benchmarked sites have no inline validation (the video summary on the same page says 32%) and 4% implement it wrongly.",
+    "Errors surfacing only on submit contributed to abandonment across test rounds."
+   ],
+   "limits": "E-commerce checkout benchmark, moderated tests; Premium data is paywalled; internal 31%/32% inconsistency.",
+   "evidence_level": "supported",
+   "revisit": "Baymard re-benchmark."
+  },
+  {
+   "id": "SRC-A11Y-012",
+   "title": "Checkout Optimization: 5 Ways to Minimize Form Fields in Checkout",
+   "url": "https://baymard.com/blog/checkout-flow-average-form-fields",
+   "publisher": "Baymard Institute",
+   "published": "2024-06-26",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "forms",
+    "checkout"
+   ],
+   "findings": [
+    "Average checkout in 2024: 5.1 steps and 11.3 form fields; 17% of users abandoned due to checkout complexity.",
+    "Number of form fields affects checkout UX more than number of steps; performance drops as fields increase."
+   ],
+   "limits": "E-commerce only; correlational benchmark; per-article recommended field target not extracted.",
+   "evidence_level": "supported",
+   "revisit": "Baymard checkout benchmark update."
+  },
+  {
+   "id": "SRC-A11Y-013",
+   "title": "The problem with disabled buttons and what to do instead",
+   "url": "https://adamsilver.io/blog/the-problem-with-disabled-buttons-and-what-to-do-instead/",
+   "publisher": "Adam Silver",
+   "published": "2023-05-14",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "forms",
+    "buttons",
+    "accessibility"
+   ],
+   "findings": [
+    "Lists harms: low contrast and hard to see; not focusable so keyboard users cannot reach it; deceptive (users still click); users may not notice when it becomes enabled (button off screen, attention on fields).",
+    "Says live validation does not fix these and is itself problematic.",
+    "Author prototyped disabling until valid in 2009 and later abandoned it."
+   ],
+   "limits": "Expert opinion with screenshots of real sites; no quantitative study; the fetched text was short and my extraction did not return his explicit recommended alternative on this page.",
+   "evidence_level": "context-dependent",
+   "revisit": "any controlled study of disabled vs enabled submit."
+  },
+  {
+   "id": "SRC-A11Y-014",
+   "title": "The problem with live validation and what to do instead",
+   "url": "https://adamsilver.io/blog/the-problem-with-live-validation-and-what-to-do-instead/",
+   "publisher": "Adam Silver",
+   "published": "2017-06-26",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "forms",
+    "validation"
+   ],
+   "findings": [
+    "Recommends validating on submit instead of live; claims his submit-time pattern, used since 2008, caused no issues in user research."
+   ],
+   "limits": "Opinion with own research unpublished; contradicts Baymard on timing; promotional link to his course.",
+   "evidence_level": "context-dependent",
+   "revisit": "published A/B or usability data on on-blur vs on-submit."
+  },
+  {
+   "id": "SRC-A11Y-015",
+   "title": "Disabled buttons suck",
+   "url": "https://axesslab.com/disabled-buttons-suck/",
+   "publisher": "Axess Lab",
+   "published": "2017-07-07",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "accessibility",
+    "forms",
+    "buttons"
+   ],
+   "findings": [
+    "Recommends keeping buttons enabled and, on click with errors, showing an error and moving focus to it.",
+    "Notes WCAG contrast rules exempt text in inactive components, so disabled buttons can legally be unreadable; criticises that exception.",
+    "If a \"looks disabled\" cue is wanted, keep it enabled in code with sufficient contrast."
+   ],
+   "limits": "Opinion article, 2017, cites WCAG 2.0 understanding doc; no usability data.",
+   "evidence_level": "context-dependent",
+   "revisit": "WCAG 3 treatment of disabled state."
+  },
+  {
+   "id": "SRC-A11Y-016",
+   "title": "Usability Pitfalls of Disabled Buttons, and How To Avoid Them",
+   "url": "https://www.smashingmagazine.com/2021/08/frustrating-design-patterns-disabled-buttons/",
+   "publisher": "Smashing Magazine",
+   "published": "2021-08",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "forms",
+    "buttons",
+    "accessibility"
+   ],
+   "findings": [
+    "For unavoidable disabled buttons, cites Sandrina Pereira tactics: cursor not-allowed, tooltip explaining why (button must be focusable), aria-disabled so the button stays focusable and announced, live regions for dynamic messages.",
+    "Notes native disabled can drop keyboard focus while a form is submitting; aria-disabled avoids that."
+   ],
+   "limits": "Secondary compilation; the article's own claims about user behaviour are observational, not measured.",
+   "evidence_level": "context-dependent",
+   "revisit": "n/a"
+  },
+  {
+   "id": "SRC-A11Y-017",
+   "title": "Understanding SC 1.3.5 Identify Input Purpose",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "forms",
+    "accessibility",
+    "autocomplete"
+   ],
+   "findings": [
+    "Goal: easier form filling; mark purpose of common inputs in code where technology allows (AA)."
+   ],
+   "limits": "Only the \"In Brief\" section was read.",
+   "evidence_level": "verified",
+   "revisit": "new WCAG version."
+  },
+  {
+   "id": "SRC-A11Y-018",
+   "title": "HTML Standard - Form control infrastructure (autofill)",
+   "url": "https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill",
+   "publisher": "WHATWG",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "forms",
+    "autocomplete"
+   ],
+   "findings": [
+    "Defines the autofill token table, including name, given-name, family-name, username, new-password, current-password, one-time-code, street-address, address-line1 and address-line2; \"off\" and \"on\" are separate categories."
+   ],
+   "limits": "Living spec; I saw the token list but did not extract full cc-* and email tokens or the autofill-field-name rules. Living standard, no edition date.",
+   "evidence_level": "verified",
+   "revisit": "spec change to autofill."
+  },
+  {
+   "id": "SRC-A11Y-019",
+   "title": "Understanding SC 3.3.8 Accessible Authentication (Minimum)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "forms",
+    "authentication",
+    "accessibility"
+   ],
+   "findings": [
+    "Login passes when browsers and password managers can fill the fields; blocking autofill or paste makes the page fail unless an alternative is provided.",
+    "Relies on 1.3.5 input purpose plus accessible names for reliable filling."
+   ],
+   "limits": "Informative guidance.",
+   "evidence_level": "verified",
+   "revisit": "3.3.9 or WCAG 3 changes."
+  },
+  {
+   "id": "SRC-A11Y-020",
+   "title": "Sign-in form best practices",
+   "url": "https://web.dev/articles/sign-in-form-best-practices",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "forms",
+    "autocomplete",
+    "passwords"
+   ],
+   "findings": [
+    "Use autocomplete=\"new-password\" for sign-up and reset forms and \"current-password\" for sign-in.",
+    "Use real form, input, label, button; stable name/id; provide show-password; do not double up inputs."
+   ],
+   "limits": "Chrome-team guidance; browser behaviour varies by platform.",
+   "evidence_level": "supported",
+   "revisit": "browser autofill changes."
+  },
+  {
+   "id": "SRC-A11Y-021",
+   "title": "Dialog (Modal) Pattern - ARIA Authoring Practices Guide",
+   "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "dialogs",
+    "focus"
+   ],
+   "findings": [
+    "On open, focus moves inside the dialog, usually to the first focusable element; for long or structured content focus a tabindex=-1 static element at the top.",
+    "For a final irreversible step (delete, payment) it may be advisable to focus the least destructive action."
+   ],
+   "limits": "APG is guidance, not a standard; native <dialog> behaviour not covered here.",
+   "evidence_level": "supported",
+   "revisit": "APG update."
+  },
+  {
+   "id": "SRC-A11Y-022",
+   "title": "ARIA live regions",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Guides/Live_regions",
+   "publisher": "MDN",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "accessibility",
+    "status-messages"
+   ],
+   "findings": [
+    "Polite is the normal setting; assertive interrupts and should be rare.",
+    "Roles status/log imply polite, alert implies assertive; adding redundant aria-live to role=alert causes double speaking on iOS VoiceOver.",
+    "aria-live=\"off\" does not mean never announced; it means announced only when focus is in the element."
+   ],
+   "limits": "Compatibility notes may age; \"live region must pre-exist in DOM\" was not verified from this page.",
+   "evidence_level": "supported",
+   "revisit": "AT behaviour changes."
+  },
+  {
+   "id": "SRC-A11Y-023",
+   "title": "Understanding SC 4.1.3 Status Messages",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "status-messages"
+   ],
+   "findings": [
+    "Goal: let assistive technology announce important changes that do not take focus."
+   ],
+   "limits": "Only the \"In Brief\" section was read.",
+   "evidence_level": "verified",
+   "revisit": "new WCAG version."
+  },
+  {
+   "id": "SRC-A11Y-024",
+   "title": "WAI Forms Tutorial - User Notification",
+   "url": "https://www.w3.org/WAI/tutorials/forms/notifications/",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "forms",
+    "validation",
+    "status-messages"
+   ],
+   "findings": [
+    "Feedback should be concise and clear, both in-line and after submit.",
+    "Checking on focus change (blur) is suggested where per-keystroke checking would error most of the time, such as formatted dates.",
+    "The sample reports the message via an aria-live region (aria-live=assertive) tied by aria-describedby."
+   ],
+   "limits": "Tutorial example code, partly dated; assertive choice conflicts with MDN's advice to use it sparingly.",
+   "evidence_level": "supported",
+   "revisit": "tutorial rewrite."
+  },
+  {
+   "id": "SRC-A11Y-025",
+   "title": "GNOME Human Interface Guidelines - Dialogs",
+   "url": "https://developer.gnome.org/hig/patterns/feedback/dialogs.html",
+   "publisher": "GNOME Project",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "destructive-actions",
+    "feedback"
+   ],
+   "findings": [
+    "Destructive actions need a confirmation dialog or an undo offer; undo (usually a toast) is typically better because users habitually click through confirmations.",
+    "Where undo is impossible, still use a confirmation dialog that names the action and the risk."
+   ],
+   "limits": "Desktop app guidance, not web; claim about habituation is asserted, not cited to data on the page.",
+   "evidence_level": "context-dependent",
+   "revisit": "any web-specific measurement of undo vs confirm."
+  },
+  {
+   "id": "SRC-FLOW-001",
+   "title": "Why You Only Need to Test with 5 Users",
+   "url": "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "2000-03-18",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ux-research",
+    "usability-testing"
+   ],
+   "findings": [
+    "Model is found(n) = 1 - (1 - L)^n with L about 31% averaged over the authors' projects (Nielsen and Landauer 1993); five users gives about 84-85% under that model.",
+    "Recommends several small rounds (e.g. 3 rounds of 5 with redesign between) over one study of 15.",
+    "For two distinct user groups test 3-4 per group; for three or more groups test about 3 per group.",
+    "Model assumes comparable users and similar usage; 31% is an average, not a guarantee for a given project."
+   ],
+   "limits": "2000 article; L is an average from the author's own projects; the 85% is a model output for problem discovery, not a measured guarantee. Author himself points to later work.",
+   "evidence_level": "context-dependent",
+   "revisit": "if NN/g retires or rewrites the guidance, or new large-sample replication appears"
+  },
+  {
+   "id": "SRC-FLOW-002",
+   "title": "How Many Test Users in a Usability Study?",
+   "url": "https://www.nngroup.com/articles/how-many-test-users/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "2012-06-03",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ux-research",
+    "usability-testing"
+   ],
+   "findings": [
+    "Five users is for qualitative studies only; the page says at least 20 users for statistically meaningful quantitative numbers (not 40), at least 15 per group for card sorting, 39 for stable eyetracking heatmaps.",
+    "Large sites or many features do not justify one bigger study; run more separate studies instead.",
+    "Distinct audiences need about 3-4 users per group, close to 5 if behaviours differ sharply.",
+    "In the author's survey of conference attendees the average was 11 users per round, and across 83 case studies the number tested correlated only slightly with findings."
+   ],
+   "limits": "Practitioner article, author's own survey and case studies, no controlled design.",
+   "evidence_level": "context-dependent",
+   "revisit": "if sample-size guidance changes"
+  },
+  {
+   "id": "SRC-FLOW-003",
+   "title": "Service Blueprints - Definition",
+   "url": "https://www.nngroup.com/articles/service-blueprints-definition/",
+   "publisher": "Nielsen Norman Group (Sarah Gibbons)",
+   "published": "2017-08-27",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "user-flows",
+    "service-design",
+    "ux-research"
+   ],
+   "findings": [
+    "A blueprint maps one customer journey across people, props (physical or digital evidence) and processes at each touchpoint; one service may need several blueprints.",
+    "Three lines: interaction (customer-organisation), visibility (frontstage above, backstage below), internal interaction (contact staff versus support staff).",
+    "Suited to complex, omnichannel, cross-department services; last reviewed 2026-07-15."
+   ],
+   "limits": "Method description, no outcome evidence.",
+   "evidence_level": "supported",
+   "revisit": "annual"
+  },
+  {
+   "id": "SRC-FLOW-004",
+   "title": "Customer Journey Mapping",
+   "url": "https://www.nngroup.com/articles/customer-journey-mapping/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2016-07-31",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "user-flows",
+    "ux-research"
+   ],
+   "findings": [
+    "A map has one actor, one scenario, actions/mindsets/emotions, touchpoints/channels, and insights with owners.",
+    "Maps must rest on qualitative research (field studies, contextual inquiry, diary studies); quantitative data can validate but cannot build the story alone.",
+    "Create a map to support a stated business goal, not as an artefact for its own sake."
+   ],
+   "limits": "Practice guidance; no measured effect of journey maps on outcomes.",
+   "evidence_level": "supported",
+   "revisit": "if NN/g updates"
+  },
+  {
+   "id": "SRC-FLOW-005",
+   "title": "Understanding users who do not use digital services (and assisted digital user research)",
+   "url": "https://www.gov.uk/service-manual/user-research/understanding-users-who-dont-use-digital-services",
+   "publisher": "GOV.UK Service Manual (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "ux-research",
+    "accessibility",
+    "assisted-digital"
+   ],
+   "findings": [
+    "Research why people avoid or cannot use the digital route; barriers include preference, access or cost, low skills or confidence, language or literacy, mental health or learning difficulty, and inaccessible services; several often combine.",
+    "Recruit across the full range of digital ability including the lowest skills and people who get help from others; include helpers (libraries, contact centres, family, charities, intermediaries).",
+    "Researchers should judge digital skill because people misjudge their own; run sessions where people already get help.",
+    "Uses a nine-level digital inclusion scale; users below the level a service needs must be offered assisted digital support."
+   ],
+   "limits": "UK public-sector service context; page dates not shown; the separate assisted-digital-user-research page returned the same content.",
+   "evidence_level": "supported",
+   "revisit": "when GDS revises assisted digital guidance"
+  },
+  {
+   "id": "SRC-FLOW-006",
+   "title": "Opportunity Solution Trees",
+   "url": "https://www.producttalk.org/opportunity-solution-tree/",
+   "publisher": "Product Talk (Teresa Torres)",
+   "published": "2023-12-06",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ux-research",
+    "discovery"
+   ],
+   "findings": [
+    "Tree structure is outcome, then opportunities (needs, pain points, desires, not solutions), then solutions, then assumption tests.",
+    "Opportunities should come from story-based customer interviews; support tickets, sales calls and analytics only inspire interview questions.",
+    "Compare at least three solutions for a target opportunity; revise the opportunity space about every 3-4 interviews, interviewing roughly weekly; one tree per product trio.",
+    "Do not factor effort into opportunity assessment."
+   ],
+   "limits": "Single-author practitioner framework; no controlled evidence that it improves outcomes.",
+   "evidence_level": "hypothesis",
+   "revisit": "if peer-reviewed evaluation or Torres revises the method"
+  },
+  {
+   "id": "SRC-FLOW-007",
+   "title": "Understanding Success Criterion 2.2.1 Timing Adjustable",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "error-recovery",
+    "user-flows"
+   ],
+   "findings": [
+    "Level A. Any content time limit needs one of: turn off, adjust (range at least 10x default), or extend (warning plus at least 20 seconds to extend, at least 10 times).",
+    "Exceptions: real-time events, essential limits, limits longer than 20 hours."
+   ],
+   "limits": "Understanding document is informative; normative text is the SC itself.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 drafts"
+  },
+  {
+   "id": "SRC-FLOW-008",
+   "title": "Understanding Success Criterion 2.2.5 Re-authenticating",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/re-authenticating.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "error-recovery"
+   ],
+   "findings": [
+    "Level AAA. After a logged-in session ends, the person can sign in again and continue without losing entered data.",
+    "Intent covers inactivity timeouts and security-forced session ends (e.g. login elsewhere)."
+   ],
+   "limits": "AAA is not required by most legal regimes; informative document.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 drafts"
+  },
+  {
+   "id": "SRC-FLOW-009",
+   "title": "Understanding Success Criterion 2.2.6 Timeouts",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/timeouts.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "error-recovery"
+   ],
+   "findings": [
+    "Level AAA. Users must be warned of the inactivity duration that could cause data loss, unless data is kept more than 20 hours; keeping it is called the best approach.",
+    "If preservation is impractical, warn once at task start rather than at each step. Privacy law may require consent to retain data.",
+    "Only timeouts the site controls count; data lost by closing the browser is not a violation."
+   ],
+   "limits": "AAA; privacy and retention trade-offs left to legal counsel.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 drafts"
+  },
+  {
+   "id": "SRC-FLOW-010",
+   "title": "HAX Toolkit - Design Library (18 guidelines for human-AI interaction)",
+   "url": "https://www.microsoft.com/en-us/haxtoolkit/library/",
+   "publisher": "Microsoft",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Lists G1-G18 in four phases (initially, during interaction, when wrong, over time).",
+    "Relevant ones for review/undo flows include G7 efficient invocation, G8 efficient dismissal, G9 efficient correction, G10 scope services when in doubt, G11 make clear why the system did what it did, G16 convey consequences of user actions, G17 global controls, G18 notify users about changes.",
+    "G1 and G2 require stating what the system can do and how well."
+   ],
+   "limits": "Titles only were retrieved here; the toolkit page itself did not list them, the library page did. Guidelines are 2019 and pre-date agentic systems.",
+   "evidence_level": "supported",
+   "revisit": "if Microsoft publishes an agent-specific revision"
+  },
+  {
+   "id": "SRC-FLOW-011",
+   "title": "Guidelines for Human-AI Interaction (CHI 2019)",
+   "url": "https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/",
+   "publisher": "Microsoft Research / ACM CHI (Amershi et al.)",
+   "published": "2019-05-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "18 guidelines synthesised from 20+ years of work and validated over several rounds, including a study with 49 practitioners checking them against 20 AI-infused products.",
+    "Received a CHI 2019 Honorable Mention."
+   ],
+   "limits": "Practitioner heuristic evaluation, not outcome testing; pre-LLM products.",
+   "evidence_level": "supported",
+   "revisit": "if a successor paper covers generative or agentic systems"
+  },
+  {
+   "id": "SRC-FLOW-012",
+   "title": "PAIR Guidebook - Errors and Graceful Failure",
+   "url": "https://pair.withgoogle.com/chapter/errors-failing/",
+   "publisher": "Google PAIR",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "ai-interfaces",
+    "error-recovery"
+   ],
+   "findings": [
+    "Separates context errors (system works as designed but clashes with expectation) from \"no answer\" and unnoticed background errors; background errors need dedicated QA and stress tests.",
+    "On failure let the user take over with enough context to continue; plan a safer handoff where manual control is risky.",
+    "Offer alternatives, add safety checks when stakes are high, and ask for feedback when users keep rejecting suggestions."
+   ],
+   "limits": "Practitioner guidance; no quantitative evidence on this page.",
+   "evidence_level": "supported",
+   "revisit": "if PAIR updates for generative AI"
+  },
+  {
+   "id": "SRC-FLOW-013",
+   "title": "PAIR Guidebook - Explainability and Trust",
+   "url": "https://pair.withgoogle.com/chapter/explainability-trust/",
+   "publisher": "Google PAIR",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Goal is calibrated trust: rely where the system is strong, double-check where weak; in high-stakes cases explain why, not just what.",
+    "Partial explanations often suffice; skip them when behaviour matches expectations.",
+    "Show confidence only if it informs decisions and will not mislead; verify displays with diverse users; numeric scores need context.",
+    "Increase automation gradually as trust grows."
+   ],
+   "limits": "Practitioner guidance.",
+   "evidence_level": "supported",
+   "revisit": "if updated"
+  },
+  {
+   "id": "SRC-FLOW-014",
+   "title": "Human Interface Guidelines - Generative AI",
+   "url": "https://developer.apple.com/design/human-interface-guidelines/generative-ai",
+   "publisher": "Apple",
+   "published": "2025-06-09",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "ai-interfaces",
+    "error-recovery"
+   ],
+   "findings": [
+    "Give people ability to dismiss new content and revert or retry transformations; surface Edit, Undo, Retry, Adjust controls near generated content and acknowledge when a correction takes effect.",
+    "Avoid automating destructive actions (deleting) or hard-to-undo ones (purchases); ask confirmation before significant actions on a person's behalf.",
+    "Clearly identify AI use; state capabilities and limits up front; offer a non-AI fallback where possible.",
+    "Use specific progress text (\"Summarizing key themes\") over \"Processing\"; consider alternate versions of a result.",
+    "Page revised 2026-06-08 (refine/feedback guidance added). Fetched via the .md variant of the URL because the HTML page rendered nothing."
+   ],
+   "limits": "Platform guidance for Apple apps; no evidence base cited.",
+   "evidence_level": "supported",
+   "revisit": "next HIG revision (Apple revises around June)"
+  },
+  {
+   "id": "SRC-FLOW-015",
+   "title": "Human Interface Guidelines - Machine learning",
+   "url": "https://developer.apple.com/design/human-interface-guidelines/machine-learning",
+   "publisher": "Apple",
+   "published": "2023-05-02",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "ai-interfaces",
+    "error-recovery"
+   ],
+   "findings": [
+    "Corrections should be familiar and use the same controls the automation used, show corrected content immediately, persist, and let people correct their corrections.",
+    "Never rely on corrections to compensate for low-quality results; if correcting costs more than doing the task manually people stop using the feature.",
+    "Prefer guided corrections (alternatives) over freeform; list most likely option first.",
+    "Convey confidence only if it is validated to track quality; translate into concepts people know; consider a confidence threshold below which nothing is shown (esp. proactive features).",
+    "Calibration should be one-time, cancellable, and confirm success."
+   ],
+   "limits": "Platform guidance, no cited studies. Fetched via .md variant.",
+   "evidence_level": "supported",
+   "revisit": "next HIG revision"
+  },
+  {
+   "id": "SRC-FLOW-016",
+   "title": "XState documentation (v5)",
+   "url": "https://stately.ai/docs/xstate",
+   "publisher": "Stately",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "state-modeling",
+    "user-flows"
+   ],
+   "findings": [
+    "XState v5 models logic as state machines, statecharts and actors with context, events, actions and transitions; includes model-based testing utilities.",
+    "Bindings for React, Vue, Svelte, Solid; separate @xstate/store for simple state."
+   ],
+   "limits": "Vendor docs; shows capability, not evidence that statecharts improve quality.",
+   "evidence_level": "supported",
+   "revisit": "major XState release"
+  },
+  {
+   "id": "SRC-FLOW-017",
+   "title": "State machines and statecharts (Stately docs)",
+   "url": "https://stately.ai/docs/state-machines-and-statecharts",
+   "publisher": "Stately",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "state-modeling",
+    "user-flows"
+   ],
+   "findings": [
+    "A state machine occupies one state at a time and each state-event pair has one next state; a statechart adds hierarchy (compound states), concurrency (parallel regions) and communication.",
+    "Claims machines make impossible states and undesirable transitions easier to spot and are easy to test."
+   ],
+   "limits": "Vendor claim of benefit, not independently measured. Harel's 1987 paper (the origin) could not be opened: the Edinburgh PDF returned HTTP 410; only search-result metadata seen.",
+   "evidence_level": "context-dependent",
+   "revisit": "if a primary Harel copy can be opened"
+  },
+  {
+   "id": "SRC-FLOW-018",
+   "title": "Let users create a GOV.UK One Login to save progress",
+   "url": "https://sign-in.service.gov.uk/documentation/design-recommendations/save-progress",
+   "publisher": "GOV.UK One Login (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "error-recovery",
+    "user-flows",
+    "accessibility"
+   ],
+   "findings": [
+    "\"Save and complete later\" link under the primary action on every form page; a \"Start or resume\" choice after the start page; sign-in required to view saved progress.",
+    "Warn signed-in users before sign-out if unsaved, offering \"Save my progress\" and \"Sign out\"; show a success panel on the task list after saving; send a confirmation email explaining how to resume.",
+    "Page does not state retention or expiry."
+   ],
+   "limits": "One Login-specific recommendation, not the Design System pattern; the guessed path /service-manual/design/resume-a-service-later returned 404.",
+   "evidence_level": "supported",
+   "revisit": "when GDS publishes a Design System save-progress pattern"
+  },
+  {
+   "id": "SRC-FLOW-019",
+   "title": "Complete multiple tasks (task list pattern)",
+   "url": "https://design-system.service.gov.uk/patterns/complete-multiple-tasks",
+   "publisher": "GOV.UK Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "user-flows",
+    "error-recovery"
+   ],
+   "findings": [
+    "Start with the fewest statuses (Completed/Incomplete); add \"Not yet started\", \"In progress\", \"Cannot start yet\" only if research needs it. Red is reserved for \"There is a problem\".",
+    "Let users decide when a task is complete (question at end of task or on Check answers) when tasks are long or optional; always allow going back to change answers.",
+    "Dependent tasks show \"Cannot start yet\" and are not links."
+   ],
+   "limits": "Government-form context; research behind the pattern is in GOV.UK's own blog posts, not opened.",
+   "evidence_level": "supported",
+   "revisit": "pattern revisions"
+  },
+  {
+   "id": "SRC-FLOW-020",
+   "title": "10 Guidelines for Designing Your Site's AI Chatbots",
+   "url": "https://www.nngroup.com/articles/ai-chatbots-design-guidelines/",
+   "publisher": "Nielsen Norman Group (Kenderova, Rosala, Kohler)",
+   "published": "2026-04-24",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "State capabilities in the opening message, tailored to the current page; one clearly identified entry point; clickable suggested prompts.",
+    "Progressive disclosure, keep scroll at top of a new response, let users save/download/share content (most bots studied offered no way).",
+    "No dedicated error-handling guideline; recommends escalating to humans when the bot cannot help.",
+    "Related NN/g qualitative study (9 participants, March 2026) found site chatbots were seldom noticed or used, via search snippet of a sibling article only."
+   ],
+   "limits": "Qualitative observations of site (customer-service style) chatbots; no participant count in this article; not about agentic edits or review-before-apply.",
+   "evidence_level": "context-dependent",
+   "revisit": "NN/g follow-ups on agents"
+  },
+  {
+   "id": "SRC-FLOW-021",
+   "title": "User Interviews 101",
+   "url": "https://www.nngroup.com/articles/user-interviews/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2023-09-17",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ux-research"
+   ],
+   "findings": [
+    "Interviews capture reported, not observed, behaviour; recall is flawed, participants omit unnoticed details, social-desirability bias applies, leading questions harm validity.",
+    "Ask about specific past events rather than general processes; pilot the guide; pair with observation or analytics."
+   ],
+   "limits": "Practice guidance; reviewed 2026-07-15.",
+   "evidence_level": "supported",
+   "revisit": "annual"
+  },
+  {
+   "id": "SRC-FLOW-022",
+   "title": "Task Analysis - Study How Users Complete Tasks",
+   "url": "https://www.nngroup.com/articles/task-analysis/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2020-09-20",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "user-flows",
+    "ux-research"
+   ],
+   "findings": [
+    "Task analysis is systematic study of how users complete tasks; hierarchical task analysis (goal, tasks, subtasks) is the most common output; cognitive task analysis covers mental processes.",
+    "\"Plans\" capture different paths to the same goal for novices versus experts.",
+    "Claims a design that does not support users' tasks fails regardless of UI quality."
+   ],
+   "limits": "Practitioner article.",
+   "evidence_level": "supported",
+   "revisit": "if updated"
+  },
+  {
+   "id": "SRC-FLOW-023",
+   "title": "Usability Testing 101",
+   "url": "https://www.nngroup.com/articles/usability-testing-101/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2019-12-01",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ux-research",
+    "usability-testing"
+   ],
+   "findings": [
+    "Three core elements: facilitator, tasks, participant; think-aloud is common.",
+    "Qualitative tests discover problems; quantitative tests (task success, time on task) set benchmarks.",
+    "Recommends five participants for a typical single-group qualitative study."
+   ],
+   "limits": "Introductory guidance; reviewed 2026-07-15.",
+   "evidence_level": "context-dependent",
+   "revisit": "annual"
+  },
+  {
+   "id": "SRC-FLOW-024",
+   "title": "Professional Software Developers Don't Vibe, They Control (arXiv 2512.14012)",
+   "url": "https://arxiv.org/abs/2512.14012",
+   "publisher": "arXiv (Huang, Reyna, Lerner, Xia, Hempel)",
+   "published": "2025-12-16",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces",
+    "agentic-ui"
+   ],
+   "findings": [
+    "Field observations (13 participants) plus a qualitative survey (99) found experienced developers keep control of design and implementation and prefer collaboration to full delegation.",
+    "Abstract-level only: specific review practices were not retrievable from the abstract. v2 dated 2026-08-18."
+   ],
+   "limits": "Developers using coding agents; small observation sample; abstract read only.",
+   "evidence_level": "supported",
+   "revisit": "published version"
+  },
+  {
+   "id": "SRC-FLOW-025",
+   "title": "Human oversight of agentic systems in practice (arXiv 2606.05391)",
+   "url": "https://arxiv.org/abs/2606.05391",
+   "publisher": "arXiv (Dhanorkar, Passi, Vorvoreanu)",
+   "published": "2026-06-03",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces",
+    "agentic-ui"
+   ],
+   "findings": [
+    "Interviews with 17 experienced developers identify four oversight modes: a priori control, co-planning, real-time monitoring, post hoc review.",
+    "Oversight is proactive as well as retrospective; developers report difficulty reviewing agent-generated code and lean on test results as a proxy for correctness."
+   ],
+   "limits": "Exploratory interviews, n=17, preprint; abstract read only.",
+   "evidence_level": "supported",
+   "revisit": "peer-reviewed version"
+  },
+  {
+   "id": "SRC-FLOW-026",
+   "title": "The Work Behind Delegation - supervising AI coding agents (arXiv 2609.24234)",
+   "url": "https://arxiv.org/abs/2609.24234",
+   "publisher": "arXiv (Park et al., KAIST)",
+   "published": "2026-09-21",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces",
+    "agentic-ui"
+   ],
+   "findings": [
+    "Observations of 19 experienced developers plus Reddit discussion, framed with Sheridan's supervisory control into seven stages and loops.",
+    "Supervisory demands run through every stage; developers concentrate effort on planning, delegate some supervision to other agents, and turn recurring guidance into reusable assets."
+   ],
+   "limits": "Under review; small sample; developers only; abstract read only.",
+   "evidence_level": "hypothesis",
+   "revisit": "acceptance or revision"
+  },
+  {
+   "id": "SRC-FLOW-027",
+   "title": "Shape of AI - pattern library",
+   "url": "https://www.shapeof.ai/",
+   "publisher": "Emily Campbell",
+   "published": "2025-01-01",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Categories include Governors (human-in-the-loop oversight), Trust builders, Wayfinders, Tuners.",
+    "Relevant patterns: Verification, Action plan, Footprints, Branches, Regenerate, Draft mode, Controls, Citations, References, Shared vision; no dedicated Undo pattern appears.",
+    "The page cites no research; library is curated and community-driven (CC BY-NC-SA)."
+   ],
+   "limits": "Aesthetic or observational catalogue; publication date approximate (site shows 2025).",
+   "evidence_level": "aesthetic",
+   "revisit": "if it adds evidence or an undo/rollback pattern"
+  },
+  {
+   "id": "SRC-FLOW-028",
+   "title": "Does the Whole Exceed its Parts? Effect of AI Explanations on Complementary Team Performance",
+   "url": "https://arxiv.org/abs/2006.14779",
+   "publisher": "arXiv / CHI 2021 (Bansal et al.)",
+   "published": "2020-06-26",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Across three datasets, AI help improved human performance, but explanations did not add to the gain.",
+    "Explanations raised the chance people accepted the AI recommendation regardless of correctness (overreliance)."
+   ],
+   "limits": "Classification-style decision tasks with AI of comparable accuracy; participant count not in abstract; not LLM agents. Publication date is arXiv v1 as I recall it; the abstract page did not state it.",
+   "evidence_level": "verified",
+   "revisit": "replication with generative outputs"
+  },
+  {
+   "id": "SRC-FLOW-029",
+   "title": "To Trust or to Think - Cognitive Forcing Functions Can Reduce Overreliance on AI",
+   "url": "https://arxiv.org/abs/2102.09692",
+   "publisher": "arXiv / CSCW 2021 (Bucinca, Malaya, Gajos)",
+   "published": "2021-02-18",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Experiment with 199 participants: three cognitive forcing designs cut overreliance versus simple explainable-AI conditions.",
+    "The designs that reduced overreliance most were rated least favourably by participants, and helped high Need for Cognition people more (fairness concern)."
+   ],
+   "limits": "Lab decision task, one domain; not code or document edits. Publication date as I recall it; abstract page did not state it.",
+   "evidence_level": "verified",
+   "revisit": "replication on agentic review tasks"
+  },
+  {
+   "id": "SRC-WEB-001",
+   "title": "Understanding SC 2.3.1 Three Flashes or Below Threshold (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "web-experiences"
+   ],
+   "findings": [
+    "Level A criterion; goal is that content does not trigger seizures.",
+    "Sufficient techniques are G19 (no more than three flashes in any 1-second period), G176 (keep flashing area small) and G15 (tool-check against general and red flash thresholds)."
+   ],
+   "limits": "Covers flashing only, not general motion discomfort.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 progress or a change to the flash thresholds."
+  },
+  {
+   "id": "SRC-WEB-002",
+   "title": "Understanding SC 2.3.3 Animation from Interactions (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "accessibility"
+   ],
+   "findings": [
+    "Level AAA. Motion animation triggered by interaction must be disableable unless essential to function or information.",
+    "Goal text: users are not harmed or distracted by motion; support user preferences for motion and remove unnecessary motion effects.",
+    "Listed examples that conform: a site-wide control that turns off non-essential parallax; a page-flip transition that is switched off under the prefers-reduced-motion media query; an animation-authoring preview counts as essential."
+   ],
+   "limits": "AAA is not required by most legal regimes (which usually cite A/AA), but is the only WCAG criterion aimed at vestibular triggers.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.x/3 changes to motion criteria."
+  },
+  {
+   "id": "SRC-WEB-003",
+   "title": "Understanding SC 2.2.2 Pause, Stop, Hide (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "accessibility",
+    "web-experiences"
+   ],
+   "findings": [
+    "Level A. Moving, blinking or scrolling content that starts automatically, lasts more than 5 seconds and runs alongside other content needs a mechanism to pause, stop or hide it, unless essential.",
+    "Auto-updating information that starts automatically and is shown alongside other content needs a mechanism to pause, stop, hide or control the update frequency.",
+    "Note 4: a preload-phase animation can count as essential if no interaction is possible during it and omitting progress would make the page look broken.",
+    "Failure techniques include F16 (scrolling content without a pause control)."
+   ],
+   "limits": "Applies to the whole page (non-interference), so a hero loop can fail the page.",
+   "evidence_level": "verified",
+   "revisit": "Normative text changes."
+  },
+  {
+   "id": "SRC-WEB-004",
+   "title": "prefers-reduced-motion (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "accessibility"
+   ],
+   "findings": [
+    "Marked Baseline Widely available, in all browsers since January 2020.",
+    "The setting tells the browser the user prefers non-essential motion removed, reduced or replaced.",
+    "Scaling or panning large objects can be vestibular triggers; MDN's own example swaps a scale pulse for a muted opacity dissolve rather than deleting the animation."
+   ],
+   "limits": "A media query only reports an OS/browser setting; it does not make a design safe by itself.",
+   "evidence_level": "verified",
+   "revisit": "New values of the feature."
+  },
+  {
+   "id": "SRC-WEB-005",
+   "title": "prefers-reduced-motion: Sometimes less movement is more (web.dev)",
+   "url": "https://web.dev/articles/prefers-reduced-motion",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion",
+    "accessibility"
+   ],
+   "findings": [
+    "Parallax is called out as a vestibular trigger because background and foreground move at different rates; reactions include dizziness, nausea and migraine.",
+    "Advice: do not auto-start animations, sliders or video; allow turning off any animation at any point.",
+    "Shortening animation and transition durations to near zero is preferred over animation:none, because code that waits for animationend would break.",
+    "The near-zero-duration override cannot stop motion started through the Web Animations API.",
+    "Animated AVIF/WebP/GIF can be swapped for a static image inside picture via a media attribute using prefers-reduced-motion."
+   ],
+   "limits": "Blanket global override is described as a hack for user-side use, not a design strategy.",
+   "evidence_level": "supported",
+   "revisit": "Article update."
+  },
+  {
+   "id": "SRC-WEB-006",
+   "title": "Background - A primer to vestibular disorders (The A11Y Project)",
+   "url": "https://www.a11yproject.com/posts/understanding-vestibular-disorders/",
+   "publisher": "The A11Y Project",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion",
+    "accessibility"
+   ],
+   "findings": [
+    "Community primer explaining the vestibular system and why disorders make some on-screen motion disorienting; background for the WCAG 2.3.3 intent."
+   ],
+   "limits": "Opened and indexed, but findings in this file lean on MDN and web.dev for specifics; treat this entry as background only.",
+   "evidence_level": "context-dependent",
+   "revisit": "If a specific trigger list is needed, re-read in full."
+  },
+  {
+   "id": "SRC-WEB-007",
+   "title": "View Transition API (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "web-experiences"
+   ],
+   "findings": [
+    "Covers both same-document (SPA) and cross-document (MPA) view transitions.",
+    "MDN notes that old-and-new content coexisting in the DOM in hand-rolled transitions causes loss of reading position, focus confusion and odd live-region announcements; the API is meant to avoid that.",
+    "Purpose stated: reduce cognitive load, keep users in context, reduce perceived loading latency."
+   ],
+   "limits": "Per-browser support table is JS-rendered and was not captured; see SRC-WEB-008/009.",
+   "evidence_level": "verified",
+   "revisit": "Baseline status change for cross-document."
+  },
+  {
+   "id": "SRC-WEB-008",
+   "title": "Same-document view transitions have become Baseline Newly available (web.dev)",
+   "url": "https://web.dev/blog/same-document-view-transitions-are-now-baseline-newly-available",
+   "publisher": "web.dev (Google)",
+   "published": "2025-10-16",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion",
+    "web-experiences"
+   ],
+   "findings": [
+    "Same-document view transitions are Baseline Newly available as of 2025-10-14 (Firefox 144 shipped startViewTransition, view-transition-class, match-element and :active-view-transition).",
+    "Firefox's first implementation lacks view transition types, so use progressive enhancement."
+   ],
+   "limits": "Same-document only; says nothing about cross-document.",
+   "evidence_level": "verified",
+   "revisit": "Firefox support for types; widely-available date (about 30 months after newly-available)."
+  },
+  {
+   "id": "SRC-WEB-009",
+   "title": "Cross-document view transitions for multi-page applications (Chrome for Developers)",
+   "url": "https://developer.chrome.com/docs/web-platform/view-transitions/cross-document",
+   "publisher": "Chrome for Developers",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion",
+    "web-experiences"
+   ],
+   "findings": [
+    "Supported from Chrome 126; needs same-origin navigation and both pages opting in; no JS call required to start.",
+    "pageswap/pagereveal events customise or skip the transition; the pagereveal listener must be in a classic parser-blocking head script or marked blocking=render.",
+    "In Chrome 126 limited to main-frame navigations."
+   ],
+   "limits": "Browser-support widget is JS-rendered; Safari/Firefox status for cross-document comes only from a web search summary (secondary), see Could not verify.",
+   "evidence_level": "supported",
+   "revisit": "Interop 2026 cross-document outcome."
+  },
+  {
+   "id": "SRC-WEB-010",
+   "title": "Interop 2026 (web.dev)",
+   "url": "https://web.dev/blog/interop-2026",
+   "publisher": "web.dev (Google)",
+   "published": "2026",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion",
+    "web-experiences"
+   ],
+   "findings": [
+    "Per search summary of this page and sister vendor posts, Interop 2026 lists scroll-driven animations and view transitions (same-document improvements plus cross-document) among its 20 focus areas."
+   ],
+   "limits": "Page opened and indexed but I relied on the search-engine summary for the focus-area list, not a line-by-line read; verify on the dashboard.",
+   "evidence_level": "context-dependent",
+   "revisit": "Interop 2026 dashboard scores."
+  },
+  {
+   "id": "SRC-WEB-011",
+   "title": "CSS scroll-driven animations (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "animation-timeline with scroll() and view() binds animation progress to scroll position or element visibility, declaratively.",
+    "MDN's own demo uses an @supports not (scroll-timeline: ...) block, i.e. feature detection and fallback are expected."
+   ],
+   "limits": "Support matrix not captured; current status (Chrome 115+, Safari 26, Firefox flagged) is from secondary search results only.",
+   "evidence_level": "supported",
+   "revisit": "Firefox shipping unflagged."
+  },
+  {
+   "id": "SRC-WEB-012",
+   "title": "Web Vitals / Core Web Vitals (web.dev)",
+   "url": "https://web.dev/articles/vitals",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "web-experiences",
+    "performance"
+   ],
+   "findings": [
+    "Core Web Vitals good thresholds: LCP within 2.5 s, INP at most 200 ms, CLS at most 0.1.",
+    "Measure at the 75th percentile of page loads, segmented by mobile and desktop."
+   ],
+   "limits": "Field-data thresholds; lab tools only approximate.",
+   "evidence_level": "verified",
+   "revisit": "Google changes the metric set."
+  },
+  {
+   "id": "SRC-WEB-013",
+   "title": "Interaction to Next Paint (INP) (web.dev)",
+   "url": "https://web.dev/articles/inp",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "web-experiences",
+    "performance",
+    "motion"
+   ],
+   "findings": [
+    "INP bands at p75: good at most 200 ms; needs improvement 200-500 ms; poor above 500 ms."
+   ],
+   "limits": "Heavy main-thread JS animation (scroll libraries, WebGL setup) is a plausible INP risk, but the page does not quantify it.",
+   "evidence_level": "verified",
+   "revisit": "Threshold changes."
+  },
+  {
+   "id": "SRC-WEB-014",
+   "title": "Optimize Largest Contentful Paint (web.dev)",
+   "url": "https://web.dev/articles/optimize-lcp",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "web-experiences",
+    "performance"
+   ],
+   "findings": [
+    "Never lazy-load the LCP image.",
+    "Use fetchpriority=\"high\" on likely LCP images, but on no more than one or two.",
+    "The LCP resource should be discoverable in the initial HTML; images injected by JS, hidden in data-src, or set as CSS backgrounds are not.",
+    "Host critical resources same-origin to reuse the connection."
+   ],
+   "limits": "Generic guidance; WebGL/canvas hero LCP is not covered.",
+   "evidence_level": "verified",
+   "revisit": "New LCP sub-part guidance."
+  },
+  {
+   "id": "SRC-WEB-015",
+   "title": "Responsive images (web.dev Learn Design)",
+   "url": "https://web.dev/learn/design/responsive-images",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "visual-craft",
+    "performance"
+   ],
+   "findings": [
+    "srcset with width descriptors needs a sizes attribute stating expected display width per media condition.",
+    "Give images width and height; preload non-discoverable images with fetchpriority sparingly.",
+    "Do not preload different formats per browser support; it causes extra downloads."
+   ],
+   "limits": "Does not benchmark AVIF vs WebP.",
+   "evidence_level": "verified",
+   "revisit": "Format support shifts."
+  },
+  {
+   "id": "SRC-WEB-016",
+   "title": "CSS container queries (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "visual-craft",
+    "responsive-layout"
+   ],
+   "findings": [
+    "Size container queries need container-type: inline-size (or size); components then respond to their container rather than the viewport.",
+    "Container query units (cqi, cqw, ...) fall back to the small viewport unit when no eligible container exists."
+   ],
+   "limits": "Baseline label not captured in this fetch.",
+   "evidence_level": "verified",
+   "revisit": "Style query support."
+  },
+  {
+   "id": "SRC-WEB-017",
+   "title": "Utopia - fluid type and space",
+   "url": "https://utopia.fyi/",
+   "publisher": "Utopia (Clearleft/James Gilyead, Trys Mudford)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "visual-craft",
+    "responsive-layout"
+   ],
+   "findings": [
+    "Method: define type and space scales at a small and a large viewport, let the browser interpolate between them, instead of per-breakpoint sizes.",
+    "Not a framework; free calculators generate the CSS."
+   ],
+   "limits": "Practitioner method; no user-study evidence of reading benefit.",
+   "evidence_level": "context-dependent",
+   "revisit": "Spec changes to clamp/container units."
+  },
+  {
+   "id": "SRC-WEB-018",
+   "title": "Summary of key rules (Butterick's Practical Typography)",
+   "url": "https://practicaltypography.com/summary-of-key-rules.html",
+   "publisher": "Matthew Butterick",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "visual-craft"
+   ],
+   "findings": [
+    "Body text on the web: 15-25 px, line spacing 120-145% of point size, average line length 45-90 characters.",
+    "Use bold/italic sparingly, avoid underlining except links, centered text sparingly, 5-12% extra letterspacing for all caps."
+   ],
+   "limits": "One expert's rules, not experimental; WCAG 1.4.12 text-spacing needs also apply.",
+   "evidence_level": "context-dependent",
+   "revisit": "n/a"
+  },
+  {
+   "id": "SRC-WEB-019",
+   "title": "Executing UX Animations - Duration and Motion Characteristics (NN/g)",
+   "url": "https://www.nngroup.com/articles/animation-duration/",
+   "publisher": "Nielsen Norman Group",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Most UI animations belong in 100-500 ms, and 100-400 ms in most cases; 500 ms starts to feel like a drag; 400 ms only for big movements on large screens.",
+    "Simple feedback (checkbox, toggle) about 100 ms; modal or large screen change 200-300 ms.",
+    "Entering elements get a slightly longer duration than exiting ones (e.g. 300 ms in, 200-250 ms out).",
+    "Prefer ease-out for entering (fast start, slow stop); ease-in or ease-in-out only for exits; linear looks unnatural.",
+    "It is far more common for animations to be too long than too short."
+   ],
+   "limits": "Expert guidance and heuristics, not a controlled duration study; ranges, not hard limits.",
+   "evidence_level": "supported",
+   "revisit": "n/a"
+  },
+  {
+   "id": "SRC-WEB-020",
+   "title": "The Role of Animation and Motion in UX (NN/g)",
+   "url": "https://www.nngroup.com/articles/animation-purpose-ux/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2020-01-12",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Motion should be unobtrusive, brief and subtle; best used for feedback, state change, navigation metaphors and strengthening signifiers.",
+    "Peripheral vision detects motion, so irrelevant movement degrades the task and is hard to ignore.",
+    "Using animation to hijack attention or create fear of loss (a flashing countdown example) is called a dark pattern."
+   ],
+   "limits": "Observational/expert article; examples are illustrative.",
+   "evidence_level": "supported",
+   "revisit": "n/a"
+  },
+  {
+   "id": "SRC-WEB-021",
+   "title": "Motion - Human Interface Guidelines (Apple)",
+   "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/motion.json",
+   "publisher": "Apple",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Add motion purposefully; do not add it for its own sake; excessive animation can distract or make people uncomfortable.",
+    "Make motion optional: never the only way to convey important information; supplement with haptics or audio.",
+    "Feedback motion should be brief and precise and follow gestures (a view revealed by sliding down should not dismiss sideways).",
+    "Generally avoid motion on frequent interactions; let people cancel motion and do not make them wait for it."
+   ],
+   "limits": "Native-platform guidance (fetched as the HIG JSON feed, the HTML page is JS-rendered); gives no millisecond values.",
+   "evidence_level": "supported",
+   "revisit": "HIG revision."
+  },
+  {
+   "id": "SRC-WEB-022",
+   "title": "Material Design 3 motion tokens (material-web, v0.192)",
+   "url": "https://raw.githubusercontent.com/material-components/material-web/main/tokens/versions/v0_192/_md-sys-motion.scss",
+   "publisher": "Google (material-web repo)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Duration tokens: short1-4 = 50/100/150/200 ms; medium1-4 = 250/300/350/400 ms; long1-4 = 450/500/550/600 ms; extra-long up to 1000 ms.",
+    "Easing: standard cubic-bezier(0.2,0,0,1); standard-decelerate (0,0,0,1); standard-accelerate (0.3,0,1,1); emphasized-decelerate (0.05,0.7,0.1,1); emphasized-accelerate (0.3,0,0.8,0.15); legacy (0.4,0,0.2,1)."
+   ],
+   "limits": "Generated token file from a web repo, not the m3.material.io guidance prose (that site is JS-rendered and returned no text); usage rules per token not verified here.",
+   "evidence_level": "verified",
+   "revisit": "Material token version bump."
+  },
+  {
+   "id": "SRC-WEB-023",
+   "title": "Motion overview (Carbon Design System)",
+   "url": "https://carbondesignsystem.com/elements/motion/overview/",
+   "publisher": "IBM Carbon",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Two motion styles: productive (faster, utility) and expressive (slower, more emphatic).",
+    "Duration tokens: fast-01 70 ms (button, toggle), fast-02 110 ms (fade), moderate-01 150 ms, moderate-02 240 ms (expansion, toast), slow-01 400 ms (large expansion), slow-02 700 ms (background dimming).",
+    "Duration should scale with distance or size; scale is non-linear.",
+    "Productive easing curves: standard (0.2,0,0.38,0.9), entrance (0,0,0.38,0.9), exit (0.2,0,1,0.9); expressive: standard (0.4,0.14,0.3,1), entrance (0,0,0.3,1), exit (0.4,0.14,1,1)."
+   ],
+   "limits": "Design-system convention, not validated against users.",
+   "evidence_level": "verified",
+   "revisit": "Carbon motion package release."
+  },
+  {
+   "id": "SRC-WEB-024",
+   "title": "Awwwards evaluation system",
+   "url": "https://www.awwwards.com/about-evaluation/",
+   "publisher": "Awwwards",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "award",
+   "domains": [
+    "web-experiences",
+    "awards"
+   ],
+   "findings": [
+    "Scoring weights: Design 40%, Usability 30%, Creativity 20%, Content 10%. (Developer is a separate Developer Award track, not in the four-weight score.)",
+    "Nominees go to at least 18 jury members; the 3 scores furthest from the average are dropped automatically."
+   ],
+   "limits": "Rubric is self-published; jury scoring is subjective and no accessibility or performance threshold is stated on this page.",
+   "evidence_level": "verified",
+   "revisit": "Rubric change."
+  },
+  {
+   "id": "SRC-WEB-025",
+   "title": "Annual Awards - Winners (Awwwards)",
+   "url": "https://www.awwwards.com/annual-awards/winners",
+   "publisher": "Awwwards",
+   "published": "2026",
+   "accessed": "2026-10-21",
+   "type": "award",
+   "domains": [
+    "awards"
+   ],
+   "findings": [
+    "Site of the Year (2025): Lando Norris, 43 votes. Developer Site of the Year: Messenger, 54 votes. E-commerce of the Year: Scout Motors, 28 votes. Agency of the Year: Immersive Garden, 39 votes."
+   ],
+   "limits": "Page is a short list; no case studies. The year label on this page was inferred from the search summary and the SOTD pages tagged 2025.",
+   "evidence_level": "verified",
+   "revisit": "Next annual awards."
+  },
+  {
+   "id": "SRC-WEB-026",
+   "title": "Lando Norris - Awwwards SOTD page",
+   "url": "https://www.awwwards.com/sites/lando-norris",
+   "publisher": "Awwwards",
+   "published": "2025-11-17",
+   "accessed": "2026-10-21",
+   "type": "award",
+   "domains": [
+    "awards",
+    "web-experiences"
+   ],
+   "findings": [
+    "SOTD 2025-11-17, score 8.18/10; blurb: high-performance platform for F1 driver Lando Norris built on dynamic interactions and bold visuals; agency per search results is OFF+BRAND.",
+    "Live homepage HTML (about 219 KB) has lang set, one h1 and a canvas element; my static scan found no prefers-reduced-motion string in HTML and could not find external asset links to scan."
+   ],
+   "limits": "My static scan is a heuristic (string search, not a rendered audit); absence of the string in HTML does not prove absence in bundled JS.",
+   "evidence_level": "context-dependent",
+   "revisit": "Run Lighthouse/INP trace in a real browser."
+  },
+  {
+   "id": "SRC-WEB-027",
+   "title": "Messenger - Awwwards SOTD page",
+   "url": "https://www.awwwards.com/sites/messenger",
+   "publisher": "Awwwards",
+   "published": "2025-11-10",
+   "accessed": "2026-10-21",
+   "type": "award",
+   "domains": [
+    "awards",
+    "web-experiences"
+   ],
+   "findings": [
+    "SOTD 2025-11-10, score 7.92/10; tags: WebGL, Three.js, WebSockets, 3D, storytelling.",
+    "Live site shell is only about 1.7 KB of HTML (no h1) and loads about 1.9 MB of same-site JS before content; found no prefers-reduced-motion string in that JS (scan of 3 same-site assets)."
+   ],
+   "limits": "Heuristic scan of served files, not a rendered audit; lang attribute is present.",
+   "evidence_level": "context-dependent",
+   "revisit": "Real-browser audit with screen reader and reduced-motion on."
+  },
+  {
+   "id": "SRC-WEB-028",
+   "title": "Awwwards Sites of the Day listing (Oct 2026 snapshot)",
+   "url": "https://www.awwwards.com/websites/sites_of_the_day/",
+   "publisher": "Awwwards",
+   "published": "2026-10-21",
+   "accessed": "2026-10-21",
+   "type": "award",
+   "domains": [
+    "awards"
+   ],
+   "findings": [
+    "Recent SOTDs I sampled via their detail pages: Heron AI (2026-10-12, 7.75), Butter (2026-09-28, 7.38), Moto Finance (2026-09-24, 7.25), bleibtgleich'26 (2026-09-22, 7.46).",
+    "Static scan: Heron AI and Butter ship a prefers-reduced-motion rule in their served HTML/JS/CSS; Moto Finance had it in HTML only; bleibtgleich'26 had none found and uses 31 h1 elements in its HTML."
+   ],
+   "limits": "Scan is string-matching on served files for at most 15 same-site assets; can miss CDN assets. Absence does not prove no support; presence does not prove the rule covers all motion.",
+   "evidence_level": "context-dependent",
+   "revisit": "Re-scan in a real browser."
+  },
+  {
+   "id": "SRC-WEB-029",
+   "title": "Fix a Generic AI Landing Page (Superdesign)",
+   "url": "https://superdesign.dev/blog/fix-generic-ai-landing-page",
+   "publisher": "Superdesign (design tool vendor)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "web-experiences",
+    "visual-craft"
+   ],
+   "findings": [
+    "Vendor blog argues AI-generated landing pages converge on the same patterns (centered hero, three equal feature cards, purple gradients) because generators share training data, and proposes naming the tells then regenerating with constraints."
+   ],
+   "limits": "Commercial vendor, no data or study; the sameness claim is observation only. The bento/gradient-blob critique has no independent source in this research.",
+   "evidence_level": "hypothesis",
+   "revisit": "Any independent study of template convergence."
+  },
+  {
+   "id": "SRC-PROD-001",
+   "title": "Design Tokens specification reaches first stable version",
+   "url": "https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/",
+   "publisher": "W3C Design Tokens Community Group",
+   "published": "2025-10-28",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "The DTCG announced a first stable spec version, 2025.10 (post URL dated 2025/10/28).",
+    "Stated headline capabilities are theming/multi-brand (light/dark, accessibility variants), modern color (Display P3, Oklch, CSS Color 4 spaces), aliases/inheritance, and cross-platform output."
+   ],
+   "limits": "Announcement post, not the normative text. A Community Group report is not a W3C Standard (see SRC-PROD-002).",
+   "evidence_level": "verified",
+   "revisit": "next DTCG release (2026.x) or move onto a W3C Standards Track"
+  },
+  {
+   "id": "SRC-PROD-002",
+   "title": "Design Tokens Format Module 2025.10 (draft report)",
+   "url": "https://www.designtokens.org/tr/drafts/format/",
+   "publisher": "Design Tokens Community Group",
+   "published": "2026-09-08",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "The page is a Draft Community Group Report dated 08 September 2026 and carries a banner saying it is a preview, not to be implemented or cited as authoritative; the published stable version lives at designtokens.org/TR/2025.10/format/.",
+    "The report states it is not a W3C Standard and not on the W3C Standards Track.",
+    "Color values are objects with colorSpace and components (optional hex), not plain hex strings; dimensions are objects with value and unit.",
+    "Aliases use curly-brace references, may chain, and tools must follow chains to an explicit value; groups support $extends with deep-merge override semantics.",
+    "JSON schema is published at designtokens.org/schemas/2025.10/format.json."
+   ],
+   "limits": "Draft text may differ from the frozen 2025.10 release; I did not open the frozen TR/2025.10 URL.",
+   "evidence_level": "supported",
+   "revisit": "when the frozen TR page is read directly, or a newer dated release appears"
+  },
+  {
+   "id": "SRC-PROD-003",
+   "title": "Design Tokens Community Group home and news",
+   "url": "https://www.w3.org/community/design-tokens/",
+   "publisher": "W3C Community Groups",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "The drafts table lists First (2021-09-23), Second (2022-06-14) and Third (2025-07-20) Editors' Drafts.",
+    "A 2025-09-12 RFC introduced a separate Resolver specification (theming/modes) plus groups and alias updates, with feedback open until 2025-09-30."
+   ],
+   "limits": "Group landing page; the Resolver spec status after the RFC was not verified.",
+   "evidence_level": "verified",
+   "revisit": "Resolver spec reaching stable status"
+  },
+  {
+   "id": "SRC-PROD-004",
+   "title": "Style Dictionary releases",
+   "url": "https://github.com/amzn/style-dictionary/releases",
+   "publisher": "Style Dictionary (GitHub, formerly amzn)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "The current major is v5; the latest release shown is v5.7.0 (marked Latest, released \"16 Oct\", year not rendered in the extracted text), preceded by v5.6.1 on 10 Oct.",
+    "The repository now lives under the style-dictionary org (URLs redirect from amzn).",
+    "Release notes show DTCG $root handling fixes, and an earlier security fix for prototype pollution in convertTokenData introduced in 4.3.0 (GHSA-vj5c-m527-mpff)."
+   ],
+   "limits": "Release list only; year of v5.7.0 inferred as 2026 from page recency, not displayed.",
+   "evidence_level": "supported",
+   "revisit": "any v6 announcement"
+  },
+  {
+   "id": "SRC-PROD-005",
+   "title": "Style Dictionary v5 migration guidelines",
+   "url": "https://styledictionary.com/versions/v5/migration/",
+   "publisher": "Style Dictionary",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "v5 is described as a drop-in replacement for most users with a very small breaking-change budget; the main goal was internal refactoring for performance on large reference-heavy token sets."
+   ],
+   "limits": "Only the intro was read; the specific breaking-change list was not extracted.",
+   "evidence_level": "supported",
+   "revisit": "before upgrading a v4 pipeline"
+  },
+  {
+   "id": "SRC-PROD-006",
+   "title": "Progressive Disclosure",
+   "url": "https://www.nngroup.com/articles/progressive-disclosure/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "Progressive disclosure shows core features first and defers secondary ones; staged disclosure (wizards) instead orders features by task sequence.",
+    "Staged disclosure needs task analysis to find which options are used together; too many steps adds navigation burden, and the hotel example argues for two screens rather than one or five.",
+    "Frequently co-used options (back-and-forth what-if comparison) belong on one screen; payment details not needed during exploration can be deferred."
+   ],
+   "limits": "Expert-opinion article with examples, no quantified experiment in the extracted text.",
+   "evidence_level": "supported",
+   "revisit": "new NN/G study on disclosure patterns"
+  },
+  {
+   "id": "SRC-PROD-007",
+   "title": "Skeleton Screens 101",
+   "url": "https://www.nngroup.com/articles/skeleton-screens/",
+   "publisher": "Nielsen Norman Group (Samhita Tankala)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "Skeletons suit waits under 10 seconds; spinners fit 2-10 s waits; progress bars are recommended above 10 s, and above 10 s an explicit duration estimate is needed.",
+    "Skeletons fit full-page loads (they show structure); spinners suit a single module such as a dashboard card.",
+    "Skeletons do not suit processes like upload, download or file conversion; use a progress bar or wizard.",
+    "The article concludes skeletons do not replace performance work."
+   ],
+   "limits": "Guidance drawn from NN/G experience and cited prior work; this fetch did not surface a controlled comparison with effect sizes.",
+   "evidence_level": "supported",
+   "revisit": "controlled studies of skeleton vs spinner perceived speed"
+  },
+  {
+   "id": "SRC-PROD-008",
+   "title": "Confirmation Dialogs Can Prevent User Errors - If Not Overused",
+   "url": "https://www.nngroup.com/articles/confirmation-dialog/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "A confirmation must restate the request and be specific (name the item) or users click through automatically; overuse trains reflexive Yes.",
+    "Resolve the tension between warning and overuse by task analysis of outcome severity and action frequency; the banking example confirms only unusually large payments, with the threshold needing user research.",
+    "The article says to go to great lengths to provide undo, because some errors survive confirmations."
+   ],
+   "limits": "Expert argument and examples; no measured error rates.",
+   "evidence_level": "supported",
+   "revisit": "empirical studies on confirm vs undo"
+  },
+  {
+   "id": "SRC-PROD-009",
+   "title": "Response Times: The 3 Important Limits",
+   "url": "https://www.nngroup.com/articles/response-times-3-important-limits/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "1993-01-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "0.1 s feels instantaneous (needs only the result); 1.0 s keeps flow of thought; 10 s is the attention limit (these are the three limits in the title).",
+    "A 2014 addendum says application response-time guidance is the same for web apps as for native apps, and treats 0.1 s as the limit for direct-manipulation feedback such as highlighting a selected table column."
+   ],
+   "limits": "Originates from a 1993 book chapter; thresholds are perceptual rules of thumb.",
+   "evidence_level": "supported",
+   "revisit": "none expected; thresholds are stable"
+  },
+  {
+   "id": "SRC-PROD-010",
+   "title": "The Difference Between Information Architecture (IA) and Navigation",
+   "url": "https://www.nngroup.com/articles/ia-vs-navigation/",
+   "publisher": "Nielsen Norman Group (Jen Cardello)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "IA is the identification of content/functionality plus the relationships between them; it is documented in sitemaps and spreadsheets, not in wireframes, and informs the UI rather than being part of it.",
+    "Navigation is the on-screen expression of the IA."
+   ],
+   "limits": "Conceptual definition piece; no product-specific benchmarks.",
+   "evidence_level": "supported",
+   "revisit": "low"
+  },
+  {
+   "id": "SRC-PROD-011",
+   "title": "Menu-Design Checklist: 17 UX Guidelines",
+   "url": "https://www.nngroup.com/articles/menu-design/",
+   "publisher": "Nielsen Norman Group (Page Laubheimer)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "Menu labels should be clear, specific and familiar, not invented words, internal jargon or abstract categories.",
+    "Left-justify vertical menus and front-load key terms to ease scanning."
+   ],
+   "limits": "Only two guidelines of the 17 were read in detail; site-oriented, not specific to dense app navigation.",
+   "evidence_level": "supported",
+   "revisit": "low"
+  },
+  {
+   "id": "SRC-PROD-012",
+   "title": "Empty states pattern",
+   "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces",
+    "design-systems"
+   ],
+   "findings": [
+    "Anatomy is optional image, a short title (prefer a positive statement such as \"Start by adding data assets\"), body explaining the next action and optionally why and the benefit, an optional primary action, and an optional secondary link.",
+    "The primary action can be a button, a link in copy, or a pointer to the existing UI element (teaches where things live).",
+    "Larger empty states are left-aligned as a block."
+   ],
+   "limits": "Carbon-specific conventions; no user-test data on empty-state variants.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon pattern update"
+  },
+  {
+   "id": "SRC-PROD-013",
+   "title": "Loading pattern",
+   "url": "https://carbondesignsystem.com/patterns/loading-pattern/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces",
+    "design-systems"
+   ],
+   "findings": [
+    "Carbon cites NN/G research that skeleton and other loading indicators improve satisfaction.",
+    "Progressive loading loads a structural skeleton first (container skeletons, data-text skeletons, static text), then images, off-viewport content and interactive components.",
+    "Not every element needs a skeleton; a reserved blank area (for example an image slot) is acceptable."
+   ],
+   "limits": "Design-system guidance; the cited NN/G research is on progress indicators generally.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon update"
+  },
+  {
+   "id": "SRC-PROD-014",
+   "title": "Data table usage",
+   "url": "https://carbondesignsystem.com/components/data-table/usage/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces",
+    "design-systems"
+   ],
+   "findings": [
+    "Row/header heights come in five sizes: xs 24px, sm 32px, md 40px (default), lg 48px, xl 64px; xl is only recommended for two-line rows, and the toolbar height must match the row size.",
+    "Batch actions: selecting a row reveals a batch action bar above the table; while batch mode is active, per-row action icons and overflow menus are disabled; exit via Cancel or deselecting all.",
+    "When extra load time is expected, use skeleton states instead of spinners in tables."
+   ],
+   "limits": "One design system's component spec; density values are Carbon's, not universal.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon data-table redesign"
+  },
+  {
+   "id": "SRC-PROD-015",
+   "title": "Notification usage",
+   "url": "https://carbondesignsystem.com/components/notification/usage/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces",
+    "design-systems"
+   ],
+   "findings": [
+    "Actionable notifications persist until the user dismisses them; a toast carrying an action must not auto-close so the user has time to act."
+   ],
+   "limits": "Only the actionable-dismissal section was read.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon update"
+  },
+  {
+   "id": "SRC-PROD-016",
+   "title": "Status indicators pattern",
+   "url": "https://carbondesignsystem.com/patterns/status-indicator-pattern/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces",
+    "design-systems"
+   ],
+   "findings": [
+    "A status indicator is built from symbols, shapes, colors and type; for WCAG compliance at least three of the four must be present.",
+    "Shape-only indicators need outlines and paired text, especially in light themes with orange/yellow."
+   ],
+   "limits": "Carbon's reading of WCAG; the \"three of four\" rule is Carbon's own, not WCAG text.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon update"
+  },
+  {
+   "id": "SRC-PROD-017",
+   "title": "Color overview (themes)",
+   "url": "https://carbondesignsystem.com/elements/color/overview/",
+   "publisher": "IBM Carbon Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "In Carbon dark themes each layer is one step lighter than the one beneath (Gray 100 theme: Gray 100 page, Gray 90 first layer, Gray 80 second, Gray 70 third).",
+    "Do not place components darker than their background except in high-contrast mode."
+   ],
+   "limits": "Carbon's themes only; not a general dark-mode proof.",
+   "evidence_level": "context-dependent",
+   "revisit": "Carbon theme changes"
+  },
+  {
+   "id": "SRC-PROD-018",
+   "title": "Empty state (content design)",
+   "url": "https://atlassian.design/foundations/content/designing-messages/empty-state",
+   "publisher": "Atlassian Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "Atlassian frames an empty state as appearing when someone clears a screen or finishes work (for example an emptied inbox), meant to celebrate and motivate, and notes people scan so each word must count."
+   ],
+   "limits": "Atlassian scopes this page to completion/cleared states; first-use empties are not covered in what I read.",
+   "evidence_level": "context-dependent",
+   "revisit": "Atlassian page update"
+  },
+  {
+   "id": "SRC-PROD-019",
+   "title": "Token names",
+   "url": "https://primer.style/product/primitives/token-names/",
+   "publisher": "GitHub Primer",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Primer names tokens as prefix, namespace, pattern, variant, property, variant, scale, in three categories: base, component/pattern, functional; the property segment is always required and usually mirrors a CSS property (camelCase for multi-word).",
+    "Functional tokens represent global UI patterns and omit namespace/pattern/variant segments."
+   ],
+   "limits": "Naming doc only; no data on which scheme reduces misuse.",
+   "evidence_level": "context-dependent",
+   "revisit": "Primer naming change"
+  },
+  {
+   "id": "SRC-PROD-020",
+   "title": "Design tokens (Spectrum)",
+   "url": "https://spectrum.adobe.com/page/design-tokens/",
+   "publisher": "Adobe Spectrum",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Spectrum has three tiers: primitive/global (blue-800, gray-100), semantic (accent-background-color-default, negative-content-color-default) and component-specific (tooltip-maximum-width).",
+    "Semantic tokens are the primary consumer interface; primitives are used indirectly via aliasing; component-specific tokens play a much smaller role."
+   ],
+   "limits": "Vendor docs; not comparative.",
+   "evidence_level": "context-dependent",
+   "revisit": "Spectrum 2 token changes"
+  },
+  {
+   "id": "SRC-PROD-021",
+   "title": "shadcn/ui Registry introduction",
+   "url": "https://ui.shadcn.com/docs/registry",
+   "publisher": "shadcn/ui",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "The shadcn CLI can run a custom registry that distributes components, hooks, pages, config and rules to any project; it is not React-only.",
+    "Registry docs cover getting started, GitHub registries, directory, health, examples, namespaces, authentication and a registry.json schema."
+   ],
+   "limits": "Index page; registry-item schema details not read.",
+   "evidence_level": "verified",
+   "revisit": "registry schema version change"
+  },
+  {
+   "id": "SRC-PROD-022",
+   "title": "shadcn/ui Changelog",
+   "url": "https://ui.shadcn.com/docs/changelog",
+   "publisher": "shadcn/ui",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "August 2026 entry: GitHub registries work with private repositories; install via pnpm dlx shadcn@latest add owner/repo/item.",
+    "The same entry says public GitHub repositories became registries in June (2026)."
+   ],
+   "limits": "Only the newest entry was read.",
+   "evidence_level": "verified",
+   "revisit": "monthly"
+  },
+  {
+   "id": "SRC-PROD-023",
+   "title": "shadcn/ui Theming",
+   "url": "https://ui.shadcn.com/docs/theming",
+   "publisher": "shadcn/ui",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Tokens are semantic background/foreground pairs: the bare name is the surface and name-foreground the content on it (primary / primary-foreground).",
+    "CSS variables are the default and recommended method (components.json tailwind.cssVariables true); dark mode overrides the same variables under a .dark selector; example values use oklch()."
+   ],
+   "limits": "Library convention, two-layer (no component tier).",
+   "evidence_level": "verified",
+   "revisit": "shadcn theming change"
+  },
+  {
+   "id": "SRC-PROD-024",
+   "title": "React Aria - Quality (accessibility)",
+   "url": "https://react-spectrum.adobe.com/react-aria/accessibility.html",
+   "publisher": "Adobe React Spectrum",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems",
+    "product-interfaces"
+   ],
+   "findings": [
+    "React Aria provides ARIA roles/attributes, keyboard and pointer handling, focus management and screen reader announcements following WAI-ARIA and the ARIA Authoring Practices, and is tested on many devices, browsers and screen readers.",
+    "It explicitly leaves visual accessibility to the designer: labels, contrast, target size, visible focus rings and motion preferences."
+   ],
+   "limits": "Vendor claim of testing; no public test matrix was read.",
+   "evidence_level": "supported",
+   "revisit": "React Aria release notes"
+  },
+  {
+   "id": "SRC-PROD-025",
+   "title": "Radix Primitives - Accessibility",
+   "url": "https://www.radix-ui.com/primitives/docs/overview/accessibility",
+   "publisher": "Radix UI (WorkOS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Radix Primitives follow the WAI-ARIA authoring practices and handle aria/role attributes, focus management and keyboard navigation.",
+    "Example: AlertDialog moves focus to Cancel on open, anticipating a response."
+   ],
+   "limits": "Vendor claim; the page footer branding shows \"Made by WorkOS\".",
+   "evidence_level": "supported",
+   "revisit": "Radix maintenance or ownership change"
+  },
+  {
+   "id": "SRC-PROD-026",
+   "title": "Polaris web components",
+   "url": "https://shopify.dev/docs/api/app-home/polaris-web-components",
+   "publisher": "Shopify",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Polaris is now delivered as web components with selectable versions: v1.0, v1.1 (latest) and a v2.0 release candidate; a versioning page governs which release an app loads.",
+    "A sibling Polaris page states all app surfaces use Polaris as a unified web-component framework."
+   ],
+   "limits": "I did not read the versioning or migration pages, so deprecation timelines for the older React library are unverified.",
+   "evidence_level": "supported",
+   "revisit": "v2.0 GA"
+  },
+  {
+   "id": "SRC-PROD-027",
+   "title": "Figma Code Connect introduction",
+   "url": "https://developers.figma.com/docs/code-connect/",
+   "publisher": "Figma",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Code Connect maps components in a repo to Figma Dev Mode components and feeds the Figma MCP server so agents get references to real code.",
+    "Code Connect UI supports one-to-many mapping (React, SwiftUI, Compose, Vue); Professional plans allow one active library and one active framework.",
+    "Needs a Dev or Full seat on Professional, Organization or Enterprise plans."
+   ],
+   "limits": "Plan limits may change; Figma variables behavior not covered.",
+   "evidence_level": "verified",
+   "revisit": "pricing/plan change"
+  },
+  {
+   "id": "SRC-PROD-028",
+   "title": "Button (GOV.UK Design System)",
+   "url": "https://design-system.service.gov.uk/components/button/",
+   "publisher": "GOV.UK Design System (GDS)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Component pages pair a \"how it works\" guidance section with live examples and HTML plus Nunjucks code for each variant.",
+    "Guidance says disabled buttons have poor contrast and can confuse users; avoid them unless research shows they help."
+   ],
+   "limits": "One component page read; full page template (research, accessibility sections) not enumerated.",
+   "evidence_level": "supported",
+   "revisit": "GOV.UK component template change"
+  },
+  {
+   "id": "SRC-PROD-029",
+   "title": "Button (USWDS)",
+   "url": "https://designsystem.digital.gov/components/button/",
+   "publisher": "U.S. Web Design System",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "design-systems"
+   ],
+   "findings": [
+    "Each USWDS component page carries a \"Latest updates\" table with date, USWDS version, what it affects, a Breaking flag and a description (for example 3.9.0 on 2024-10-04 flagged breaking for unstyled button width).",
+    "Pages added a WCAG compliance tag and an accessibility test status section (2024-01-17 entry)."
+   ],
+   "limits": "Change-log structure observed; accessibility test details not read.",
+   "evidence_level": "verified",
+   "revisit": "USWDS 4 release"
+  },
+  {
+   "id": "SRC-PROD-030",
+   "title": "Jetpack Compose Roadmap",
+   "url": "https://developer.android.com/jetpack/androidx/compose-roadmap",
+   "publisher": "Android Developers (Google)",
+   "published": "2026-05-15",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "product-interfaces"
+   ],
+   "findings": [
+    "The roadmap (updated April/May 2026) lists \"Stabilize Material 3 Expressive Components\" under the Material 3 row, with no date or version given; it appears to sit in the In Focus column, but the table was flattened."
+   ],
+   "limits": "Page text only, flattened table; stable release state as of October 2026 not confirmed. A web search surfaced third-party claims (Expressive APIs in material3 1.5.0-alpha behind an experimental annotation) that I did not open.",
+   "evidence_level": "hypothesis",
+   "revisit": "material3 1.5.0 stable release notes"
+  },
+  {
+   "id": "SRC-VIZ-001",
+   "title": "Visual Vocabulary (Financial Times chart-doctor repo)",
+   "url": "https://github.com/Financial-Times/chart-doctor/tree/main/visual-vocabulary",
+   "publisher": "Financial Times",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Organises chart choice by nine relationship types: deviation, correlation, ranking, distribution, change over time, part-to-whole, magnitude, spatial, flow.",
+    "Uncertainty, animation, interactivity, map projections and colour are listed only as \"Todo\", i.e. not covered.",
+    "Page states \"all rights reserved\" (no open licence), so do not copy the poster; cite and paraphrase."
+   ],
+   "limits": "Poster/index only; no empirical evidence behind the mapping; no date shown.",
+   "evidence_level": "supported",
+   "revisit": "FT fills the Todo items or changes licence"
+  },
+  {
+   "id": "SRC-VIZ-002",
+   "title": "Animated Transitions in Statistical Data Graphics (Heer & Robertson)",
+   "url": "https://idl.uw.edu/papers/animated-transitions",
+   "publisher": "IEEE TVCG (InfoVis 2007), UW Interactive Data Lab; full text read from https://homes.cs.washington.edu/~jheer/files/2007-AnimatedTrans-InfoVis.pdf",
+   "published": "2007-11-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization",
+    "motion"
+   ],
+   "findings": [
+    "Two controlled experiments on transitions between chart types (scatter, grouped/stacked bars, donut): animated transitions beat static transitions on object tracking (exp. 1) and value-change estimation (exp. 2) for most transition types.",
+    "Staged animation (rescale axis first, then move values; avoid changing position and value at once) beat plain animation in most tracking conditions; the single exception was Timestep Scatter Plot, where two quick stages compounded error.",
+    "Stacked bars showed no significant difference in exp. 2, and in the donut condition plain animation beat staged and static; benefit is not universal.",
+    "Tracking error rose with the number of objects; participants preferred staged over plain over static.",
+    "Dependent measure in exp. 1 was click distance (pixels) to target; animations were short (about 1-2 s)."
+   ],
+   "limits": "Lab study, crowd/student participants, short trials, transitions between views of the same data; not about slow narrative animation or long exposure.",
+   "evidence_level": "verified",
+   "revisit": "replication on modern interactive chart libraries"
+  },
+  {
+   "id": "SRC-VIZ-003",
+   "title": "Effectiveness of Animation in Trend Visualization (Robertson, Fisher, Lee, Stasko, Fernandez)",
+   "url": "https://www.microsoft.com/en-us/research/publication/effectiveness-of-animation-in-trend-visualization/",
+   "publisher": "Microsoft Research / IEEE TVCG (InfoVis 2008)",
+   "published": "2008-01-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization",
+    "motion"
+   ],
+   "findings": [
+    "Compared Gapminder-style animation with overlaid traces and small multiples.",
+    "For presentation, animation was fastest and enjoyable but produced many errors.",
+    "For analysis, animation was slowest and least accurate; small multiples were most accurate."
+   ],
+   "limits": "Abstract-level page; specific scatter-trend tasks; participants not described in what I read.",
+   "evidence_level": "verified",
+   "revisit": "new trend-animation studies"
+  },
+  {
+   "id": "SRC-VIZ-004",
+   "title": "Animation: Can it facilitate? (Tversky, Morrison, Betrancourt)",
+   "url": "https://hci.stanford.edu/courses/cs448b/papers/Tversky_AnimationFacilitate_IJHCS02.pdf",
+   "publisher": "Int. J. Human-Computer Studies 57(4); PDF read locally (Stanford CS448B copy)",
+   "published": "2002-10-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "motion",
+    "data-visualization",
+    "slides"
+   ],
+   "findings": [
+    "Review: animation advantages usually vanish when the static graphic carries equivalent information and the same interactivity.",
+    "Proposes Congruence (graphic matches the concept) and Apprehension (graphic must be accurately perceived) principles; animations are often too fast or complex to perceive.",
+    "Suggests interactivity (pause/step) and discrete steps can offset the problems; animation may still help for real-time reorientation in time and space."
+   ],
+   "limits": "2002 literature, mostly instructional diagrams of mechanical/biological systems, not business charts.",
+   "evidence_level": "supported",
+   "revisit": "new meta-analysis on animated vs equivalent static graphics"
+  },
+  {
+   "id": "SRC-VIZ-005",
+   "title": "Dashboards - Preattentive Processing (Nielsen Norman Group)",
+   "url": "https://www.nngroup.com/articles/dashboards-preattentive/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2017-06-18",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Dashboards should fit one screen and serve one job (quick, actionable info), not open-ended exploration.",
+    "Encode quantities with length and 2D position; bars for comparison, lines/scatter for trends and relationships.",
+    "Avoid colour for magnitude; avoid pie/donut (except very large disparity), treemaps for quick reading, radial gauges (bullet charts better) and 3D.",
+    "Use shape/borders/spatial grouping as primary grouping cues; colour secondary, combined with shape."
+   ],
+   "limits": "Practitioner article, not an experiment; 2017.",
+   "evidence_level": "supported",
+   "revisit": "NN/g update"
+  },
+  {
+   "id": "SRC-VIZ-006",
+   "title": "Data visualisation - charts (UK Government Analysis Function)",
+   "url": "https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-charts/",
+   "publisher": "UK Government Analysis Function",
+   "published": "2022-05-19",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "State the main message first; headline title states the message, with a statistical subtitle (subject, geography, period).",
+    "Line for time series, bar for categories/rankings; pie only for five or fewer categories with a dominant one; avoid dual-axis line charts; keep stacks/clusters to about four.",
+    "Bar chart axes never start at a non-zero value; a broken line-chart axis is acceptable only if clearly marked and described.",
+    "Label directly instead of a legend; highlight one series in colour and grey the rest; do not rely on colour alone.",
+    "Every chart needs a text alternative (data table, written description, or both); provide data download; a well-structured table may communicate as well as a chart."
+   ],
+   "limits": "UK public-sector style rules (some examples added 2023); rules of thumb, not experiments.",
+   "evidence_level": "supported",
+   "revisit": "next guidance revision"
+  },
+  {
+   "id": "SRC-VIZ-007",
+   "title": "Understanding SC 1.4.1 Use of Color (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "data-visualization",
+    "slides",
+    "diagrams"
+   ],
+   "findings": [
+    "Level A: colour must not be the only visual means of conveying information or distinguishing elements.",
+    "Sufficient techniques: add pattern/text/shape, or provide the info in text; a lightness difference of at least 3:1 also counts as an extra distinction.",
+    "Failure F13: alt text that omits information carried only by colour."
+   ],
+   "limits": "Does not mention charts by name; applies by analogy to legends, series, flow-diagram states.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 3 drafts"
+  },
+  {
+   "id": "SRC-VIZ-008",
+   "title": "Understanding SC 1.4.11 Non-text Contrast (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "data-visualization",
+    "diagrams"
+   ],
+   "findings": [
+    "Level AA: graphical objects needed to understand content (lines in a line graph, pie slice boundaries) need 3:1 against adjacent colours.",
+    "If values are also shown in text/labels, the graphical objects are not required for understanding; text inside charts still needs 1.4.3."
+   ],
+   "limits": "Threshold is for adjacent colours; does not prescribe palettes.",
+   "evidence_level": "verified",
+   "revisit": "WCAG updates"
+  },
+  {
+   "id": "SRC-VIZ-009",
+   "title": "Understanding SC 2.2.2 Pause, Stop, Hide (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion",
+    "slides",
+    "data-visualization"
+   ],
+   "findings": [
+    "Level A: moving content that starts automatically, lasts over 5 s and runs alongside other content needs a pause/stop/hide control.",
+    "Essential-motion exception; hover/focus/scroll-triggered animation counts as auto-starting."
+   ],
+   "limits": "Web content; slides exported to web are in scope, live presenter-driven builds are not.",
+   "evidence_level": "verified",
+   "revisit": "WCAG updates"
+  },
+  {
+   "id": "SRC-VIZ-010",
+   "title": "Understanding SC 2.3.3 Animation from Interactions (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Level AAA: interaction-triggered motion must be disableable unless essential; prefers-reduced-motion (C39, SCR40) is a sufficient technique."
+   ],
+   "limits": "AAA, so not a conformance baseline for most projects.",
+   "evidence_level": "verified",
+   "revisit": "WCAG updates"
+  },
+  {
+   "id": "SRC-VIZ-011",
+   "title": "Complex images - web accessibility tutorial",
+   "url": "https://www.w3.org/WAI/tutorials/images/complex/",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "standard",
+   "domains": [
+    "data-visualization",
+    "diagrams"
+   ],
+   "findings": [
+    "Charts need a short alt that names the chart plus a long description with scales, values, relationships and trends.",
+    "Best structure is figure/figcaption holding the long description and a captioned data table; aria-describedby flattens headings and tables, so use it only for text-only descriptions.",
+    "Show the long description to everyone and summarise the key point in surrounding text."
+   ],
+   "limits": "Tutorial guidance, not normative.",
+   "evidence_level": "verified",
+   "revisit": "tutorial revision"
+  },
+  {
+   "id": "SRC-VIZ-012",
+   "title": "Chartability (POUR-CAF) repository",
+   "url": "https://github.com/chartability/POUR-CAF",
+   "publisher": "Chartability community (Frank Elavsky is the known creator; the page I read did not name him)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "50 testable heuristics across seven principles: Perceivable, Operable, Understandable, Robust plus Compromising, Assistive, Flexible; 14 are marked critical.",
+    "Framed as failure-finding, not pass/fail; inconclusive counts as failure; complements WCAG audits.",
+    "Suggested quick pass: visual, keyboard, screen reader, cognitive, context."
+   ],
+   "limits": "Heuristics are not empirically validated per item; chartability.fyi and chartability.com did not load, so only the GitHub page was read.",
+   "evidence_level": "supported",
+   "revisit": "new workbook version"
+  },
+  {
+   "id": "SRC-VIZ-013",
+   "title": "Highcharts Accessibility module documentation",
+   "url": "https://www.highcharts.com/docs/accessibility/accessibility-module",
+   "publisher": "Highsoft",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Module adds keyboard navigation, ARIA roles, screen reader descriptions, data table view (needs export-data) and sonification; targets WCAG 2.2.",
+    "Without the module the chart is exposed as an image labelled only by its title.",
+    "Needs chart title, axis titles, series names; visible descriptions recommended, hidden-only descriptions discouraged."
+   ],
+   "limits": "Vendor docs for one library; commercial licence for many uses.",
+   "evidence_level": "supported",
+   "revisit": "Highcharts major release"
+  },
+  {
+   "id": "SRC-VIZ-014",
+   "title": "Carbon Design System - Chart anatomy",
+   "url": "https://carbondesignsystem.com/data-visualization/chart-anatomy/",
+   "publisher": "IBM Carbon",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "design-system",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Chart titles should state the main insight; prefer direct labels to keep legends short.",
+    "Slices under 1 degree are not rendered or keyboard accessible, so a data table is the only access path; Carbon calls its guidance a work in progress."
+   ],
+   "limits": "Page is thin; colour palettes page not read.",
+   "evidence_level": "supported",
+   "revisit": "Carbon data-viz guidance matures"
+  },
+  {
+   "id": "SRC-VIZ-015",
+   "title": "Graphical perception (Cleveland & McGill 1984) as summarised with Heer & Bostock 2010 replication (Cornell INFO 3312 slides)",
+   "url": "https://info3312.infosci.cornell.edu/slides/04-graphical-perception.html",
+   "publisher": "Cornell University course (secondary source)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Accuracy ranking: position on common scale, position on non-aligned scales, length/direction/angle, area, volume/curvature, shading/saturation.",
+    "Original experiments: 55 subjects (position vs length) and 54 subjects (position vs angle); errors larger for length and angle than position.",
+    "Heer & Bostock 2010 crowd replication ordered position, length, angle, circular area, rectangular area."
+   ],
+   "limits": "Secondary summary; I did not read the original paper. Elementary judgments, not full-chart comprehension or decision quality.",
+   "evidence_level": "supported",
+   "revisit": "read the JASA 1984 paper and Heer-Bostock paper directly"
+  },
+  {
+   "id": "SRC-VIZ-016",
+   "title": "Common Pitfalls in Dashboard Design (Stephen Few, Perceptual Edge / ProClarity whitepaper)",
+   "url": "https://www.perceptualedge.com/articles/Whitepapers/Common_Pitfalls.pdf",
+   "publisher": "Perceptual Edge",
+   "published": "2006-01-01",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Thirteen pitfalls: exceeding one screen; inadequate context; excessive detail/precision; indirect measures; inappropriate display media; meaningless variety; poorly designed media; inaccurate quantitative encoding; poor arrangement; ineffective highlighting; useless decoration; misusing colour; unappealing display.",
+    "Read the table of contents and intro (PDF read locally); individual pitfall text was not read in detail. Year from memory of the publication, not verified on the page."
+   ],
+   "limits": "Practitioner opinion, vendor-sponsored whitepaper; 2006-era BI tooling.",
+   "evidence_level": "context-dependent",
+   "revisit": "if you need pitfall-level text, read the full PDF"
+  },
+  {
+   "id": "SRC-VIZ-017",
+   "title": "In Pursuit of Error: A Survey of Uncertainty Visualization Evaluation (Hullman et al.)",
+   "url": "https://mucollective.northwestern.edu/project/uncertainty-eval-survey",
+   "publisher": "Northwestern MU Collective / IEEE InfoVis",
+   "published": "2018-01-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Surveyed 86 studies (372 evaluation paths); evaluations lean on accuracy and satisfaction, and often treat accuracy as a stand-in for decision quality.",
+    "Authors say people interpret uncertainty in ways the evaluations' assumptions do not capture."
+   ],
+   "limits": "Only the abstract page was read; the recommendation list is in a PDF I did not open.",
+   "evidence_level": "supported",
+   "revisit": "read full recommendations"
+  },
+  {
+   "id": "SRC-VIZ-018",
+   "title": "Uncertainty Displays Using Quantile Dotplots or CDFs Improve Transit Decision-Making (Fernandes et al.)",
+   "url": "https://mucollective.northwestern.edu/project/uncertainty-bus",
+   "publisher": "Northwestern MU Collective / CHI 2018",
+   "published": "2018-04-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Incentivised bus-catching experiment: quantile dotplots with 50 outcomes reached about 97% of optimal expected payoff, about 5 points above the no-uncertainty control, with lower variability.",
+    "CDF plots were nearly as good; text-only uncertainty did worse and depended on the interval stated."
+   ],
+   "limits": "One task (a mobile transit decision), crowd participants; I read the project summary, not the paper.",
+   "evidence_level": "supported",
+   "revisit": "replication in other decision domains"
+  },
+  {
+   "id": "SRC-VIZ-019",
+   "title": "Decision making with visualizations: a cognitive framework across disciplines (Padilla et al.)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6091269",
+   "publisher": "Cognitive Research: Principles and Implications",
+   "published": "2018-07-11",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Uncertainty displays can be misread (e.g. Cone of Uncertainty read as growing size); bounded shapes invite containment heuristics; \"deterministic construal error\" appears with visual but not text forms.",
+    "Visual-spatial biases arise from encoding and resist instruction; poor cognitive fit raises time, errors and working-memory load.",
+    "Design implication: encode what the task needs, minimise mental transformations, account for numeracy and graph literacy."
+   ],
+   "limits": "Review of static 2D visualisations; read first 100k characters of the page.",
+   "evidence_level": "supported",
+   "revisit": "new reviews on uncertainty communication"
+  },
+  {
+   "id": "SRC-VIZ-020",
+   "title": "Uncertainty visualisation and signal suppression (arXiv 2411.10482 v3)",
+   "url": "https://arxiv.org/html/2411.10482v3",
+   "publisher": "arXiv (preprint)",
+   "published": "2026-03-27",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Argues uncertainty displays should suppress unjustified signals in noisy data; show full distributions (samples, quantile dots) rather than single summaries.",
+    "Notes many evaluations measure value extraction or trust and so treat uncertainty as signal; suggests lineup protocols for evaluation.",
+    "VSUP palette's suppression result depended on the scale chosen."
+   ],
+   "limits": "Preprint, not peer reviewed as far as I could tell; final 31k characters not read.",
+   "evidence_level": "hypothesis",
+   "revisit": "peer-reviewed version"
+  },
+  {
+   "id": "SRC-VIZ-021",
+   "title": "Does the axis have to start at zero? Part 1 - line charts (ONS Digital)",
+   "url": "https://digitalblog.ons.gov.uk/2016/06/27/does-the-axis-have-to-start-at-zero-part-1-line-charts/",
+   "publisher": "UK Office for National Statistics",
+   "published": "2016-06-27",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "Bars must start at zero (length encodes value); line charts encode by position, so a non-zero baseline is acceptable.",
+    "Truncation is an editorial choice: it can exaggerate small changes (MMR example); add context, targets, annotations; inappropriate when data sit near zero or zero is a meaningful target."
+   ],
+   "limits": "Blog, not a controlled study. Datawrapper's \"bars start at zero\" article returned 503, so not used.",
+   "evidence_level": "supported",
+   "revisit": "none"
+  },
+  {
+   "id": "SRC-VIZ-022",
+   "title": "Assertion-Evidence approach (Michael Alley, Penn State)",
+   "url": "https://www.assertion-evidence.com/",
+   "publisher": "Penn State College of Engineering",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "slides"
+   ],
+   "findings": [
+    "Replace topic-phrase headline plus bullets with a sentence headline stating the takeaway, supported by visual evidence (figures, data, images).",
+    "The landing page cites no research itself; it points to separate tutorial, templates and papers."
+   ],
+   "limits": "Advocacy site; research is in SRC-VIZ-023.",
+   "evidence_level": "supported",
+   "revisit": "none"
+  },
+  {
+   "id": "SRC-VIZ-023",
+   "title": "Assertion-evidence slides appear to lead to better comprehension and recall of more complex concepts (Garner & Alley, ASEE 2011)",
+   "url": "https://peer.asee.org/assertion-evidence-slides-appear-to-lead-to-better-comprehension-and-recall-of-more-complex-concepts.pdf",
+   "publisher": "ASEE Annual Conference; PDF read locally",
+   "published": "2011-06-01",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "slides"
+   ],
+   "findings": [
+    "Between-groups experiment, 55 viewed topic-subtopic and 56 viewed assertion-evidence slides with identical recorded narration (about 6 min MRI/tumour talk); tested immediately and after one week.",
+    "Complex-concept comprehension favoured assertion-evidence: delayed multiple-choice composite 2.18 vs 1.84 (p = 0.038); immediate essays 7.22 vs 6.21 (p = 0.098, not significant at .05).",
+    "Topic-subtopic audiences did not outperform on any measured item type in the abstract's framing, despite seeing more written text; the title of a related paper (read only as search title) says common slides help short-term recall of simple statistics."
+   ],
+   "limits": "One topic, one talk, students at one university, 6-minute exposure, authors are advocates of the method, conference paper.",
+   "evidence_level": "context-dependent",
+   "revisit": "independent replication"
+  },
+  {
+   "id": "SRC-VIZ-024",
+   "title": "Principles for reducing extraneous processing in multimedia learning (Mayer & Fiorella)",
+   "url": "https://www.cambridge.org/core/books/cambridge-handbook-of-multimedia-learning/principles-for-reducing-extraneous-processing-in-multimedia-learning-coherence-signaling-redundancy-spatial-contiguity-and-temporal-contiguity-principles/CD5B7AE1279A9AB81F8EEBB53DBEC86E",
+   "publisher": "Cambridge Handbook of Multimedia Learning (2nd ed.), ch. 12",
+   "published": "2014-08-05",
+   "accessed": "2026-10-21",
+   "type": "research",
+   "domains": [
+    "slides",
+    "motion"
+   ],
+   "findings": [
+    "Median effects: coherence 0.86 (23/23 tests), signaling 0.41 (24/28), redundancy 0.86 (16/16), spatial contiguity 1.10 (22/22), temporal contiguity 1.22 (9/9).",
+    "Redundancy applies to graphics plus narration plus duplicated on-screen text."
+   ],
+   "limits": "Author-lab corpus (Mayer's own tests), mostly short lab lessons with narrated graphics, not live business meetings; signaling is the weakest effect.",
+   "evidence_level": "supported",
+   "revisit": "independent meta-analyses"
+  },
+  {
+   "id": "SRC-VIZ-025",
+   "title": "Principles for Teaching with Multimedia (UW School of Medicine learning tech, summarising Mayer)",
+   "url": "https://sites.uw.edu/somlearningtech/principles-for-teaching-with-multimedia",
+   "publisher": "University of Washington",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "slides",
+    "motion"
+   ],
+   "findings": [
+    "Segmenting: learners understand narrated animations better when content is divided into learner-paced segments.",
+    "Segmenting is grouped under managing essential processing; coherence, signaling, redundancy under reducing extraneous processing."
+   ],
+   "limits": "Secondary summary; no effect sizes. Segmenting numbers not verified from a primary chapter.",
+   "evidence_level": "supported",
+   "revisit": "read Mayer & Pilegard chapter"
+  },
+  {
+   "id": "SRC-VIZ-026",
+   "title": "The Glance Test (Duarte)",
+   "url": "https://www.duarte.com/blog/the-glance-test/",
+   "publisher": "Duarte, Inc.",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "slides"
+   ],
+   "findings": [
+    "Standard: audience should grasp a slide's main point in 3 seconds or less; one clear point, contrast and whitespace for emphasis, every element aids comprehension."
+   ],
+   "limits": "Marketing page for a downloadable tool; the 3-second figure is a heuristic, not a measured threshold.",
+   "evidence_level": "aesthetic",
+   "revisit": "none"
+  },
+  {
+   "id": "SRC-VIZ-027",
+   "title": "BLUF (communication), Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/BLUF_(communication)",
+   "publisher": "Wikipedia (carries maintenance tags)",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "slides"
+   ],
+   "findings": [
+    "BLUF puts the conclusion or required action first, in a sentence or two; shorter than an executive summary.",
+    "Traced to US Army Regulation 25-50 (2013 edition cited)."
+   ],
+   "limits": "Tertiary; I did not open AR 25-50 or Minto's Pyramid Principle.",
+   "evidence_level": "hypothesis",
+   "revisit": "read AR 25-50 and Minto directly"
+  },
+  {
+   "id": "SRC-VIZ-028",
+   "title": "Animation duration and motion characteristics (NN/g)",
+   "url": "https://www.nngroup.com/articles/animation-duration/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2020-02-09",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "motion"
+   ],
+   "findings": [
+    "Rule of thumb 100-500 ms for UI animation; feedback about 100 ms; large changes 200-400 ms; ease-out entering, ease-in leaving; frequent animations shorter.",
+    "Honour reduced-motion settings; avoid flashing and parallax overuse."
+   ],
+   "limits": "Explicitly expert rules of thumb, not study results; UI, not slides or data transitions (Heer & Robertson used about 1-2 s).",
+   "evidence_level": "context-dependent",
+   "revisit": "none"
+  },
+  {
+   "id": "SRC-VIZ-029",
+   "title": "Gestalt Principles - Proximity (NN/g)",
+   "url": "https://www.nngroup.com/articles/gestalt-proximity/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2020-08-02",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "diagrams",
+    "data-visualization"
+   ],
+   "findings": [
+    "Items close together read as a group and proximity can override colour/shape similarity; whitespace separates groups.",
+    "Stacked/responsive layouts can break groupings; test at each breakpoint."
+   ],
+   "limits": "Forms/UI examples; applies to diagrams by analogy. No reading-direction evidence found.",
+   "evidence_level": "supported",
+   "revisit": "find a primary Gestalt/diagram-layout study"
+  },
+  {
+   "id": "SRC-VIZ-030",
+   "title": "The C4 model for visualising software architecture (Simon Brown)",
+   "url": "https://c4model.com/",
+   "publisher": "c4model.com",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "Four abstraction levels: system context, container, component, code; supporting diagrams: landscape, dynamic, deployment.",
+    "Notation- and tool-independent."
+   ],
+   "limits": "Practitioner model, no empirical evaluation.",
+   "evidence_level": "supported",
+   "revisit": "C4 model revisions"
+  },
+  {
+   "id": "SRC-VIZ-031",
+   "title": "C4 diagram review checklist",
+   "url": "https://c4model.com/diagrams/checklist",
+   "publisher": "c4model.com",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "practice",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "Each diagram needs a title, type, scope and a key/legend.",
+    "Each element needs a name, type, purpose and technology; acronyms and visual encodings (colour, shape, border, size) must be explained.",
+    "Every arrow needs a label matching its direction, with protocol/technology where relevant."
+   ],
+   "limits": "Checklist, not validated.",
+   "evidence_level": "supported",
+   "revisit": "none"
+  },
+  {
+   "id": "SRC-VIZ-032",
+   "title": "Mermaid accessibility documentation",
+   "url": "https://mermaid.js.org/config/accessibility.html",
+   "publisher": "Mermaid project",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "Mermaid sets aria-roledescription to the diagram type; accTitle (single line) becomes SVG title with aria-labelledby; accDescr (single or multi-line) becomes desc with aria-describedby; works for all diagram types.",
+    "Project says it has only \"started\" accessibility work; single-line form needs a colon, multi-line braces form must not."
+   ],
+   "limits": "Says nothing on screen reader behaviour of the SVG graph itself; a description is still needed for the structure.",
+   "evidence_level": "verified",
+   "revisit": "Mermaid release notes"
+  },
+  {
+   "id": "SRC-VIZ-033",
+   "title": "Mermaid repository",
+   "url": "https://github.com/mermaid-js/mermaid",
+   "publisher": "mermaid-js",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "MIT licence; 20+ diagram types including flowchart, sequence, class, state, ER, Gantt, mindmap, timeline, Sankey, C4."
+   ],
+   "limits": "Release version/date not visible on the fetched page.",
+   "evidence_level": "verified",
+   "revisit": "major version change"
+  },
+  {
+   "id": "SRC-VIZ-034",
+   "title": "D2 repository and layouts docs",
+   "url": "https://github.com/terrastruct/d2",
+   "publisher": "Terrastruct; layouts page https://d2lang.com/tour/layouts/ also read",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "D2 itself is MPL 2.0; outputs SVG, PNG, GIF, PDF, PPTX.",
+    "Bundled engines: Dagre-based default, elk-go, and opt-in TALA built for software architecture.",
+    "Per-container direction, locked positions and object-level \"near\" are TALA-only; container sizing works in TALA and ELK; dagre cannot connect a container to its child."
+   ],
+   "limits": "Licence of TALA and of the engines was not stated on the pages I read.",
+   "evidence_level": "verified",
+   "revisit": "D2 release; TALA licence check"
+  },
+  {
+   "id": "SRC-VIZ-035",
+   "title": "Graphviz licence",
+   "url": "https://graphviz.org/license/",
+   "publisher": "Graphviz",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "Current versions are open source under the Eclipse Public License 2.0; older versions were under the AT&T Source Code Agreement."
+   ],
+   "limits": "Licence page only.",
+   "evidence_level": "verified",
+   "revisit": "licence change"
+  },
+  {
+   "id": "SRC-VIZ-036",
+   "title": "Eclipse Layout Kernel and elkjs",
+   "url": "https://eclipse.dev/elk/",
+   "publisher": "Eclipse Foundation; https://github.com/kieler/elkjs also read",
+   "published": "unknown",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "domains": [
+    "diagrams"
+   ],
+   "findings": [
+    "ELK is a collection of layout algorithms (ports and hierarchical nodes supported); it computes positions only, no rendering.",
+    "elkjs brings the layered algorithm to JavaScript and is a layout engine only, with no rendering or styling."
+   ],
+   "limits": "Neither page stated the licence in the text I received (the ELK page did not mention EPL; the elkjs README only linked LICENSE.md); licence is therefore unverified here.",
+   "evidence_level": "supported",
+   "revisit": "open the LICENSE files"
+  },
+  {
+   "id": "SRC-TOOL-001",
+   "title": "axe-core README",
+   "url": "https://github.com/dequelabs/axe-core",
+   "publisher": "Deque Systems",
+   "published": "2026-10-05",
+   "domains": [
+    "accessibility",
+    "tooling",
+    "quality-gates"
+   ],
+   "findings": [
+    "States axe finds on average 57% of WCAG issues automatically; the figure is Deque's volume-based average, not a share of success criteria.",
+    "Results marked incomplete need manual review.",
+    "Version 4.14.0, MPL-2.0, released 2026-10-05."
+   ],
+   "limits": "Vendor's own measurement; automated checks never establish WCAG conformance.",
+   "revisit": "A new axe-core major or a changed coverage statement.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-002",
+   "title": "@axe-core/playwright package",
+   "url": "https://www.npmjs.com/package/@axe-core/playwright",
+   "publisher": "Deque Systems",
+   "published": "2026-10-15",
+   "domains": [
+    "accessibility",
+    "tooling",
+    "quality-gates"
+   ],
+   "findings": [
+    "Version 4.14.0, MPL-2.0; runs axe inside Playwright pages with tag filters such as wcag2a, wcag2aa, wcag22aa."
+   ],
+   "limits": "Inherits axe-core coverage limits.",
+   "revisit": "New major version.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-003",
+   "title": "@playwright/test package",
+   "url": "https://www.npmjs.com/package/@playwright/test",
+   "publisher": "Microsoft",
+   "published": "unknown",
+   "domains": [
+    "tooling",
+    "quality-gates",
+    "browser-testing"
+   ],
+   "findings": [
+    "Version 1.64.1, Apache-2.0, verified with npm view on 2026-10-21.",
+    "toHaveScreenshot baselines differ across OS and fonts; generate them on the CI OS."
+   ],
+   "limits": "Proves scripted behavior, not usability.",
+   "revisit": "New minor with breaking config changes.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-004",
+   "title": "Lighthouse",
+   "url": "https://github.com/GoogleChrome/lighthouse",
+   "publisher": "Google Chrome",
+   "published": "2026-10-21",
+   "domains": [
+    "performance",
+    "accessibility",
+    "tooling"
+   ],
+   "findings": [
+    "Version 13.5.0, Apache-2.0.",
+    "Lab results come from one synthetic device; Core Web Vitals pass or fail is a field property."
+   ],
+   "limits": "Lab only; the accessibility score is a weighted subset of axe rules.",
+   "revisit": "New major version.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-005",
+   "title": "Style Dictionary",
+   "url": "https://github.com/style-dictionary/style-dictionary",
+   "publisher": "Style Dictionary maintainers",
+   "published": "2026-10-16",
+   "domains": [
+    "design-systems",
+    "tokens",
+    "tooling"
+   ],
+   "findings": [
+    "Version 5.7.0, Apache-2.0."
+   ],
+   "limits": "Full DTCG 2025.10 support not verified.",
+   "revisit": "Release notes claiming full DTCG 2025.10 support.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-006",
+   "title": "Mermaid",
+   "url": "https://github.com/mermaid-js/mermaid",
+   "publisher": "Mermaid maintainers",
+   "published": "2026-10-13",
+   "domains": [
+    "diagrams",
+    "tooling"
+   ],
+   "findings": [
+    "Version 12.2.0, MIT.",
+    "Syntax validity says nothing about whether a diagram is understandable or accessible."
+   ],
+   "limits": "Rendering quality varies by host.",
+   "revisit": "New major version.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-TOOL-007",
+   "title": "D2 declarative diagramming",
+   "url": "https://github.com/terrastruct/d2",
+   "publisher": "Terrastruct",
+   "published": "2026-09-07",
+   "domains": [
+    "diagrams",
+    "tooling"
+   ],
+   "findings": [
+    "Version 0.9.0, MPL-2.0."
+   ],
+   "limits": "TALA layout engine has a separate license, not verified.",
+   "revisit": "1.0 release.",
+   "accessed": "2026-10-21",
+   "type": "tool",
+   "evidence_level": "verified"
+  }
+ ]
+}
