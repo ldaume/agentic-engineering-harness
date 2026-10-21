@@ -49,8 +49,8 @@ than six breakpoints, which is the actual gain.
 ```
 
 Keep a `rem` term in every `clamp()` so browser zoom still scales the text;
-a pure `vw` size ignores zoom (verified, WCAG 1.4.4 resize text)
-[SRC-A11Y-001].
+a size set only in viewport-width units ignores zoom (supported; WCAG 1.4.4
+resize text, not listed in the registry's findings) [SRC-A11Y-001].
 
 ## Grid and density
 
