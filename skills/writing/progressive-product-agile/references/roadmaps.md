@@ -83,6 +83,47 @@ Potential opportunity spaces:
 These are possibilities, not delivery commitments.
 ```
 
+<!-- golden: fast_roadmap de -->
+
+```text
+# Adaptive Roadmap - Enterprise Trust
+
+## Strategische Absicht
+
+Die Enterprise-Administration so vertrauenswürdig machen, dass Audit- und
+Berechtigungsfragen keinen individuellen Support mehr brauchen.
+
+## Gewünschtes Outcome
+
+Enterprise-Admins beantworten wiederkehrende Audit-Fragen direkt im Produkt,
+mit passenden Zugriffsrechten.
+
+## Jetzt
+
+**Opportunity:** Audit-Nachweise abrufen
+**Bet:** Minimaler Audit Export
+**Zuversicht:** Mittel
+**Investitionsgrenze:** Die ersten drei Kundenpiloten
+**Lern-Meilenstein:** Drei Admins erledigen eine echte Audit-Anfrage ohne
+Datenabzug durch das Engineering.
+
+## Als Nächstes
+
+**Opportunity:** Transparenz bei Berechtigungen
+
+Bevor wir einen neuen Berechtigungs-Workflow zusagen, müssen wir verstehen, ob
+das heutige Rollenmodell reicht.
+
+## Später
+
+Mögliche Opportunity-Felder:
+- Admin-Aktivitäten prüfen
+- breiteres Reporting
+- Workflow für Berechtigungs-Reviews
+
+Das sind Möglichkeiten, keine Lieferzusagen.
+```
+
 Checks: strategic intent, outcome, current learning, confidence or
 uncertainty, investment boundary. Reject static team assignment presented as
 FaST and feature calendars disguised as outcome roadmaps.

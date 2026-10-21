@@ -133,5 +133,46 @@ appropriately permissioned product workflow.
 Is this problem valuable enough for a bounded pilot bet?
 ```
 
+<!-- golden: product_document de -->
+
+```text
+# Problem Brief - Audit-Nachweise im Enterprise-Segment
+
+## Problem
+
+Enterprise-Admins können wiederkehrende Audit-Anfragen nicht ohne manuelle
+Hilfe von Support oder Engineering beantworten.
+
+## Segment
+
+Enterprise-Accounts mit regelmäßigen Security- oder Compliance-Prüfungen.
+
+## Evidenz
+
+- wiederkehrende Support-Anfragen nach Audit-Daten
+- Verlängerungsgespräche, in denen Auditierbarkeit Thema ist
+- der heutige Ablauf verlangt manuelle Datenaufbereitung
+
+## Gewünschtes Outcome
+
+Admins rufen die Nachweise für Routine-Audits über einen passend
+berechtigten Produkt-Workflow selbst ab.
+
+## Unbekannt
+
+- welche Nachweise über alle Audits hinweg gleich sind
+- ob ein Export reicht
+- welche Rollen Zugriff bekommen sollen
+
+## Nicht-Ziele
+
+- vollständige BI-Funktionalität
+- individuelles Reporting pro Kunde
+
+## Offene Entscheidung
+
+Ist das Problem wertvoll genug für einen begrenzten Pilot-Bet?
+```
+
 Checks: problem before solution, evidence, unknowns, decision or learning
 step. Reject fabricated customer evidence and story format by default.

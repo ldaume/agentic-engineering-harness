@@ -73,5 +73,42 @@ data.
 Run the workflow with the first customer admin using a real audit request.
 ```
 
+<!-- golden: agile_progress de -->
+
+```text
+# Fortschritt - Minimaler Audit Export
+
+## Ziel
+
+Enterprise-Admins rufen die Nachweise für Routine-Audits selbst ab, ohne
+individuelle Hilfe aus dem Engineering.
+
+## Aktueller Stand
+
+Der Weg funktioniert durchgängig in der Pilot-Umgebung: Berechtigung prüfen,
+Export anfordern, Datei erzeugen, Audit-Daten sichten.
+
+## Fortschritt seit dem letzten Update
+
+Der wichtige Fortschritt ist nicht die fertige Export-Oberfläche. Wir wissen
+jetzt, dass sich die Datei aus produktionsnahen Daten erzeugen lässt; diese
+Machbarkeitsfrage ist vom Tisch.
+
+## Geklärte Unsicherheit
+
+- der Export läuft innerhalb der bestehenden Service-Grenze
+- das Datenmodell enthält alle Felder für den ersten Pilot
+
+## Offene Unsicherheit
+
+- ob Admins die Berechtigungsgrenze verstehen
+- ob die exportierten Felder zu den echten Audit-Fragen passen
+
+## Nächster Durchbruch
+
+Den Workflow mit dem ersten Kunden-Admin und einer echten Audit-Anfrage
+durchspielen.
+```
+
 Checks: goal, current state, change in uncertainty, next breakthrough. Reject
 percent complete without a model behind it.

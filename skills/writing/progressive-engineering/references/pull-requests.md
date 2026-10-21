@@ -60,5 +60,41 @@ The endpoint remains behind the existing enterprise entitlement. Broader
 customer rollout is handled separately.
 ```
 
+<!-- golden: pull_request de -->
+
+```text
+## Warum
+
+Enterprise-Admins sollen Audit-Nachweise anfordern können, ohne dass der
+Support Daten abziehen muss.
+
+## Was sich ändert
+
+Dieser PR ergänzt den ersten durchgängigen Exportpfad:
+
+- prüft die bestehende Audit-Berechtigung des Aufrufers
+- erzeugt einen Export aus dem aktuellen Audit-Datenbestand
+- stellt die Datei im Admin-Workflow bereit
+
+Ein neuer Berechtigungstyp kommt nicht hinzu.
+
+## Review-Fokus
+
+Bitte vor allem die Autorisierungsgrenze in `AuditExportService` ansehen und
+das Verhalten, wenn die Erzeugung fehlschlägt, nachdem die Anfrage schon
+angenommen wurde.
+
+## Validierung
+
+- Unit-Tests für Berechtigung und Statusübergänge des Exports
+- Integrationstest für eine erfolgreiche Export-Erzeugung
+- manueller Durchlauf des Pilot-Workflows in der Entwicklungsumgebung
+
+## Rollout
+
+Der Endpunkt bleibt hinter der bestehenden Enterprise-Berechtigung. Den
+breiten Kunden-Rollout regeln wir separat.
+```
+
 Checks: why, behavioral change, validation; claimed tests exist. Reject a
 file-by-file diff summary as primary content and fabricated test execution.

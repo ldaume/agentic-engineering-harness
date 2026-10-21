@@ -59,5 +59,22 @@ The useful shift is reducing the time between a product question, an
 implementation, real evidence, and the next decision.
 ```
 
+<!-- golden: website_content de -->
+
+```text
+# AI-native Delivery, ohne das Engineering-Urteil abzugeben
+
+Setze KI dort ein, wo sie Discovery, Umsetzung, Tests, Dokumentation und
+Betrieb wirklich beschleunigt - mit den Kontextgrenzen, der Verifikation und
+der Verantwortung, die das Ergebnis vertrauenswürdig halten.
+
+## Mehr Tempo hilft nur, wenn die Feedback-Schleife besser wird
+
+Mehr generierter Code ist nicht das Ziel.
+
+Entscheidend ist, wie schnell aus einer Produktfrage eine Umsetzung, echte
+Evidenz und die nächste Entscheidung wird.
+```
+
 Checks: primary intent answered early, descriptive H1 and headings, a useful
 internal next path, a distinct job per page, original value.

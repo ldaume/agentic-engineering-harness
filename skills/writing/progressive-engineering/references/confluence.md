@@ -71,5 +71,42 @@ available.
 Review after the third pilot has completed one real audit workflow.
 ```
 
+<!-- golden: confluence de -->
+
+```text
+# Entscheidung zum Rollout des Audit Exports
+
+**Zweck:** Festhalten, wie der erste Enterprise-Rollout abläuft.
+**Verantwortlich:** Produktgruppe Enterprise
+**Status:** Beschlossen
+**Review-Auslöser:** Ergebnisse der ersten drei Piloten
+
+## Entscheidung
+
+Der Audit Export geht zuerst an drei Pilot-Accounts, hinter der bestehenden
+Enterprise-Berechtigung, bevor er allgemein verfügbar wird.
+
+## Warum
+
+Der Exportpfad ist technisch bereit. Was fehlt, ist Evidenz aus der
+Produktion: Passt der Workflow zu echten Audits, und stimmen die Erwartungen an
+die Berechtigungen?
+
+## Trade-offs
+
+Ein begrenzter Pilot erreicht anfangs weniger Kunden. Dafür prüfen wir
+Betriebs- und Berechtigungsannahmen, bevor der Workflow breit verfügbar ist.
+
+## Erfolgssignale
+
+- Pilot-Admins finden die nötigen Nachweise ohne Datenabzug durch den Support
+- kein Vorfall im Zusammenhang mit Berechtigungen
+- der Support erklärt den Workflow ohne Spezialhilfe aus dem Engineering
+
+## Nächstes Review
+
+Sobald der dritte Pilot einen echten Audit-Workflow abgeschlossen hat.
+```
+
 Checks: purpose, current state or decision, durable context. Reject
 transcripts without synthesis and unexplained stale status.
