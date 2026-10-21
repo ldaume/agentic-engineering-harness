@@ -29,6 +29,8 @@ class EvalsTest(unittest.TestCase):
             '{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Skill","input":{"skill":"progressive-writing:progressive-editorial"}}]}}',
             '{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Bash","input":{"command":"ls .claude/skills/progressive-design-core/SKILL.md"}}]}}',
             '{"type":"user","message":{"content":[{"type":"tool_result","content":".claude/skills/progressive-ux-research/SKILL.md"}]}}',
+            '{"type":"system","subtype":"status","message":"compacting"}',
+            '{"type":"assistant","message":{"content":"plain text content"}}',
         ])
         self.assertEqual(run_evals.loaded_skills("claude", out), {"progressive-editorial"})
 

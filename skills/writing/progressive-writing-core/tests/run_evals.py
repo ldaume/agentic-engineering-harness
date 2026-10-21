@@ -62,8 +62,12 @@ def loaded_skills(host: str, stdout: str) -> set[str]:
             event = json.loads(line)
         except json.JSONDecodeError:
             continue
+        if not isinstance(event, dict):
+            continue
         if host == "claude":
-            for part in (event.get("message") or {}).get("content") or []:
+            message = event.get("message")
+            content = message.get("content") if isinstance(message, dict) else None
+            for part in content if isinstance(content, list) else []:
                 if isinstance(part, dict) and part.get("type") == "tool_use" and part.get("name") == "Skill":
                     name = str((part.get("input") or {}).get("skill", "")).split(":")[-1]
                     if name.startswith("progressive-"):
