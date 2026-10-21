@@ -20,7 +20,10 @@ npx playwright test
 The worked pattern is `progressive-forms-interactions/tests/registration.spec.mjs`:
 behavior tests per state, keyboard-only completion, overflow at 360, 768,
 and 1280 px, and axe with tags `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa` in
-every meaningful state, not only the initial render.
+every meaningful state, not only the initial render. Scan settled states:
+wait until `document.getAnimations()` has nothing running, because a scan
+during a fade measures the half-transparent text as a contrast failure (this
+failed in CI on a 160 ms fade that a faster machine never caught).
 
 ## Checklist
 

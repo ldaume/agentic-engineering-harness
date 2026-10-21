@@ -148,7 +148,12 @@ for (const width of [360, 768, 1280]) {
 }
 
 test("given the empty and the error state, axe finds no WCAG 2.2 A/AA violations", async ({ page }) => {
-  const scan = () => new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+  // Scan settled states only: mid-transition opacity would be measured as low contrast.
+  const settled = () => page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
+  const scan = async () => {
+    await settled();
+    return new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+  };
   expect((await scan()).violations).toEqual([]);
   await page.getByRole("button", { name: "Create account" }).click();
   expect((await scan()).violations).toEqual([]);
