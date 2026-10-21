@@ -1,0 +1,78 @@
+{
+  "note": "Run live with: python3 tests/run_evals.py routing --host claude|codex. Each prompt goes to a fresh headless session in an empty directory.",
+  "cases": [
+    {
+      "id": "editorial-email-de",
+      "prompt": "Schreib Anna eine kurze Mail. Security Review ist durch und wir brauchen bis morgen Mittag ihre Release-Entscheidung.",
+      "should_activate": ["progressive-editorial"],
+      "should_not_activate": ["progressive-marketing-ux"]
+    },
+    {
+      "id": "editorial-email-en",
+      "prompt": "Draft a short customer email asking for a decision on the pilot scope.",
+      "should_activate": ["progressive-editorial"]
+    },
+    {
+      "id": "editorial-slack-indirect",
+      "prompt": "I need to ping #product-enterprise that the label wording is the only open item and ask Anna to object by noon. What do I post?",
+      "should_activate": ["progressive-editorial"]
+    },
+    {
+      "id": "editorial-executive-de",
+      "prompt": "Fass das fuer unseren Kunden-CEO in fuenf Saetzen zusammen: Pilot startet mit drei Kunden, kein Mehraufwand, Review nach dem ersten Audit.",
+      "should_activate": ["progressive-editorial"]
+    },
+    {
+      "id": "marketing-hero-de",
+      "prompt": "Schreibe eine neue Hero Section fuer unsere SaaS-Produktentwicklungsseite.",
+      "should_activate": ["progressive-marketing-ux"]
+    },
+    {
+      "id": "marketing-landing-en",
+      "prompt": "Turn this campaign brief into a B2B landing page: audit export for enterprise admins, CTA watch the walkthrough.",
+      "should_activate": ["progressive-marketing-ux"]
+    },
+    {
+      "id": "product-fast-de",
+      "prompt": "Mach aus diesen Outcomes und Opportunities eine adaptive Roadmap, die zu FaST passt: Audit-Nachweise selbst abrufen, Permission-Transparenz.",
+      "should_activate": ["progressive-product-agile"]
+    },
+    {
+      "id": "product-status-en",
+      "prompt": "Write a product status update for the enterprise audit pilot focused on outcome, risk, learning, and next decisions.",
+      "should_activate": ["progressive-product-agile"]
+    },
+    {
+      "id": "product-progress-incomplete",
+      "prompt": "Progress update for the audit export bet please. Feasibility is proven, permissions still unclear.",
+      "should_activate": ["progressive-product-agile"]
+    },
+    {
+      "id": "engineering-pr",
+      "prompt": "Draft the PR description for a change that adds a permission check before audit export jobs are created; unit tests were added but not run yet.",
+      "should_activate": ["progressive-engineering"]
+    },
+    {
+      "id": "engineering-commit",
+      "prompt": "Write a commit message: reject unauthorized audit export requests before a job is queued.",
+      "should_activate": ["progressive-engineering"]
+    },
+    {
+      "id": "core-rewrite",
+      "prompt": "Rewrite this paragraph in natural US English without changing meaning: 'We would kindly ask you to give us a feedback until tomorrow noon, if the release can happen.'",
+      "should_activate": ["progressive-writing-core"]
+    },
+    {
+      "id": "near-miss-code",
+      "prompt": "Fix the authorization bug in AuditExportService where admins without audit permission can still enqueue jobs.",
+      "should_not_activate": ["progressive-writing-core", "progressive-editorial", "progressive-marketing-ux", "progressive-product-agile"],
+      "note": "Implementing code is not a writing artifact merely because code contains text."
+    },
+    {
+      "id": "near-miss-roadmap-decision",
+      "prompt": "Should we invest in permission transparency or broader reporting next quarter? Give me your recommendation.",
+      "should_not_activate": ["progressive-marketing-ux", "progressive-engineering"],
+      "note": "A product decision, not a document; product-craft owns it when installed."
+    }
+  ]
+}

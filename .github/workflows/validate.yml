@@ -45,6 +45,9 @@ jobs:
       - name: Test review-surface attribution check
         run: python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 
+      - name: Test writing quality gate and golden outputs
+        run: python3 -m unittest discover -s skills/writing/progressive-writing-core/tests
+
       - name: Install catalog for supported clients
         shell: bash
         run: |
