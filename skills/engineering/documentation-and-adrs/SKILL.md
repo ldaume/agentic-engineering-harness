@@ -1,6 +1,7 @@
 ---
 name: documentation-and-adrs
-description: Writes and updates durable project documentation, decision records, runbooks, and architecture notes for a clear reader or operational purpose. Use when making architecture decisions, changing public APIs, adding operational procedures, documenting trade-offs, or deciding whether a change needs an ADR.
+description: Writes and updates durable project documentation, decision records, runbooks, and architecture notes for a clear reader or operational purpose. Use when making architecture decisions, changing public APIs, adding operational procedures, documenting trade-offs, or deciding whether a change needs an ADR. The prose of a PR, commit, or Confluence page belongs to progressive-engineering.
+license: MIT
 ---
 
 # Documentation And ADRs
