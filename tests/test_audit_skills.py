@@ -92,6 +92,9 @@ class FrontmatterIsValidYaml(unittest.TestCase):
     def test_a_quoted_description_with_colon_space_is_accepted(self) -> None:
         self.assertEqual(self.errors_for('"Use it for a ping: it carries the rules."'), [])
 
+    def test_a_plain_description_ending_in_a_colon_is_rejected(self) -> None:
+        self.assertTrue(self.errors_for("Use it for these cases:"))
+
     def test_a_colon_without_a_following_space_is_accepted(self) -> None:
         self.assertEqual(self.errors_for("Covers ISO/IEC 27001 and https://example.com."), [])
 

@@ -22,8 +22,13 @@ erklären.
   Team").
 - Keine wörtlichen Übersetzungen englischer Idiome ("am Ende des Tages",
   "Sinn machen" nur wenn bewusst gewählt).
-- Anglizismen, die im Team gelebt werden (Release, Pull Request, Rollout),
-  dürfen bleiben; erfundene Mischformen nicht.
+- Anglizismen, die im Team gelebt werden (Release, Pull Request, Rollout,
+  in Produktteams auch Outcome, Bet, Opportunity), dürfen bleiben; einmal
+  erklären, wenn die Leser sie nicht kennen. Erfundene Mischformen nicht:
+  "Permission-Grenze" wird "wer welche Daten sehen darf", "Nutzungsevidenz"
+  wird "Belege aus der echten Nutzung".
+- Ein Begriff pro Sache im ganzen Text, auch über Dokumente hinweg: nicht
+  "Berechtigung" hier und "Permission" dort.
 - Datum und Zahl im Zielformat: "21. Oktober", "bis morgen 12 Uhr", "1.500".
 - E-Mail-Anrede: nach "Hi Anna," klein weiterschreiben.
 

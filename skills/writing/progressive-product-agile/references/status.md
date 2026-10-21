@@ -46,43 +46,40 @@ such a number answers a real question the reader has.
 
 <!-- golden: agile_status de -->
 ```text
-# Status - Enterprise Audit - 21. Oktober
+# Status - Enterprise-Audit - 21. Oktober
 
-**Signal:** Auf Kurs für den Pilot; vor breiter Freigabe brauchen wir noch
-reale Evidenz zur Permission-Nutzung.
+**Signal:** Auf Kurs für die Pilotphase. Vor einer breiten Freigabe brauchen
+wir noch Belege, wie Admins die Berechtigungen tatsächlich nutzen.
 
-**Outcome:** Der Export ist technisch nutzbar. Ob er Audit-bedingte
-Support-Arbeit tatsächlich reduziert, können wir erst mit den drei
-Pilotkunden bewerten.
+**Outcome:** Der Export ist technisch nutzbar. Ob er die Supportarbeit rund um
+Audits wirklich senkt, zeigen erst die drei Pilotkunden.
 
-**Gelernt:** Im internen Test war nicht die Exportfunktion die offene Frage,
-sondern ob Admins sofort verstehen, welche Rollen welche Audit-Daten sehen
-dürfen.
+**Gelernt:** Im internen Test lief der Export problemlos. Offen blieb, ob
+Admins sofort verstehen, welche Rolle welche Audit-Daten sieht.
 
-**Risiko:** Eine zu breite Permission könnte sensible Daten sichtbar machen.
-Deshalb bleibt der erste Rollout auf drei bekannte Enterprise-Accounts
+**Risiko:** Eine zu weit gefasste Berechtigung könnte sensible Daten sichtbar
+machen. Deshalb bleibt der erste Rollout auf drei bekannte Enterprise-Accounts
 begrenzt.
 
 **Entscheidung:** Keine zusätzliche Management-Entscheidung nötig.
 
-**Nächster Fokus:** Ersten echten Audit-Workflow beobachten und
-Permission-Fragen erfassen.
+**Nächster Fokus:** Den ersten echten Audit-Ablauf begleiten und Fragen zu
+Berechtigungen sammeln.
 ```
 
 <!-- golden: agile_status en -->
 ```text
 # Enterprise Audit status - October 21
 
-**Signal:** On track for the pilot; we still need real permission-usage
-evidence before broad release.
+**Signal:** On track for the pilot; we still need evidence of how admins use
+permissions before a broad release.
 
 **Outcome:** The export is technically usable. We won't know whether it
 reduces audit-related support work until the three pilot customers use it in
 real audits.
 
-**Learned:** The open question in internal testing was not exporting data. It
-was whether admins immediately understand which roles can see which audit
-data.
+**Learned:** In internal testing the export itself worked. The open question
+is whether admins immediately understand which roles can see which audit data.
 
 **Risk:** An overly broad permission could expose sensitive information, so
 the first rollout remains limited to three known enterprise accounts.

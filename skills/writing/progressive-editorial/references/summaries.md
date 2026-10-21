@@ -15,18 +15,17 @@ Golden:
 
 <!-- golden: po_summary de -->
 ```text
-Der Audit Export ist technisch bereit für einen begrenzten Pilot. Die
-entscheidende offene Frage ist nicht mehr die Exportfunktion selbst, sondern
-ob Enterprise-Admins die Permission-Grenze verstehen und mit den exportierten
-Daten ihre realen Audit-Fragen beantworten können.
+Der Audit-Export ist technisch bereit für eine begrenzte Pilotphase. Offen ist
+nicht mehr die Exportfunktion selbst. Offen ist, ob Enterprise-Admins verstehen,
+wer welche Audit-Daten sehen darf, und ob die exportierten Daten ihre echten
+Audit-Fragen beantworten.
 
-Deshalb würde ich noch keine breite Freigabe planen. Der nächste sinnvolle
-Schritt sind drei echte Kunden-Workflows.
+Eine breite Freigabe würde ich deshalb noch nicht planen. Der nächste sinnvolle
+Schritt sind drei echte Audit-Abläufe bei Kunden.
 
-Wenn diese zeigen, dass die vorhandenen Daten und Rollen ausreichen, können
-wir über breitere Verfügbarkeit entscheiden. Falls nicht, wissen wir früh, ob
-das eigentliche Produktproblem eher Permission Transparency oder Reporting
-ist.
+Reichen dort die vorhandenen Daten und Rollen, entscheiden wir über die breite
+Verfügbarkeit. Reichen sie nicht, wissen wir früh, ob das eigentliche
+Produktproblem bei der Transparenz der Berechtigungen oder beim Reporting liegt.
 ```
 
 <!-- golden: po_summary en -->
@@ -92,18 +91,19 @@ workflow.
 
 <!-- golden: executive_summary de -->
 ```text
-**Kurzfassung:** Der Enterprise-Audit-Pilot kann ohne zusätzliche technische
-Scope-Erweiterung starten.
+**Kurzfassung:** Der Pilot für Enterprise-Audits kann starten, ohne den
+geplanten technischen Umfang zu erweitern.
 
-Der Exportpfad ist bereit. Die verbleibende Unsicherheit liegt jetzt im realen
-Kundenworkflow: Reichen die vorhandenen Daten und Berechtigungen aus, damit
-Admins ihre Audit-Fragen selbst beantworten können?
+Der Export ist bereit. Unsicher ist jetzt nur noch der Ablauf beim Kunden:
+Reichen die vorhandenen Daten und Berechtigungen, damit Admins ihre
+Audit-Fragen selbst beantworten?
 
 **Empfehlung:** Die Freigabe zunächst auf drei Pilotkunden begrenzen. So
-erhalten wir belastbare Nutzungsevidenz, bevor wir uns auf eine größere
-Reporting- oder Permission-Initiative festlegen.
+sammeln wir Belege aus der echten Nutzung, bevor wir uns auf ein größeres
+Vorhaben für Reporting oder Berechtigungen festlegen.
 
-**Nächster Prüfpunkt:** Nach je einem echten Audit-Workflow der drei Kunden.
+**Nächster Prüfpunkt:** Wenn jeder der drei Kunden einen echten Audit-Ablauf
+abgeschlossen hat.
 ```
 
 Checks: bottom line in the first 40 words; business or customer meaning;

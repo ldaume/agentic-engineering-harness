@@ -63,13 +63,13 @@ Preview: Der neue Export nutzt die Audit-Daten, die bereits in deinem Workspace 
 Hallo [Name],
 
 wenn du für einen Audit-Nachweis bisher erst Daten über den Support anfordern
-musstest, kannst du diesen Schritt jetzt überspringen.
+musstest, geht das jetzt direkt.
 
-Mit dem neuen Audit Export lädst du die bereits vorhandenen Audit-Daten
-direkt aus deinem Workspace herunter.
+Mit dem neuen Audit-Export lädst du die vorhandenen Audit-Daten selbst aus
+deinem Workspace herunter, in dem Format, das du für den Nachweis brauchst.
 
-Keine neue Reporting-Suite, sondern ein kürzerer Weg zu den Nachweisen, die du
-ohnehin brauchst.
+Der Walkthrough zeigt in drei Minuten, wo du den Export findest und welche
+Rolle du dafür brauchst.
 
 [3-Minuten-Walkthrough ansehen]
 
@@ -84,14 +84,14 @@ Preview: The new export uses the audit data already available in your workspace.
 
 Hi [Name],
 
-If preparing an audit has meant asking support to pull data for you, there's
-now a shorter path.
+If preparing an audit has meant asking support to pull data for you, you can
+now do it yourself.
 
-The new Audit Export lets you download the audit data already available in
-your workspace.
+The new Audit Export lets you download the audit data already in your
+workspace, in the format your evidence request needs.
 
-It's not a new reporting suite. It's a faster way to get the evidence you
-already need.
+The walkthrough shows in three minutes where to find the export and which role
+it requires.
 
 [Watch the 3-minute walkthrough]
 

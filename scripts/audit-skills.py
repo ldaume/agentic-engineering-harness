@@ -158,9 +158,9 @@ def frontmatter(path: Path, text: str, errors: list[str]) -> dict[str, str]:
         match = FIELD_PATTERN.match(line)
         if match:
             raw = match.group(2).strip()
-            # A plain scalar may not contain ": "; YAML parsers reject the line
-            # and the Skills CLI then drops the Skill without a message.
-            if ": " in raw and raw[:1] not in {'"', "'"}:
+            # A plain scalar may not contain ": " or end in ":"; YAML parsers
+            # reject the line and the Skills CLI then drops the Skill silently.
+            if (": " in raw or raw.endswith(":")) and raw[:1] not in {'"', "'"}:
                 errors.append(
                     f"{relative}: {match.group(1)} contains ': ' unquoted; "
                     "rephrase or quote the value"

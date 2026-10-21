@@ -153,7 +153,7 @@ Enterprise-Accounts mit regelmäßigen Security- oder Compliance-Prüfungen.
 - Verlängerungsgespräche, in denen Auditierbarkeit Thema ist
 - der heutige Ablauf verlangt manuelle Datenaufbereitung
 
-## Gewünschtes Outcome
+## Gewünschtes Ergebnis
 
 Admins rufen die Nachweise für Routine-Audits über einen passend
 berechtigten Produkt-Workflow selbst ab.
@@ -171,7 +171,7 @@ berechtigten Produkt-Workflow selbst ab.
 
 ## Offene Entscheidung
 
-Ist das Problem wertvoll genug für einen begrenzten Pilot-Bet?
+Ist das Problem wertvoll genug für einen begrenzten Bet mit Pilotkunden?
 ```
 
 Checks: problem before solution, evidence, unknowns, decision or learning

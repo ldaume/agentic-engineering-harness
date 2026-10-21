@@ -125,6 +125,26 @@ class ArtifactGateTest(unittest.TestCase):
         text = "## Motivation\n\nBecause.\n\n## Test plan\n\nRan unit tests."
         self.assertEqual(check(text, "pull_request", "en")["errors"], [])
 
+    def test_given_status_as_bullet_list_when_checked_then_sections_found(self):
+        text = "- Signal: ok\n- Outcome: a\n- Learned: b\n- Risks: c\n- Next: d"
+        self.assertEqual(check(text, "agile_status", "en")["errors"], [])
+
+    def test_given_german_label_with_leading_words_when_checked_then_learning_found(self):
+        text = "Signal: ok\nErgebnis: a\nWas wir gelernt haben: b\nRisiko: c\nNächste Schritte: d"
+        self.assertEqual(check(text, "agile_status", "de")["errors"], [])
+
+    def test_given_reply_email_without_subject_when_checked_then_warning_not_error(self):
+        result = check("Hi Anna,\n\nthanks, Friday works.\n\nAlex", "business_email", "en")
+        self.assertEqual(result["errors"], [])
+        self.assertTrue(result["warnings"])
+
+    def test_given_german_abbreviations_and_ordinals_when_measured_then_one_sentence(self):
+        self.assertEqual(diagnostics("Wir starten z. B. am 3. Oktober u. a. mit Tests, d. h. früh.", "de")["sentences"], 1)
+
+    def test_given_markdown_headings_and_bullets_when_measured_then_each_line_is_a_sentence(self):
+        text = "# Status\n\n- Export bereit\n- Pilot startet\n- Review danach"
+        self.assertEqual(diagnostics(text, "de")["sentences"], 4)
+
     def test_given_unknown_artifact_when_checked_then_value_error(self):
         with self.assertRaises(ValueError):
             check("x", "poem", "en")

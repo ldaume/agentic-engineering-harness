@@ -57,44 +57,56 @@ lacks evidence instead of inventing proof.
 
 <!-- golden: landing_page de -->
 ```text
-# Von mehr Prozess zu einem besseren Arbeitssystem
+# Audit-Nachweise selbst exportieren
 
-Bringe Produkt, Engineering, Delivery und Betrieb um gemeinsame Outcomes,
-sichtbaren Flow und schnellere Lernschleifen zusammen.
+Hol dir die Audit-Daten für deinen nächsten Nachweis direkt aus dem Workspace,
+begrenzt auf das, was deine Rolle sehen darf.
 
-[Operating Model besprechen]
+[Kostenlos testen]
 
-## Weniger Arbeit koordinieren. Bessere Entscheidungen ermöglichen.
+## Der Nachweis hängt heute am Support
 
-Wenn Produkt, Engineering und Betrieb getrennt optimieren, entstehen
-Übergaben, versteckte Abhängigkeiten und Statusarbeit.
+Für jeden Audit-Nachweis fragst du Daten beim Support an und wartest, bis
+jemand sie zusammenstellt. Kurz vor der Prüfung wird daraus ein Engpass.
 
-Wir gestalten das System, in dem Entscheidungen, Verantwortung, Qualität und
-Feedback tatsächlich zusammenkommen.
+## Was sich ändert
 
-## Was sich verändert
+Du startest den Export selbst, wann du ihn brauchst. Die Datei enthält das
+Audit-Log, das dein Workspace ohnehin aufzeichnet.
 
-Teams bekommen klarere Prioritäten, sichtbare Trade-offs, kürzere
-Feedback-Loops und ein Arbeitsmodell, das sich mit dem Produkt weiterentwickeln
-kann.
+## So funktioniert es
+
+Der Export nutzt deine bestehende Admin-Rolle. Was du im Produkt nicht sehen
+darfst, steht auch nicht in der Datei.
+
+[Kostenlos testen]
 ```
 
 <!-- golden: landing_page en -->
 ```text
-# Move from more process to a better operating system
+# Export your audit evidence yourself
 
-Bring product, engineering, delivery, and operations around shared outcomes,
-visible flow, and faster learning loops.
+Get the audit data for your next evidence request straight from your
+workspace, scoped to what your role can see.
 
-[Discuss your operating model]
+[Start your free trial]
 
-## Coordinate less work. Enable better decisions.
+## Evidence currently waits on support
 
-When product, engineering, and operations optimize separately, handoffs,
-hidden dependencies, and status work accumulate.
+Every audit request means asking support for data and waiting while someone
+assembles it. Right before an audit, that wait becomes the bottleneck.
 
-The better move is to improve the system in which decisions, ownership,
-quality, and feedback actually meet.
+## What changes
+
+You run the export when you need it. The file contains the audit log your
+workspace already records.
+
+## How it works
+
+The export uses your existing admin role. Anything you cannot see in the
+product stays out of the file.
+
+[Start your free trial]
 ```
 
 Checks: one primary intent, message match, mechanism, proof or an explicit

@@ -26,12 +26,20 @@ WHY = r"(?im)^#+\s*(why|warum|context|kontext|hintergrund|motivation|problem)\b"
 VALIDATION = r"(?im)^#+\s*(validation|validierung|tests?|testing|test plan|how tested|verification|verifikation|prüfung|getestet|qa)\b"
 SUBJECT = r"(?im)^(subject|betreff)\s*:"
 PREVIEW = r"(?im)^(preview|vorschau(text)?)\s*:"
-# A status label starts a line, optionally after Markdown heading or bold marks,
-# so a word in prose ("the next release") does not count as the section.
-LABEL = r"(?im)^[#*\s]*"
+
+
+def label(keywords: str) -> str:
+    """A section label: a Markdown heading containing the keyword, or a line
+    whose first few words contain it and end in a colon ("- Risks:", "**Signal:**",
+    "Was wir gelernt haben:"). A keyword in running prose ("the next release")
+    does not count, because the gate checks structure, not vocabulary."""
+    return (
+        rf"(?im)^[\s>*+\-\d.)]*(?:#+[^\n]*?\b(?:{keywords})"
+        rf"|[^\n:#]{{0,30}}?\b(?:{keywords})[^\n:]{{0,20}}:)"
+    )
 
 ARTIFACTS: dict[str, dict] = {
-    "business_email": {"required": {"subject line": SUBJECT}, "warn_words": 180, "sentences": True},
+    "business_email": {"recommended": {"subject line (fine to omit in a reply that stays in its thread)": SUBJECT}, "warn_words": 180, "sentences": True},
     "marketing_email": {"required": {"subject line": SUBJECT, "preview line": PREVIEW}, "warn_words": 400},
     "slack": {
         "warn_words": 200,
@@ -50,11 +58,11 @@ ARTIFACTS: dict[str, dict] = {
     },
     "agile_status": {
         "required": {
-            "signal": LABEL + r"signal\b",
-            "outcome": LABEL + r"(outcome|ergebnis)\b",
-            "learning": LABEL + r"(learned|learning|gelernt|erkenntnis)",
-            "risk": LABEL + r"(risks?|risiken|risiko)\b",
-            "next focus": LABEL + r"(next|nächste\w*)\b",
+            "signal": label("signal"),
+            "outcome": label("outcome|ergebnis"),
+            "learning": label("learned|learnings?|gelernt|erkenntnis\\w*|lernen"),
+            "risk": label("risks?|risiken|risiko"),
+            "next focus": label("next|nächste\\w*"),
         },
         # Warn, not error: a status may say it deliberately does not report velocity.
         "warn": {"velocity or story points; check they are not presented as the outcome": r"(?i)\b(velocity|story points?)\b"},
@@ -72,7 +80,7 @@ ARTIFACTS: dict[str, dict] = {
         "required": {
             "goal": r"(?im)^#+\s*(goal|ziel)\b",
             "current state": r"(?i)(current state|aktueller stand|ist-stand)",
-            "next breakthrough": LABEL + r"(next|nächste\w*)\b",
+            "next breakthrough": label("next|nächste\\w*"),
         },
         "reject": {"percent complete without a model": r"(?i)\d+\s?(%|prozent|percent)\s*(complete|done|finished|fertig|erledigt|abgeschlossen)"},
     },
@@ -140,15 +148,18 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
     errors: list[str] = []
     warnings: list[str] = []
 
-    for label, pattern in rules.get("required", {}).items():
+    for name, pattern in rules.get("required", {}).items():
         if not re.search(pattern, text):
-            errors.append(f"{artifact}: missing {label}")
-    for label, pattern in rules.get("reject", {}).items():
+            errors.append(f"{artifact}: missing {name}")
+    for name, pattern in rules.get("recommended", {}).items():
+        if not re.search(pattern, text):
+            warnings.append(f"{artifact}: no {name}")
+    for name, pattern in rules.get("reject", {}).items():
         if re.search(pattern, text):
-            errors.append(f"{artifact}: {label}")
-    for label, pattern in rules.get("warn", {}).items():
+            errors.append(f"{artifact}: {name}")
+    for name, pattern in rules.get("warn", {}).items():
         if re.search(pattern, text):
-            warnings.append(f"{artifact}: {label}")
+            warnings.append(f"{artifact}: {name}")
 
     if artifact == "commit":
         check_commit(text, errors, warnings)

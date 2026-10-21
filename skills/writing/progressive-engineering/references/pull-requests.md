@@ -26,6 +26,10 @@ result, or the user's statement).
 
 ## Golden example
 
+Input: the diff, the linked issue, and the session's own test output (unit and
+integration suites passed; the pilot workflow was checked by hand). Every
+validation line below is backed by that evidence.
+
 <!-- golden: pull_request en -->
 ```text
 ## Why
@@ -88,7 +92,7 @@ angenommen wurde.
 
 - Unit-Tests für Berechtigung und Statusübergänge des Exports
 - Integrationstest für eine erfolgreiche Export-Erzeugung
-- manueller Durchlauf des Pilot-Workflows in der Entwicklungsumgebung
+- manueller Durchlauf des Pilot-Ablaufs in der Entwicklungsumgebung
 
 ## Rollout
 

@@ -40,8 +40,8 @@ is decision compression, not just a shorter technical text.
 ## Gate
 
 From this skill's directory, run
-`python3 ../progressive-writing-core/scripts/quality_gate.py` with
-`--artifact business_email|slack|po_summary|executive_summary`.
+`python3 ../progressive-writing-core/scripts/quality_gate.py --artifact <type>
+--lang <de|en> FILE` with type one of `business_email|slack|po_summary|executive_summary`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
 warning, because warnings are heuristics, not rules.

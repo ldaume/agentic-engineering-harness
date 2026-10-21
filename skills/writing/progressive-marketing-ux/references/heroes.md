@@ -44,30 +44,30 @@ variants.
 
 ## Golden example
 
-Input: helps SaaS product and engineering organizations move from fragmented
-delivery to a shared product-engineering operating model. Proof: hands-on
-product, engineering, delivery, and AI-native experience. CTA: discuss the
-current operating model.
+Input: a B2B SaaS product adds self-service audit evidence for enterprise
+admins. Mechanism: exports the audit log already recorded in the workspace,
+scoped by the admin's existing role. Proof: none published yet. CTA: start a
+trial.
 
 <!-- golden: hero de -->
 ```text
-# Produktentwicklung, die als ein System arbeitet
+# Audit-Nachweise in Minuten, direkt aus dem Workspace
 
-Verbinde Produktstrategie, Engineering, Delivery und Betrieb zu einem
-Arbeitsmodell, in dem Teams schneller entscheiden, liefern und aus realer
-Nutzung lernen.
+Enterprise-Admins exportieren das vorhandene Audit-Log selbst, begrenzt auf
+die Daten, die ihre Rolle ohnehin sehen darf. Ohne Support-Ticket, ohne
+Wartezeit.
 
-[Operating Model besprechen]
+[Kostenlos testen]
 ```
 
 <!-- golden: hero en -->
 ```text
-# Make product development work as one system
+# Audit evidence in minutes, straight from your workspace
 
-Connect product strategy, engineering, delivery, and operations around an
-operating model that helps teams decide, ship, and learn from real use faster.
+Enterprise admins export the audit log you already record, scoped to what
+their role can see. No support ticket, no waiting on someone else's queue.
 
-[Discuss your operating model]
+[Start your free trial]
 ```
 
 Checks: H1 at most 12 words and expresses customer or organizational value;

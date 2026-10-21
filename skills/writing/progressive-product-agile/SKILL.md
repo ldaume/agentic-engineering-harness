@@ -43,8 +43,8 @@ feature roadmaps.
 ## Gate
 
 From this skill's directory, run
-`python3 ../progressive-writing-core/scripts/quality_gate.py` with
-`--artifact agile_status|fast_roadmap|agile_progress|product_document`.
+`python3 ../progressive-writing-core/scripts/quality_gate.py --artifact <type>
+--lang <de|en> FILE` with type one of `agile_status|fast_roadmap|agile_progress|product_document`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
 warning, because warnings are heuristics, not rules.

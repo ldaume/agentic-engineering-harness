@@ -57,17 +57,26 @@ audience; LIX below 40 is plain, above 50 is dense specialist prose.
 
 ## Gates per artifact
 
-| Artifact | Hard gate | Diagnostic only |
-|---|---|---|
-| Commit | subject and structure | no readability limit |
-| PR | claims and sections | sentence length |
-| Slack | length and next step | sentence length |
-| Business email | subject and ask | Flesch, LIX |
-| Hero | word count and claim support | no Flesch limit |
-| Landing | claim support | Flesch, LIX per section |
-| Docs | structure and links | readability, terminology |
-| Executive | bottom line | LIX, Flesch, sentence length |
-| Product docs | evidence and unknowns | readability secondary |
+What `scripts/quality_gate.py` decides (errors) and flags (warnings); the
+agent check column stays with the semantic review, because a script cannot
+judge it.
+
+| Artifact | Script errors | Script warnings | Agent check |
+|---|---|---|---|
+| Commit | empty or generic subject, over 72 chars, no blank line before body | subject over 50 chars | one coherent change, reason when not obvious |
+| PR | no why or context heading, no validation heading | - | claimed tests have evidence |
+| Slack | - | email salutation, over 200 words, long sentences | next step and owner |
+| Business email | - | no subject line, over 180 words, long sentences | one clear ask |
+| Marketing email | no subject or preview, preview repeats subject | over 400 words | one CTA, specific value |
+| Hero | no H1, H1 over 12 words | - | every claim supported |
+| Landing, website | - | long sentences | claim support, message match |
+| Confluence | no purpose, no owner or status | long sentences | current truth first |
+| Status | a missing signal, outcome, learning, risk, or next label | velocity or story points | outcome, not activity |
+| Roadmap | no strategic intent, outcome, now, confidence, investment boundary | - | later is not a commitment |
+| Progress | no goal, current state, next; percent complete | - | uncertainty change |
+| Product docs | no problem, evidence, unknowns | - | smallest artifact |
+| PO, executive summary | - | over 300 words, no bottom-line label in 40 words, long sentences | decision relevance |
+| Any artifact | a forbidden claim from `--facts` | a percentage no fact contains | no invented fact |
 
 `scripts/quality_gate.py --artifact <type>` implements the deterministic part.
 Known types: business_email, marketing_email, slack, hero, landing_page,

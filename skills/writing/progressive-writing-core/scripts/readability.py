@@ -29,10 +29,22 @@ class Counts:
     long_sentences: int
 
 
+# Periods that do not end a sentence: common DE/EN abbreviations and German
+# ordinals ("am 3. Oktober"). Without this guard "z. B." alone adds two sentences.
+ABBREVIATION_RE = re.compile(
+    r"(?i)\b(?:z\.\s?b|u\.\s?a|d\.\s?h|e\.\s?g|i\.\s?e|bzw|ca|dr|nr|vgl|etc|usw|ggf|inkl|evtl|mr|mrs|ms|vs)\."
+)
+ORDINAL_RE = re.compile(r"\b(\d{1,2})\.(?=\s+[^\W\d_])")
+# A blank line, heading, or list item ends a sentence even without a period.
+BLOCK_RE = re.compile(r"\n\s*\n|\n(?=\s*(?:[-*+]|\d+[.)]|#+)\s)")
+
+
 def sentences(text: str) -> list[str]:
-    # ponytail: punctuation split, use a language-aware segmenter if abbreviations skew counts
-    parts = [p.strip() for p in SENTENCE_RE.split(text) if p.strip()]
-    return parts or [text]
+    # ponytail: rule-based split, use a language-aware segmenter if counts still skew
+    guarded = ABBREVIATION_RE.sub(lambda m: m.group().replace(".", "\x00"), text)
+    guarded = ORDINAL_RE.sub("\\1\x00", guarded)
+    parts = [p.strip() for block in BLOCK_RE.split(guarded) for p in SENTENCE_RE.split(block)]
+    return [p.replace("\x00", ".") for p in parts if p.strip()] or [text]
 
 
 def syllables_en(word: str) -> int:

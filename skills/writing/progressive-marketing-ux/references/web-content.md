@@ -40,40 +40,50 @@ this file owns the prose.
 
 ## Golden excerpt
 
-Input: page for an AI-native software development service; explain the value
-to a CTO, do not sell generic AI tools.
+Input: the security and compliance page of a B2B SaaS product; primary reader
+is an enterprise admin or security lead checking whether the product supports
+their audits.
 
 <!-- golden: website_content en -->
 ```text
-# AI-native delivery without giving up engineering judgment
+# Security and compliance evidence you can pull yourself
 
-Use AI where it increases leverage across discovery, implementation, testing,
-documentation, and operations - with the context boundaries, verification,
-and ownership needed to keep the result trustworthy.
+Your workspace records an audit log of every admin and data action. Admins
+export it on demand, scoped to their role, for audits and security reviews.
 
-## More speed is useful only when the feedback loop improves
+## What the audit log records
 
-Generating more code is not the goal.
+Sign-ins, permission changes, exports, and deletions, each with actor, time,
+and affected workspace.
 
-The useful shift is reducing the time between a product question, an
-implementation, real evidence, and the next decision.
+## Who can export it
+
+Any admin role with audit access. The export never includes data the role
+cannot already see in the product.
+
+Next: [See the audit log fields](#) or [Read how roles work](#)
 ```
 
 <!-- golden: website_content de -->
 
 ```text
-# AI-native Delivery, ohne das Engineering-Urteil abzugeben
+# Sicherheits- und Compliance-Nachweise, die du selbst abrufst
 
-Setze KI dort ein, wo sie Discovery, Umsetzung, Tests, Dokumentation und
-Betrieb wirklich beschleunigt - mit den Kontextgrenzen, der Verifikation und
-der Verantwortung, die das Ergebnis vertrauenswürdig halten.
+Dein Workspace protokolliert jede Admin- und Datenaktion in einem Audit-Log.
+Admins exportieren es bei Bedarf, begrenzt auf ihre Rolle, für Audits und
+Sicherheitsprüfungen.
 
-## Mehr Tempo hilft nur, wenn die Feedback-Schleife besser wird
+## Was das Audit-Log aufzeichnet
 
-Mehr generierter Code ist nicht das Ziel.
+Anmeldungen, Änderungen an Berechtigungen, Exporte und Löschungen, jeweils mit
+Person, Zeitpunkt und betroffenem Workspace.
 
-Entscheidend ist, wie schnell aus einer Produktfrage eine Umsetzung, echte
-Evidenz und die nächste Entscheidung wird.
+## Wer es exportieren darf
+
+Jede Admin-Rolle mit Audit-Zugriff. Der Export enthält nie Daten, die diese
+Rolle im Produkt nicht ohnehin sieht.
+
+Weiter: [Felder des Audit-Logs ansehen](#) oder [Lesen, wie Rollen funktionieren](#)
 ```
 
 Checks: primary intent answered early, descriptive H1 and headings, a useful

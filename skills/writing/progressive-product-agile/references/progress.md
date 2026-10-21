@@ -54,9 +54,9 @@ request, generated file, audit data review.
 
 ## Progress since last update
 
-The important progress is not the completed export UI. We have removed the
-feasibility uncertainty around generating the file from production-shaped
-data.
+The feasibility question is settled: the file can be generated from
+production-shaped data. That was the main risk; the remaining UI work is
+known.
 
 ## Uncertainty retired
 
@@ -76,7 +76,7 @@ Run the workflow with the first customer admin using a real audit request.
 <!-- golden: agile_progress de -->
 
 ```text
-# Fortschritt - Minimaler Audit Export
+# Fortschritt - Minimaler Audit-Export
 
 ## Ziel
 
@@ -85,28 +85,28 @@ individuelle Hilfe aus dem Engineering.
 
 ## Aktueller Stand
 
-Der Weg funktioniert durchgängig in der Pilot-Umgebung: Berechtigung prüfen,
+Der Ablauf funktioniert durchgängig in der Pilotumgebung: Berechtigung prüfen,
 Export anfordern, Datei erzeugen, Audit-Daten sichten.
 
 ## Fortschritt seit dem letzten Update
 
-Der wichtige Fortschritt ist nicht die fertige Export-Oberfläche. Wir wissen
-jetzt, dass sich die Datei aus produktionsnahen Daten erzeugen lässt; diese
-Machbarkeitsfrage ist vom Tisch.
+Die Machbarkeit ist geklärt: Die Datei lässt sich aus produktionsnahen Daten
+erzeugen. Das war das größte Risiko; die restliche Arbeit an der Oberfläche ist
+bekannt.
 
 ## Geklärte Unsicherheit
 
 - der Export läuft innerhalb der bestehenden Service-Grenze
-- das Datenmodell enthält alle Felder für den ersten Pilot
+- das Datenmodell enthält alle Felder für die erste Pilotphase
 
 ## Offene Unsicherheit
 
-- ob Admins die Berechtigungsgrenze verstehen
+- ob Admins verstehen, wer welche Daten sehen darf
 - ob die exportierten Felder zu den echten Audit-Fragen passen
 
 ## Nächster Durchbruch
 
-Den Workflow mit dem ersten Kunden-Admin und einer echten Audit-Anfrage
+Den Ablauf mit dem ersten Kunden-Admin und einer echten Audit-Anfrage
 durchspielen.
 ```
 

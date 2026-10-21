@@ -36,7 +36,7 @@ Next: [owner/action/time].
 
 <!-- golden: slack de -->
 ```text
-Kurzes Update zum Audit Export: Der Security Review ist durch. Offen ist nur
+Kurzes Update zum Audit-Export: Der Security Review ist durch. Offen ist nur
 noch die Benennung von zwei Labels; das blockiert die Funktion nicht.
 
 Mein Vorschlag: Freitag releasen, Labels separat nachziehen.

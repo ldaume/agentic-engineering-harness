@@ -93,33 +93,33 @@ These are possibilities, not delivery commitments.
 Die Enterprise-Administration so vertrauenswürdig machen, dass Audit- und
 Berechtigungsfragen keinen individuellen Support mehr brauchen.
 
-## Gewünschtes Outcome
+## Gewünschtes Ergebnis
 
 Enterprise-Admins beantworten wiederkehrende Audit-Fragen direkt im Produkt,
 mit passenden Zugriffsrechten.
 
 ## Jetzt
 
-**Opportunity:** Audit-Nachweise abrufen
-**Bet:** Minimaler Audit Export
+**Opportunity:** Audit-Nachweise selbst abrufen
+**Bet:** Minimaler Audit-Export
 **Zuversicht:** Mittel
-**Investitionsgrenze:** Die ersten drei Kundenpiloten
-**Lern-Meilenstein:** Drei Admins erledigen eine echte Audit-Anfrage ohne
-Datenabzug durch das Engineering.
+**Investitionsgrenze:** Die ersten drei Pilotkunden
+**Lern-Meilenstein:** Drei Admins erledigen eine echte Audit-Anfrage, ohne
+dass das Engineering Daten abziehen muss.
 
 ## Als Nächstes
 
 **Opportunity:** Transparenz bei Berechtigungen
 
-Bevor wir einen neuen Berechtigungs-Workflow zusagen, müssen wir verstehen, ob
+Bevor wir einen neuen Ablauf für Berechtigungen zusagen, müssen wir wissen, ob
 das heutige Rollenmodell reicht.
 
 ## Später
 
-Mögliche Opportunity-Felder:
+Mögliche weitere Opportunities:
 - Admin-Aktivitäten prüfen
 - breiteres Reporting
-- Workflow für Berechtigungs-Reviews
+- regelmäßige Prüfung von Berechtigungen
 
 Das sind Möglichkeiten, keine Lieferzusagen.
 ```
