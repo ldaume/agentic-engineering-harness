@@ -1,6 +1,6 @@
 ---
 name: product-craft
-description: Shapes evidence-driven product investments, value-defined issues, honest Now/Next/Later/Never roadmaps, discovery, UX, architecture, delivery, and learning. Use when turning signals into bets, deciding whether or when work deserves investment, planning product work, or coordinating product and engineering trade-offs without backlog or milestone theater. Writing the roadmap, status, or brief document itself belongs to progressive-product-agile.
+description: Shapes evidence-driven product investments, value-defined issues, honest Now/Next/Later/Never roadmaps, discovery, UX, architecture, delivery, and learning. Use when turning signals into bets, deciding whether or when work deserves investment, planning product work, or coordinating product and engineering trade-offs without backlog or milestone theater. Writing the roadmap, status, or brief document itself belongs to progressive-product-agile. Running user research belongs to progressive-ux-research.
 license: MIT
 ---
 
