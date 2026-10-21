@@ -1,8 +1,12 @@
 # FaST-Compatible Planning
 
-FaST (Fluid Scaling Technology) is not a roadmap framework. It centers on a
-Collective, visible work, self-selection, and fluid teaming around current
-work; discovery and delivery happen in the same adaptive system.
+FaST (Fluid Scaling Technology) is not a roadmap framework. In the current
+guide, version 3.0, the people working together form a Collective; teams
+self-organize around work items in a Marketplace, the Marketplace Board makes
+the choices visible, and Discovery Trees break work down; a Collective can
+serve several products and Product Managers (verified) [SRC-WRITE-036].
+Older material (guide 2.1) calls the group a Tribe [SRC-WRITE-017]; use
+Collective.
 
 Inference for this knowledge base: a FaST-compatible artifact shows direction
 and current priority, but neither assigns long-term work to static teams nor

@@ -1,10 +1,13 @@
 # House Style Deutsch
 
-Basis: amtliche deutsche Rechtschreibung in der seit 1. Juli 2024 gültigen
-Fassung. Für breit adressierte Produkt- und Business-Texte gelten die
-Verständlichkeitsprinzipien des DigitalService des Bundes als Default: logische
-kurze Sätze, aktive Verben, direkte Ansprache, notwendige Fachbegriffe
-erklären.
+Basis: das aktuelle Amtliche Regelwerk des Rats für deutsche Rechtschreibung
+(Fassung 2024; das Inkrafttreten zum 1. Juli 2024 konnte im Refresh vom
+2026-10-21 nicht an der Primärquelle geprüft werden) und die Regeln, wie Duden
+sie erklärt [SRC-WRITE-035]. Für breit adressierte Produkt- und Business-Texte
+gilt als Default: logische kurze Sätze, aktive Verben, direkte Ansprache,
+notwendige Fachbegriffe erklären (supported) [SRC-WRITE-004]
+[SRC-WRITE-020]. Ein offizieller deutscher Leitfaden für einfache Sprache im
+Business-Kontext wurde im Refresh nicht gefunden.
 
 ## Regeln
 
@@ -37,8 +40,10 @@ erklären.
 - Direkt, ruhig, respektvoll. "Mein Vorschlag ist ..." statt "Hiermit möchte
   ich höflichst anfragen ...".
 - Kein "Bezugnehmend auf unsere vorangegangene Korrespondenz".
-- Geschäftsbriefe und formelle E-Mails: DIN 5008 als Orientierung für Form
-  und Erfassbarkeit, nicht als Tonvorgabe.
+- Geschäftsbriefe und formelle E-Mails: DIN 5008:2020 als Orientierung für
+  Form und Erfassbarkeit, nicht als Tonvorgabe; 2020 ist laut DIN Media die
+  aktuelle Ausgabe (verified) [SRC-WRITE-005]. Vor "aktuell" im Text das
+  DIN-Portal erneut prüfen.
 
 ## Gute Muster
 

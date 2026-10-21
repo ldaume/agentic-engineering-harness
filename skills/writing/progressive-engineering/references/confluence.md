@@ -1,6 +1,8 @@
 # Confluence Documentation
 
-Confluence is learning memory, not storage. Use a clear page hierarchy,
+Confluence is learning memory, not storage. Atlassian's own content
+foundations ask for clear, concise, consistent language (supported)
+[SRC-WRITE-030]. Use a clear page hierarchy,
 labels, and templates; keep pages findable and current.
 
 Each page is mainly one of: reference, decision, procedure, working document,

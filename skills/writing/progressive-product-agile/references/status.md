@@ -12,6 +12,14 @@ happens next.
 Overall signal, outcome movement, what changed, evidence and learning, risks
 and uncertainty, decisions needed, next focus.
 
+When a status reports delivery performance, use DORA's five metrics in two
+groups - throughput (change lead time, deployment frequency, failed
+deployment recovery time) and instability (change fail rate, deployment
+rework rate) - and do not call them "four keys" (verified) [SRC-WRITE-010].
+For AI claims, DORA 2025 frames AI as an amplifier of existing strengths and
+weaknesses (supported) [SRC-WRITE-011] [SRC-WRITE-012]; do not quote 2024
+percentages as current.
+
 Not "completed 14 tickets", "velocity 42", or "sprint 83% complete", unless
 such a number answers a real question the reader has.
 

@@ -1,6 +1,6 @@
 ---
 name: progressive-marketing-ux
-description: Use whenever writing or revising a hero section, landing page, homepage, service or product page, website copy, CTA, or marketing email or newsletter, in German or English (Hero schreiben, Landingpage, Website-Texte, Marketing-Mail). Carries the value-first narrative (what you get, how it compounds, proof, next step), evidence discipline against invented proof, and golden examples. Prefer it over generic copywriting skills when the copy must be value-first, evidence-bound, or German.
+description: Use whenever writing or revising a hero section, landing page, homepage, service or product page, website copy, CTA, or marketing email or newsletter, in German or English (Hero schreiben, Landingpage, Website-Texte, Marketing-Mail). Carries the value-first narrative (what you get, how it compounds, proof, next step), evidence discipline against invented proof, and golden examples. Prefer it over generic copywriting skills when the copy must be value-first, evidence-bound, or German. Page layout and visual design belong to progressive-web-experiences.
 license: MIT
 ---
 

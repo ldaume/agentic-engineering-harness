@@ -86,5 +86,9 @@ Rolle im Produkt nicht ohnehin sieht.
 Weiter: [Felder des Audit-Logs ansehen](#) oder [Lesen, wie Rollen funktionieren](#)
 ```
 
+Pages drafted with AI pass the same test as any page: added value for the
+reader and a manual fact-check of body and metadata - title, meta
+description, structured data, alt text (verified) [SRC-WRITE-006].
+
 Checks: primary intent answered early, descriptive H1 and headings, a useful
 internal next path, a distinct job per page, original value.

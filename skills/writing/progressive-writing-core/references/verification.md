@@ -19,6 +19,16 @@ roles), externally published, high-impact, or explicitly needs evidence. For
 public web copy, make expertise and factual accuracy visible; do not write for
 rankings.
 
+## AI-assisted text
+
+Generated text is judged by the value it adds and by its accuracy, not by
+whether a model wrote it: fact-check the body and the metadata - titles,
+meta descriptions, structured data, alt text - by hand before publishing
+(verified) [SRC-WRITE-006]. Put the truth layer before the language layer:
+give the model the verified facts, the unknowns, the terms, and the output
+contract, then draft (hypothesis; a working method, not a measured
+result).
+
 ## Never invent
 
 Facts, customer evidence, metrics, percentages, decisions, test execution,

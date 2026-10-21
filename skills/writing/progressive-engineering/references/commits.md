@@ -11,8 +11,11 @@ constraints, consequences. The first paragraph is used as the title in many
 tools.
 
 Inspect the staged diff and the repository's recent `git log` first. Use
-Conventional Commits only when the repository already uses them or asks for
-them; do not import a format religion. Use the repository's language for
+Conventional Commits when the repository already uses them or a release tool
+consumes them: the spec's stated purpose is machine-readable history for
+automation and SemVer, so without such a consumer the prefix adds noise
+(inference from the spec) [SRC-WRITE-016]. Write the body in the imperative
+and self-contained, because links rot (context-dependent) [SRC-WRITE-028]. Use the repository's language for
 the message. Mention files only when the file is the meaningful change.
 
 ## House pattern

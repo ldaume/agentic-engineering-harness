@@ -70,5 +70,13 @@ their role can see. No support ticket, no waiting on someone else's queue.
 [Start your free trial]
 ```
 
+## Motion
+
+A hero may animate, but the headline, subhead, and CTA are readable on first
+paint without waiting for motion, because no evidence shows that revealing
+copy step by step helps comprehension (hypothesis) [SRC-WRITE-034]. Motion
+design follows `progressive-design-core/references/motion.md` when that skill
+is installed; its reduced-motion variant shows the final state at once.
+
 Checks: H1 at most 12 words and expresses customer or organizational value;
 subhead adds information; every claim supported; CTA names the next step.

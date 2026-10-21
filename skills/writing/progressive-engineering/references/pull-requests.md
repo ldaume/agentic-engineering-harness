@@ -4,6 +4,12 @@ A PR description minimizes the time from "what am I looking at?" to "I
 understand the change, the reason, the risk, and how to review it". Use the
 repository's PR template when one exists; fill it with the content below.
 
+Keep changes small, because small changes are reviewed faster and more
+thoroughly (context-dependent) [SRC-WRITE-014]. The description's first line is a
+short summary; the body says what changed and why, the approach, and known
+shortcomings, and stays understandable when linked pages are gone
+(supported) [SRC-WRITE-013] [SRC-WRITE-015] [SRC-WRITE-029].
+
 ## Architecture
 
 - Small PR: Why, What changed, Validation.
