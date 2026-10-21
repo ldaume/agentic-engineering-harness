@@ -83,6 +83,7 @@ blueprints. It does not depend on a private coordinator or another repository.
 | `skills/backend/` | API, backend, and data profiles |
 | `skills/infrastructure/` | CI, container, hosting, and automation adapters |
 | `skills/testing/` | Test strategy and browser automation |
+| `skills/writing/` | Professional DE/EN writing: editorial, marketing, product, engineering text |
 | `scripts/` | Dependency-free repository validation |
 | `skills-lock.json` | Canonical installable Skill index |
 
@@ -113,6 +114,7 @@ python3 scripts/verify-plain-punctuation.py
 python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
 python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
+python3 -m unittest discover -s skills/writing/progressive-writing-core/tests
 ```
 
 The Fast Check matches the commands in `.github/workflows/validate.yml`.
