@@ -76,5 +76,25 @@ class BundledFilesAreNamed(unittest.TestCase):
         self.assertNotIn(audit.ROOT / ".DS_Store", known)
 
 
+class FrontmatterIsValidYaml(unittest.TestCase):
+    """A plain scalar with ': ' is a YAML mapping error. The Skills CLI then
+    drops the Skill without a message, so the catalog installed 33 of 35."""
+
+    def errors_for(self, description: str) -> list[str]:
+        errors: list[str] = []
+        path = audit.ROOT / "skills" / "x" / "y" / "SKILL.md"
+        audit.frontmatter(path, f"---\nname: y\ndescription: {description}\n---\n", errors)
+        return errors
+
+    def test_a_plain_description_with_colon_space_is_rejected(self) -> None:
+        self.assertTrue(self.errors_for("Use it for a ping: it carries the rules."))
+
+    def test_a_quoted_description_with_colon_space_is_accepted(self) -> None:
+        self.assertEqual(self.errors_for('"Use it for a ping: it carries the rules."'), [])
+
+    def test_a_colon_without_a_following_space_is_accepted(self) -> None:
+        self.assertEqual(self.errors_for("Covers ISO/IEC 27001 and https://example.com."), [])
+
+
 if __name__ == "__main__":
     unittest.main()
