@@ -20,6 +20,7 @@ loop only when evidence cannot resolve a material decision.
 | [start-gate](./start-gate/SKILL.md)                         | start a task, resume a session, branch, worktree, unknown tree state |
 | [coding-discipline](./coding-discipline/SKILL.md)           | implement, fix, refactor, any code change                  |
 | [completion-gate](./completion-gate/SKILL.md)               | done, commit, PR, ship, finish                             |
+| [shift-left-security](./shift-left-security/SKILL.md)       | auth, input, secrets, payments, personal data, dependencies, CI, deploy, agent tools |
 | [deliver-dependency-upgrades](./deliver-dependency-upgrades/SKILL.md) | dependency bump, Renovate PR, upgrade migration, rollout, rollback |
 | [build-autonomous-agents](./build-autonomous-agents/SKILL.md) | product agent, finite workflow, tool, subagent, Flue      |
 | [learn-agentic-engineering](./learn-agentic-engineering/SKILL.md) | learn, teach, coach, question, blocker, maturity path    |

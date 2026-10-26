@@ -160,6 +160,7 @@ The core contains methods that transfer across stacks:
 - Engineering method: [`start-gate`](./skills/engineering/start-gate/SKILL.md),
   [`coding-discipline`](./skills/engineering/coding-discipline/SKILL.md),
   [`completion-gate`](./skills/engineering/completion-gate/SKILL.md),
+  [`shift-left-security`](./skills/engineering/shift-left-security/SKILL.md),
   [`documentation-and-adrs`](./skills/engineering/documentation-and-adrs/SKILL.md),
   [`api-design`](./skills/backend/api-design/SKILL.md),
   [`testing-strategies`](./skills/testing/testing-strategies/SKILL.md)
