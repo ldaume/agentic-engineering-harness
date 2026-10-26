@@ -162,6 +162,8 @@ A merge waits for evidence, not for the absence of bad news:
       it was green or red.
 - [ ] A branch that never ran a newly required job is stalled. Bring it
       forward instead of waiting out a timeout.
+- [ ] The diff adds no git conflict marker. No CI job reads Markdown, so a
+      marker there passes every check and only the diff shows it.
 
 Pass the required names as one explicit list. Read
 [MERGE-GATE.md](./MERGE-GATE.md) for the reasons, the background-waiter rules,

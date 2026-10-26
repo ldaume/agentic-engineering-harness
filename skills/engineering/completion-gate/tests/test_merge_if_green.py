@@ -284,3 +284,172 @@ class MergeCommandTests(unittest.TestCase):
             command,
             ["gh", "api", "-X", "DELETE", "repos/owner/name/git/refs/heads/feature-branch"],
         )
+
+
+MARKER = "<<<<<<< HEAD"
+
+
+def added(path, *lines, start=1):
+    body = "".join(f"+{line}\n" for line in lines)
+    return (
+        f"diff --git a/{path} b/{path}\n--- a/{path}\n+++ b/{path}\n"
+        f"@@ -0,0 +{start},{len(lines)} @@\n{body}"
+    )
+
+
+class RequiredNameTests(unittest.TestCase):
+    """A bare `--required verify` means the job, not a skipped or differently named check."""
+
+    def setUp(self):
+        self.gate = load_module()
+
+    def test_given_a_skipped_push_job_when_the_pull_request_job_passed_then_it_is_green(self):
+        # Given the push-event check was skipped and the pull_request check passed
+        output = "Verify / verify (push)\tskipping\t0\thttps://x\nVerify / verify (pull_request)\tpass\t1m\thttps://x"
+        # When the caller passes the bare job name
+        # Then the skipped check counts as neither pass nor fail
+        self.assertEqual(self.gate.decide(output, ("verify",)), "green")
+
+    def test_given_only_a_skipped_check_then_it_is_pending_not_green_or_red(self):
+        self.assertEqual(self.gate.decide("verify\tskipping\t0\thttps://x", ("verify",)), "pending")
+
+    def test_given_two_checks_with_different_results_then_it_is_red_and_names_both(self):
+        # Given two different checks answer to the bare name
+        output = "Verify / verify (push)\tfail\t1m\thttps://x\nVerify / verify (pull_request)\tpass\t1m\thttps://x"
+        # Then the gate refuses and lists the full names so the caller can pick one
+        self.assertEqual(self.gate.decide(output, ("verify",)), "red")
+        seen = self.gate.describe_required(output, ("verify",))
+        self.assertIn("Verify / verify (push)", seen)
+        self.assertIn("Verify / verify (pull_request)", seen)
+
+    def test_given_a_full_check_name_then_only_that_check_counts(self):
+        output = "Verify / verify (push)\tfail\t1m\thttps://x\nVerify / verify (pull_request)\tpass\t1m\thttps://x"
+        self.assertEqual(self.gate.decide(output, ("Verify / verify (pull_request)",)), "green")
+
+    def test_given_one_name_reported_twice_then_the_worst_state_counts(self):
+        # Given gh lists the same check once passed and once still running
+        output = "test\tpass\t1m\thttps://x\ntest\tpending\t0\thttps://x"
+        # Then the gate waits rather than merging
+        self.assertEqual(self.gate.decide(output, ("test",)), "pending")
+
+    def test_given_no_match_then_the_description_says_nothing_was_seen(self):
+        seen = self.gate.describe_required("other\tpass", ("verify",))
+        self.assertIn("verify", seen)
+        self.assertIn("no check", seen)
+
+
+class ConflictMarkerTests(unittest.TestCase):
+    def setUp(self):
+        self.gate = load_module()
+
+    def test_given_an_added_marker_line_then_file_and_line_are_named(self):
+        # Given a diff that adds ours, separator and theirs lines to an ADR
+        diff = added("docs/adr.md", "# ADR", MARKER, "ours", "=======", "theirs", ">>>>>>> branch")
+        # When the diff is scanned
+        found = self.gate.conflict_markers(diff)
+        # Then every marker is reported with its new-file line number
+        self.assertEqual(
+            [(f, n) for f, n, _ in found], [("docs/adr.md", 2), ("docs/adr.md", 4), ("docs/adr.md", 6)]
+        )
+
+    def test_given_a_diff3_base_marker_then_it_is_found(self):
+        self.assertEqual(len(self.gate.conflict_markers(added("a.txt", "||||||| base"))), 1)
+
+    def test_given_a_marker_in_existing_content_then_it_is_ignored(self):
+        # Given a file that already holds a marker as context and as a removed line
+        diff = (
+            "diff --git a/d.md b/d.md\n--- a/d.md\n+++ b/d.md\n@@ -1,3 +1,3 @@\n"
+            f" {MARKER}\n-=======\n+fine\n ok\n"
+        )
+        # Then nothing is reported
+        self.assertEqual(self.gate.conflict_markers(diff), [])
+
+    def test_given_markers_inside_a_fenced_block_that_are_added_then_they_are_still_refused(self):
+        # Given a new doc that shows a conflict inside a code fence
+        diff = added("d.md", "```", MARKER, "```")
+        # Then the false refusal is accepted over a false pass
+        self.assertEqual(len(self.gate.conflict_markers(diff)), 1)
+
+    def test_given_lookalikes_then_they_are_not_markers(self):
+        # Given a setext underline, a longer rule, an indented marker and a bare angle run
+        diff = added("d.md", "======", "========", " =======", "<<<<<<<<", "a <<<<<<< b")
+        self.assertEqual(self.gate.conflict_markers(diff), [])
+
+    def test_given_an_added_line_that_starts_with_plus_signs_then_it_is_still_scanned(self):
+        # Given an added line whose content begins with "++" (diff shows "+++")
+        diff = added("d.md", "++x", "=======")
+        self.assertEqual([n for _, n, _ in self.gate.conflict_markers(diff)], [2])
+
+
+class MarkerGateTests(unittest.TestCase):
+    def run_gate(self, diff, *extra):
+        import contextlib
+        import io
+        import subprocess
+
+        module = load_module()
+        module._checks = lambda pr, repo: "make check\tpass\t1m\thttps://x\n"
+        module._comparison = lambda pr, repo: {"behind_by": 0}
+        module._head_branch = lambda pr, repo: None
+        module._diff = lambda pr, repo: diff
+        merged = []
+
+        def run(cmd, **kw):
+            if cmd[:3] == ["gh", "pr", "merge"]:
+                merged.append(cmd[3])
+            return subprocess.CompletedProcess(cmd, 0, "", "")
+
+        module.subprocess = type("S", (), {"run": staticmethod(run)})
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = module.main(["7", "--required", "make check", "--repo", "o/n", *extra])
+        return module, code, out.getvalue(), merged
+
+    def test_given_a_green_pr_that_adds_a_marker_then_nothing_is_merged(self):
+        # Given every required job is green and the diff adds a marker
+        module, code, out, merged = self.run_gate(added("docs/adr.md", "x", MARKER))
+        # Then the gate refuses with its own code, names file and line, and merges nothing
+        self.assertEqual(code, module.EXIT_MARKERS)
+        self.assertEqual(merged, [])
+        self.assertIn("docs/adr.md:2", out)
+        self.assertTrue(out.strip().splitlines()[-1].startswith("NOT MERGED"))
+
+    def test_given_a_green_pr_with_a_clean_diff_then_it_merges(self):
+        module, code, out, merged = self.run_gate(added("a.md", "fine"))
+        self.assertEqual((code, merged), (module.EXIT_MERGED, ["7"]))
+
+    def test_given_a_diff_gh_cannot_provide_then_it_fails_closed(self):
+        # Given gh returns no diff
+        module, code, out, merged = self.run_gate(None)
+        # Then nothing is merged and the message says why
+        self.assertEqual((code, merged), (module.EXIT_GH, []))
+        self.assertIn("NOT MERGED: could not read the diff", out)
+
+    def test_given_a_dry_run_on_a_marker_pr_then_it_does_not_report_green(self):
+        module, code, out, merged = self.run_gate(added("a.md", MARKER), "--dry-run")
+        self.assertEqual(code, module.EXIT_MARKERS)
+
+
+class DiffFetchTests(unittest.TestCase):
+    def fake(self, module, returncode=0, stdout="DIFF"):
+        import subprocess
+
+        seen = []
+
+        def run(cmd, **kw):
+            seen.append(cmd)
+            return subprocess.CompletedProcess(cmd, returncode, stdout, "")
+
+        module.subprocess = type("S", (), {"run": staticmethod(run)})
+        return seen
+
+    def test_given_a_pr_then_the_diff_comes_from_gh(self):
+        module = load_module()
+        seen = self.fake(module)
+        self.assertEqual(module._diff("5", "o/n"), "DIFF")
+        self.assertEqual(seen[0], ["gh", "pr", "diff", "5", "--repo", "o/n"])
+
+    def test_given_a_gh_error_then_there_is_no_diff(self):
+        module = load_module()
+        self.fake(module, returncode=1)
+        self.assertIsNone(module._diff("5", "o/n"))
