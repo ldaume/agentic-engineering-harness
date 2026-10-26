@@ -51,8 +51,13 @@ python3 scripts/merge-if-green.py <PR> --repo OWNER/NAME \
   --required "lint,unit tests,ci passed" [--dry-run] [--timeout-seconds 1800]
 ```
 
+A required name matches a check's full name or its job part (`verify` matches
+`CI / verify (pull_request)`); skipped checks count as neither pass nor fail.
+A green pull request whose diff adds a git conflict marker is refused, because
+no CI job reads Markdown and markers there pass every check.
+
 Exit 0 merged, 1 a required job failed, 2 timed out or no jobs named, 3 `gh`
-error. Run it with `--dry-run` first on a new repository. Tests live in
+error, 5 the diff adds a conflict marker. Run it with `--dry-run` first on a new repository. Tests live in
 [`tests/test_merge_if_green.py`](./tests/test_merge_if_green.py); run
 `python3 -m unittest discover -s tests` from this directory.
 
