@@ -1,0 +1,687 @@
+{
+  "sources": [
+    {
+      "id": "SRC-SEC-001",
+      "title": "OWASP Top 10:2025",
+      "url": "https://owasp.org/Top10/2025/",
+      "publisher": "OWASP Foundation",
+      "published": "2025",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "web",
+        "design"
+      ],
+      "findings": [
+        "2025 edition: A01 Broken Access Control, A03 Software Supply Chain Failures, A06 Insecure Design, A09 Logging and Alerting Failures, A10 Mishandling of Exceptional Conditions (new)."
+      ],
+      "limits": "Release month not stated on the pages read; A10 read by title only.",
+      "evidence_level": "supported",
+      "revisit": "next Top 10 edition"
+    },
+    {
+      "id": "SRC-SEC-002",
+      "title": "Threat Modeling Manifesto",
+      "url": "https://www.threatmodelingmanifesto.org/",
+      "publisher": "Threat Modeling Manifesto working group",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "design"
+      ],
+      "findings": [
+        "Four key questions: What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?"
+      ],
+      "limits": "No version or date on the page.",
+      "evidence_level": "verified",
+      "revisit": "when the manifesto publishes a revision"
+    },
+    {
+      "id": "SRC-SEC-003",
+      "title": "OWASP Input Validation Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "input",
+        "authz"
+      ],
+      "findings": [
+        "Parameterized queries for SQL and context-aware output encoding for XSS; validation is an additional layer.",
+        "A valid account identifier does not mean the caller may access that account."
+      ],
+      "limits": "Living document without a version.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-004",
+      "title": "OWASP Server Side Request Forgery Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "network"
+      ],
+      "findings": [
+        "Allowlist known targets; when arbitrary external targets are required, resolve and block internal address ranges."
+      ],
+      "limits": "Living document without a version.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-005",
+      "title": "OWASP Logging Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "logging"
+      ],
+      "findings": [
+        "Log authentication failures, access-control denials, input-validation failures.",
+        "Exclude access tokens, session ids, passwords, connection strings, keys, payment data, sensitive personal data; mask or hash instead."
+      ],
+      "limits": "Living document without a version.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-006",
+      "title": "OWASP Secrets Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "secrets"
+      ],
+      "findings": [
+        "Dynamic secrets with short leases and automated rotation (section 2.4).",
+        "Restarting an application does not revoke stolen credentials."
+      ],
+      "limits": "Living document without a version.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-007",
+      "title": "About security hardening with OpenID Connect",
+      "url": "https://docs.github.com/en/actions/concepts/security/openid-connect",
+      "publisher": "GitHub",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "vendor-docs",
+      "domains": [
+        "ci",
+        "secrets"
+      ],
+      "findings": [
+        "Short-lived tokens directly from the cloud provider instead of stored secrets; needs permissions id-token: write."
+      ],
+      "limits": "Vendor documentation for GitHub Actions.",
+      "evidence_level": "verified",
+      "revisit": "when GitHub changes the OIDC model"
+    },
+    {
+      "id": "SRC-SEC-008",
+      "title": "npm Trusted publishing",
+      "url": "https://docs.npmjs.com/trusted-publishers",
+      "publisher": "npm (GitHub)",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "vendor-docs",
+      "domains": [
+        "ci",
+        "supply-chain"
+      ],
+      "findings": [
+        "Publishing through OIDC without a long-lived token; provenance generated automatically from public repositories on GitHub Actions or GitLab CI/CD hosted runners; not on self-hosted runners."
+      ],
+      "limits": "Vendor documentation; npm only.",
+      "evidence_level": "verified",
+      "revisit": "when other registries adopt trusted publishing"
+    },
+    {
+      "id": "SRC-SEC-009",
+      "title": "We should all be using dependency cooldowns (William Woodruff)",
+      "url": "https://blog.yossarian.net/2025/11/21/We-should-all-be-using-dependency-cooldowns",
+      "publisher": "William Woodruff",
+      "published": "2025-11-21",
+      "accessed": "2026-10-26",
+      "type": "practitioner",
+      "domains": [
+        "supply-chain"
+      ],
+      "findings": [
+        "Windows of opportunity of recent supply chain attacks ranged from about an hour to about three days, with xz-utils as a multi-week outlier; cooldowns stop the large majority."
+      ],
+      "limits": "One practitioner's case table; attack timings from public reports.",
+      "evidence_level": "supported",
+      "revisit": "after the next major registry compromise"
+    },
+    {
+      "id": "SRC-SEC-010",
+      "title": "Dependency cooldown settings: Dependabot, npm, pnpm",
+      "url": "https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference",
+      "publisher": "GitHub, npm, pnpm documentation",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "vendor-docs",
+      "domains": [
+        "supply-chain"
+      ],
+      "findings": [
+        "Dependabot: default 3-day cooldown for version updates, none for security updates.",
+        "npm min-release-age (days, off by default) can block npm audit fix.",
+        "pnpm minimumReleaseAge in minutes, default 1440 since v11."
+      ],
+      "limits": "Dependabot from the URL; npm from https://docs.npmjs.com/cli/v11/using-npm/config (min-release-age) and pnpm from https://pnpm.io/settings (minimumReleaseAge); defaults change between tool versions.",
+      "evidence_level": "verified",
+      "revisit": "every major release of the three tools"
+    },
+    {
+      "id": "SRC-SEC-011",
+      "title": "GitHub Actions secure use reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "publisher": "GitHub",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "vendor-docs",
+      "domains": [
+        "ci"
+      ],
+      "findings": [
+        "A workflow dependency lockfile (public preview) supersedes SHA pinning where adopted; otherwise pin actions to a full-length commit SHA.",
+        "A compromised action can access repository secrets and GITHUB_TOKEN; restrict token permissions."
+      ],
+      "limits": "Lockfile feature in public preview and subject to change.",
+      "evidence_level": "verified",
+      "revisit": "when the lockfile leaves preview"
+    },
+    {
+      "id": "SRC-SEC-012",
+      "title": "CISA Known Exploited Vulnerabilities Catalog and FIRST EPSS",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "publisher": "CISA; FIRST",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "vulnerability-management"
+      ],
+      "findings": [
+        "Use KEV as an input to vulnerability prioritization; EPSS estimates the probability of exploitation in the next 30 days."
+      ],
+      "limits": "EPSS from https://www.first.org/epss/ (probability of exploitation in the next 30 days). No source states verbatim that CVSS alone is insufficient; the rule is an inference from both.",
+      "evidence_level": "supported",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-013",
+      "title": "NIST SP 800-63B-4 Digital Identity Guidelines: Authentication and Authenticator Management",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "publisher": "NIST",
+      "published": "2025-07",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "authn"
+      ],
+      "findings": [
+        "Single-factor passwords at least 15 characters, 8 inside MFA; allow at least 64; blocklist; no composition rules; no periodic changes, change on evidence of compromise; no hints; email not an out-of-band authenticator; PSTN restricted; AAL2 must offer a phishing-resistant option; Appendix B on syncable authenticators.",
+        "SHOULD permit paste and password managers; SHALL NOT prompt for knowledge-based authentication or security questions."
+      ],
+      "limits": "US federal guideline; private systems adopt it voluntarily.",
+      "evidence_level": "verified",
+      "revisit": "when NIST publishes an errata or revision"
+    },
+    {
+      "id": "SRC-SEC-014",
+      "title": "OWASP Top 10 for LLM Applications 2025",
+      "url": "https://genai.owasp.org/llm-top-10/",
+      "publisher": "OWASP GenAI Security Project",
+      "published": "2025",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "llm",
+        "agents"
+      ],
+      "findings": [
+        "LLM01 Prompt Injection, LLM05 Improper Output Handling, LLM06 Excessive Agency, LLM07 System Prompt Leakage."
+      ],
+      "limits": "Agentic risks are a separate list, SRC-SEC-023.",
+      "evidence_level": "verified",
+      "revisit": "next LLM Top 10 edition"
+    },
+    {
+      "id": "SRC-SEC-015",
+      "title": "Agents Rule of Two (Meta)",
+      "url": "https://ai.meta.com/blog/practical-ai-agent-security/",
+      "publisher": "Meta AI",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "practitioner",
+      "domains": [
+        "agents"
+      ],
+      "findings": [
+        "Until prompt injection can be reliably detected and refused, an agent session satisfies at most two of: untrusted input, access to sensitive systems or data, ability to change state or communicate externally."
+      ],
+      "limits": "Vendor guidance, not a standard.",
+      "evidence_level": "supported",
+      "revisit": "when prompt injection defenses mature"
+    },
+    {
+      "id": "SRC-SEC-016",
+      "title": "The lethal trifecta for AI agents (Simon Willison)",
+      "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/",
+      "publisher": "Simon Willison",
+      "published": "2025-06-16",
+      "accessed": "2026-10-26",
+      "type": "practitioner",
+      "domains": [
+        "agents"
+      ],
+      "findings": [
+        "Private data, untrusted content, and external communication in one agent let an attacker exfiltrate data through injected instructions."
+      ],
+      "limits": "Practitioner analysis.",
+      "evidence_level": "supported",
+      "revisit": "when tool-permission models change"
+    },
+    {
+      "id": "SRC-SEC-017",
+      "title": "SLSA v1.2",
+      "url": "https://slsa.dev/spec/v1.2/whats-new",
+      "publisher": "OpenSSF",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "supply-chain"
+      ],
+      "findings": [
+        "v1.2 is current and adds a Source Track; v1.1 is retired."
+      ],
+      "limits": "Read the what's-new page only.",
+      "evidence_level": "verified",
+      "revisit": "next SLSA release"
+    },
+    {
+      "id": "SRC-SEC-018",
+      "title": "NIST SP 800-218 Secure Software Development Framework",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "publisher": "NIST",
+      "published": "2022-02",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "process"
+      ],
+      "findings": [
+        "SSDF v1.1 is final; SP 800-218 Rev. 1 (v1.2) was an initial public draft from 2025-12-17."
+      ],
+      "limits": "Practice ids not read; cite at document level.",
+      "evidence_level": "verified",
+      "revisit": "when Rev. 1 becomes final"
+    },
+    {
+      "id": "SRC-SEC-019",
+      "title": "CISA Secure by Design and Product Security Bad Practices",
+      "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design",
+      "publisher": "CISA",
+      "published": "2023-10-25",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "process",
+        "design"
+      ],
+      "findings": [
+        "Default-secure products, elimination of vulnerability classes; bad practices include new critical products in memory-unsafe languages when alternatives exist."
+      ],
+      "limits": "Bad Practices date not shown in what was read.",
+      "evidence_level": "supported",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-020",
+      "title": "OWASP Password Storage Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "authn"
+      ],
+      "findings": [
+        "Store passwords with strong, slow algorithms such as Argon2id, bcrypt, or PBKDF2, with a unique salt per password; fast hashes such as SHA-256 are unsuitable."
+      ],
+      "limits": "Parameters per algorithm not copied here; read the sheet when implementing.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-021",
+      "title": "Phil Venables: Shift Down (RSAC 2025 interview; Security Leadership Master Class 3)",
+      "url": "https://www.philvenables.com/post/security-leadership-master-class-3-building-a-security-program",
+      "publisher": "Phil Venables",
+      "published": "2025-11-01",
+      "accessed": "2026-10-26",
+      "type": "practitioner",
+      "domains": [
+        "design",
+        "process"
+      ],
+      "findings": [
+        "Shift Down: embed security controls directly into frameworks and platforms, reducing developer toil and knowledge burden, so the secure path is the easy path.",
+        "After a vulnerability, reduce the potential for further instances of the class."
+      ],
+      "limits": "Interview transcript at https://tldrsec.com/p/phil-venables-rsac-2025 read in full; program metrics from the same posts left out.",
+      "evidence_level": "supported",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-022",
+      "title": "Google Security Blog: Eliminating Memory Safety Vulnerabilities at the Source; Rust in Android: move fast and fix things",
+      "url": "https://security.googleblog.com/2025/11/rust-in-android-move-fast-fix-things.html",
+      "publisher": "Google",
+      "published": "2025-11-13",
+      "accessed": "2026-10-26",
+      "type": "vendor-research",
+      "domains": [
+        "design",
+        "memory-safety"
+      ],
+      "findings": [
+        "Safe Coding enforces security invariants through language features, static analysis, and API design (2024-09-25 post).",
+        "Memory-safety share of Android vulnerabilities fell from 76% (2019) to 24% (2024) as new code moved to memory-safe languages; Rust changes showed far lower vulnerability density, about 4x lower rollback rate, and about 25% less review time (2025-11-13)."
+      ],
+      "limits": "Google's own measurements on Android; the 2024 post is https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html.",
+      "evidence_level": "verified",
+      "revisit": "next Android memory-safety report"
+    },
+    {
+      "id": "SRC-SEC-023",
+      "title": "OWASP Top 10 for Agentic Applications for 2026",
+      "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "publisher": "OWASP GenAI Security Project",
+      "published": "2025-12-09",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "agents"
+      ],
+      "findings": [
+        "ASI01 Agent Goal Hijack, ASI02 Tool Misuse and Exploitation, ASI03 Identity and Privilege Abuse, ASI04 Agentic Supply Chain Vulnerabilities, ASI05 Unexpected Code Execution, ASI06 Memory and Context Poisoning, ASI07 Insecure Inter-Agent Communication, ASI08 Cascading Failures, ASI09 Human-Agent Trust Exploitation, ASI10 Rogue Agents."
+      ],
+      "limits": "Item names from the secondary summary at https://www.giskard.ai/knowledge/owasp-top-10-for-agentic-application-2026; the PDF and its official mitigations were not read.",
+      "evidence_level": "supported",
+      "revisit": "read the PDF mitigations"
+    },
+    {
+      "id": "SRC-SEC-024",
+      "title": "We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs",
+      "url": "https://arxiv.org/abs/2406.10279",
+      "publisher": "Spracklen et al.",
+      "published": "2024-06-12",
+      "accessed": "2026-10-26",
+      "type": "research",
+      "domains": [
+        "supply-chain",
+        "agents"
+      ],
+      "findings": [
+        "Across 16 models, at least 5.2% of packages suggested by commercial models and 21.7% by open-source models did not exist (package hallucination)."
+      ],
+      "limits": "Abstract read; measurement cuts differ from other aggregate figures.",
+      "evidence_level": "verified",
+      "revisit": "when a newer measurement appears"
+    },
+    {
+      "id": "SRC-SEC-025",
+      "title": "OWASP Secure Coding with AI Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secure_Coding_with_AI_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "agents",
+        "supply-chain"
+      ],
+      "findings": [
+        "Hallucinated dependencies: verify a package exists before installing; do not trust versions from model memory.",
+        "Indirect prompt injection through issues, review comments, READMEs, and fetched docs.",
+        "Rules files (.cursorrules, CLAUDE.md, AGENTS.md, copilot-instructions.md) silently steer every generation and can be modified by a malicious PR or by the agent itself.",
+        "Do not let agents weaken or delete tests; report out-of-scope file changes."
+      ],
+      "limits": "Living document; sections 13-14 only skimmed.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-026",
+      "title": "OpenSSF Security-Focused Guide for AI Code Assistant Instructions",
+      "url": "https://best.openssf.org/Security-Focused-Guide-for-AI-Code-Assistant-Instructions",
+      "publisher": "OpenSSF Best Practices WG",
+      "published": "2025-08-01",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "agents",
+        "supply-chain"
+      ],
+      "findings": [
+        "Sample security instructions for AI code assistants: secure defaults, dependency verification, no secrets, standards alignment."
+      ],
+      "limits": "Read the TL;DR, supply-chain, standards, and sample-instruction sections.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-027",
+      "title": "OWASP AI Agent Security Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "agents"
+      ],
+      "findings": [
+        "Human-in-the-loop approval bound to the exact action with replay protection, validated by an independent policy component; fail closed when approval or audit is unavailable.",
+        "Attackers may weaken or remove security tests in the same PR; gate it in CI."
+      ],
+      "limits": "Living document.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-028",
+      "title": "Trail of Bits: Prompt injection to RCE in AI agents",
+      "url": "https://blog.trailofbits.com/2025/10/22/prompt-injection-to-rce-in-ai-agents/",
+      "publisher": "Trail of Bits",
+      "published": "2025-10-22",
+      "accessed": "2026-10-26",
+      "type": "practitioner",
+      "domains": [
+        "agents"
+      ],
+      "findings": [
+        "Allowlisted 'safe' commands gave one-shot code execution through argument injection (go test -exec and similar flags); human approval alone was bypassed; recommends no shell, argument separators, and sandboxing."
+      ],
+      "limits": "Findings from audits of three agent platforms.",
+      "evidence_level": "supported",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-029",
+      "title": "Model Context Protocol: Security Best Practices",
+      "url": "https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices",
+      "publisher": "Model Context Protocol",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Token passthrough is forbidden: validate that tokens were issued for the server; confused deputy, SSRF in OAuth discovery, local server compromise, scope minimization."
+      ],
+      "limits": "Companion: OWASP MCP Security Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html), key risks list only.",
+      "evidence_level": "verified",
+      "revisit": "with each MCP specification release"
+    },
+    {
+      "id": "SRC-SEC-030",
+      "title": "NIST SP 800-207 Zero Trust Architecture",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf",
+      "publisher": "NIST",
+      "published": "2020-08",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "network",
+        "design"
+      ],
+      "findings": [
+        "All communication is secured regardless of network location; trust is not granted for being on enterprise infrastructure; access is granted per session with least privilege."
+      ],
+      "limits": "CISA Zero Trust Maturity Model v2.0 (April 2023) read as a skim; SP 800-207A (2023) not read in full. No newer revision found.",
+      "evidence_level": "verified",
+      "revisit": "when NIST revises 800-207"
+    },
+    {
+      "id": "SRC-SEC-031",
+      "title": "Kubernetes documentation: Network Policies, Pod Security Standards, Security Checklist",
+      "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/",
+      "publisher": "Kubernetes project",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "vendor-docs",
+      "domains": [
+        "network",
+        "kubernetes"
+      ],
+      "findings": [
+        "Pods are non-isolated by default; network policies are additive and need a CNI that enforces them; a default-deny egress policy also blocks DNS unless allowed.",
+        "Pod Security Standards: Privileged, Baseline, Restricted, enforced per namespace by Pod Security admission.",
+        "Not every CNI encrypts traffic in transit; filter access to the cloud metadata API."
+      ],
+      "limits": "Also https://kubernetes.io/docs/concepts/security/pod-security-standards/ and https://kubernetes.io/docs/concepts/security/security-checklist/; live docs, version not captured. Hardening Guide and CIS Benchmark not read.",
+      "evidence_level": "verified",
+      "revisit": "with each Kubernetes minor release"
+    },
+    {
+      "id": "SRC-SEC-032",
+      "title": "OWASP Zero Trust Architecture Cheat Sheet; Istio security concepts; Cilium transparent encryption",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Zero_Trust_Architecture_Cheat_Sheet.html",
+      "publisher": "OWASP; Istio; Cilium",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "network",
+        "kubernetes"
+      ],
+      "findings": [
+        "Segment per application, block by default, encrypt between systems; treating zero trust as network-only is a common mistake.",
+        "Istio PERMISSIVE mode accepts plaintext and is meant for migration only; switch to STRICT.",
+        "Cilium encryption (IPsec, WireGuard): early packets to unlearned endpoints can leave unencrypted unless egress is restricted (docs for 1.20.4)."
+      ],
+      "limits": "Istio https://istio.io/latest/docs/concepts/security/ and Cilium https://docs.cilium.io/en/stable/security/network/encryption/ read at key passages.",
+      "evidence_level": "supported",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-033",
+      "title": "OWASP Session Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "authn",
+        "sessions"
+      ],
+      "findings": [
+        "Cookie attributes Secure, HttpOnly, SameSite; renew the session id after any privilege level change; idle and absolute timeouts."
+      ],
+      "limits": "Living document; CSRF detail in the OWASP CSRF Prevention Cheat Sheet.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-034",
+      "title": "RFC 8725 JSON Web Token Best Current Practices",
+      "url": "https://www.rfc-editor.org/rfc/rfc8725.html",
+      "publisher": "IETF",
+      "published": "2020-02",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "authn",
+        "tokens"
+      ],
+      "findings": [
+        "Perform algorithm verification; validate issuer and subject; use and validate audience; do not trust received claims; use explicit typing."
+      ],
+      "limits": "BCP 225; expiry checks follow RFC 7519.",
+      "evidence_level": "verified",
+      "revisit": "when the BCP is revised"
+    },
+    {
+      "id": "SRC-SEC-035",
+      "title": "OWASP Mass Assignment Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-10-26",
+      "type": "guidance",
+      "domains": [
+        "input"
+      ],
+      "findings": [
+        "Bind only allow-listed fields to models; block-listing is the weaker alternative."
+      ],
+      "limits": "Deserialization guidance is in the OWASP Deserialization Cheat Sheet, not read here.",
+      "evidence_level": "verified",
+      "revisit": "yearly"
+    },
+    {
+      "id": "SRC-SEC-036",
+      "title": "OWASP API Security Top 10 2023: API4 Unrestricted Resource Consumption; OWASP LLM10:2025 Unbounded Consumption",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/",
+      "publisher": "OWASP",
+      "published": "2023",
+      "accessed": "2026-10-26",
+      "type": "standard",
+      "domains": [
+        "api",
+        "llm"
+      ],
+      "findings": [
+        "APIs without limits on request rate, size, and execution time are exposed to denial of service and cost abuse; LLM applications need limits on inference consumption."
+      ],
+      "limits": "LLM10 at https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/ read by title.",
+      "evidence_level": "verified",
+      "revisit": "next API Top 10 edition"
+    }
+  ]
+}
