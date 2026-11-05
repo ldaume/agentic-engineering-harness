@@ -154,6 +154,7 @@ follow-the-sun model.
 - Real-size check done on the target display.
 - Every build has a named job; reduced-motion and handout versions checked.
 - Alt text, reading order, and contrast checked in the export.
+- Claims and every rendered state verified per `verification.md`.
 
 ## Agent prompt
 
