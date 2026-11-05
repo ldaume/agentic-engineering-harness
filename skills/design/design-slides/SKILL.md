@@ -39,6 +39,11 @@ host's presentation tooling; charts on a slide are chosen with
    rule was found).
 6. **Builds only to signal or segment**, one idea per step, with a static
    handout that carries the same content. Details in `references/slides.md`.
+7. **Verify the rendered deck and its claims.** Check every claim against
+   its source at a pinned revision, and render every slide in every language
+   at every build step with overflow, overlap, and early-reveal checks,
+   because a file check and a final-state screenshot miss what the audience
+   sees first (observed). Details in `references/verification.md`.
 
 ## Golden path for a diagram
 
@@ -73,6 +78,8 @@ flowcharts belong to `design-flows`.
 
 - `references/slides.md` - any deck: decision deck, research readout, talk,
   pre-read, or builds and animation on slides.
+- `references/verification.md` - before a deck counts as done: claim
+  ledger against the source, every visible state, technical deep dives.
 - `references/diagrams.md` - any diagram: architecture, C4, system map,
   sequence, state, data model, or choosing a diagram-as-code format.
 
@@ -86,7 +93,11 @@ flowcharts belong to `design-flows`.
 - Automated, when `writing-core` is installed: its `quality_gate.py
   --artifact slides` over the slide text of each language, no `term` error,
   every `ai-tell` warning judged.
-- Manual: headlines read alone tell the argument; real-size check; reduced-
+- Automated, for a rendered deck: every slide, language, and build step
+  passes overflow, overlap, early-reveal, and step-zero checks
+  (`references/verification.md`).
+- Manual: claim ledger with a verdict per claim; contact sheet per
+  language looked at; headlines read alone tell the argument; real-size check; reduced-
   motion and handout parity; diagram semantic check and text alternative.
 
 ## Done when
