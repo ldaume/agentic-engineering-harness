@@ -46,7 +46,7 @@ jobs:
         run: python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 
       - name: Test writing quality gate and golden outputs
-        run: python3 -m unittest discover -s skills/writing/progressive-writing-core/tests
+        run: python3 -m unittest discover -s skills/writing/writing-core/tests
 
       - name: Test design skill scripts
         shell: bash
@@ -63,7 +63,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run reference form in a real browser
-        run: npx playwright test -c skills/design/progressive-forms-interactions/tests
+        run: npx playwright test -c skills/design/design-forms/tests
 
       - name: Install catalog for supported clients
         shell: bash
