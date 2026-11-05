@@ -26,7 +26,7 @@ sys.path.insert(0, str(HERE.parent / "scripts"))
 from quality_gate import check  # noqa: E402
 
 GOLDEN = re.compile(r"<!-- golden: (\w+) (de|en) -->\s*```text\n(.*?)```", re.S)
-SKILL_FILE = re.compile(r"(writing-[a-z-]+)/SKILL\.md")
+SKILL_FILE = re.compile(r"((?:writing|design)-[a-z-]+)/SKILL\.md")
 # Claims no golden output may make: they are the classic inventions.
 FORBIDDEN = ["30% fewer support requests", "customers prefer CSV"]
 
@@ -70,7 +70,7 @@ def loaded_skills(host: str, stdout: str) -> set[str]:
             for part in content if isinstance(content, list) else []:
                 if isinstance(part, dict) and part.get("type") == "tool_use" and part.get("name") == "Skill":
                     name = str((part.get("input") or {}).get("skill", "")).split(":")[-1]
-                    if name.startswith("writing-"):
+                    if name.startswith(("writing-", "design-")):
                         found.add(name)
         else:
             command = str((event.get("item") or {}).get("command", ""))
