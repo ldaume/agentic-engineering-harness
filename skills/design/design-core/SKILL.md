@@ -25,13 +25,16 @@ when the task really has two deliverables.
 | SaaS or app screens, navigation, settings, AI-native UI | `design-product-ui` | `design-forms` |
 | website, landing page, marketing or editorial site | `design-web` | `writing-marketing` for copy |
 | dashboard, chart, table, metric view | `design-dataviz` | `plain-numbers` for figures |
-| slides, deck, diagram, architecture or system map | `design-slides` | - |
+| slides, deck, diagram, architecture or system map | `design-slides` | `writing-core` for the words |
 | tokens, components, theming, component specs | `design-systems` | - |
 | audit or critique of an existing UI, flow, deck | `design-review` | the artifact's owner |
 
 Implementing the result is `frontend-craft`'s job; this family decides what to
-build and how to verify it. Words on the screen belong to the
-`writing-*` skills when installed.
+build and how to verify it. Words on the screen, slide, or page belong to
+the `writing-*` skills when installed: load `writing-core` with the design
+skill whenever the artifact carries text a person reads, because the design
+pass checks layout and the writing pass is what catches generated-sounding
+text and translated terms.
 
 ## Intake
 

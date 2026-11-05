@@ -7,7 +7,9 @@ phrasing stay with the agent's semantic review.
 Usage:
     quality_gate.py --artifact commit --lang en [--facts facts.json] [FILE|-]
 
-facts.json: {"facts": [...], "forbidden_claims": [...]}
+facts.json: {"facts": [...], "forbidden_claims": [...],
+             "terms": {"Preferred Term": ["avoided variant", ...]}}
+Every artifact also gets the AI-tell warnings (references/ai-tells.md).
 Exit code 1 when any error is found; warnings never fail.
 """
 
@@ -95,6 +97,37 @@ ARTIFACTS: dict[str, dict] = {
     "executive_summary": {"warn_words": 300, "bottom_line_within_words": 40, "sentences": True},
     "pull_request": {"required": {"why or context": WHY, "validation": VALIDATION}},
     "commit": {},
+    "slides": {},
+    "prose": {"sentences": True},
+}
+
+# Warnings, not errors: a contrast that corrects a belief the reader holds is
+# fine. Each name says what to do, references/ai-tells.md says why.
+AI_TELLS: dict[str, str] = {
+    "not X but Y; state Y, keep X only if the reader believes it":
+        r"(?i)\bnicht (?:nur |bloß |einfach |mehr )?[^.;:\n]{1,60}?,? sondern\b"
+        r"|\bnot (?:just |only |merely |simply )?[^.;:\n]{1,60}?,? but\b"
+        r"|\b(?:it|this|that)(?:'s| is) not [^.;:\n]{1,40}[,;] (?:it|this|that)(?:'s| is)\b"
+        # Reversed form, a sentence that ends on the rejected half. Only a
+        # parallel preposition or article counts, so a scope ("nicht bis zum
+        # Merge") or a list of negations stays quiet.
+        r"|, nicht (?:im|in|an|am|auf|als|der|die|das|den|dem)\b[^,.;:\n]{1,30}[.!]"
+        r"|, not (?:in|on|at|as|the|a|an)\b[^,.;:\n]{1,30}[.!]",
+    "'bewusst schlank/einfach' justifies instead of stating the state":
+        r"(?i)\bbewusst (?:schlank|einfach|klein|knapp|minimal)\w*",
+    "'ins Spiel kommen' is filler; name the mechanism":
+        r"(?i)\bins Spiel\b",
+    "'spielt eine zentrale Rolle' inflates; say what it does":
+        r"(?i)\bspiel\w* eine (?:zentrale|entscheidende|wichtige|tragende) Rolle",
+    "'plays a pivotal role' inflates; say what it does":
+        r"(?i)\bplays? an? (?:key|crucial|pivotal|vital|central) role",
+    "stock AI word (delve, tapestry, testament, landscape, seamless, game changer, unlock, at its core)":
+        r"(?i)\b(?:delv(?:e|es|ed|ing)|tapestry|testament to|(?:evolving|ever-changing) landscape|seamless(?:ly)?"
+        r"|game[- ]chang(?:er|ing)|unlock(?:s|ed|ing)? (?:the )?(?:full )?(?:power|potential)|at its core)\b",
+    "staged opener (Let's dive in, Here's the thing, Die Wahrheit ist)":
+        r"(?i)\blet'?s dive in\b|\bhere'?s the thing\b|\bdie wahrheit ist\b|\bund genau das\b",
+    "'echter Mehrwert' / 'real value' claims value without naming it":
+        r"(?i)\becht\w* Mehrwert\b|\breal value\b",
 }
 
 GENERIC_COMMIT = re.compile(
@@ -141,6 +174,15 @@ def check_claims(text: str, facts: dict | None, errors: list[str], warnings: lis
             warnings.append(f"claim: {pct}% has no matching source fact; verify or remove")
 
 
+def check_terms(text: str, facts: dict | None, errors: list[str]) -> None:
+    """One term per thing, and the reader's term: an avoided variant is an error.
+    Substring match, so German inflections and compounds are caught too."""
+    for preferred, avoided in ((facts or {}).get("terms") or {}).items():
+        for variant in avoided:
+            if re.search(re.escape(variant), text, re.IGNORECASE):
+                errors.append(f"term: {variant!r} found; this audience says {preferred!r}")
+
+
 def check(text: str, artifact: str, language: str, facts: dict | None = None) -> dict:
     if artifact not in ARTIFACTS:
         raise ValueError(f"unknown artifact {artifact!r}; known: {', '.join(sorted(ARTIFACTS))}")
@@ -160,6 +202,10 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
     for name, pattern in rules.get("warn", {}).items():
         if re.search(pattern, text):
             warnings.append(f"{artifact}: {name}")
+
+    for name, pattern in AI_TELLS.items():
+        if re.search(pattern, text):
+            warnings.append(f"ai-tell: {name}")
 
     if artifact == "commit":
         check_commit(text, errors, warnings)
@@ -187,6 +233,7 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
         warnings.append(f"{artifact}: {total} words, default ceiling {rules['warn_words']}")
 
     check_claims(text, facts, errors, warnings)
+    check_terms(text, facts, errors)
 
     diag = diagnostics(text, language) if rules.get("sentences") else {}
     if diag.get("long_sentences"):
@@ -201,7 +248,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--artifact", required=True, choices=sorted(ARTIFACTS))
     parser.add_argument("--lang", default="en")
-    parser.add_argument("--facts", help="JSON file with facts and forbidden_claims")
+    parser.add_argument("--facts", help="JSON file with facts, forbidden_claims and terms")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
     text = sys.stdin.read() if args.file == "-" else Path(args.file).read_text(encoding="utf-8")

@@ -27,7 +27,13 @@ Business-Kontext wurde im Refresh nicht gefunden.
   "Sinn machen" nur wenn bewusst gewählt).
 - Anglizismen, die im Team gelebt werden (Release, Pull Request, Rollout,
   in Produktteams auch Outcome, Bet, Opportunity), dürfen bleiben; einmal
-  erklären, wenn die Leser sie nicht kennen. Erfundene Mischformen nicht:
+  erklären, wenn die Leser sie nicht kennen.
+- Für technische Leser gilt der Begriff aus Code, API, Doku oder Glossar.
+  Wer "Knowledge Store", "Rate Limit" oder "Retry" eindeutscht
+  ("Wissensspeicher", "Abfragelimit", "Wiederholungsversuch"), zwingt den
+  Leser zum Rückübersetzen; das ist so falsch wie Denglisch
+  (`references/ai-tells.md`, Terms the audience uses).
+- Erfundene Mischformen nicht:
   "Permission-Grenze" wird "wer welche Daten sehen darf", "Nutzungsevidenz"
   wird "Belege aus der echten Nutzung".
 - Ein Begriff pro Sache im ganzen Text, auch über Dokumente hinweg: nicht

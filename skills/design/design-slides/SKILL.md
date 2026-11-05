@@ -63,7 +63,11 @@ flowcharts belong to `design-flows`.
 - A claim on a slide that no source supports is marked as hypothesis on the
   slide, because a readout headline is read as a finding (hypothesis).
 - Words on slides follow the `writing-*` skills and figures
-  `plain-numbers` when installed.
+  `plain-numbers` when installed. Load `writing-core` before the first slide
+  text, not after a review, and run its AI-tell pass and gate
+  (`--artifact slides`, with the audience terms) over every language of the
+  deck before it counts as done, because a deck reviewed only for layout
+  ships generated-sounding text.
 
 ## Load when
 
@@ -79,6 +83,9 @@ flowcharts belong to `design-flows`.
   [SRC-VIZ-008], for example with
   `design-systems/scripts/contrast.py` when installed. A tool
   that renders proves syntax, not meaning.
+- Automated, when `writing-core` is installed: its `quality_gate.py
+  --artifact slides` over the slide text of each language, no `term` error,
+  every `ai-tell` warning judged.
 - Manual: headlines read alone tell the argument; real-size check; reduced-
   motion and handout parity; diagram semantic check and text alternative.
 

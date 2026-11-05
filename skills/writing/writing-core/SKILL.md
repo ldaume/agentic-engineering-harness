@@ -1,6 +1,6 @@
 ---
 name: writing-core
-description: Use whenever asked to rewrite, edit, tighten, proofread, or translate a professional German or English text, or to make it sound natural or native (umschreiben, redigieren, kürzen, übersetzen, Text verbessern, natural US English, natives Deutsch), and for cross-format editorial, factual, or readability review. Loads the house style, DE/EN rules, and claim checks. Hand off email, Slack, summaries, marketing copy, product docs, PRs, and commits to the matching writing-* skill. Not for code changes.
+description: Use whenever asked to rewrite, edit, tighten, proofread, or translate a professional German or English text, or to make it sound natural or native (umschreiben, redigieren, kürzen, übersetzen, Text verbessern, natural US English, natives Deutsch), when text sounds generated or like AI slop, for the words on slides, pages, and docs, and for cross-format editorial, factual, or readability review. Loads the house style, DE/EN rules, and claim checks. Hand off email, Slack, summaries, marketing copy, product docs, PRs, and commits to the matching writing-* skill. Not for code changes.
 license: MIT
 ---
 
@@ -22,7 +22,9 @@ to `writing-engineering`.
 Reconstruct from the repository, ticket, diff, conversation, or documents:
 artifact, language, primary audience and what it already knows, intent, the
 reader's desired change (decide, understand, act), facts and evidence, real
-unknowns, tone, channel. Ask only when a missing answer would change the
+unknowns, tone, channel, and the terms this audience uses (code, API, docs,
+glossary), because a term the writer translates is one the reader must
+translate back. Ask only when a missing answer would change the
 artifact, because most gaps are recoverable from context and a question costs
 the user a round trip.
 
@@ -40,14 +42,17 @@ detail destroys the trust the rest of the text earned.
 4. Edit in separate passes: structure (matches the reader's decision path?),
    meaning (every claim precise, uncertainty honest?), line (shorter, more
    concrete), language-native, copy (terms, spelling, dates), proof (names,
-   numbers, links). Separate passes, because one combined pass fixes commas
-   and misses a wrong order.
+   numbers, links), then the AI-tell pass (`references/ai-tells.md`). Separate
+   passes, because one combined pass fixes commas and misses a wrong order,
+   and a line edit tightens a tell instead of removing it.
 5. Verify: classify each claim as sourced fact, inference, recommendation, or
    unknown. Re-check time-sensitive or externally published facts at the
    source. For AI-assisted text, fact-check body and metadata by hand
    (`references/verification.md`).
 6. Gate: from this skill's directory run `python3 scripts/quality_gate.py --artifact <type> --lang <de|en> FILE`
-   when the artifact type is listed there; fix every error, judge each warning.
+   with `--artifact slides` for deck text and `--artifact prose` for any other
+   running text when no closer type is listed, and `--facts` holding the
+   audience `terms`; fix every error, judge each warning.
 7. Return the finished artifact, without commentary unless asked.
 
 ## Language
@@ -78,6 +83,8 @@ triggers a second look, never a rewrite that loses a needed term.
 
 Load only what the task needs:
 
+- `references/ai-tells.md`: the patterns that make text read as generated,
+  the AI-tell pass, and the audience-term rule. Load for every draft.
 - `references/editorial-model.md`: the FRAME to SHIP loop, edit passes, the
   universal golden paths per artifact family.
 - `references/de-style.md`, `references/en-style.md`: house style per language.

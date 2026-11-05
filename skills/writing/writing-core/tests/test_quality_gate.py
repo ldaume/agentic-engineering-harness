@@ -150,5 +150,80 @@ class ArtifactGateTest(unittest.TestCase):
             check("x", "poem", "en")
 
 
+class AiTellGateTest(unittest.TestCase):
+    """Patterns that made reviewed decks read as generated (2026-11-05 review)."""
+
+    def test_given_german_nicht_x_sondern_y_when_checked_then_ai_tell_warning(self):
+        text = "Die Garantie liegt nicht im Token, sondern im Code."
+        result = check(text, "slides", "de")
+        self.assertTrue(any("not X but Y" in w for w in result["warnings"]))
+
+    def test_given_english_not_just_x_but_y_when_checked_then_ai_tell_warning(self):
+        text = "It is not just a search, but a decision aid."
+        result = check(text, "prose", "en")
+        self.assertTrue(any("not X but Y" in w for w in result["warnings"]))
+
+    def test_given_english_its_not_x_its_y_when_checked_then_ai_tell_warning(self):
+        result = check("It's not a tool, it's a mirror.", "prose", "en")
+        self.assertTrue(any("not X but Y" in w for w in result["warnings"]))
+
+    def test_given_german_reversed_x_nicht_y_when_checked_then_ai_tell_warning(self):
+        for text in ("Die Garantie liegt im Code, nicht im Token.",
+                     "Die Qualität hängt am Wissen, nicht an der Suche.",
+                     "Quellen stehen als Daten im Prompt, nicht als Anweisung."):
+            warnings = check(text, "slides", "de")["warnings"]
+            self.assertTrue(any("not X but Y" in w for w in warnings), text)
+
+    def test_given_german_scope_or_list_negation_when_checked_then_no_warning(self):
+        for text in ("Gemessen bis zur Prüfung, nicht bis zum Merge.",
+                     "Kann nicht pushen, nicht mergen.",
+                     "Gemergt wird in fester Reihenfolge, nicht atomar."):
+            warnings = check(text, "slides", "de")["warnings"]
+            self.assertFalse(any("not X but Y" in w for w in warnings), text)
+
+    def test_given_english_reversed_x_not_y_when_checked_then_ai_tell_warning(self):
+        warnings = check("Quality depends on the knowledge, not the search.", "prose", "en")["warnings"]
+        self.assertTrue(any("not X but Y" in w for w in warnings))
+
+    def test_given_stock_german_filler_when_checked_then_each_is_named(self):
+        text = "Heute bewusst schlank. Die Checks kommen über ihre Prüfungen ins Spiel."
+        warnings = check(text, "slides", "de")["warnings"]
+        self.assertTrue(any("bewusst schlank" in w for w in warnings))
+        self.assertTrue(any("ins Spiel" in w for w in warnings))
+
+    def test_given_stock_english_filler_when_checked_then_warning(self):
+        warnings = check("Caching plays a pivotal role in the landscape.", "prose", "en")["warnings"]
+        self.assertTrue(any("pivotal" in w for w in warnings))
+
+    def test_given_plain_statement_when_checked_then_no_ai_tell_warning(self):
+        text = "Nichts wird in Jira geschrieben. Code und Tests sichern das ab."
+        result = check(text, "slides", "de")
+        self.assertFalse(any(w.startswith("ai-tell") for w in result["warnings"]))
+
+    def test_given_ai_tell_in_any_artifact_when_checked_then_warning_not_error(self):
+        result = check("Fix the export.\n\nNot a patch, but a rewrite.", "commit", "en")
+        self.assertEqual(result["errors"], [])
+        self.assertTrue(any(w.startswith("ai-tell") for w in result["warnings"]))
+
+
+class TermGateTest(unittest.TestCase):
+    """The audience's own term wins over a translation the writer invented."""
+
+    def test_given_avoided_variant_when_checked_then_error_names_the_preferred_term(self):
+        facts = {"terms": {"Knowledge Store": ["Wissensspeicher"]}}
+        result = check("Der Wissensspeicher liefert Treffer.", "slides", "de", facts)
+        self.assertTrue(any("Knowledge Store" in e and "Wissensspeicher" in e for e in result["errors"]))
+
+    def test_given_preferred_term_when_checked_then_clean(self):
+        facts = {"terms": {"Knowledge Store": ["Wissensspeicher"]}}
+        result = check("Der Knowledge Store liefert Treffer.", "slides", "de", facts)
+        self.assertEqual(result["errors"], [])
+
+    def test_given_variant_inside_a_longer_word_when_checked_then_still_caught(self):
+        facts = {"terms": {"Rate Limit": ["Abfragelimit"]}}
+        result = check("Das Abfragelimits greift.", "slides", "de", facts)
+        self.assertTrue(result["errors"])
+
+
 if __name__ == "__main__":
     unittest.main()
