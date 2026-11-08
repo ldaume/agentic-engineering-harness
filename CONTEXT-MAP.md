@@ -24,7 +24,7 @@
 | How is durable evidence routed during work? | `skills/engineering/agent-sync/SKILL.md` |
 | How are explicit harness and managed Skill updates performed? | `skills/engineering/update-harness/SKILL.md` |
 | How are portable Skills created, revised, packaged, and verified across hosts? | `skills/engineering/write-a-skill/SKILL.md` |
-| What changes when work spans several repositories? | `docs/BEYOND-ONE-REPOSITORY.md` |
+| What changes when work spans several repositories, and how is a workspace scaffolded? | `docs/BEYOND-ONE-REPOSITORY.md` / `skills/engineering/scaffold-harness/SKILL.md` |
 | How are shared understanding, material critique, and unresolved decisions handled? | `skills/engineering/grill-harness-with-docs/SKILL.md` |
 | Which durable findings should change future work? | `LEARNINGS.md` |
 | How can people report a vulnerability or understand consume-only policy? | `SECURITY.md` / `CONTRIBUTING.md` |

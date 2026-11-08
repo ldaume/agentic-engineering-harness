@@ -112,6 +112,8 @@ Before claiming done, ask and answer in the same loop:
 | Deterministic event or enforcement | Hook, CI, test, platform control |
 | Durable evidence-backed observation | `LEARNINGS.md` |
 | Human understanding of purpose or where to work | Human `README.md` |
+| Rule or lesson for every member of a multi-repository workspace | Coordinator `HARNESS.md` or `LEARNINGS.md` per its `SYNC.md` **Write-back**; refresh every member when the member snippet changes |
+| Member relationship, contract, owner, or membership | Coordinator `CONTEXT-MAP.md` |
 
 Route a lesson once, to the owner of the behavior, and reference that owner
 from consumers instead of copying it. Prefer a hard adaptation of the owning

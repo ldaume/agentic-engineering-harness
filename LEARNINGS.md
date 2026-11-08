@@ -18,6 +18,24 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-11-08 - The public line covers a multi-repository workspace again
+
+- Signal: The re-check trigger of the 2026-10-10 entry fired: one repository
+  was too narrow for consumers whose product spans several repositories, and
+  the owner decided the public line should build the workspace too.
+- Evidence: A consumer had to invent the workspace root, coordinator files,
+  and member pointer by hand; the 2026-10-10 reduction removed the build steps
+  together with the private operating system around them.
+- Decision or change: `scaffold-harness` 3.1.0 builds a workspace root, a
+  coordinator (`CONTEXT-MAP.md`, `SYNC.md`, `STATUS.md`), and a member snippet
+  from five templates, checked by `tests/test_workspace_templates.py`;
+  `agent-sync` 2.1.0 routes workspace-wide lessons to the coordinator.
+  Automation (sync checks, model routing, hooks, wider autonomy) stays with the
+  consumer, so the public line ships no scripts for it.
+- Re-check trigger: Consumers repeatedly write the same coordinator check by
+  hand, or a workspace scaffold leaves a member unable to reach the
+  coordinator.
+
 ## 2026-10-10 - The public line covers one repository
 
 - Signal: The public catalog carried the full multi-repository operating

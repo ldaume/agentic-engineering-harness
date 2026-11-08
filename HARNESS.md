@@ -258,7 +258,8 @@ truth into this repository.
   authority.
 - `VERSIONING.md` owns per-Skill release semantics.
 - `CONTEXT-MAP.md` routes repository-local sources.
-- `docs/BEYOND-ONE-REPOSITORY.md` motivates multi-repository harnesses without
-  specifying them; this catalog does not build them.
+- `docs/BEYOND-ONE-REPOSITORY.md` motivates multi-repository harnesses;
+  `scaffold-harness` builds the workspace root, coordinator, and member
+  snippet.
 
 Reference these owners instead of duplicating their procedures.

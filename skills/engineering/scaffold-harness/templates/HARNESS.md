@@ -169,6 +169,11 @@ not create.
    already-correct task branch in a clean tree may stay in place. Do not nest
    worktrees. Do not fight an already-isolated host workspace with a second
    `git worktree add`.
+7. **Leases (multi-repository workspace only):** When the workspace
+   coordinator keeps a `STATUS.md` lease table, add this session's checkout
+   before the first edit and set it `done` before removing the checkout. Never
+   remove, reset, or check out a branch in a checkout another session's
+   `active` lease names, however stale it looks; report it instead.
 
 ### Whose work is it
 
@@ -299,6 +304,24 @@ stall alerts. Routine progress must not depend on a later human prompt. Required
 human decisions remain durable correlated waits with deadlines and escalation;
 they are never auto-approved. That is L5 work; a runtime framework is optional
 and enters only for one bounded, repeated workload.
+
+## Repository and Team Topology
+
+Use the smallest topology that matches actual ownership, because every extra
+layer is sync work:
+
+- A single repository owns its instructions, context, checks, and learnings.
+- A multi-repository workspace adds a coordinator that owns membership,
+  relationships, public contracts between members, shared rules, and
+  cross-repository status (`CONTEXT-MAP.md`, `SYNC.md`, `STATUS.md`), never a
+  member's product truth.
+- Several teams additionally record which team owns which context and decides
+  on its risk and releases, and who decides a cross-team contract break. The
+  coordinator does not become every team's product authority.
+
+Every listed repository, including an experiment, has its own `AGENTS.md` with
+the coordinator pointer, so a session started there finds the shared rules.
+Discovery does not grant autonomy; each member keeps its own operating level.
 
 ## Progressive Product Engineering
 
