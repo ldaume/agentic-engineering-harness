@@ -86,6 +86,13 @@ supported LTS, preview, end-of-life, or superseded. Resolve mutable aliases to
 an immutable version and artifact digest when the repository already supports
 that binding.
 
+A compiler, runtime, or framework major is usable only when the tools that
+wrap it accept it. Before judging the target admissible, read the peer ranges
+of those consumers - type checkers, lint plugins, test runners, framework
+checkers - in the registry. When one excludes the new major, decide `defer`,
+name the blocking peer, and say what would lift it: a release whose peer range
+includes the major, or a stable API the wrapper is waiting on.
+
 Size the change against the deployed baseline, not the pinned one. An
 undeployed pin turns the next deploy into the sum of every skipped step, and
 the version numbers in the change request describe only the last one. Where
