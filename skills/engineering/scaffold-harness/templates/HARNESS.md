@@ -127,7 +127,8 @@ not create.
   - Do not edit shared integration branches (`main`, `master`, the repository
      default branch, or other protected shared branches) in place - including
      typo and docs fixes. Create or check out a dedicated task branch first,
-     so every change passes the same review and checks.
+     so every change passes the same review and checks. The one exception:
+     lease rows in a workspace coordinator's `STATUS.md` (item 7 **Leases**).
   - If already on the correct task branch for this work, continue. If on the
      wrong branch, stop and move to the right branch before editing.
   - Name branches with ordinary descriptive names (kebab-case or the
@@ -171,7 +172,10 @@ not create.
    `git worktree add`.
 7. **Leases (multi-repository workspace only):** When the workspace
    coordinator keeps a `STATUS.md` lease table, add this session's checkout
-   before the first edit and set it `done` before removing the checkout. Never
+   before the first edit and set it `done` before removing the checkout. Edit
+   lease rows, and only those, in the primary coordinator checkout on its
+   default branch and push at once; on a push conflict, rebase and retry. A
+   lease on a task branch is invisible to every other session. Never
    remove, reset, or check out a branch in a checkout another session's
    `active` lease names, however stale it looks; report it instead.
 

@@ -12,9 +12,8 @@ autonomy only when evidence supports it.
 This catalog is the open part of a larger system: the craft Skills in full,
 and the harness for one repository or a workspace of several repositories
 that share a coordinator. The [levels](./docs/LEVELS.md) show the whole path
-to L7. My own automation for the upper levels - typed routing decisions,
-gates, and the operating profile on top - stays private; I build such systems
-with teams: [daume.dev](https://daume.dev).
+to L7. My own automation for the upper levels stays private; I build such
+systems with teams: [daume.dev](https://daume.dev).
 
 Humans retain goals, policy, risk, and accountability; agents carry as much
 execution as the proven controls allow. You pick by what you need today:

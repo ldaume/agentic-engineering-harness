@@ -274,7 +274,9 @@ workspace/
    templates, then add [CONTEXT-MAP.md](./templates/workspace/coordinator/CONTEXT-MAP.md),
    [SYNC.md](./templates/workspace/coordinator/SYNC.md), and
    [STATUS.md](./templates/workspace/coordinator/STATUS.md). Write the
-   workspace root [AGENTS.md](./templates/workspace/AGENTS.md); if the
+   workspace root [AGENTS.md](./templates/workspace/AGENTS.md) with the
+   [templates/CLAUDE.md](./templates/CLAUDE.md) and
+   [templates/GEMINI.md](./templates/GEMINI.md) bridges beside it; if the
    workspace directory is not under version control, say so, because that
    file then has no history. Give every member its own harness (steps 1-5 of
    this Skill in that repository) and paste

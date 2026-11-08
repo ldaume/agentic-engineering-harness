@@ -1,9 +1,9 @@
 # Beyond One Repository
 
-The harness in this catalog makes one repository reliable for agents: its
-instructions, context, checks, and learnings live in that repository, and a
-session that starts there has everything it needs. Most work should stay
-there. This page explains what changes once it cannot, so you can recognize the
+The harness in this catalog makes one repository, or a workspace of several
+repositories, reliable for agents. In one repository its instructions,
+context, checks, and learnings live in that repository, and a session that
+starts there has everything it needs. Most work should stay there. This page explains what changes once it cannot, so you can recognize the
 moment. [`scaffold-harness`](../skills/engineering/scaffold-harness/SKILL.md)
 builds the workspace when you need it.
 

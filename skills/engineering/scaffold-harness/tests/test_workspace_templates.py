@@ -94,6 +94,31 @@ class WorkspaceTemplates(unittest.TestCase):
         self.assertIn("SYNC.md", text)
         self.assertIn("CONTEXT-MAP.md", text)
 
+    def test_given_a_lease_when_the_branch_gate_applies_then_lease_rows_are_the_one_default_branch_exception(self):
+        # Given leases live in the tracked coordinator STATUS.md
+        harness = read(SKILL_DIR / "templates" / "HARNESS.md")
+        status = read(STATUS)
+        # When a session claims a checkout before its first edit
+        # Then both files allow editing lease rows, and only those, on the default branch and pushing at once
+        for text in (harness, status):
+            self.assertIn("lease rows, and only those", text)
+            self.assertIn("rebase and retry", text)
+        self.assertIn("one exception", harness)
+
+    def test_given_the_workspace_flow_when_the_root_is_written_then_host_bridges_are_copied_too(self):
+        # Given the Skill's workspace Apply step
+        skill = read(SKILL_DIR / "SKILL.md")
+        section = skill.split("## Multi-Repository Workspace", 1)[1].split("\n## ", 1)[0]
+        # Then Claude Code and Gemini CLI bridges land beside the root AGENTS.md
+        self.assertIn("templates/CLAUDE.md", section)
+        self.assertIn("templates/GEMINI.md", section)
+
+    def test_given_the_workspace_root_when_it_routes_to_the_coordinator_then_it_gives_the_read_command(self):
+        # Given the root instructions
+        text = read(ROOT_AGENTS)
+        # Then they show how to read the current coordinator contract
+        self.assertIn("show origin/<default>:HARNESS.md", text)
+
 
 if __name__ == "__main__":
     unittest.main()

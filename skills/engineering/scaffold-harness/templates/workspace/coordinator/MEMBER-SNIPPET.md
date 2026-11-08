@@ -14,9 +14,10 @@ This repository is a member of a multi-repository workspace. Coordinator:
 
 - Before substantial work, read `HARNESS.md` and `SYNC.md` from the
   coordinator's current default branch (`git -C ../<coordinator> fetch`, then
-  `git -C ../<coordinator> show origin/<default>:HARNESS.md`), or from the
-  remote when the sibling checkout is missing. If neither is reachable,
-  continue only with reversible work inside this repository.
+  `git -C ../<coordinator> show origin/<default>:HARNESS.md`), or, when the
+  sibling checkout is missing, clone it or browse its raw files on the
+  remote. If neither is reachable, continue only with reversible work inside
+  this repository.
 - Before touching another repository, read the coordinator's `CONTEXT-MAP.md`
   and open a sibling only on a named relationship. No match: stay here.
 - When several sessions share the workspace, claim your checkout in the

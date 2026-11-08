@@ -59,7 +59,8 @@ owner; do not work in an unmapped repository as if it were a member.
 
 The session that changed the rule owns its fan-out, including after subagent
 work, because only that session sees every change. No background process
-rewrites members; a change nobody reviews is a change nobody can trust.
+rewrites members: every change to a member goes through that member's review
+path.
 
 Fan-out git hygiene:
 

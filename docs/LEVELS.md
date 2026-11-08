@@ -64,7 +64,7 @@ would use has an owner, a scope, and a failure path.
 **In this catalog:** `scaffold-harness`, `agent-sync`, `update-harness`, with
 `start-gate` and `completion-gate` at the edges of each task. When several
 repositories form one system, `scaffold-harness` also builds the workspace
-root, coordinator, and member snippet that keep them living together.
+root, coordinator, and member snippet that keep them in sync.
 
 ## L4 - Grounded system
 

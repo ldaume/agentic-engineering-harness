@@ -15,6 +15,10 @@ lock: it works because every session reads it before touching a checkout.
 
 - Add the row before the first edit; set `done` or `abandoned` before removing
   the checkout; delete the row after removal.
+- Edit lease rows, and only those, in the primary coordinator checkout on its
+  default branch and push at once, so every session sees them; on a push
+  conflict, rebase and retry. Everything else in this file changes through
+  the coordinator's normal branch and review path.
 - Never remove, reset, or reuse a checkout another session's `active` row
   names, however old its heartbeat. A quiet session may still be working.
   Report it and leave it.

@@ -20,12 +20,11 @@ Use this shape:
 
 ## 2026-11-08 - The public line covers a multi-repository workspace again
 
-- Signal: The re-check trigger of the 2026-10-10 entry fired: one repository
-  was too narrow for consumers whose product spans several repositories, and
-  the owner decided the public line should build the workspace too.
-- Evidence: A consumer had to invent the workspace root, coordinator files,
-  and member pointer by hand; the 2026-10-10 reduction removed the build steps
-  together with the private operating system around them.
+- Signal: The owner decided the public line should build a multi-repository
+  workspace, not only one repository.
+- Evidence: Owner decision 2026-11-08. The change is verified by
+  `tests/test_workspace_templates.py` and an install test that delivers all
+  five workspace templates to a temporary target.
 - Decision or change: `scaffold-harness` 3.1.0 builds a workspace root, a
   coordinator (`CONTEXT-MAP.md`, `SYNC.md`, `STATUS.md`), and a member snippet
   from five templates, checked by `tests/test_workspace_templates.py`;

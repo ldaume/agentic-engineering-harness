@@ -10,7 +10,10 @@ coordinator is `<coordinator>/`.
   here, at the workspace root, has no repository yet: pick one from
   `<coordinator>/CONTEXT-MAP.md` before changing anything.
 - Before substantial work, read `<coordinator>/HARNESS.md` and
-  `<coordinator>/SYNC.md` from the coordinator's current default branch, then
+  `<coordinator>/SYNC.md` from the coordinator's current default branch
+  (`git -C <coordinator> fetch`, then
+  `git -C <coordinator> show origin/<default>:HARNESS.md`, same for
+  `SYNC.md`), then
   the target repository's own `AGENTS.md`. Repository-local instructions win
   for that repository's product and engineering truth.
 - Open another repository only when the map names a relationship to the work
