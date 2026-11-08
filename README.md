@@ -6,8 +6,8 @@
 Agent Skills and a working harness that let coding agents change your
 repositories under rules, context, and checks you can read and review in Git.
 Install a single Skill, give one repository a harness, or connect several
-repositories through one coordinator. Works with Claude Code, Codex, Cursor,
-and Gemini CLI.
+repositories through one coordinator. Installs into Claude Code, Codex,
+Cursor, and Gemini CLI.
 
 I am [Leonard "Lenny" Daume](https://www.daume.dev). These are the Skills and
 harness patterns I run my own agent work on, across product, engineering,
@@ -25,15 +25,16 @@ npx skills add ldaume/agentic-engineering-harness \
 
 Use `codex`, `cursor`, or `gemini-cli` instead of `claude-code` for another
 host. The Skills are copied into the project (`.claude/skills/` for Claude
-Code), so you can read them before the first run. Then start your agent and
-ask:
+Code), so you can read them before the first run; [Install](#install) has the
+scope and safety notes. Then start your agent and ask:
 
 ```text
 Use scaffold-harness to assess this repository. Recommend an operating level,
 show me what you would add, and wait for my yes before changing anything.
 ```
 
-The agent reads the repository and names its real Fast Check and Full Gates.
+The agent reads the repository and names its real Fast Check and Full Gates:
+the commands it runs on every change and the fuller checks before a merge.
 It proposes the context files the repository needs, starting with `AGENTS.md`
 and `HARNESS.md`, and lets you choose how much it does on its own. The
 complete prompts for one repository and for a workspace are under
@@ -43,8 +44,8 @@ complete prompts for one repository and for a workspace are under
 
 | Part | What it gives you | Built by |
 |---|---|---|
-| [Skills catalog](#catalog) | 46 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | `npx skills add` |
-| Repository harness | Agent instructions, context, checks, and an operating level from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.1.0 |
+| [Skills catalog](#catalog) | 46 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
+| Repository harness | Agent instructions, context, checks, and an [operating level](#operating-levels) from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.1.0 |
 | Multi-repository workspace | A working root and a coordinator repository that every agent session reads before it works | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md#multi-repository-workspace) 3.1.0 |
 | Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.1.0 |
 
@@ -70,8 +71,8 @@ The workspace directory holds the repositories side by side. The coordinator
 is an ordinary repository that holds relationships, shared rules, and status.
 Each member keeps its own harness and carries the same short snippet that
 points at the coordinator. A session that starts in any member reads the same
-rules first, and a lesson that applies everywhere reaches every member in one
-loop. The templates are in
+rules first. A change to that snippet is made once and refreshed in every
+member in the same session. The templates are in
 [`scaffold-harness/templates/workspace`](./skills/engineering/scaffold-harness/templates/workspace/);
 [`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) explains
 what changes for people once work spans repositories.
