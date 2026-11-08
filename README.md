@@ -1,13 +1,99 @@
 # Agentic Engineering Skills & Harness
 
-I am [Leonard "Lenny" Daume](https://www.daume.dev). These are the Agent Skills
-and harness patterns I use to make agent work reliable across product,
-engineering, delivery, and operations.
+[![Validate Skills](https://github.com/ldaume/agentic-engineering-harness/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/ldaume/agentic-engineering-harness/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-They encode a practical operating model for work under uncertainty: learn
-through small experiments, evolve domain models with DDD, build vertical slices
-with TDD, shift quality, security, compliance, and operability left, and expand
-autonomy only when evidence supports it.
+Agent Skills and a working harness that let coding agents change your
+repositories under rules, context, and checks you can read and review in Git.
+Install a single Skill, give one repository a harness, or connect several
+repositories through one coordinator. Works with Claude Code, Codex, Cursor,
+and Gemini CLI.
+
+I am [Leonard "Lenny" Daume](https://www.daume.dev). These are the Skills and
+harness patterns I run my own agent work on, across product, engineering,
+delivery, and operations.
+
+## Try it in 60 seconds
+
+Inside the repository you want agents to work in (requires Node.js):
+
+```bash
+npx skills add ldaume/agentic-engineering-harness \
+  --skill scaffold-harness --skill agent-sync --skill grill-harness-with-docs \
+  --agent claude-code --copy -y
+```
+
+Use `codex`, `cursor`, or `gemini-cli` instead of `claude-code` for another
+host. The Skills are copied into the project (`.claude/skills/` for Claude
+Code), so you can read them before the first run. Then start your agent and
+ask:
+
+```text
+Use scaffold-harness to assess this repository. Recommend an operating level,
+show me what you would add, and wait for my yes before changing anything.
+```
+
+The agent reads the repository and names its real Fast Check and Full Gates.
+It proposes the context files the repository needs, starting with `AGENTS.md`
+and `HARNESS.md`, and lets you choose how much it does on its own. The
+complete prompts for one repository and for a workspace are under
+[Choose a first prompt](#choose-a-first-prompt).
+
+## What you get
+
+| Part | What it gives you | Built by |
+|---|---|---|
+| [Skills catalog](#catalog) | 46 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | `npx skills add` |
+| Repository harness | Agent instructions, context, checks, and an operating level from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.1.0 |
+| Multi-repository workspace | A working root and a coordinator repository that every agent session reads before it works | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md#multi-repository-workspace) 3.1.0 |
+| Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.1.0 |
+
+## How a workspace fits together
+
+```mermaid
+flowchart TB
+  root["workspace/AGENTS.md<br/>names the coordinator"]
+  subgraph coordinator["coordinator repository"]
+    harness["HARNESS.md<br/>shared rules"]
+    map["CONTEXT-MAP.md<br/>members and relationships"]
+    sync["SYNC.md<br/>fan-out and write-back"]
+    status["STATUS.md<br/>work in flight and leases"]
+  end
+  a["service-a<br/>own harness + member snippet"]
+  b["web-app<br/>own harness + member snippet"]
+  root --> coordinator
+  a -- "reads before work" --> coordinator
+  b -- "reads before work" --> coordinator
+```
+
+The workspace directory holds the repositories side by side. The coordinator
+is an ordinary repository that holds relationships, shared rules, and status.
+Each member keeps its own harness and carries the same short snippet that
+points at the coordinator. A session that starts in any member reads the same
+rules first, and a lesson that applies everywhere reaches every member in one
+loop. The templates are in
+[`scaffold-harness/templates/workspace`](./skills/engineering/scaffold-harness/templates/workspace/);
+[`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) explains
+what changes for people once work spans repositories.
+
+## How it is checked
+
+Every push runs [Validate Skills](./.github/workflows/validate.yml):
+
+- a catalog audit of every Skill's name, description, size, links, lock
+  entry, and prose
+- the plain punctuation gate
+- unit tests for the `scaffold-harness` templates and scripts, the merge gate
+  script, the writing quality gate with its golden outputs, and the design
+  scripts
+- a reference form driven in a real Chromium browser with Playwright
+- an install of the whole catalog into Codex, Cursor, Claude Code, and Gemini
+  CLI
+
+Each Skill carries its own version and GitHub Release
+([`VERSIONING.md`](./VERSIONING.md)), so you can pin an exact tag.
+
+## Scope
 
 This catalog is the open part of a larger system: the craft Skills in full,
 and the harness for one repository or a workspace of several repositories
@@ -15,11 +101,10 @@ that share a coordinator. The [levels](./docs/LEVELS.md) show the whole path
 to L7. My own automation for the upper levels stays private; I build such
 systems with teams: [daume.dev](https://daume.dev).
 
-Humans retain goals, policy, risk, and accountability; agents carry as much
-execution as the proven controls allow. You pick by what you need today:
-install Skills alone (each works on its own, no harness required), or add the
-repository harness, which the prompt below sets up. This is not a control plane
-for another system.
+Humans keep goals, policy, risk, and accountability; agents carry as much
+execution as the proven controls allow. The install test proves packaging for
+four hosts. Hosts still differ in when they trigger a Skill, so check that a
+real session loads what you installed.
 
 ## Start here
 
@@ -197,16 +282,18 @@ secure Linux hosting) where generic advice would be weaker. Missing coverage is
 resolved by reusing an existing Skill or writing a project-local one with
 `write-a-skill`.
 
-Browse by category:
+## Catalog
 
-- [Engineering](./skills/engineering/README.md)
-- [Product](./skills/product/README.md)
-- [Frontend](./skills/frontend/README.md)
-- [Design](./skills/design/README.md)
-- [Backend](./skills/backend/README.md)
-- [Infrastructure](./skills/infrastructure/README.md)
-- [Testing](./skills/testing/README.md)
-- [Writing](./skills/writing/README.md)
+| Category | Skills |
+|---|---|
+| [Engineering](./skills/engineering/README.md) | `scaffold-harness`, `agent-sync`, `update-harness`, `grill-harness-with-docs`, `start-gate`, `coding-discipline`, `completion-gate`, `shift-left-security`, `documentation-and-adrs`, `deliver-dependency-upgrades`, `build-autonomous-agents`, `learn-agentic-engineering`, `write-a-skill`, `scaffold-monorepo`, `pnpm` |
+| [Product](./skills/product/README.md) | `product-craft`, `run-product-engineering`, `integrate-product-compliance`, `plain-numbers` |
+| [Design](./skills/design/README.md) | `design-core`, `design-research`, `design-flows`, `design-forms`, `design-product-ui`, `design-web`, `design-dataviz`, `design-slides`, `design-systems`, `design-review` |
+| [Writing](./skills/writing/README.md) | `writing-core`, `writing-editorial`, `writing-marketing`, `writing-product`, `writing-engineering` |
+| [Frontend](./skills/frontend/README.md) | `frontend-craft` |
+| [Backend](./skills/backend/README.md) | `api-design`, `backend-craft`, `meilisearch` |
+| [Infrastructure](./skills/infrastructure/README.md) | `manage-infrastructure-as-code`, `ansible-automation`, `gitea-actions`, `gitea-tea`, `multi-stage-dockerfile`, `secure-linux-web-hosting` |
+| [Testing](./skills/testing/README.md) | `testing-strategies`, `playwright-best-practices` |
 
 [`skills-lock.json`](./skills-lock.json) is the complete versioned catalog.
 `system-one-routing` and `scaffold-distributed-context` are retired; their
