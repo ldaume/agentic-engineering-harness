@@ -18,6 +18,23 @@ Use this shape:
 - Re-check trigger:
 ```
 
+## 2026-11-08 - The public line covers a multi-repository workspace again
+
+- Signal: The owner decided the public line should build a multi-repository
+  workspace, not only one repository.
+- Evidence: Owner decision 2026-11-08. The change is verified by
+  `tests/test_workspace_templates.py` and an install test that delivers all
+  five workspace templates to a temporary target.
+- Decision or change: `scaffold-harness` 3.1.0 builds a workspace root, a
+  coordinator (`CONTEXT-MAP.md`, `SYNC.md`, `STATUS.md`), and a member snippet
+  from five templates, checked by `tests/test_workspace_templates.py`;
+  `agent-sync` 2.1.0 routes workspace-wide lessons to the coordinator.
+  Automation (sync checks, model routing, hooks, wider autonomy) stays with the
+  consumer, so the public line ships no scripts for it.
+- Re-check trigger: Consumers repeatedly write the same coordinator check by
+  hand, or a workspace scaffold leaves a member unable to reach the
+  coordinator.
+
 ## 2026-10-10 - The public line covers one repository
 
 - Signal: The public catalog carried the full multi-repository operating

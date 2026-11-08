@@ -42,7 +42,7 @@ jobs:
       - name: Test merge gate script
         run: python3 -m unittest discover -s skills/engineering/completion-gate/tests
 
-      - name: Test review-surface attribution check
+      - name: Test scaffold-harness scripts and templates
         run: python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 
       - name: Test writing quality gate and golden outputs

@@ -26,7 +26,7 @@ loop only when evidence cannot resolve a material decision.
 | [learn-agentic-engineering](./learn-agentic-engineering/SKILL.md) | learn, teach, coach, question, blocker, maturity path    |
 | [agent-sync](./agent-sync/SKILL.md)                         | session start, learnings, harness evolution                 |
 | [update-harness](./update-harness/SKILL.md)                 | check, install, update, clean project Skills, Renovate PR   |
-| [scaffold-harness](./scaffold-harness/SKILL.md)             | bootstrap, audit, operating level, context economy, one repository |
+| [scaffold-harness](./scaffold-harness/SKILL.md)             | bootstrap, audit, operating level, context economy, one repository or multi-repo workspace |
 | [grill-harness-with-docs](./grill-harness-with-docs/SKILL.md) | shared understanding, material critique, unresolved decision |
 | [write-a-skill](./write-a-skill/SKILL.md)                   | create skill, SKILL.md, skill frontmatter, skills CLI      |
 | [documentation-and-adrs](./documentation-and-adrs/SKILL.md) | ADRs, runbooks, public API docs, durable decisions         |

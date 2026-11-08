@@ -10,10 +10,10 @@ with TDD, shift quality, security, compliance, and operability left, and expand
 autonomy only when evidence supports it.
 
 This catalog is the open part of a larger system: the craft Skills in full,
-and the harness for one repository. The [levels](./docs/LEVELS.md) show the
-whole path to L7. I build and run the upper levels across many repositories;
-that implementation stays private; I build them with teams:
-[daume.dev](https://daume.dev).
+and the harness for one repository or a workspace of several repositories
+that share a coordinator. The [levels](./docs/LEVELS.md) show the whole path
+to L7. My own automation for the upper levels stays private; I build such
+systems with teams: [daume.dev](https://daume.dev).
 
 Humans retain goals, policy, risk, and accountability; agents carry as much
 execution as the proven controls allow. You pick by what you need today:
@@ -26,7 +26,7 @@ for another system.
 | Goal | Start with |
 |---|---|
 | Inspect the catalog | `npx skills add ldaume/agentic-engineering-harness --list` |
-| Audit or establish a repository harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
+| Audit or establish a repository or multi-repository workspace harness | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) |
 | Choose or switch how much agents do alone | [`MATURITY.md`](./skills/engineering/scaffold-harness/MATURITY.md#choosing-and-switching-the-operating-level) |
 | Keep a harness current across sessions | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) |
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
@@ -35,7 +35,7 @@ for another system.
 | Design a flow, form, product screen, site, dashboard, or deck with evidence | [`skills/design`](./skills/design/README.md) |
 | Write an email, status, hero, PR, or commit with its golden path | [`skills/writing`](./skills/writing/README.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
-| Understand what changes beyond one repository | [`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) |
+| Understand what changes beyond one repository, and how the workspace is built | [`docs/BEYOND-ONE-REPOSITORY.md`](./docs/BEYOND-ONE-REPOSITORY.md) |
 
 ## Operating levels
 
@@ -118,6 +118,31 @@ choose it, name the real Fast Check and Full Gates, and
 verify the result with those repository checks. Use grill-harness-with-docs
 for shared understanding, material critique, and unresolved decisions, and
 run agent-sync before completion.
+```
+
+### A workspace of several repositories
+
+Start the agent in the directory that holds the repositories side by side.
+
+```text
+The working root is a workspace directory that holds several repositories
+side by side. Do not change any repository before I confirm the plan.
+
+Use the Skills from
+https://github.com/ldaume/agentic-engineering-harness.
+
+Inspect that source. If any Skill named in this prompt is unavailable, install
+only that missing Skill project-locally for the active agent host. Do not
+install globally or expand permissions without explicit authority.
+
+Use scaffold-harness, section Multi-Repository Workspace: list the
+repositories here with their remotes and existing agent instructions, propose
+which repository coordinates and which belong, and show the planned workspace
+root AGENTS.md, coordinator CONTEXT-MAP.md, SYNC.md, STATUS.md, and the member
+snippet. After my yes, give each member its own harness, add the snippet to
+each member, merge into existing files instead of replacing them, commit each
+repository separately, and verify from one member that a fresh session reaches
+the coordinator. Run agent-sync before completion.
 ```
 
 For what each level means and what changes once work spans several

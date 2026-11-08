@@ -1,7 +1,7 @@
 ---
 name: scaffold-harness
 license: MIT
-description: Audits and upgrades one repository to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, choosing or switching a repository's operating level, designing local/MCP/RAG context routing, controlling token bloat, or defining review and quality gates for a repository.
+description: Audits and upgrades one repository, or a workspace of several repositories with a coordinator, to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, choosing or switching a repository's operating level, setting up a workspace root, coordinator, context map, and member sync for multi-repository work, designing local/MCP/RAG context routing, controlling token bloat, or defining review and quality gates.
 ---
 
 # Scaffold Harness
@@ -59,10 +59,12 @@ Default to a reliable repository-level harness. Add grounded tools only when
 evidence supports the wider delegated unit; each addition is context and
 maintenance every later session pays for.
 
-**When one repository is not enough.** Work that spans several repositories or
-teams needs a coordinator, one context map, and explicit hand-offs between
-sessions. This Skill does not build that; the [levels](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md)
-and [beyond one repository](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/BEYOND-ONE-REPOSITORY.md) describe it.
+**When one repository is not enough.** Work that regularly spans several
+repositories - a contract between a service and its consumers, shared rules,
+several agent sessions in one workspace - needs a workspace root, a
+coordinator, and one context map. Build that per **Multi-Repository
+Workspace** below, after or alongside each member's own harness. Do not add it
+for one repository; it is sync work every session pays for.
 
 Choose the operating level with the owner: recommend the highest level whose
 prerequisites the repository already has, or less when the goal needs less,
@@ -243,6 +245,56 @@ reconcile infrastructure desired state.
   **integrate-product-compliance**; keep interpretation, scope, risk acceptance,
   and assurance claims with named humans.
 
+## Multi-Repository Workspace
+
+Use when the owner wants several repositories to work as one system. The
+shape: a workspace directory holds the repositories side by side; its root
+`AGENTS.md` names the coordinator; the coordinator is an ordinary repository
+whose Markdown files every session synchronizes through; each member carries a
+thin pointer to it.
+
+```text
+workspace/
+  AGENTS.md            root instructions every session reads
+  coordinator/         AGENTS.md, HARNESS.md, CONTEXT-MAP.md, SYNC.md, STATUS.md
+  service-a/           its own harness + the member snippet in AGENTS.md
+  web-app/             its own harness + the member snippet in AGENTS.md
+```
+
+1. **Audit.** List the repositories in the workspace directory with their
+   remotes, existing `AGENTS.md`, checks, and any existing coordinator or map.
+   Ask the owner which repositories belong and which one coordinates; an
+   existing repository that already holds shared rules is the better
+   coordinator than a new one.
+2. **Propose.** Show the planned tree, the member rows, the relationships you
+   found evidence for (shared contracts, packages, deploy order), and which
+   existing files each template would merge into. Wait for the owner's yes
+   before creating a repository or remote.
+3. **Apply.** Scaffold the coordinator as a repository with the single-repo
+   templates, then add [CONTEXT-MAP.md](./templates/workspace/coordinator/CONTEXT-MAP.md),
+   [SYNC.md](./templates/workspace/coordinator/SYNC.md), and
+   [STATUS.md](./templates/workspace/coordinator/STATUS.md). Write the
+   workspace root [AGENTS.md](./templates/workspace/AGENTS.md) with the
+   [templates/CLAUDE.md](./templates/CLAUDE.md) and
+   [templates/GEMINI.md](./templates/GEMINI.md) bridges beside it; if the
+   workspace directory is not under version control, say so, because that
+   file then has no history. Give every member its own harness (steps 1-5 of
+   this Skill in that repository) and paste
+   [MEMBER-SNIPPET.md](./templates/workspace/coordinator/MEMBER-SNIPPET.md)
+   into its `AGENTS.md`. Merge into existing files; never replace a member's
+   local truth with a template.
+4. **Verify.** From a fresh session in one member, confirm it reaches the
+   coordinator's `HARNESS.md`, `SYNC.md`, and `CONTEXT-MAP.md`; every map path
+   exists; every remote is a full URL; every member carries the same snippet.
+   Commit each repository separately.
+
+Keep **Repository and Team Topology** and the **Leases** item of the template
+`HARNESS.md` in the coordinator's contract. Keep the coordinator to
+relationships, shared rules, and status. When a manual sync check repeats -
+snippet drift, unmapped repositories, stale leases - turn it into the
+coordinator's Fast Check; this Skill does not ship one, because each workspace
+has its own hosts and layout.
+
 ## 6. Verify
 
 1. Run the documented Fast Check and relevant Full Gates.
@@ -288,6 +340,9 @@ The scaffold is complete only when:
 - infrastructure automation has an owned desired state, reviewable plan,
   protected state, policy gates, drift path, runtime verification, and credible
   recovery,
+- for a multi-repository workspace, every member reaches the coordinator
+  through the same snippet and the context map matches the repositories on
+  disk,
 - all introduced artifacts have a demonstrated purpose,
 - verification results are reported.
 
@@ -305,6 +360,12 @@ The scaffold is complete only when:
 | Durable learnings | [templates/LEARNINGS.md](./templates/LEARNINGS.md) |
 | Tool entrypoints | [templates/TOOLS.md](./templates/TOOLS.md) |
 | Local tool state ignore | [templates/.gitignore](./templates/.gitignore) |
+| Workspace root instructions | [templates/workspace/AGENTS.md](./templates/workspace/AGENTS.md) |
+| Coordinator context map | [templates/workspace/coordinator/CONTEXT-MAP.md](./templates/workspace/coordinator/CONTEXT-MAP.md) |
+| Coordinator sync rules | [templates/workspace/coordinator/SYNC.md](./templates/workspace/coordinator/SYNC.md) |
+| Coordinator status and leases | [templates/workspace/coordinator/STATUS.md](./templates/workspace/coordinator/STATUS.md) |
+| Member snippet | [templates/workspace/coordinator/MEMBER-SNIPPET.md](./templates/workspace/coordinator/MEMBER-SNIPPET.md) |
+| Workspace template checks | [tests/test_workspace_templates.py](./tests/test_workspace_templates.py) |
 
 ## Related Skills
 

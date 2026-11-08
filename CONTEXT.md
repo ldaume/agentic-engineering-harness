@@ -9,6 +9,8 @@
 - **Coordinating repository:** A separate working root for a system spanning
   multiple repositories. It owns only cross-repository relationships, public
   contracts, shared workflow state, and cross-cutting verification.
+- **Workspace root:** The directory that holds a coordinating repository and
+  its members side by side; its `AGENTS.md` only names the coordinator.
 - **Harness:** The smallest system of context, capabilities, feedback, and
   governance that makes delegated work reliable.
 - **Currentness evidence:** Dated, sourced evidence for volatile model, cost,

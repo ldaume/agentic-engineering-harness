@@ -11,7 +11,8 @@ roadmap. Assess each decision domain independently and use the lowest level
 that solves the problem, because every level above the need adds controls
 someone has to keep working.
 
-This Skill scaffolds L3 and L4 for one repository. L5-L7 are defined here so an
+This Skill scaffolds L3 and L4 for one repository or for a workspace of
+several repositories with a coordinator. L5-L7 are defined here so an
 assessment can name them; what each means for people is in
 [`docs/LEVELS.md`](https://github.com/ldaume/agentic-engineering-harness/blob/main/docs/LEVELS.md), and building them is outside this
 Skill.
