@@ -4,7 +4,7 @@ Each Skill is versioned independently. Release notes live in [GitHub Releases](h
 current versions live in [`skills-lock.json`](./skills-lock.json). See
 [`VERSIONING.md`](./VERSIONING.md).
 
-## Unreleased
+## Recent releases
 
 - `scaffold-harness` 3.1.0: scaffolds a multi-repository workspace as well as one repository - a workspace root `AGENTS.md`, a coordinator with `CONTEXT-MAP.md`, `SYNC.md` (working root, admission, sibling awareness, fan-out, write-back), and `STATUS.md` (worktree leases), and a member snippet every member's `AGENTS.md` carries; the template `HARNESS.md` gains **Repository and Team Topology** and a **Leases** item. Single-repository use is unchanged.
 - `agent-sync` 2.1.0: routes workspace-wide rules and lessons to the coordinator per its `SYNC.md` **Write-back**, and membership and contracts to its `CONTEXT-MAP.md`.
