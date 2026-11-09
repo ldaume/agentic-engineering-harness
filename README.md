@@ -7,7 +7,7 @@ Agent Skills and a working harness that let coding agents change your
 repositories under rules, context, and checks you can read and review in Git.
 Install a single Skill, give one repository a harness, or connect several
 repositories through one coordinator. Installs into Claude Code, Codex,
-Cursor, and Gemini CLI.
+Cursor, Gemini CLI, and Antigravity.
 
 I am [Leonard "Lenny" Daume](https://www.daume.dev). These are the Skills and
 harness patterns I run my own agent work on, across product, engineering,
@@ -178,6 +178,15 @@ npx skills add /path/to/agentic-engineering-harness \
 The validation workflow install-tests the catalog for Codex, Cursor, Claude
 Code, and Gemini CLI. That is packaging compatibility, not identical runtime
 behavior; Pi, CI, and later runtimes need a target-owned adapter first.
+
+Google moved Gemini CLI to Antigravity CLI: since June 18, 2026 Gemini CLI no
+longer serves Google AI Pro, Ultra, or free-tier requests, and Code Assist
+Standard and Enterprise licenses are unchanged ([announcement](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli)).
+Antigravity reads Skills from `.agents/skills/` and `AGENTS.md`
+([Skills](https://antigravity.google/docs/skills),
+[Rules](https://antigravity.google/docs/rules)), and the Skills CLI installs
+there with `--agent antigravity`. The validation workflow does not install-test
+that target.
 
 ## Choose a first prompt
 

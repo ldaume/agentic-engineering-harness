@@ -43,6 +43,17 @@ class ReadmeFacts(unittest.TestCase):
             # Then the README version is the newest release of that Skill
             self.assertEqual(stated, tag, skill)
 
+    def test_given_released_versions_then_the_changelog_does_not_call_them_unreleased(self):
+        # Given the changelog entries listed under "Unreleased"
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        section = re.search(r"## Unreleased\n(.*?)(?=\n## |\Z)", changelog, re.S)
+        entries = re.findall(r"- `([a-z-]+)` (\d+\.\d+\.\d+):", section.group(1)) if section else []
+        for skill, version in entries:
+            # Then none of them already has its release tag
+            tags = subprocess.run(["git", "tag", "--list", f"{skill}-v{version}"],
+                                  cwd=ROOT, capture_output=True, text=True).stdout.split()
+            self.assertFalse(tags, f"{skill} {version} is tagged but listed as unreleased")
+
     def test_given_a_stale_readme_then_the_checks_see_it(self):
         # Given a README written for an older catalog
         stale = "| 45 Skills for x |\n[`agent-sync`](./a.md) 1.0.0"
