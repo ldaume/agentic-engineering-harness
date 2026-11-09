@@ -294,8 +294,8 @@ other persisted output.
 ## Host Portability
 
 Keep canonical semantics in host-neutral repository owners. Use root
-`AGENTS.md` plus thin `CLAUDE.md`, `GEMINI.md`, and Antigravity bridges as the
-portable interactive baseline; Codex, Cursor, and Pi load `AGENTS.md`
+`AGENTS.md` plus thin `CLAUDE.md` and `GEMINI.md` bridges as the
+portable interactive baseline; Codex, Cursor, Antigravity, and Pi load `AGENTS.md`
 directly. Discover each active host's effective Skill, plugin, Rule, Hook, MCP,
 permission, model, and isolation behavior. Add other adapters only for hosts
 the target actually uses, reference canonical owners instead of copying

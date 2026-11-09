@@ -29,8 +29,8 @@ Higher delegation is useful only when the lower level is reliable.
   Skills, Rules, Hooks, MCP, permissions, and CI controls are adapters, not
   independent policy owners.
 - Use root `AGENTS.md` as the portable owner. The baseline bridges are a
-  `CLAUDE.md` import, a `GEMINI.md` import, and an Antigravity repository rule;
-  Codex, Cursor, and Pi load `AGENTS.md` directly. Non-interactive adapters
+  `CLAUDE.md` import and a `GEMINI.md` import; Codex, Cursor, Antigravity, and
+  Pi load `AGENTS.md` directly. Non-interactive adapters
   must explicitly load the owner and prove it in a representative workload.
 - Keep human review surfaces legible while the workflow is human-in-the-loop.
   Agent-native does not mean opaque.

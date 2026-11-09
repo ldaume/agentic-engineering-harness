@@ -6,9 +6,9 @@ Create this file only when several tools need different bridges.
 |---|---|---|---|
 | Cursor | `AGENTS.md` or scoped Rules | `.agents/skills/` | Add Hooks only for observed deterministic needs |
 | Codex | `AGENTS.md` | `.agents/skills/` or installed Skills | Keep local overrides untracked |
-| Claude Code | `CLAUDE.md` bridge | `.claude/skills/` or `.agents/skills/` | Reference canonical instructions |
-| Gemini CLI | configured context file | installed or project Skills | Verify current model and instruction precedence; reference canonical instructions |
-| Google Antigravity | product-specific context or Skill bridge | project or installed Skills | Discover the active application, IDE, CLI, or SDK surface; do not assume Gemini CLI behavior |
+| Claude Code | `CLAUDE.md` bridge; reads `AGENTS.md` itself only when no `CLAUDE.md` exists (v2.1.277 or later) | `.claude/skills/` | Reference canonical instructions |
+| Gemini CLI | `GEMINI.md` or the file named by `context.fileName` | `.gemini/skills/` or `.agents/skills/` | Consumer plans moved to Antigravity CLI on 2026-06-18; Code Assist Standard and Enterprise licenses continue. Verify instruction precedence; reference canonical instructions |
+| Google Antigravity | `AGENTS.md` or `GEMINI.md`, read directly | `.agents/skills/` | Discover the active application, IDE, CLI, or SDK surface; do not assume Gemini CLI behavior |
 | Pi coding agent | project or user instruction and Skill bridge | project or user Skills | Verify current extension, tool, and prompt loading behavior |
 | CI workflow | workflow plus bounded workload contract | repository-owned scripts, Skills, or code | Use native runner controls before adding a framework |
 | Flue runtime | bounded workload contract plus Flue adapter | repository-owned workload Skills or code | Add only for one bounded, repeated workload; verify non-interactive permissions, secrets, cancellation, gates, telemetry, and evidence |
