@@ -1,5 +1,6 @@
 ---
 name: testing-strategies
+license: MIT
 description: Plans pragmatic test coverage across unit, integration, contract, e2e, visual, accessibility, performance, and smoke tests based on risk and behavior. Use when deciding what to test, designing a test pyramid, adding coverage for a feature, reducing flaky tests, or reviewing QA strategy.
 ---
 
@@ -32,12 +33,17 @@ Before planning tests:
 | database/repository behavior | integration test                |
 | queue/workflow behavior      | worker or workflow fixture test |
 | user journey                 | e2e test                        |
-| layout/a11y regression       | browser/accessibility test      |
-| deployment boot path         | build or smoke test             |
+| new or changed route, handler, or stream | at least one test through the real route; a mock that replaces the route proves only its client |
+| layout/a11y regression       | browser/accessibility test over every state a person can reach (dialog, toast, error, empty, loading), not only the first render |
+| deployment boot path         | the pull request builds the deployable artifact and boots it (build smoke); a Dockerfile, base image, runtime or toolchain version, lockfile, or dependency major change is a boot-path change |
 | auth, permissions, or abuse  | negative + integration test     |
 | migration or data integrity  | rehearsal + invariant test      |
 | resilience and operability   | failure, load, recovery, or smoke test |
 | AI behavior                  | representative eval + guardrail signal |
+
+Choose levels from this mapping as a judgment. In practice the common miss is
+a state nobody tested or a route a mock replaced, far more often than a wrong
+level, so check those two before adding another level.
 
 ## Rules
 
