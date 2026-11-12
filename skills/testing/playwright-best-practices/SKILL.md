@@ -13,14 +13,17 @@ Before writing tests:
 
 1. Read existing Playwright config, fixtures, helpers, test ids, auth setup,
    route mocks, and CI commands.
-2. Follow the repo's locator strategy.
+2. Locate by test id (see Locator Rules); keep any older role, label, or text
+   locators only in specs you are not touching.
 3. Reuse existing page objects/helpers only when they reduce duplication.
-4. Keep assertions tied to user-visible behavior and accessibility semantics.
+4. Keep assertions tied to user-visible behavior; cover accessibility with
+   explicit checks, not through locators.
 5. Do not add sleeps to hide race conditions.
 
 ## Test Rules
 
-- Prefer role, label, text, and stable test ids over CSS selectors.
+- Locate every element by `data-testid` with `getByTestId`, never by role,
+  label, text, or CSS.
 - Assert the outcome, not every implementation step.
 - Keep tests isolated and repeatable.
 - Leaving a page through a client-side navigation is not finished when the
@@ -43,17 +46,33 @@ Before writing tests:
 
 ## Locator Rules
 
-- Use `getByRole` when semantics are stable and meaningful.
-- Use `getByLabel` for form controls.
-- Use project test ids for complex widgets or localized copy.
-- Avoid nth-child selectors unless testing ordered content explicitly.
+- Use `getByTestId` only. A test id survives copy edits, translation, theme,
+  and layout changes; role, label, text, and CSS locators break on each.
+- Name ids by what the element is, stable and meaningful: `row-<id>` for an
+  item in a list, `account-menu`, `submit-order`, `error-banner`. Describe the
+  purpose, not the position, style, or copy. Never `div-3` or `blue-button`.
+- Ask for the id in the markup change that adds the control; do not fall back
+  to a text locator while it is missing.
+- Avoid `nth` unless testing ordered content explicitly; prefer an id that
+  carries the item's key.
+- A spec touched for any reason moves its locators to test ids.
+
+## Accessibility Coverage
+
+Locators no longer prove role or name, so check them on purpose:
+
+- Run an axe scan (`@axe-core/playwright`) over every reachable state: dialog,
+  toast, error, empty, loading.
+- Assert role and name explicitly where they are the contract, for example
+  `await expect(page.getByTestId('account-menu')).toHaveRole('button')` and
+  `toHaveAccessibleName(...)`. These are assertions, never locators.
 
 ## Red Flags
 
 - `waitForTimeout`
 - `goto` immediately after a click that navigates
-- broad CSS selectors
+- `getByRole`, `getByLabel`, `getByText`, or CSS used as a locator
 - tests depend on run order
 - production third-party service required for normal CI
 - assertion passes before async work completes
-- UI changed but accessibility name no longer matches intent
+- accessibility covered only by locators, with no axe scan or role/name assertion

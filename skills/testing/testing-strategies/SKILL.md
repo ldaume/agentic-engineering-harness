@@ -32,9 +32,9 @@ Before planning tests:
 | schema or API contract       | contract/schema test            |
 | database/repository behavior | integration test                |
 | queue/workflow behavior      | worker or workflow fixture test |
-| user journey                 | e2e test                        |
+| user journey                 | e2e test, elements located by `data-testid` |
 | new or changed route, handler, or stream | at least one test through the real route; a mock that replaces the route proves only its client |
-| layout/a11y regression       | browser/accessibility test over every state a person can reach (dialog, toast, error, empty, loading), not only the first render |
+| layout/a11y regression       | browser/accessibility test (axe scan plus explicit role/name assertions, never role or label locators) over every state a person can reach (dialog, toast, error, empty, loading), not only the first render |
 | deployment boot path         | the pull request builds the deployable artifact and boots it (build smoke); a Dockerfile, base image, runtime or toolchain version, lockfile, or dependency major change is a boot-path change |
 | auth, permissions, or abuse  | negative + integration test     |
 | migration or data integrity  | rehearsal + invariant test      |
@@ -105,4 +105,5 @@ level, so check those two before adding another level.
 - brittle snapshots for dynamic UI
 - mocks that make the real integration untested
 - e2e test used where a unit test would be clearer
+- browser tests locating by role, label, text, or CSS instead of `data-testid`, so copy, translation, or theme changes break them
 - no test for auth, migration, or data ownership changes
