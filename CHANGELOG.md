@@ -6,6 +6,8 @@ current versions live in [`skills-lock.json`](./skills-lock.json). See
 
 ## Recent releases
 
+- `playwright-best-practices` 2.0.0: browser tests locate every element by `data-testid` with `getByTestId`, never by role, label, text, or CSS, so copy, translation, theme, and layout changes do not break them; ids are named by purpose (`row-<id>`, `account-menu`), and accessibility is covered by axe scans plus explicit role and name assertions, not locators.
+- `testing-strategies` 1.7.0: the e2e and accessibility rows and red flags follow the test-id locator rule.
 - `testing-strategies` 1.6.0: the risk mapping adds a row for a new or changed route, handler, or stream (at least one test through the real route), runs accessibility checks over every reachable state such as a dialog, toast, error, empty, or loading view, and makes the pull request build and boot the deployable artifact, with a Dockerfile, base image, runtime, toolchain, lockfile, or dependency major change counted as a boot-path change. Levels stay a judgment; check untested states and mocked-away routes first.
 - `scaffold-harness` 3.1.0: scaffolds a multi-repository workspace as well as one repository - a workspace root `AGENTS.md`, a coordinator with `CONTEXT-MAP.md`, `SYNC.md` (working root, admission, sibling awareness, fan-out, write-back), and `STATUS.md` (worktree leases), and a member snippet every member's `AGENTS.md` carries; the template `HARNESS.md` gains **Repository and Team Topology** and a **Leases** item. Single-repository use is unchanged.
 - `agent-sync` 2.1.0: routes workspace-wide rules and lessons to the coordinator per its `SYNC.md` **Write-back**, and membership and contracts to its `CONTEXT-MAP.md`.
