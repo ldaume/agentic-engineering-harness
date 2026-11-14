@@ -206,10 +206,9 @@ reconcile infrastructure desired state.
   emergency console work as an incident action that must be reconciled or
   reversed, not as a second configuration source.
 - Keep canonical semantics host-neutral. Use `AGENTS.md` as the portable owner
-  and install the thin baseline bridges for Claude Code (`CLAUDE.md` import),
-  Gemini CLI (`GEMINI.md` import), and Google Antigravity
-  (`.agents/rules/harness.md`). Codex, Cursor, and Pi consume `AGENTS.md`
-  directly. Add other bridges only for hosts the repository actually uses, and
+  and install the thin baseline bridges for Claude Code (`CLAUDE.md` import)
+  and Gemini CLI (`GEMINI.md` import). Codex, Cursor, Google Antigravity, and
+  Pi consume `AGENTS.md` directly. Add other bridges only for hosts the repository actually uses, and
   reference canonical owners instead of copying policy, so one rule never
   drifts into several versions.
 - Classify source authority, freshness, locality, shape, activation,
@@ -354,7 +353,6 @@ The scaffold is complete only when:
 | Claude Code bridge | [templates/CLAUDE.md](./templates/CLAUDE.md) |
 | Review-surface attribution check | [scripts/verify-agent-attribution.py](./scripts/verify-agent-attribution.py), tested by [tests/test_verify_agent_attribution.py](./tests/test_verify_agent_attribution.py) |
 | Gemini CLI bridge | [templates/GEMINI.md](./templates/GEMINI.md) |
-| Google Antigravity bridge | [templates/.agents/rules/harness.md](./templates/.agents/rules/harness.md) |
 | Harness contract | [templates/HARNESS.md](./templates/HARNESS.md) |
 | Domain language | [templates/CONTEXT.md](./templates/CONTEXT.md) |
 | Durable learnings | [templates/LEARNINGS.md](./templates/LEARNINGS.md) |
