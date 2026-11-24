@@ -51,6 +51,14 @@ do not restate them.
 
 ## Decision rules
 
+- Lead with the sentence that answers the decision question and names the
+  exceptions ("3 of 41 sites over budget"), then the chart, then drill-down
+  to rows. Configurable layouts are an addition, never the default (owner
+  stance, aesthetic; defaults carry most of the experience [SRC-PROD-032]).
+- Before building a monitoring dashboard, ask whether an alert with a
+  threshold and an owner replaces it. A dashboard is for inspection and
+  review, not for watching (owner stance; attention is a budget
+  [SRC-PROD-033]).
 - Bars start at zero, because length encodes the value; a line may use a
   narrower range when the break is marked and the data are not near zero or
   near a meaningful zero target (supported) [SRC-VIZ-006] [SRC-VIZ-021].

@@ -111,6 +111,15 @@ Avoid:
 - nested cards
 - three equal feature cards as the default layout
 - stock-like visuals that hide the actual product
+- the rest of the generic-look tells (Inter or system font alone with no
+  display voice, uniform radius and padding, left-edge accent bars on
+  rounded panels, unreasoned glassmorphism, emoji or generic icons as
+  feature bullets, fade-in on everything, happy-path-only screens,
+  placeholder names, slogan copy); the full list and review gate are
+  `design-core/references/generic-tells.md` when the design skills are
+  installed
+- unthemed library defaults: set type, radius scale, color semantics, and
+  motion before shipping any component library
 - text that describes how to use obvious UI controls
 
 ## Frontend Defaults
@@ -137,6 +146,20 @@ Avoid:
   dynamic labels.
 - Do not animate layout properties; use transform and opacity.
 - Respect `prefers-reduced-motion`.
+- Motion guides focus: check every context change for a missing transition,
+  animate at most one element for attention at a time, and move keyboard
+  focus and the screen-reader announcement to the element the motion points
+  to (`design-core/references/motion.md`).
+
+## Attention and Disabled Controls
+
+- No toast or badge for FYI events; show them in the product, quietly. Group
+  and deduplicate, respect OS focus modes, and make a notification link
+  straight to the decision, not to a list.
+- An action that cannot run yet stays reachable and, on activation, says what
+  is missing and marks the places that need attention. In review, a disabled
+  button without a visible reason is a finding; the narrow submit-button
+  exception is in `design-forms`.
 
 ## State Discipline
 
@@ -223,6 +246,7 @@ Stop and revise when you see:
 
 - happy-path-only UI
 - hidden or generic error handling
+- a disabled control with no visible reason
 - hover-only mobile-critical actions
 - hardcoded colors where tokens exist
 - icons or emojis used inconsistently

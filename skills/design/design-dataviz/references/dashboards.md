@@ -22,8 +22,11 @@ overview, or a request to "add a chart" to an existing one.
 
 ## Decision tree
 
-- Act within seconds or minutes on a live signal -> operations or anomaly
-  dashboard (below).
+- Act within seconds or minutes on a live signal -> first ask whether an
+  alert with a threshold and an owner replaces the dashboard, because nobody
+  should have to watch a screen to catch it (owner stance, aesthetic; batching
+  evidence [SRC-PROD-033]). Build the operations or anomaly dashboard (below)
+  for inspection and review of what the alerts report, not for watching.
 - Review a period and decide on priorities or money -> executive dashboard
   (below).
 - Explore open questions with filters and pivots -> an analytical workbench;
@@ -47,6 +50,11 @@ overview, or a request to "add a chart" to an existing one.
    read intervals and distributions, mixed audiences need the message in
    words next to the chart, because poor cognitive fit raises errors and
    time (supported) [SRC-VIZ-019].
+3a. **Lead with the answer.** Open with the sentence that answers the
+   decision question and names the exceptions ("3 of 41 sites over budget"),
+   then the chart, then drill-down to rows. A configurable layout is an
+   addition; the default view is a decision, recorded with its reason (owner
+   stance, aesthetic; defaults carry most of the experience [SRC-PROD-032]).
 4. **Comparisons.** Every headline number gets the comparison that tells the
    reader whether to act: target, prior period, same period last year, peer
    group. A lone number is the classic missing-context failure
