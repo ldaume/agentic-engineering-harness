@@ -120,12 +120,18 @@ Avoid:
   islands only where interactivity requires them.
 - Check `package.json` before importing libraries.
 - Use CSS variables or design tokens for colors, spacing, radius, and motion.
-- Hold every text-on-surface pair to WCAG AAA (7:1, or 4.5:1 for large text)
-  in light and dark, and enforce it with an automated test, not review: list
-  every text token on every surface it is drawn on (translucent tints
-  composited over their base), compute the ratio for both schemes, and fail
-  the build below AAA. Disabled controls are exempt. Text without an explicit
-  color must inherit a theme token from the root, not a framework default.
+- Hold every text-on-surface pair to WCAG 2.2 AA (4.5:1; 3:1 for large text
+  and UI components, SC 1.4.3 and 1.4.11) in light and dark, and enforce it
+  with an automated test, not review: list every text token on every surface
+  it is drawn on (translucent tints composited over their base), compute the
+  ratio for both schemes, and fail the build below AA. Disabled controls are
+  exempt. Text without an explicit color must inherit a theme token from the
+  root, not a framework default. 7:1 (SC 1.4.6) is an optional stretch for
+  body text, not a gate.
+- Cheap AAA extras worth keeping: reduced motion for interaction-triggered
+  animation (2.3.3), line height 1.5 and lines of at most 80 characters with
+  no justified text (1.4.8), and a focus indicator of at least 2px with 3:1
+  against its neighbors (2.4.13).
 - Use icons from the installed icon system instead of emojis for UI controls.
 - Use stable dimensions for buttons, toolbars, rows, grids, counters, and
   dynamic labels.
@@ -160,15 +166,18 @@ Do not ship a polished happy path with broken silence everywhere else.
 
 ## Mobile Rules
 
-- Minimum touch target: 44px.
+- Touch targets: at least 24x24 CSS px or spaced so a 24px circle around
+  each does not hit another target (2.5.8 AA, the hard floor); aim for 44px on
+  primary and mobile controls (2.5.5 AAA, the design target).
 - Primary actions should be reachable in normal thumb zones.
 - No hover-only affordances for critical actions.
 - Avoid horizontal overflow at 320-375px.
 - Check phone UI at the target device width and again at an OS text scale of
   about 1.3. Scale with page zoom; a root `font-size` change
   misses px-sized layouts. Assert that visible control
-  boxes do not overlap (clip to scroll containers), targets stay at 44px, and
-  the page does not scroll horizontally.
+  boxes do not overlap (clip to scroll containers), targets stay at 24px or
+  more (fail below; warn below 44px on primary controls), and the page does
+  not scroll horizontally.
 - Reserve space for async content to prevent layout jumps.
 - Keep forms short; use progressive disclosure for advanced inputs.
 - Safe areas matter for sticky bottom actions.
@@ -204,7 +213,7 @@ and suggestions that name the act of their button.
 - Are loading, empty, error, and success states present?
 - Does mobile collapse cleanly without hidden actions or horizontal scroll?
 - Are focus, labels, roles, contrast, keyboard access, and reduced motion
-  handled?
+  handled to WCAG 2.2 AA?
 - Does the implementation follow existing tokens and component patterns?
 - Is every new dependency justified?
 
