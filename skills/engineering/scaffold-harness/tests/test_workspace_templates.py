@@ -98,8 +98,8 @@ class WorkspaceTemplates(unittest.TestCase):
         # Given the root instructions and the map a session follows before a cross-repository change
         root, cmap = read(ROOT_AGENTS), read(CONTEXT_MAP)
         # Then the root names the consumer rows and the same-horizon order
-        self.assertIn("expand, migrate every consumer, contract", root)
-        self.assertIn("same horizon", root)
+        self.assertIn("no break left for a later session", root)
+        self.assertIn("oldest supported version", root)
         # And the map row names the file in each consumer that reads the contract
         self.assertIn("Consumer files", cmap)
 
