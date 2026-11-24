@@ -1,0 +1,172 @@
+{
+  "sources": [
+    {
+      "id": "SRC-REV-001",
+      "title": "The Standard of Code Review (Google eng-practices)",
+      "url": "https://google.github.io/eng-practices/review/reviewer/standard.html",
+      "publisher": "Google",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["review"],
+      "findings": [
+        "Reviewers should favor approving a change once it definitely improves the overall code health of the system, even if it is not perfect; there is no perfect code, only better code.",
+        "Comments on unimportant polish are prefixed with Nit so the author may ignore them; nothing justifies checking in a change that worsens code health, except an emergency."
+      ],
+      "limits": "Google's internal practice published as guidance.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-002",
+      "title": "What to look for in a code review (Google eng-practices)",
+      "url": "https://google.github.io/eng-practices/review/reviewer/looking-for.html",
+      "publisher": "Google",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["review"],
+      "findings": [
+        "The most important thing to cover is the overall design; then functionality, complexity, tests, naming, comments, style, and documentation.",
+        "Review every line you were asked to review, look at the context, and compliment the developer on good things."
+      ],
+      "limits": "Google's internal practice published as guidance.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-003",
+      "title": "Speed of Code Reviews (Google eng-practices)",
+      "url": "https://google.github.io/eng-practices/review/reviewer/speed.html",
+      "publisher": "Google",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["review"],
+      "findings": [
+        "Optimize for the speed at which a team produces a product together; review shortly after a request arrives unless in a focused task.",
+        "One business day is the maximum time to respond to a review request."
+      ],
+      "limits": "Google's internal practice published as guidance.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-004",
+      "title": "How to write code review comments (Google eng-practices)",
+      "url": "https://google.github.io/eng-practices/review/reviewer/comments.html",
+      "publisher": "Google",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["review"],
+      "findings": [
+        "Be kind, explain your reasoning, and balance explicit directions with pointing out problems and letting the developer decide.",
+        "Encourage simplifying code or adding comments over explaining the complexity to the reviewer."
+      ],
+      "limits": "Google's internal practice published as guidance.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-005",
+      "title": "Conventional Comments",
+      "url": "https://conventionalcomments.org/",
+      "publisher": "conventionalcomments.org",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["review"],
+      "findings": [
+        "Format: <label> [decorations]: <subject> with optional discussion; labels include praise, nitpick, suggestion, issue, todo, question, thought, chore, and note.",
+        "Decorations such as (blocking) and (non-blocking) state whether the comment must be resolved; nitpicks are non-blocking by nature; leave sincere praise, never false praise; pair an issue with a suggestion and use a question when unsure."
+      ],
+      "limits": "Community convention, not a standard.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-006",
+      "title": "Ship / Show / Ask (Rouan Wilsenach, martinfowler.com)",
+      "url": "https://martinfowler.com/articles/ship-show-ask.html",
+      "publisher": "martinfowler.com",
+      "published": "2021-09-08",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["integration", "review"],
+      "findings": [
+        "Every change is Ship (straight to mainline, no review, with the usual continuous integration safety), Show (open a pull request and merge without waiting, so feedback follows), or Ask (open a pull request and wait for feedback before merging).",
+        "Ship fits established patterns and unremarkable fixes; Ask fits uncertainty about the approach."
+      ],
+      "limits": "Practitioner article.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-007",
+      "title": "Trunk Based Development: Introduction (Paul Hammant)",
+      "url": "https://trunkbaseddevelopment.com/",
+      "publisher": "trunkbaseddevelopment.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["integration"],
+      "findings": [
+        "Developers collaborate on one branch, trunk (main), and resist creating other long-lived development branches by using documented techniques, avoiding merge hell and broken builds."
+      ],
+      "limits": "Practitioner reference site, continuously edited.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-008",
+      "title": "Trunk Based Development: Short-Lived Feature Branches",
+      "url": "https://trunkbaseddevelopment.com/short-lived-feature-branches/",
+      "publisher": "trunkbaseddevelopment.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["integration"],
+      "findings": [
+        "A short-lived feature branch has one developer (or pair, or developer with agents) and lasts no more than a couple of days; a developer has only one in flight.",
+        "Several worktrees each holding an aging branch are long-lived branching spread sideways; each branch is updated from trunk and merged on its own, never merged into another feature branch, and the worktree is removed after merge."
+      ],
+      "limits": "Practitioner reference site.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-009",
+      "title": "Trunk Based Development: Branch by Abstraction",
+      "url": "https://trunkbaseddevelopment.com/branch-by-abstraction/",
+      "publisher": "trunkbaseddevelopment.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["integration"],
+      "findings": [
+        "For a change that takes days, introduce an abstraction around the code to replace, add the new implementation behind it switched off, flip the switch, then remove the old implementation and the abstraction; no step breaks the build."
+      ],
+      "limits": "Practitioner reference site.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-REV-010",
+      "title": "Trunk Based Development: Feature Flags",
+      "url": "https://trunkbaseddevelopment.com/feature-flags/",
+      "publisher": "trunkbaseddevelopment.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["integration"],
+      "findings": [
+        "CI must test the reasonable flag permutations, fanning out after unit tests per meaningful combination.",
+        "Flags are forgotten and become tech debt; remove them and the code they guard about a month after release, with a review-for-delete date."
+      ],
+      "limits": "Practitioner reference site.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}
