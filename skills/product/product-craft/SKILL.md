@@ -127,6 +127,13 @@ Signals may also be discarded without entering a roadmap. If the repository
 has no equivalent view, load the
 [Outcome Roadmap template](./TEMPLATES.md#outcome-roadmap).
 
+Before estimating size, define the agile value: the outcome, the value signal,
+and the investment boundary that value justifies. Let value bound time and
+money, so the question becomes "what can we do within this boundary" and not
+"how long will it take". An estimate is a conversation artifact, not a plan.
+Any forecast is a range with its source, confidence, and reforecast trigger,
+never a single value.
+
 Horizons are not dates. Distinguish an external deadline, observation or
 review date, forecast, and commitment. Record the source, owner, assumptions,
 confidence, and reforecast trigger for any forecast. Use a milestone only for

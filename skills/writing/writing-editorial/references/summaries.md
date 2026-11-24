@@ -60,6 +60,15 @@ Voice: direct, calm, evidence-led, no false certainty, no management theater.
 Bottom line first (BLUF) comes from military writing practice and mirrors the
 inverted pyramid; it is a convention, not a measured comprehension effect
 (supported as practice, hypothesis as effect) [SRC-WRITE-033].
+Length and the number of requests are measured effects, not taste: in a field
+experiment a 49-word email drew a 4.8 percent response against 2.7 percent for
+127 words (supported) [SRC-WRITE-058]. Keep one request per summary; with
+several, number them.
+
+Give an uncertain figure as a numeric range, not a verbal hedge: in experiments
+a numeric range cost little trust and a verbal hedge cost more (verified)
+[SRC-WRITE-045].
+
 Remove implementation detail unless it changes cost, risk, timing, customer
 impact, or reversibility.
 

@@ -16,6 +16,9 @@ required.
 | record a durable decision | Decision Record |
 | assess impact | Outcome Review |
 
+Give dates and costs as ranges or as an investment boundary, never as single
+values.
+
 Keep evidence and assumptions in separate sections, because a reader must be
 able to tell what was observed from what is hoped.
 

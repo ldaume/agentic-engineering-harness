@@ -4,6 +4,9 @@ A roadmap connects strategic intent, outcomes, opportunity areas, candidate
 bets, confidence, investment boundary, and learning milestones. Now, Next,
 Later focuses on goals and strategy rather than exact dates.
 
+Give dates and costs as ranges or as an investment boundary, never as single
+values.
+
 Now, Next, Later is a horizon, not a commitment. Every item carries an
 outcome and a confidence field ("how sure": for example low, medium, high,
 and what that rests on).

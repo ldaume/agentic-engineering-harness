@@ -57,6 +57,17 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
   a real answer, 45 of 96 the same working day. Nothing is live yet, so it
   cannot have moved. Reopened requests are not measured."
 
+## Point estimate for the future
+
+- Text: "The migration takes 3 weeks and costs 2,000 EUR." Also "Das dauert 3
+  Wochen und kostet 2.000 EUR."
+- Misread as: a commitment. The reader plans around the single value, and a
+  miss reads as a broken promise.
+- Fix: "Based on the last four migrations (2 to 4 weeks, 1,200 to 2,600 EUR),
+  expect between 2 and 4 weeks and 1,200 to 2,600 EUR. A second database would
+  move it to the upper end." A figure for the future is a range with its basis
+  and what would change it.
+
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.
