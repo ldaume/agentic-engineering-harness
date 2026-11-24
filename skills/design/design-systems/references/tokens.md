@@ -5,11 +5,16 @@
 - DTCG Format 2025.10 is the first stable release, announced 2025-10-28; it
   is a Community Group report, not a W3C Standard (verified) [SRC-PROD-001].
 - The drafts URL is a working draft marked not to implement (supported)
-  [SRC-PROD-002]. Resolver and modes were not stable in the sources read
-  (context-dependent) [SRC-PROD-003].
-- Style Dictionary is on v5 (5.7.0); full 2025.10 support is unverified, so
-  pin the version and test the build against your tokens (supported)
-  [SRC-PROD-004] [SRC-PROD-005] [SRC-TOOL-005].
+  [SRC-PROD-002].
+- The Resolver Module 2025.10 is a Final Community Group report of the same
+  date (2025-10-28), also not a W3C Standard. Use resolver documents (sets
+  and modifiers) for themes and modes: light, dark, high contrast, density,
+  reduced motion (verified) [SRC-PROD-031]. Tool support must be tested; the
+  Style Dictionary release notes read do not mention it (supported)
+  [SRC-PROD-004].
+- Style Dictionary is on v5 (5.8.0, 2026-11-03); full 2025.10 support is
+  unverified, so pin the version and test the build against your tokens
+  (verified) [SRC-PROD-004] [SRC-TOOL-005] [SRC-PROD-005].
 
 ## Tiers and naming
 

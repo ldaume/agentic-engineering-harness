@@ -102,8 +102,11 @@ with its own states and edge cases - `design-flows` owns it.
   before bundling; Dagre cannot connect a container to its own child
   (verified) [SRC-VIZ-034].
 - ELK computes positions only, no rendering (supported) [SRC-VIZ-036].
-- Automated gate: render in CI (`mmdc`, `d2`, `dot`) and fail on a nonzero
-  exit. That proves the source parses; layout legibility and meaning stay
+- Pins as read on 2026-11-24: `mermaid` 12.3.0 and `@mermaid-js/mermaid-cli`
+  12.2.0 (verified) [SRC-TOOL-006] [SRC-TOOL-008]. Pin exact versions in the
+  repository's lockfile; a new major can change rendering.
+- Automated gate: render in CI (`mmdc -i diagram.mmd -o diagram.svg`, `d2`,
+  `dot`) and fail on a nonzero exit. That proves the source parses; layout legibility and meaning stay
   manual.
 
 ## Anti-patterns
