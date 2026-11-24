@@ -25,8 +25,11 @@ Order matters because each step constrains the next.
    (supported) [SRC-PROD-010]. Label menus with clear, familiar words
    (supported) [SRC-PROD-011].
 3. **Composition.** Derive the visual direction from the real content and
-   brand, not from a template, because templated sameness is the first thing
-   a returning visitor stops seeing (hypothesis) [SRC-WEB-029].
+   brand with the content-derived method in `references/visual-craft.md`
+   (carrier, three to five constraints, swap test); it is required, not
+   optional, because templated sameness says nothing specific about the
+   organization (owner position, aesthetic; see the owner stance in
+   `design-core`).
 4. **Motion.** Give each motion a job and a reduced-motion variant per the
    core motion guide, `design-core/references/motion.md`, before
    choosing any library, because motion chosen first drives the JS budget.
@@ -77,6 +80,8 @@ Order matters because each step constrains the next.
 Before done:
 
 - Intent sentence per page type and an IA list exist.
+- Direction written down: concept sentence, three to five constraints, swap
+  test passed, and the tells list in `design-core` run.
 - Every motion has a job and a reduced-motion variant; no autoplay over 5 s
   without pause [SRC-WEB-003].
 - Performance budget stated: LCP at most 2.5 s, INP at most 200 ms, CLS at

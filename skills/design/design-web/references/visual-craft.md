@@ -92,15 +92,22 @@ resize text, not listed in the registry's findings) [SRC-A11Y-001].
 
 ## The "generic AI landing page" look
 
-Treat it as a hypothesis for a critique pass, not as evidence. A design-tool
-vendor argues that generated landing pages converge on a centered hero,
-three equal feature cards, and purple or blue gradients because generators
-share training data; it offers no data, and no independent study was found
-(hypothesis) [SRC-WEB-029]. Nothing shows these patterns hurt comprehension
-or conversion. What the pattern does reliably is say nothing specific about
-the organization, which is the problem worth fixing.
+Owner position (aesthetic): ship distinctive, award-level work, not the
+typical generated page. The convergence claim itself comes from a design-tool
+vendor without data [SRC-WEB-029] (hypothesis), and nothing shows these
+patterns hurt comprehension or conversion. What is supported is the detail
+failures of AI-generated design: weak hierarchy, grouping, contrast, margins,
+and missing states, and a flat default look without visual direction
+(supported) [SRC-WEB-031]. The pattern also says nothing specific about the
+organization, which is the problem to fix. The full tells list is
+`design-core/references/generic-tells.md`; run it as a review gate.
 
-Derive a direction from the content instead:
+Award-level means a point of view plus craft details a template does not
+give: a chosen type pairing, tabular figures for numbers, optical alignment
+(adjust by eye where geometry looks off), and real states for every
+component. The method below is required for every new page or redesign:
+
+Derive a direction from the content:
 
 1. **Inventory what is real.** List the assets only this organization has:
    product screenshots, places, people, data, a process, a material, a
@@ -112,9 +119,9 @@ Derive a direction from the content instead:
    type never over images, one accent color from the brand, no cards on the
    homepage, numbers set in tabular figures". Constraints make reviews
    arguable; adjectives like "modern" do not.
-4. **Test against swap.** Replace the logo with a competitor's. If the page
-   still works, the direction is not derived from the content yet
-   (hypothesis).
+4. **Test against swap (required).** Replace the logo with a competitor's. If
+   the page still works, the direction is not derived from the content yet
+   (owner position, aesthetic).
 5. **Record the choice** as (aesthetic) in a decision record per
    `design-core`, so a later reviewer knows it was deliberate.
 
@@ -153,8 +160,10 @@ A regional organic bakery chain with twelve shops.
 
 ## Evidence gaps
 
-- No independent evidence for or against the "generic AI look"; only a
-  vendor blog.
+- No independent evidence that the "generic AI look" hurts comprehension or
+  conversion; the vendor claim [SRC-WEB-029] stays a hypothesis. The detail
+  failures are supported by one NN/g evaluation of prototyping tools
+  [SRC-WEB-031], not by a controlled study.
 - No reading study behind fluid type; it is a practitioner method.
 - Container queries are Baseline Widely available since 2025-08-14 (verified,
   read 2026-11-24) [SRC-WEB-030]; other features: `baseline-css.md`.
