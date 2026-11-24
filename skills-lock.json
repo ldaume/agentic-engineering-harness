@@ -203,7 +203,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/renovate/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "run-product-engineering": {
       "source": "local",
