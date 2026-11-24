@@ -20,6 +20,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 const AUDIT = readFileSync(fileURLToPath(new URL("reading-audit.js", import.meta.url)), "utf8");
 const GATEWAY = "https://ai-gateway.vercel.sh";
@@ -302,6 +303,18 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   return report;
 }
 
+// Playwright from the project the agent works in first: an installed Skill has no node_modules.
+export async function loadChromium(cwd) {
+  const local = createRequire(join(cwd, "package.json"));
+  for (const name of ["playwright", "@playwright/test"]) {
+    try { return local(name).chromium; } catch {}
+  }
+  for (const name of ["playwright", "@playwright/test"]) {
+    try { return (await import(name)).chromium; } catch {}
+  }
+  throw new Error("Playwright not found: run from a project that has it, or `npm i --no-save playwright` there");
+}
+
 async function main(argv) {
   const args = { out: ".design-loop", level: "aa", model: DEFAULT_MODEL, detail: false };
   for (let i = 0; i < argv.length; i++) {
@@ -310,8 +323,7 @@ async function main(argv) {
     else args.url = argv[i];
   }
   if (!args.url) { console.error("usage: node design-loop.mjs <url> [--out dir] [--level aa|aaa] [--model provider/model] [--detail]"); process.exit(2); }
-  let chromium;
-  try { ({ chromium } = await import("playwright")); } catch { ({ chromium } = await import("@playwright/test")); }
+  const chromium = await loadChromium(process.cwd());
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();

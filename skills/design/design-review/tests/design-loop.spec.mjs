@@ -1,11 +1,11 @@
 // Run: npx playwright test -c skills/design/design-review/tests
 // The model calls are stubbed: these tests check the tiers and their wiring, not a model.
 import { test, expect } from "@playwright/test";
-import { readFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, decide, review, firstJson, VISUAL_RULES } from "../scripts/design-loop.mjs";
+import { tellsAudit, decide, review, firstJson, loadChromium, VISUAL_RULES } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -126,4 +126,13 @@ test("given confident Jev failures, they stand as findings without a model call 
   const d = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch: detailed, outDir: out(), detail: true });
   expect(detailed.calls.filter((c) => c.url.includes("chat/completions"))).toHaveLength(1);
   expect(d.findings.some((f) => f.tier === "llm")).toBe(true);
+});
+
+test("given the project the agent works in has Playwright, the runner uses that one, since an installed Skill has no node_modules", async () => {
+  const project = out();
+  const pkg = join(project, "node_modules", "playwright");
+  mkdirSync(pkg, { recursive: true });
+  writeFileSync(join(pkg, "package.json"), JSON.stringify({ name: "playwright", main: "index.js" }));
+  writeFileSync(join(pkg, "index.js"), "module.exports = { chromium: 'from-project' };");
+  expect(await loadChromium(project)).toBe("from-project");
 });
