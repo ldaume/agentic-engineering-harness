@@ -29,6 +29,24 @@ const JEV_USD_PER_TOKEN = { gateway: 0.04e-6, typesafe: 0.042e-6 };
 const DEFAULT_MODEL = "anthropic/claude-haiku-5.5";
 // Gateway options: no retention, no training on the request, and Jev only from TypeSafe itself.
 const PRIVACY = { zeroDataRetention: true, disallowPromptTraining: true };
+// Screenshots go only to providers that do not train on API data and sit outside restricted
+// jurisdictions; any other model needs the owner's approval for that exact id
+// (OWNER_APPROVED_MODELS, comma-separated). Families are matched in the id, so a proxy slug
+// cannot hide one.
+const APPROVED_PROVIDERS = ["anthropic", "openai", "google", "vertex"];
+const RESTRICTED_FAMILIES = ["deepseek", "kimi", "moonshot", "qwen", "qwq", "alibaba", "glm", "chatglm", "zhipu", "z-ai", "zai", "minimax", "bytedance", "doubao", "seed-", "ernie", "baidu", "hunyuan", "tencent", "stepfun", "xiaomi", "mimo", "baichuan", "internlm", "01-ai", "meituan", "longcat", "inclusionai", "klingai", "nex-agi"];
+
+export function checkModel(model, env = process.env) {
+  const approved = (env.OWNER_APPROVED_MODELS || "").split(",").map((m) => m.trim()).filter(Boolean);
+  if (approved.includes(model)) return model;
+  const id = model.toLowerCase();
+  const ask = `it needs the owner's approval for this exact id before it sees screenshots (OWNER_APPROVED_MODELS=${model})`;
+  const family = RESTRICTED_FAMILIES.find((f) => new RegExp(`(?:^|[/:_.\\s-])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).test(id));
+  if (family) throw new Error(`${model} belongs to a restricted-jurisdiction model family (${family}); ${ask}`);
+  if (!APPROVED_PROVIDERS.includes(id.split("/")[0])) throw new Error(`${model} comes from a provider outside the approved list; ${ask}`);
+  return model;
+}
+
 // Jev images: each side 280 to 1568 px, so a screenshot is the top 1568 px of the page.
 const MAX_SIDE = 1568;
 const SHOTS = [
@@ -192,7 +210,8 @@ async function askJev({ rules, shots, headlines, keys, fetch }) {
   return { answers, cost: tokens * JEV_USD_PER_TOKEN[keys.gateway ? "gateway" : "typesafe"] };
 }
 
-async function askModel({ rules, shots, headlines, key, model, fetch }) {
+async function askModel({ rules, shots, headlines, key, model, fetch, env }) {
+  checkModel(model, env);
   const pick = VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n));
   const text = "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") +
     ". headlines: " + JSON.stringify(headlines) + "\nFor each rule answer whether the page fails it, where on which screenshot, and the smallest fix.\n" +
@@ -275,7 +294,7 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
         findings.push(...ask.map(jevFinding));
       } else {
         try {
-          const m = await askModel({ rules: ask.map((o) => o.rule), shots, headlines, key: keys.gateway, model, fetch });
+          const m = await askModel({ rules: ask.map((o) => o.rule), shots, headlines, key: keys.gateway, model, fetch, env });
           cost.llm = m.cost;
           tiers.llm = `ran (${model})`;
           for (const o of ask) {

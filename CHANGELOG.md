@@ -6,6 +6,7 @@ current versions live in [`skills-lock.json`](./skills-lock.json). See
 
 ## Recent releases
 
+- `design-review` 1.4.1: the design loop refuses an escalation model from a provider outside the approved list (Anthropic, OpenAI, Google) or from a restricted-jurisdiction model family, matched anywhere in the id, unless that exact id is in `OWNER_APPROVED_MODELS`; Playwright loads from the project the agent works in.
 - `design-review` 1.4.0: `scripts/design-loop.mjs` reviews a page after every UI change, cheapest check first: screenshots at 1280 and 390 px in light and dark, generic-look tells read from the DOM, the reading audit, typed Jev questions on the screenshots, and a vision model only for the rules Jev is unsure about; one JSON report with rule, tier, confidence, evidence, and cost, exit 1 on a failure, every model call with zero data retention and no prompt training. On 8 pages it found 21 of the 22 rule failures a vision-model reviewer found at about 2% of its cost.
 - `design-core` 1.4.0 and `frontend-craft` 1.9.0: done includes a design loop run on every changed page or screen.
 - `scaffold-harness` 3.3.0: the workspace root `AGENTS.md` routes a session that changes an interface another repository uses to the map's Relationships rows and a sibling search for its consumers, adds the replacement and migrates every consumer it may change before the provider's removal merges, and keeps the old shape until every deployed consumer reads the new one; the map template's relationship row names the consumer files that read the contract.

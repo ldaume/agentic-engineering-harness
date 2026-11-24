@@ -89,7 +89,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-review/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "design-slides": {
       "source": "local",
