@@ -146,6 +146,13 @@ test("given the runner is started through a symlink to it, as an installed Skill
   expect(run.stdout).toMatch(/usage: node design-loop\.mjs <url>/);
 });
 
+test("given the module is imported by a host whose argv[1] is not a file, the import does not throw", async () => {
+  const src = fileURLToPath(new URL("../scripts/design-loop.mjs", import.meta.url));
+  const run = spawnSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify("file://" + src)})`, "no-such-file"], { encoding: "utf8" });
+  expect(run.stderr).toBe("");
+  expect(run.status).toBe(0);
+});
+
 test("given Playwright is in neither the project nor beside the script, the error names the exact install command", async () => {
   const empty = out();
   await expect(loadChromium(empty, empty)).rejects.toThrow(/npm i --no-save playwright && npx playwright install chromium/);

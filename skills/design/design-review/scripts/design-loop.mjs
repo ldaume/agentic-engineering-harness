@@ -356,5 +356,6 @@ async function main(argv) {
   }
 }
 
+function sameFile(a, b) { try { return realpathSync(a) === realpathSync(b); } catch { return false; } }
 // Compare real paths: an installed Skill is started through a symlink.
-if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) await main(process.argv.slice(2));
+if (process.argv[1] && sameFile(process.argv[1], fileURLToPath(import.meta.url))) await main(process.argv.slice(2));
