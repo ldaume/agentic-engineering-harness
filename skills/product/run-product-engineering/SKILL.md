@@ -163,6 +163,10 @@ invent a root cause without a feedback loop.
 
 ## 7. Review Outcome and Evolve
 
+Load [`product-craft/references/vocabulary.md`](../product-craft/references/vocabulary.md)
+before judging a bet, a flow, or delivery performance and name each gap by its
+term (discovery, flow metrics, DORA metrics, team types).
+
 At the agreed observation boundary, compare the actual outcome with the bet,
 cost, risk, and externalities. End with one explicit decision:
 
