@@ -3082,12 +3082,12 @@
     "browser-testing"
    ],
    "findings": [
-    "Version 1.64.1, Apache-2.0, verified with npm view on 2026-10-21.",
+    "Version 1.65.1, Apache-2.0, verified with npm view on 2026-11-24.",
     "toHaveScreenshot baselines differ across OS and fonts; generate them on the CI OS."
    ],
    "limits": "Proves scripted behavior, not usability.",
    "revisit": "New minor with breaking config changes.",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "evidence_level": "verified"
   },
@@ -3103,12 +3103,12 @@
     "tooling"
    ],
    "findings": [
-    "Version 13.5.0, Apache-2.0.",
+    "Version 13.6.0, Apache-2.0, verified with npm view on 2026-11-24.",
     "Lab results come from one synthetic device; Core Web Vitals pass or fail is a field property."
    ],
    "limits": "Lab only; the accessibility score is a weighted subset of axe rules.",
    "revisit": "New major version.",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "evidence_level": "verified"
   },
@@ -3449,6 +3449,268 @@
    "limits": "Design convention, not an experiment. Known only from search-result summaries; the page was not opened in this run.",
    "evidence_level": "context-dependent",
    "revisit": "Open the primary text; any controlled study of calm-technology patterns."
+  },
+  {
+   "id": "SRC-FLOW-033",
+   "title": "AI Engagement: Quantitative UX Insights 2026",
+   "url": "https://baymard.com/research-articles/ai-engagement-quantitative-ux-insights-2026",
+   "publisher": "Baymard Institute",
+   "published": "2026-10-27",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "ai",
+    "ai-interfaces",
+    "feedback"
+   ],
+   "findings": [
+    "Shoppers preferred a chatbot for low-stakes research: comparing features 63%, checking stock 59%, personalized recommendations 56%.",
+    "For order problems they preferred a human: damaged or incorrect items 69%, late or missing orders 67%, shipping or billing mistakes 66%.",
+    "Guidance: keep human support easy to reach, make escalation prominent, offer transparent self-service when no live support exists, and avoid trapping people in bot loops."
+   ],
+   "limits": "One vendor survey on e-commerce shoppers; sample and method not read in this run (opened the page, took the stated shares). Not evidence for non-commerce products.",
+   "evidence_level": "supported",
+   "revisit": "Baymard's next AI engagement update or a study outside e-commerce."
+  },
+  {
+   "id": "SRC-FLOW-034",
+   "title": "Design Patterns For AI Interfaces",
+   "url": "https://www.smashingmagazine.com/2025/07/design-patterns-ai-interfaces/",
+   "publisher": "Smashing Magazine (Vitaly Friedman)",
+   "published": "2025-07-14",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "ai",
+    "ai-interfaces",
+    "agentic-ui"
+   ],
+   "findings": [
+    "Argues chat is rarely a great paradigm because people must articulate intent; task-oriented controls (sliders, buttons, presets, templates) gain ground, with AI supplying options.",
+    "Presets let people refine output without long prompts; highlighting part of an output and acting on that selection beats a global prompt.",
+    "AI features belong where the work happens (co-pilots in everyday tools)."
+   ],
+   "limits": "Practitioner article with product examples, no measured outcomes. 'Inline suggestions' is not a named pattern in it; the rule here extends its point about contextual actions.",
+   "evidence_level": "supported",
+   "revisit": "A controlled comparison of chat and task UI."
+  },
+  {
+   "id": "SRC-A11Y-029",
+   "title": "Regulation (EU) 2024/1689 (AI Act), Article 50: transparency obligations",
+   "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+   "publisher": "European Union",
+   "published": "2024-06-13",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "regulation",
+    "ai",
+    "ai-interfaces"
+   ],
+   "findings": [
+    "Providers of systems that interact directly with people must ensure they are informed it is an AI system, unless obvious to a reasonably well-informed, observant, and circumspect person.",
+    "Providers of systems generating synthetic audio, image, video, or text must mark outputs in a machine-readable format, detectable as artificially generated or manipulated, where technically feasible.",
+    "Deployers of systems that generate or manipulate image, audio, or video constituting a deep fake must disclose it; AI text published to inform the public on matters of public interest is also covered, with exceptions.",
+    "Secondary sources state the obligations apply from 2026-08-02; one analysis notes a proposed delay (Digital Omnibus) could affect the para. 2 marking duty."
+   ],
+   "limits": "EUR-Lex pages returned no text to the fetch tool in this run, so the wording was read from the mirror artificialintelligenceact.eu/article/50 and the dates from search summaries, not from EUR-Lex. Paraphrased, not legal advice; Commission guidelines on Article 50 exist and were not read.",
+   "evidence_level": "supported",
+   "revisit": "Open Article 50 and Article 113 on EUR-Lex; the Commission Article 50 guidelines; status of the Digital Omnibus delay."
+  },
+  {
+   "id": "SRC-A11Y-030",
+   "title": "FTC approves final order requiring accessiBe to pay $1 million",
+   "url": "https://ftc.gov/news-events/news/press-releases/2025/04/ftc-approves-final-order-requiring-accessibe-pay-1-million",
+   "publisher": "U.S. Federal Trade Commission",
+   "published": "2025-04-22",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "regulation",
+    "tooling"
+   ],
+   "findings": [
+    "The final order bars accessiBe from representing that its automated products make any website WCAG-compliant unless it has evidence, and from claiming they keep a site compliant over time without evidence.",
+    "Per search summaries of the case: $1 million payment, and disguised advertising as third-party reviews (not re-read on the page)."
+   ],
+   "limits": "Press release opened; the order text itself was not. The order binds one company and says the claim was unsubstantiated; it does not test every overlay.",
+   "evidence_level": "supported",
+   "revisit": "Court or FTC action on other overlay vendors; the order text."
+  },
+  {
+   "id": "SRC-TOOL-009",
+   "title": "Teaching agents product design at Vercel",
+   "url": "https://vercel.com/blog/teaching-agents-product-design-at-vercel",
+   "publisher": "Vercel (John Phamous)",
+   "published": "2026-06-25",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "design-systems",
+    "agents",
+    "tooling"
+   ],
+   "findings": [
+    "Three parts: a repository agent skill with the reasoning behind decisions (routed by mode to reference files), deterministic linters for clear rules, and a review loop that gathers evidence and prepares guideline updates for human review.",
+    "Rule format: stable rule id tied to a canonical source, a direct statement with prohibitions, rationale, exceptions, and bad/good examples.",
+    "Observable decisions, not adjectives."
+   ],
+   "limits": "One company's account, no measured effect on agent output in what was read. Opened 2026-11-24.",
+   "evidence_level": "supported",
+   "revisit": "Measured results from agent-ready design systems; later Vercel posts."
+  },
+  {
+   "id": "SRC-PROD-035",
+   "title": "Design systems in the time of AI",
+   "url": "https://bradfrost.com/blog/post/design-systems-in-the-time-of-ai/",
+   "publisher": "Brad Frost",
+   "published": "2023-02-21",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "design-systems",
+    "agents",
+    "tokens"
+   ],
+   "findings": [
+    "Frames AI as a natural consumer of a design system: well-typed components with defined props and values, semantic tokens, and consistent patterns make generation predictable.",
+    "Frost's later 'AI-ready design systems' material (course and talks) was seen only in search summaries."
+   ],
+   "limits": "The 2023 post implies rather than prescribes agent-readiness practices; later material not opened. Practitioner opinion.",
+   "evidence_level": "context-dependent",
+   "revisit": "Open Frost's later AI-ready design systems writing."
+  },
+  {
+   "id": "SRC-FLOW-035",
+   "title": "Evaluating AI-Simulated Behavior: Insights from Three Studies on Digital Twins and Synthetic Users",
+   "url": "https://www.nngroup.com/articles/ai-simulations-studies/",
+   "publisher": "Nielsen Norman Group (Raluca Budiu)",
+   "published": "2025-08-15",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "ux-research",
+    "ai",
+    "discovery"
+   ],
+   "findings": [
+    "Digital twins built on survey data predicted skipped or never-asked answers with about 78% accuracy; twins built from two-hour interviews reached about 85% on survey questions.",
+    "On new questions accuracy dropped to 67% and population-level correlation to r=0.68.",
+    "Synthetic users captured general trends but missed the size of effects and showed less variability than real people.",
+    "Bias persisted: lower accuracy for some socioeconomic and racial groups."
+   ],
+   "limits": "NN/g summary of three studies read via the summary only; underlying papers not opened. Social-science survey tasks, not usability behavior.",
+   "evidence_level": "supported",
+   "revisit": "The underlying studies; usability-specific evaluations of synthetic users."
+  },
+  {
+   "id": "SRC-FLOW-037",
+   "title": "Intent Prototyping: A Practical Guide To Building With Clarity (Part 2)",
+   "url": "https://www.smashingmagazine.com/2025/10/intent-prototyping-practical-guide-building-clarity/",
+   "publisher": "Smashing Magazine (Yegor Gilyov)",
+   "published": "2025-10-03",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "ai",
+    "ux-research",
+    "discovery"
+   ],
+   "findings": [
+    "Static mockups show appearance but not system behavior; a live prototype with realistic data can test structure and appearance. Tools match risks: Figma for visual design, Axure for conditional flows, code-based prototypes for data-heavy apps.",
+    "Vibe-coded prototypes without a stable spec tend to accumulate structural problems and design debt; engineers may reverse-engineer them.",
+    "LLMs are non-deterministic and drop details (a missing Delete button in a generated spec): human review is needed."
+   ],
+   "limits": "Practitioner method; the article treats the reviewed prototype and spec as a handoff aid. The rule 'never production code or the spec by itself' is the owner's wording of its caveats. Part 1 (2025-09-24) was seen only in search summaries.",
+   "evidence_level": "supported",
+   "revisit": "Measured outcomes of intent prototyping; a part 3."
+  },
+  {
+   "id": "SRC-PROD-036",
+   "title": "Dark Mode vs. Light Mode: Which Is Better?",
+   "url": "https://www.nngroup.com/articles/dark-mode/",
+   "publisher": "Nielsen Norman Group (Raluca Budiu)",
+   "published": "2020-02-02",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "product-interfaces",
+    "tokens",
+    "accessibility"
+   ],
+   "findings": [
+    "Light mode generally performed better for people with normal vision in studies of acuity, proofreading, and glanceable reading; the gain grows with smaller fonts and bright ambient light can erase it.",
+    "Dark mode may help some low-vision users, for example with cataracts.",
+    "Recommendation: keep light as the default for a general population, offer dark mode, and follow the OS dark-mode API."
+   ],
+   "limits": "A 2020 review of mostly small lab studies; a 7-participant 2018 study on long-term effects is treated as a possible cost, not a finding. Opened 2026-11-24.",
+   "evidence_level": "supported",
+   "revisit": "Newer readability studies on modern displays."
+  },
+  {
+   "id": "SRC-PROD-037",
+   "title": "A calmer interface for a product in motion",
+   "url": "https://linear.app/now/behind-the-latest-design-refresh",
+   "publisher": "Linear (Charlie Aufmann, Maxime Heckel)",
+   "published": "2026-03-12",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "product-interfaces",
+    "visual-craft"
+   ],
+   "findings": [
+    "Linear dimmed the navigation sidebar so the main work area takes precedence; the sidebar had stayed prominent after people reached their destination.",
+    "Principle quoted: 'Don't compete for attention you haven't earned'; navigation supports orientation and should recede while task content stays in focus.",
+    "Search summaries add compact tabs and fewer, smaller icons (not re-read on the page)."
+   ],
+   "limits": "One product's design decision, no measured effect. Opened via fetch summary; contrast of the dimmed sidebar not checked against WCAG.",
+   "evidence_level": "context-dependent",
+   "revisit": "Measured effect, or other dense tools adopting the pattern."
+  },
+  {
+   "id": "SRC-WEB-032",
+   "title": "Best practices for fonts",
+   "url": "https://web.dev/articles/font-best-practices",
+   "publisher": "web.dev (Google)",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "performance",
+    "web-experiences"
+   ],
+   "findings": [
+    "Use fewer web fonts; system fonts and variable fonts reduce requests.",
+    "Use WOFF2 only; subset and use unicode-range.",
+    "Preload critical fonts sparingly because it competes with other resources.",
+    "font-display: optional favors performance, swap shows text quickly, block favors the font's appearance; size-adjust reduces layout shift against the fallback."
+   ],
+   "limits": "The page opened does not mention ascent-override, descent-override, or line-gap-override; those @font-face descriptors are cited from general platform knowledge and should be checked on MDN. The page shows no date. 'At most two families' is a practitioner ceiling, not stated as a number there.",
+   "evidence_level": "supported",
+   "revisit": "Open MDN for the override descriptors; Baseline status of size-adjust."
+  },
+  {
+   "id": "SRC-WEB-033",
+   "title": "Every Layout: Axioms",
+   "url": "https://every-layout.dev/rudiments/axioms/",
+   "publisher": "Every Layout (Heydon Pickering, Andy Bell)",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "css",
+    "responsive-layout"
+   ],
+   "findings": [
+    "Fixed widths and heights are anathema to responsive design; set tolerances (maximums) instead.",
+    "max-inline-size takes any length up to a maximum in any writing mode; set measure in ch, not px, so it scales with font size.",
+    "Measure axiom: line length should not exceed 60ch."
+   ],
+   "limits": "A practitioner convention book, not a reading study; the page shows no date. Complements the 45-90 character range in SRC-WEB-018.",
+   "evidence_level": "context-dependent",
+   "revisit": "Evidence on measure in ch versus other approaches."
   }
  ]
 }

@@ -52,6 +52,14 @@ Keep a `rem` term in every `clamp()` so browser zoom still scales the text;
 a size set only in viewport-width units ignores zoom (supported; WCAG 1.4.4
 resize text, not listed in the registry's findings) [SRC-A11Y-001].
 
+## Intrinsic layout
+
+Set tolerances, not fixed widths: `max-inline-size` around `60ch` for text,
+`min()` and `clamp()` for sizes, and let the browser fit content to the
+container, because a fixed width breaks at the container or zoom level nobody
+tested (convention; Every Layout) (context-dependent) [SRC-WEB-033]. Express
+measure in `ch`, not `px`, so it scales with the font.
+
 ## Grid and density
 
 - One grid per site, with a content measure that respects the line-length

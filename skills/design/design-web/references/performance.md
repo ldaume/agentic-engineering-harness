@@ -67,6 +67,18 @@ All verified practice from web.dev [SRC-WEB-014] [SRC-WEB-015]:
      fetchpriority="high" alt="Finished courtyard garden, Hamburg-Ottensen, 2025">
 ```
 
+## Web fonts
+
+- At most two families, because each adds requests and layout risk
+  (supported) [SRC-WEB-032].
+- WOFF2 only, subset to the glyphs and scripts used (`unicode-range`).
+- Preload only the font of the LCP text; preloading more competes with other
+  critical resources.
+- `font-display: swap` with a metric-matched fallback (`size-adjust`, and
+  `ascent-override`, `descent-override`, `line-gap-override` on the fallback
+  `@font-face`) so the swap does not shift layout, or `optional` when
+  performance outranks the font (supported) [SRC-WEB-032].
+
 ## Motion and performance
 
 - Animate `transform` and `opacity`, not layout properties (`frontend-craft`

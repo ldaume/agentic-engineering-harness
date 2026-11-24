@@ -19,6 +19,9 @@ decision is theater; research results that were never collected are fiction.
   develop options, test, observe the effect after release.
 - **C - A new concept:** clarify the value and the audience, name the
   riskiest assumptions, test concept prototypes for behavior, iterate.
+  Prototype where the question lives (flow on paper, behavior and AI output
+  in code); a generated prototype is a probe, per
+  `design-core/references/intake-and-modes.md`.
 
 Details, steps, and exit criteria: `references/research-golden-paths.md`.
 
