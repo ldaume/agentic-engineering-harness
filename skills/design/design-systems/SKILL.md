@@ -23,8 +23,13 @@ encodes a guess; never abstract and every team re-solves focus handling.
    foreground pairs (context-dependent) [SRC-PROD-023].
 3. Author tokens in the DTCG 2025.10 format, a stable Community Group report,
    not a W3C Standard; do not implement from the drafts URL (verified)
-   [SRC-PROD-001] [SRC-PROD-002]. Keep themes as separate token sets until
-   the resolver spec is stable (context-dependent) [SRC-PROD-003].
+   [SRC-PROD-001] [SRC-PROD-002]. Express themes and modes (light, dark, high
+   contrast, density, reduced motion) as resolver documents per the Resolver
+   Module 2025.10, also a stable Final Community Group report and not a W3C
+   Standard (verified) [SRC-PROD-031]. Test tool support before relying on it:
+   Style Dictionary support is unverified, so keep a separate-token-set
+   fallback until your build resolves a resolver document (supported)
+   [SRC-PROD-004].
 4. Check color pairs: `scripts/contrast.py --tokens tokens.json --pairs
    pairs.json` (WCAG 2 ratio: 4.5:1 text, 3:1 large text and UI). APCA is
    informational only, because conformance is judged by WCAG 2.

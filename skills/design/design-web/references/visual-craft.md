@@ -156,5 +156,5 @@ A regional organic bakery chain with twelve shops.
 - No independent evidence for or against the "generic AI look"; only a
   vendor blog.
 - No reading study behind fluid type; it is a practitioner method.
-- Baseline status of container queries was not captured from MDN in this
-  research.
+- Container queries are Baseline Widely available since 2025-08-14 (verified,
+  read 2026-11-24) [SRC-WEB-030]; other features: `baseline-css.md`.
