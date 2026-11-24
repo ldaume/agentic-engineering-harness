@@ -37,6 +37,18 @@ meeting"). Then apply to every number:
 9. Judge a verdict against a target (reached, above, below) by the interval,
    not the point estimate. When the interval contains the target, write
    "likely, not proven" and show the interval and the sample size.
+10. Prefer a numeric range to a verbal hedge: "between 30% and 44%" over
+    "fairly uncertain". In experiments, a numeric range cost little trust and a
+    verbal hedge cost more (van der Bles et al., PNAS 2020, abstract read on
+    2026-11-24; `SRC-WRITE-045` in the writing-core registry).
+11. State the denominator and the absolute change before any relative change:
+    "from 40 to 50 of 200 requests (20% to 25%, +5 points, 25% more)", never
+    "+25%" alone.
+12. Write numbers in the language's own format. German: decimal comma,
+    thousands point, an ordinary space before the percent sign ("37 %",
+    "1.500", "2,5"); English: decimal point, thousands comma, no space
+    ("37%", "1,500"). Always an ordinary space, never a no-break space (the
+    plain-punctuation rule).
 
 Check the figures against the source data before writing prose around them.
 

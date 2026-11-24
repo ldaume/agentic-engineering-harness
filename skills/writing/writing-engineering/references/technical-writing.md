@@ -18,10 +18,29 @@
 - Descriptive link text and descriptive headings.
 - State versions and dates for anything that changes.
 
+## Page type
+
+Route each page to one of four types before drafting, and keep one type per
+page: a tutorial (learning by doing, guided), a how-to guide (a competent
+reader's goal), reference (accurate, neutral facts that mirror the thing
+described), or explanation (why, context). Blurring the types is a common
+source of weak documentation; link to the other type instead of mixing it in
+(Diataxis, opened 2026-11-24; `SRC-WRITE-046`).
+
 ## Architecture
 
 Purpose, prerequisites, concept or model, procedure, verification, failure
 and recovery, related decisions.
+
+## ADR prose
+
+Follow the MADR 4 sections (MADR 4.0.0, 2024-09-17): title (problem and
+solution in a short phrase), context and problem statement, decision drivers
+(optional), considered options, decision outcome with consequences and
+confirmation (both optional), pros and cons of the options (optional), more
+information (optional) (`SRC-WRITE-047`). This reference covers the prose
+only; whether a change needs an ADR and what the decision is belong to
+`documentation-and-adrs`.
 
 ## Anti-patterns
 

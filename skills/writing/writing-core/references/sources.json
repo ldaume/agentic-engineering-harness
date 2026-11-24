@@ -881,6 +881,65 @@
    "limits": "Opened on 2026-11-24 (page text partly read through a summarizing fetch tool); no revision date is shown, the page says \"As of October 2026\". A living page: re-read before an audit.",
    "evidence_level": "supported",
    "revisit": "re-read before each audit"
+  },
+  {
+   "id": "SRC-WRITE-045",
+   "title": "van der Bles, van der Linden, Freeman, Spiegelhalter (2020). The effects of communicating uncertainty on public trust in facts and numbers. PNAS 117(14), 7672-7683",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7149229/",
+   "publisher": "PNAS",
+   "published": "2020",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "editorial",
+    "numbers",
+    "en"
+   ],
+   "findings": [
+    "Five experiments (n = 5,780, including a BBC News field experiment): people perceive more uncertainty when it is communicated, but trust in the numbers and the source falls only a little, and mostly for verbal uncertainty communication."
+   ],
+   "limits": "Abstract opened via PubMed Central on 2026-11-24; the body was not read. Study populations are UK and US adults; effects are small, so the rule is a preference, not a guarantee.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-046",
+   "title": "Diataxis: a systematic approach to technical documentation",
+   "url": "https://diataxis.fr/",
+   "publisher": "Daniele Procida",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "framework",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "Four documentation types for four user needs: tutorials, how-to guides, reference, explanation.",
+    "Crossing or blurring the boundaries between them is named as the root of many documentation problems."
+   ],
+   "limits": "Home and start-here pages opened on 2026-11-24; the page states no explicit one-type-per-page rule, so that rule is this catalog's inference from the boundary guidance.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-047",
+   "title": "MADR 4.0.0 Markdown Architectural Decision Records",
+   "url": "https://adr.github.io/madr/",
+   "publisher": "ADR GitHub organization",
+   "published": "2024-09-17",
+   "accessed": "2026-11-24",
+   "type": "template",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "MADR 4.0.0 (2024-09-17) template sections: title, context and problem statement, decision drivers (optional), considered options, decision outcome with consequences and confirmation (optional), pros and cons of the options (optional), more information (optional)."
+   ],
+   "limits": "Project page opened on 2026-11-24; the template file was not read.",
+   "evidence_level": "verified",
+   "revisit": "on a new MADR release"
   }
  ]
 }
