@@ -2,6 +2,8 @@
 name: renovate
 license: MIT
 description: Configures, self-hosts, and diagnoses the Renovate dependency bot - renovate.json, packageRules, groups, schedules, minimumReleaseAge cooldowns, automerge, the Dependency Dashboard, custom regex managers, and a self-hosted run on GitHub Actions with a GitHub App token. Use when setting up or changing Renovate, when Renovate opens no pull requests or too few, when runs are green but nothing arrives, when dashboard items sit in Pending Status Checks or Pending Approval, when clearing a backlog of pending updates, or when the Renovate workflow or app permissions change. Not for reviewing or delivering a single update pull request, or for managed Skill pins.
+metadata:
+  vocabulary: vendor
 ---
 
 # Renovate

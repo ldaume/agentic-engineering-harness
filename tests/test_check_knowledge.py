@@ -203,6 +203,34 @@ class CheckVocabulary(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(ck.main(["--vocabulary"]), 0)
 
+    def run_root(self, *flags: str) -> tuple[int, str]:
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = ck.main(["--vocabulary", "--root", str(self.root), *flags])
+        return code, out.getvalue()
+
+    def test_given_a_root_with_one_skill_without_vocabulary_when_checked_then_one_warning(self) -> None:
+        skill(self.root / "skills", "html-decks")
+        code, out = self.run_root()
+        self.assertEqual(code, 0)
+        self.assertEqual(out.count("warn "), 1, out)
+        self.assertIn("html-decks: no references/vocabulary.md", out)
+        self.assertIn("1 skills without a vocabulary", out)
+
+    def test_given_a_skill_without_vocabulary_when_run_strict_then_exit_one(self) -> None:
+        skill(self.root / "skills", "html-decks")
+        code, _ = self.run_root("--strict")
+        self.assertEqual(code, 1)
+
+    def test_given_only_exact_rows_without_rule_id_when_run_strict_then_exit_zero(self) -> None:
+        row = ROW.replace("exact `wcag.lineLength`", "exact")
+        skill(self.root / "skills", "design-core", vocabulary=HEADER + row)
+        (self.root / "skills" / "design" / "design-core" / "references" / "sources.json").write_text(
+            json.dumps({"sources": [{**SOURCE, "accessed": ck.date.today().isoformat()}]}))
+        code, out = self.run_root("--strict")
+        self.assertEqual(code, 0, out)
+        self.assertIn("rule id", out)
+
     def test_given_the_catalog_when_checked_then_every_vocabulary_file_is_valid(self) -> None:
         known = set(ck.catalog_levels(ROOT / "skills"))
         for vocabulary in sorted((ROOT / "skills").rglob("references/vocabulary.md")):

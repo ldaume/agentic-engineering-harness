@@ -56,6 +56,12 @@ Details, steps, and exit criteria: `references/research-golden-paths.md`.
 - `references/templates.md` - research plan, interview guide, usability
   test script, synthesis format (DE and EN).
 
+## Review
+
+Load [`references/vocabulary.md`](references/vocabulary.md) before judging.
+Use its term when one fits; otherwise name the defect with the standard field
+term. Finish with an open sweep for anything outside the vocabulary.
+
 ## Done when
 
 The study answered a named decision question, findings separate observed
