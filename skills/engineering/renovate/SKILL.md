@@ -1,7 +1,7 @@
 ---
 name: renovate
 license: MIT
-description: Configures, self-hosts, and diagnoses the Renovate dependency bot - renovate.json, packageRules, groups, schedules, minimumReleaseAge cooldowns, automerge, the Dependency Dashboard, custom regex managers, and a self-hosted run on GitHub Actions with a GitHub App token. Use when setting up or changing Renovate, when Renovate opens no pull requests or too few, when runs are green but nothing arrives, when dashboard items sit in Pending Status Checks or Pending Approval, or when the Renovate workflow or app permissions change. Not for reviewing or delivering a single update pull request, or for managed Skill pins.
+description: Configures, self-hosts, and diagnoses the Renovate dependency bot - renovate.json, packageRules, groups, schedules, minimumReleaseAge cooldowns, automerge, the Dependency Dashboard, custom regex managers, and a self-hosted run on GitHub Actions with a GitHub App token. Use when setting up or changing Renovate, when Renovate opens no pull requests or too few, when runs are green but nothing arrives, when dashboard items sit in Pending Status Checks or Pending Approval, when clearing a backlog of pending updates, or when the Renovate workflow or app permissions change. Not for reviewing or delivering a single update pull request, or for managed Skill pins.
 ---
 
 # Renovate
@@ -96,6 +96,19 @@ merges.
 - Keep property tests next to the config for the rules that protect
   production (no major automerges, holds name their group, no duplicate
   readers), written as Given/When/Then.
+
+## Clear a backlog
+
+Release a backlog in batches of about three, never through the dashboard's
+"create all" checkboxes: those bypass `prHourlyLimit` and
+`prConcurrentLimit`, so one tick opens every pending pull request at once
+and each starts a full CI run. On shared or self-hosted runners that starves
+the queue, and a CI fix waits behind the flood. Tick single items, keep at
+most three dependency pull requests in a merge queue, and send patch, minor,
+and lockfile updates first. Take each major alone, and count a `0.x` minor
+as a major, because semver lets it break. If a flood already started, cancel
+the queued runs of the pull requests that wait for a person; a rerun
+restores them.
 
 ## Verify and finish
 
