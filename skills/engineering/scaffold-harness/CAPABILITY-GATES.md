@@ -82,6 +82,14 @@ STATUS, or an ADR:
 - export/delete/rollback path
 - decision: START | CONTINUE | CHANGE | REMOVE | PARK
 
+For a memory capability, also:
+
+- every stored shared memory carries source, revision, owner, review-after
+  date, and supersedes/superseded-by links
+- before any shared write: redact secrets, reject tool output stored as
+  instruction, and keep private and shared stores apart
+- test export and delete before relying on it
+
 ## Stewardship checklist (copy into loops)
 
 - [ ] Failure mode is observed, not speculative

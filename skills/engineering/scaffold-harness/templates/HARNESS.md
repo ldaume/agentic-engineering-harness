@@ -427,6 +427,14 @@ Keep that lane non-production and non-blocking unless the repository explicitly
 accepts the risk. Promote it only after upstream marks the line LTS, the used
 ecosystem passes representative checks, and the normal cooldown has elapsed.
 
+## Gate Commands
+
+Fast Check and Full Gates run the same locally and in CI, are idempotent,
+return a meaningful exit code, and need no secret that is not injected
+explicitly, so a green local run predicts CI. A gate prints only failures, as
+`path:line` plus the reason, and writes its full machine-readable report to a
+file: the agent reads the failure, not the log.
+
 ## Uncertainty
 
 - Investigate discoverable facts from repository and primary sources.
