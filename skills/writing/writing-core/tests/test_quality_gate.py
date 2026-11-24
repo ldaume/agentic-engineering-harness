@@ -44,6 +44,14 @@ class CommitGateTest(unittest.TestCase):
         self.assertEqual(result["warnings"], [])
 
 
+class GenderFormTest(unittest.TestCase):
+    def test_given_gender_colon_or_star_when_checked_then_no_error_or_warning(self):
+        text = "Alle Nutzer:innen und Entwickler*innen sehen den Export. Wir prüfen ihn heute."
+        result = check(text, "prose", "de")
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(result["warnings"], [])
+
+
 class ArtifactGateTest(unittest.TestCase):
     def test_given_marketing_email_without_preview_when_checked_then_error(self):
         self.assertTrue(check("Subject: New export\n\nHi,\n\nbody", "marketing_email", "en")["errors"])

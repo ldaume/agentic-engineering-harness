@@ -11,6 +11,13 @@ family loaded still carried the patterns below, and the reviewer named them
 tells, and its loanword rule pushed toward German words the audience does not
 use. This file and the gate's `ai-tell` warnings close that gap.
 
+Tells are probabilistic and decay with each model generation: Wikipedia's
+list of signs is descriptive, not proof, and says older indicators are much
+rarer in newer models (supported) [SRC-WRITE-044]. Edit for the reader, not
+for a detector, and re-read the live list before an audit. The German tell
+list in this file is practitioner observation, not a measured result
+(hypothesis).
+
 ## The pass
 
 Run it as its own edit pass, after the line edit and before the copy edit,
@@ -63,22 +70,36 @@ Start with the point.
 Mehrwert`. Replace with the specific claim or cut. The catalog's
 `scripts/audit-skills.py` keeps the longer English list for Skill text.
 
+**Em dash.** Wikipedia's "Signs of AI writing" lists em-dash overuse as a
+historical indicator (section dated 2022 to September 2026, page read
+2026-11-24, no revision date shown) and says it is most useful in combination
+with other indicators (supported) [SRC-WRITE-044]. Keep the rule against the
+dash as a universal connector, but there is no ban: a dash for rhythm is
+fine. Third-party humanizer or copywriting Skills that ban the em dash
+outright are stale on this point; this rule wins.
+
 ## Terms the audience uses
 
-The reader's own term wins over a translation the writer invents. For a
-technical audience that is the term in the code, the API, the docs, or the
-team's glossary (`CONTEXT.md` or similar): "Knowledge Store", not
-"Wissensspeicher"; "Rate Limit", not "Abfragelimit"; "Retry", not
-"Wiederholungsversuch". Germanizing an established term is as wrong as an
-invented Denglisch compound: both make the reader translate back.
+The term the target group uses daily wins over a translation the writer
+invents, in both directions, whether English or German. For an IT audience
+an established anglicism stays: "Knowledge Store", "Rate Limit", "Retry",
+"Row-Level Security", "Service Account", "Secrets", "Drift", "Quota", not
+"Wissensspeicher", "Abfragelimit", "Wiederholungsversuch", "Zeilenrechte",
+"Dienstkonto", "Geheimnisse", "Abweichungen", "Kontingent". An established
+German term stays where the group uses it: "Mandantentrennung" (not an
+invented "Kundentrennung", not "Tenant Isolation" for German IT readers),
+"Aufbewahrungsfristen" for data protection readers. An invented Denglisch
+compound is wrong, and so is Germanizing an established term: both make the
+reader translate back.
 
-Before writing for a technical audience, collect the terms from the source
-and pass them to the gate:
+Find the terms in the group's own texts before writing (their emails,
+tickets, wiki, code, the standard they work by), not by instinct. Explain a
+term once when the group may not know it, then keep using it. Collect the
+terms and pass them to the gate:
 
 ```json
 {"terms": {"Knowledge Store": ["Wissensspeicher"], "Rate Limit": ["Abfragelimit"]}}
 ```
 
 The gate matches a variant inside longer words, so inflections and compounds
-are caught. For a non-technical audience the rule flips only where the
-reader does not know the term: explain it once, keep using it.
+are caught.
