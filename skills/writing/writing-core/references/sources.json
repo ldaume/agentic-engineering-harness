@@ -724,6 +724,26 @@
    "limits": "Read from a local PDF copy of v3.0 (January 2024); the web URL was not opened in this session. Licensed CC BY-NC-ND 4.0: cite, do not adapt.",
    "evidence_level": "verified",
    "revisit": "A FaST Guide version after 3.0."
+  },
+  {
+   "id": "SRC-WRITE-037",
+   "title": "ISO 24495-1:2023 Plain language - Part 1: Governing principles and guidelines",
+   "url": "https://www.iso.org/standard/78907.html",
+   "publisher": "ISO",
+   "published": "2023",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "de",
+    "en"
+   ],
+   "findings": [
+    "Plain language standard: readers find what they need, understand it, and use it; principles are relevance, findability, clarity (sentences, paragraphs, structure), and succinctness."
+   ],
+   "limits": "Cited by standard number. The iso.org page returned 403 on 2026-11-24 and the URL was not opened; the standard text was not seen. The numeric targets in the reference-page profile are local working values, not values from the standard.",
+   "evidence_level": "hypothesis",
+   "revisit": "open the ISO 24495-1:2023 abstract when iso.org is reachable and confirm the URL"
   }
  ]
 }

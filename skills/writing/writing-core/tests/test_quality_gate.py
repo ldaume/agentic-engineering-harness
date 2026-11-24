@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from quality_gate import check  # noqa: E402
-from readability import diagnostics  # noqa: E402
+from readability import diagnostics, html_blocks, html_sections  # noqa: E402
 
 
 class ReadabilityTest(unittest.TestCase):
@@ -223,6 +223,62 @@ class TermGateTest(unittest.TestCase):
         facts = {"terms": {"Rate Limit": ["Abfragelimit"]}}
         result = check("Das Abfragelimits greift.", "slides", "de", facts)
         self.assertTrue(result["errors"])
+
+
+PAGE = """<html><body>
+<section id="intro"><h2>Intro</h2>
+<div class="chips"><span>Chip one</span></div>
+<p><span class="l-en">The export is ready.</span> <span class="l-de">Der Export ist bereit.</span></p>
+<ul><li>Outer item <ul><li>Inner item one</li><li>Inner item two</li></ul> tail</li></ul>
+<table><tr><td>Cell alpha</td><td>Cell beta</td></tr></table>
+<script>var s = "Script words here.";</script>
+<div class="mermaid">graph TD; A-->B;</div>
+</section>
+<section id="detail"><h2>Detail</h2><dl><dd>One more sentence.</dd></dl></section>
+</body></html>"""
+
+
+class HtmlInputTest(unittest.TestCase):
+    def test_given_page_when_extracted_then_only_prose_blocks_remain(self):
+        blocks = [b for _, b in html_blocks(PAGE)]
+        joined = " ".join(blocks)
+        for noise in ("Cell alpha", "Script words", "graph TD", "Chip one"):
+            self.assertNotIn(noise, joined)
+        self.assertIn("The export is ready. Der Export ist bereit.", blocks)
+
+    def test_given_nested_lists_when_extracted_then_items_stay_separate(self):
+        blocks = [b for _, b in html_blocks(PAGE)]
+        self.assertIn("Outer item", blocks)
+        self.assertIn("Inner item one", blocks)
+        self.assertIn("Inner item two", blocks)
+        self.assertIn("tail", blocks)
+
+    def test_given_language_class_when_extracted_then_other_language_is_dropped(self):
+        text = " ".join(b for _, b in html_blocks(PAGE, lang_class="l-de"))
+        self.assertIn("Der Export ist bereit.", text)
+        self.assertNotIn("The export is ready.", text)
+
+    def test_given_page_when_reported_per_section_then_each_section_has_counts(self):
+        report = {r["section"]: r for r in html_sections(PAGE, "en", "l-en")}
+        self.assertEqual(set(report), {"intro", "detail"})
+        self.assertEqual(report["detail"]["words"], 3)
+        self.assertEqual(report["intro"]["words"], 4 + 2 + 3 + 3 + 1)
+        self.assertIn("lix", report["intro"])
+
+
+class EnumerationGateTest(unittest.TestCase):
+    def test_given_enumeration_chain_when_checked_then_list_warning(self):
+        result = check("We ship the parser, the gate, the report and the tests.", "prose", "en")
+        self.assertTrue(any("enumeration" in w for w in result["warnings"]))
+
+    def test_given_two_semicolons_when_checked_then_list_warning(self):
+        result = check("The gate reads text; it counts words; it prints a report.", "prose", "en")
+        self.assertTrue(any("semicolons" in w for w in result["warnings"]))
+
+    def test_given_german_decimals_and_pair_when_checked_then_no_warning(self):
+        text = "Der Wert liegt bei 1,5 und 2,5 oder 3,5. Wir prüfen Text und Tabellen."
+        result = check(text, "prose", "de")
+        self.assertFalse([w for w in result["warnings"] if "list" in w])
 
 
 if __name__ == "__main__":

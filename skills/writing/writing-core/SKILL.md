@@ -90,7 +90,8 @@ Load only what the task needs:
 - `references/de-style.md`, `references/en-style.md`: house style per language.
 - `references/verification.md`: claim classes, fact checks, test fixtures.
 - `references/quality-model.md`: 0 to 4 rubric, gate thresholds, readability
-  formulas and per-artifact gates.
+  formulas, per-artifact gates and the reference-page profile. Both scripts
+  read HTML (`.html` or `--html`, `--lang-class`, `--sections`).
 
 ## Done when
 
@@ -108,7 +109,7 @@ in CI. `tests/run_evals.py routing --host claude|codex` replays
 host actually loads; run it after changing any description.
 
 `references/sources.json` is the evidence registry for all five writing
-skills (36 sources opened on 2026-10-21, each with access date, findings,
+skills (37 sources opened on 2026-10-21, each with access date, findings,
 limits, evidence level, and a revisit trigger); rules cite it as
 `[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
 citation without an entry.

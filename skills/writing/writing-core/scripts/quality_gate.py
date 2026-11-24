@@ -5,7 +5,9 @@ unsourced claims, artifact-specific anti-patterns. Meaning, tone, and native
 phrasing stay with the agent's semantic review.
 
 Usage:
-    quality_gate.py --artifact commit --lang en [--facts facts.json] [FILE|-]
+    quality_gate.py --artifact commit --lang en [--facts facts.json] [--html] [--lang-class l-de] [FILE|-]
+
+HTML input (a .html file or --html) is reduced to prose in p, li, dd first.
 
 facts.json: {"facts": [...], "forbidden_claims": [...],
              "terms": {"Preferred Term": ["avoided variant", ...]}}
@@ -21,7 +23,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from readability import WORD_RE, diagnostics  # noqa: E402
+from readability import WORD_RE, diagnostics, read_input, sentences  # noqa: E402
 
 # Each required part is a regex that may match DE or EN wording.
 WHY = r"(?im)^#+\s*(why|warum|context|kontext|hintergrund|motivation|problem)\b"
@@ -129,6 +131,12 @@ AI_TELLS: dict[str, str] = {
     "'echter Mehrwert' / 'real value' claims value without naming it":
         r"(?i)\becht\w* Mehrwert\b|\breal value\b",
 }
+
+# Three or more short comma items before "and/or": a list in running prose. Items
+# must start with a letter and be followed by ", " so German decimals ("1,5") and
+# number lists never match.
+_ITEM = r"[^\W\d_][\w'-]*(?:\s[\w'-]+){0,2}"
+ENUMERATION = re.compile(rf"(?i)\b(?:{_ITEM},\s+){{2,}}{_ITEM},?\s+(?:and|und|or|oder)\s")
 
 GENERIC_COMMIT = re.compile(
     r"(?i)^(\w+(\(.+\))?:\s*)?"
@@ -239,6 +247,13 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
     if diag.get("long_sentences"):
         warnings.append(f"readability: {diag['long_sentences']} sentence(s) over 25 words")
 
+    if rules.get("sentences"):
+        for sentence in sentences(text):
+            if ENUMERATION.search(sentence):
+                warnings.append(f"list: enumeration chain in running prose, consider a list: {sentence[:60]!r}")
+            if sentence.count(";") >= 2:
+                warnings.append(f"list: {sentence.count(';')} semicolons in one sentence, consider a list: {sentence[:60]!r}")
+
     return {"artifact": artifact, "language": language, "errors": errors, "warnings": warnings, "diagnostics": diag}
 
 
@@ -249,9 +264,11 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--artifact", required=True, choices=sorted(ARTIFACTS))
     parser.add_argument("--lang", default="en")
     parser.add_argument("--facts", help="JSON file with facts, forbidden_claims and terms")
+    parser.add_argument("--html", action="store_true", help="parse HTML (automatic for .html files)")
+    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
-    text = sys.stdin.read() if args.file == "-" else Path(args.file).read_text(encoding="utf-8")
+    text = read_input(args.file, args.html, args.lang_class)
     facts = json.loads(Path(args.facts).read_text(encoding="utf-8")) if args.facts else None
     result = check(text, args.artifact, args.lang, facts)
     print(json.dumps(result, indent=2, ensure_ascii=False))

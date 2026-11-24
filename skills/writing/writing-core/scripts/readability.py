@@ -10,6 +10,7 @@ from __future__ import annotations
 import math
 import re
 import sys
+from html.parser import HTMLParser
 from dataclasses import dataclass
 
 WORD_RE = re.compile(r"[^\W\d_]+(?:['\u2019-][^\W\d_]+)*")
@@ -107,15 +108,128 @@ def diagnostics(text: str, language: str) -> dict[str, float | int]:
     return result
 
 
+VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+PROSE = {"p", "li", "dd"}
+# Everything else that starts or ends a block, so text never runs across it.
+BREAKS = {"ul", "ol", "dl", "dt", "div", "section", "article", "header", "footer", "blockquote",
+          "h1", "h2", "h3", "h4", "h5", "h6", "tr", "pre", "figure", "figcaption", "br"}
+
+
+class _Extractor(HTMLParser):
+    """Collects prose blocks (p, li, dd) with their section. Skips script, style,
+    tables, diagram source (class contains "mermaid") and, with lang_class, any
+    element carrying a sibling language class (same prefix, other suffix)."""
+
+    def __init__(self, lang_class: str | None) -> None:
+        super().__init__()
+        self.prefix = lang_class.rsplit("-", 1)[0] + "-" if lang_class and "-" in lang_class else None
+        self.lang_class = lang_class
+        self.stack: list[tuple[str, bool]] = []
+        self.skip = 0
+        self.prose: list[str] = []
+        self.buf: list[str] = []
+        self.out: list[tuple[str, str]] = []
+        self.section = ""
+        self.by_id = False
+        self.h2: list[str] | None = None
+
+    def flush(self) -> None:
+        text = " ".join("".join(self.buf).split())
+        self.buf = []
+        if text and self.prose:
+            self.out.append((self.section, text))
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        classes = (a.get("class") or "").split()
+        if tag in BREAKS or tag in PROSE:
+            self.flush()
+        if tag in VOID:
+            return
+        drop = (
+            tag in {"script", "style", "table"}
+            or any("mermaid" in c for c in classes)
+            or bool(self.prefix and any(c.startswith(self.prefix) and c != self.lang_class for c in classes))
+        )
+        self.stack.append((tag, drop))
+        self.skip += drop
+        if tag == "section" and a.get("id"):
+            self.section, self.by_id = a["id"], True
+        if tag == "h2" and not self.skip:
+            self.h2 = []
+        if tag in PROSE and not self.skip:
+            self.prose.append(tag)
+
+    def handle_endtag(self, tag):
+        if tag in VOID:
+            return
+        if tag in BREAKS or tag in PROSE:
+            self.flush()
+        if tag == "h2" and self.h2 is not None:
+            if not self.by_id:
+                self.section = " ".join("".join(self.h2).split())
+            self.h2 = None
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                for t, dropped in self.stack[i:]:
+                    self.skip -= dropped
+                    if t in PROSE and self.prose:
+                        self.prose.pop()
+                del self.stack[i:]
+                break
+
+    def handle_data(self, data):
+        if self.skip:
+            return
+        if self.h2 is not None:
+            self.h2.append(data)
+        self.buf.append(data)
+
+
+def html_blocks(html: str, lang_class: str | None = None) -> list[tuple[str, str]]:
+    """(section, prose block) pairs; a block always ends a sentence."""
+    parser = _Extractor(lang_class)
+    parser.feed(html)
+    parser.close()
+    parser.flush()
+    return parser.out
+
+
+def html_text(html: str, lang_class: str | None = None) -> str:
+    return "\n\n".join(b for _, b in html_blocks(html, lang_class))
+
+
+def html_sections(html: str, language: str, lang_class: str | None = None) -> list[dict]:
+    """Diagnostics per section (section[id], else the preceding h2)."""
+    grouped: dict[str, list[str]] = {}
+    for section, block in html_blocks(html, lang_class):
+        grouped.setdefault(section, []).append(block)
+    return [{"section": k, **diagnostics("\n\n".join(v), language)} for k, v in grouped.items()]
+
+
+def read_input(file: str, html: bool = False, lang_class: str | None = None) -> str:
+    text = sys.stdin.read() if file == "-" else open(file, encoding="utf-8").read()
+    if html or file.lower().endswith((".html", ".htm")):
+        return html_text(text, lang_class)
+    return text
+
+
 def main(argv: list[str]) -> int:
     import argparse
     import json
 
     parser = argparse.ArgumentParser(description="Readability diagnostics (warn-only).")
     parser.add_argument("--lang", default="en", help="de or en (default en)")
+    parser.add_argument("--html", action="store_true", help="parse HTML (automatic for .html files)")
+    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de")
+    parser.add_argument("--sections", action="store_true", help="HTML only: report per section")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
-    text = sys.stdin.read() if args.file == "-" else open(args.file, encoding="utf-8").read()
+    if args.sections:
+        raw = sys.stdin.read() if args.file == "-" else open(args.file, encoding="utf-8").read()
+        print(json.dumps(html_sections(raw, args.lang, args.lang_class), indent=2))
+        return 0
+    text = read_input(args.file, args.html, args.lang_class)
     print(json.dumps(diagnostics(text, args.lang), indent=2))
     return 0
 

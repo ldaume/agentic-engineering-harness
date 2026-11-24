@@ -58,6 +58,28 @@ unpublished benchmark mappings. Never label a local composite "HIX"; call it
 Rough orientation: Flesch DE above 60 or EN above 60 reads easily for a broad
 audience; LIX below 40 is plain, above 50 is dense specialist prose.
 
+## Reference-page profile (local targets)
+
+For reader-facing reference pages and documentation, plain-language practice
+(ISO 24495-1) suggests these targets (hypothesis) [SRC-WRITE-037]. They are
+local sensors that find passages to reread, not pass marks; a correct term or
+a necessary complex statement beats a better score.
+
+- German: mean sentence length at most 15 words, no sentence over 25. LIX at
+  most about 45, Flesch after Amstad at least about 50.
+- English: mean sentence length at most 20; Flesch Reading Ease at least
+  about 50.
+- One statement per sentence; a paragraph of at most 3 to 4 sentences.
+- Three or more enumerated things become a list; no chains of commas or
+  semicolons (the gate warns on both).
+- A heading or subhead at least every 150 to 300 words.
+- Report the values per section before and after the edit:
+  `python3 scripts/readability.py --lang de --lang-class l-de --sections PAGE.html`.
+
+HTML input counts prose in p, li and dd only. Table cells, script, style and
+diagram source (class contains `mermaid`) are skipped; each block ends a
+sentence, so nested list items stay separate.
+
 ## Gates per artifact
 
 What `scripts/quality_gate.py` decides (errors) and flags (warnings); the
