@@ -22,9 +22,9 @@ to `writing-engineering`.
 Reconstruct from the repository, ticket, diff, conversation, or documents:
 artifact, language, primary audience and what it already knows, intent, the
 reader's desired change (decide, understand, act), facts and evidence, real
-unknowns, tone, channel, and the terms this audience uses (code, API, docs,
-glossary), because a term the writer translates is one the reader must
-translate back. Ask only when a missing answer would change the
+unknowns, tone, channel, and the terms this audience uses daily, English or German
+(their emails, tickets, wiki, code, the standard they work by; not instinct),
+because a term the writer translates is one the reader must translate back. Ask only when a missing answer would change the
 artifact, because most gaps are recoverable from context and a question costs
 the user a round trip.
 
@@ -110,7 +110,7 @@ in CI. `tests/run_evals.py routing --host claude|codex` replays
 host actually loads; run it after changing any description.
 
 `references/sources.json` is the evidence registry for all five writing
-skills (37 sources opened on 2026-10-21, each with access date, findings,
+skills (44 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
 limits, evidence level, and a revisit trigger); rules cite it as
 `[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
 citation without an entry.
