@@ -53,6 +53,10 @@ Pairs for the contrast gate:
 
 ## Theming and dark mode
 
+- Follow the OS preference (`prefers-color-scheme`) with a three-way control
+  (system, light, dark), persisted; a general audience forced to one default
+  gets light (supported) [SRC-PROD-036]. Test every semantic pair in both
+  modes.
 - Themes override semantic tokens only, never component styles
   (context-dependent) [SRC-PROD-023].
 - In dark themes, raised surfaces step lighter; a component darker than its

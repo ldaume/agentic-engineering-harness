@@ -31,6 +31,39 @@ proposes, judge it, correct it, reject it, and undo it after the fact.
     metered action, or a paid call gets an estimate before it starts and a
     stop control while it runs (hypothesis).
 
+## Task UI before chat
+
+Default to task UI: presets, structured inputs, and inline suggestions on the
+object of work (a highlighted selection acts on that selection, not on a
+global prompt). Use chat only where intent is open-ended, because a blank
+prompt makes people articulate intent the product could have offered as
+options (supported) [SRC-FLOW-034].
+
+Problems with orders, money, or errors route to a human with the context
+carried over (the order, what the AI already said, what the person tried),
+and the route is prominent, never behind a bot loop. In one shopper survey
+about two thirds preferred a human for order problems, while a majority
+preferred a chatbot for low-stakes comparison (supported; one vendor
+survey) [SRC-FLOW-033].
+
+## Disclosure duties (EU AI Act, Article 50)
+
+Where the product serves people in the EU, Article 50 adds duties (the
+obligations apply from 2026-08-02 per secondary sources; counsel confirms
+scope for a given product) (supported) [SRC-A11Y-029]:
+
+- Tell people they are interacting with an AI system, unless that is obvious
+  to a reasonably well-informed person (a provider duty, para. 1).
+- Mark AI-generated or manipulated audio, image, video, or text in a
+  machine-readable format (provider duty, para. 2); the marking duty may be
+  affected by a proposed delay, so check its current status.
+- Disclose AI-generated or manipulated image, audio, or video that is a deep
+  fake, and AI text published to inform the public on matters of public
+  interest (deployer duty, para. 4 with its exceptions).
+
+Design the visible label and the disclosure in the interface; the technical
+marking belongs to the provider's pipeline.
+
 ## Streaming and partial output
 
 - While output streams, keep Stop beside it. After stop, failure, or timeout,
@@ -103,7 +136,8 @@ people catch the error, how long review takes, and whether undo is found.
 
 ## Evidence gaps
 
-No controlled study of diff-review interfaces; agent-supervision evidence is
+The Article 50 summary was read from a mirror of the Regulation, not from
+EUR-Lex, and is not legal advice. No controlled study of diff-review interfaces; agent-supervision evidence is
 2025-2026 preprints with small samples [SRC-FLOW-024] [SRC-FLOW-025]. NN/g
 now has agents-as-users guidance [SRC-FLOW-030] and a 2024 generative UI
 forecast [SRC-FLOW-031], both opinion, not measured. Streaming, stop, and

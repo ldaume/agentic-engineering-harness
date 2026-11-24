@@ -118,6 +118,10 @@ level and source or is marked hypothesis, accessibility is checked against
 WCAG 2.2 AA [SRC-A11Y-001], and what automation could not prove is listed for
 manual review.
 
+Legal baseline for AI features in the EU: Article 50 of the AI Act (tell people
+they interact with an AI system, label synthetic media); details in
+`design-product-ui/references/ai-native-interfaces.md` [SRC-A11Y-029].
+
 Baseline: WCAG 2.2 AA, the W3C Recommendation [SRC-A11Y-001]. AAA is not a
 site-wide policy (WCAG 2.2 conformance note), though cheap AAA criteria are
 welcome. WCAG 3 is a draft [SRC-A11Y-002] and APCA is not part of WCAG 2.2;

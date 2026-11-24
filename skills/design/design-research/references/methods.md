@@ -24,14 +24,21 @@
 
 ## AI-assisted synthesis
 
-Rules for using a model on research material (hypothesis: practice-based; no
-controlled study of AI synthesis quality was read):
+Rules for using a model on research material (hypothesis for synthesis
+quality, as no controlled study of it was read; the synthetic-user rule is
+supported):
 
 - Allowed: transcription, a first-pass tagging pass, and clustering of
   verbatim observations, each checked by a person against the source.
 - Never: invented or paraphrased-as-verbatim quotes, synthetic users or
   simulated participants as evidence, or counts the model produced that a
-  person did not recount.
+  person did not recount. Generic synthetic users get the direction of an
+  effect about right and the magnitude and variance wrong (supported)
+  [SRC-FLOW-035].
+- May: a digital twin built on real interview data can fill gaps in a survey
+  (predicting skipped questions, not new ones); accuracy fell on questions
+  outside its data, and it still erred more for some groups (supported)
+  [SRC-FLOW-035]. Label such output as modeled, never as participants.
 - Every finding traces to a participant id, a quote, and a timestamp or
   location in the recording. A claim without that trail is dropped.
 - Before uploading a transcript or recording to a model, confirm consent

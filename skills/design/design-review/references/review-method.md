@@ -66,6 +66,14 @@ dashboards (`design-dataviz`), decks and diagrams
 (`design-slides`), tokens and components
 (`design-systems`).
 
+## Overlays and widgets
+
+An accessibility overlay or widget is never a fix and never proof of
+conformance. The FTC's final order against accessiBe (2025-04-22) bars it
+from claiming its automated product makes any website WCAG-compliant without
+evidence (supported) [SRC-A11Y-030]. Review the underlying markup, keyboard
+and screen-reader behavior; a finding that proposes an overlay is rejected.
+
 ## Anti-patterns
 
 Verdicts without observation ("looks dated"); counting heuristics instead of

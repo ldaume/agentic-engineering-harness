@@ -33,6 +33,22 @@ place.
 | Improve | A known issue needs a targeted change | Small reversible changes, regression tests, before and after |
 | Research refresh | The knowledge base may be stale | Updated registry entries, changed or deprecated rules, changelog (`research-refresh.md`) |
 
+## Prototype where the question lives
+
+Pick the prototype medium by the question, because the wrong medium answers
+a different question than the one at risk (supported) [SRC-FLOW-037]:
+
+- Flow, structure, and content: paper or a canvas.
+- Behavior, real data, latency, and AI output: code, with realistic data.
+- A generated prototype is a probe. Give the tool context first (sketches or
+  a frame, components, visual style, states, the domain's terms), then review
+  hierarchy, grouping, contrast, and states before any test, because output
+  looks polished at a glance and misses these details (supported)
+  [SRC-WEB-031].
+- A prototype is never production code and never the spec by itself; vibe
+  coded prototypes accumulate structural debt and hide dropped details such
+  as a missing Delete action [SRC-FLOW-037].
+
 ## Assumptions
 
 Write them as "Assumption: ... Test: ... Risk if wrong: ...". An assumption
