@@ -6,7 +6,8 @@
 //   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector.
 //   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow;
 //            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
-//            (title, text, divider, footnote) sit at different heights.
+//            (title, text, divider, footnote) sit at different heights. Jev asks the same of
+//            the screenshots as `tell.misaligned-cards`.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
@@ -78,6 +79,7 @@ export const VISUAL_RULES = [
   { id: "tell.placeholder", type: "noul", instructions: "Does the page show placeholder content: names like Acme or Jane Doe, lorem ipsum, or invented round numbers like 10,000+?" },
   { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off, overlapping, squeezed, or too small to read?" },
   { id: "layout.dark", type: "noul", instructions: "Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?" },
+  { id: "tell.misaligned-cards", type: "noul", instructions: "Look at each row of cards or tiles. Draw an imaginary horizontal line through a part of one card (its title, its divider, its footer or its button). Does that line miss the same part of a neighboring card by more than a few pixels? Empty space inside a card is not misalignment; only the position of the matching parts counts." },
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
 ];
 

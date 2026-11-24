@@ -70,7 +70,9 @@ audit tier at every viewport: for 3 or more same-width siblings in one visual
 row, each with 2 or more block children, the same child (title, text, divider,
 footnote) must sit within 4 px of its twin, or share a bottom edge. A wrapped
 row is compared per visual row; cards built differently are skipped. The usual
-fix is CSS subgrid (`grid-row: span N; grid-template-rows: subgrid`). Worked
+fix is CSS subgrid (`grid-row: span N; grid-template-rows: subgrid`). The Jev tier asks the same
+question of the screenshots as `tell.misaligned-cards`, for pages with no DOM
+to measure; the DOM rule stays the exact check. Worked
 fixtures: `tests/fixtures/align-drift.html` (fails), `align-subgrid.html`,
 `align-equal.html` and `align-wrapped.html` (pass).
 

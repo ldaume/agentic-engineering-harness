@@ -332,3 +332,12 @@ test("given the drifting row, the review reports layout.alignment from the audit
   expect(f.tier).toBe("audit");
   expect(f.evidence.where.length).toBeGreaterThan(0);
 });
+
+test("given the visual rules, Jev is asked whether matching card parts sit at different heights, a yes failing as its own rule", async ({ page }) => {
+  await page.setContent(fixture("align-drift.html"));
+  const fetch = stubFetch({ p: 0.95, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const asked = fetch.calls.find((c) => c.url.includes("decision-model")).body.questions;
+  expect(asked["tell.misaligned-cards"].type).toBe("boolean");
+  expect(r.findings.some((f) => f.rule === "tell.misaligned-cards" && f.tier === "jev")).toBe(true);
+});
