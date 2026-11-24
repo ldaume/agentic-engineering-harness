@@ -8,7 +8,7 @@
    "url": "https://www.w3.org/TR/WCAG22/",
    "publisher": "W3C",
    "published": "2024-12-12",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "standard",
    "domains": [
     "accessibility",
@@ -24,9 +24,12 @@
     "2.4.11 Focus Not Obscured Minimum (AA, new) fails when a focused component is entirely hidden by author-created content (for example a sticky header or cookie banner).",
     "4.1.3 Status Messages (AA) requires status messages (success, waiting, progress, errors) to be programmatically determinable by role or properties so AT can present them without focus moving.",
     "3.3.3 Error Suggestion (AA) requires correction suggestions when an input error is auto-detected and a suggestion is known, unless that would jeopardize security or purpose.",
-    "Working group recommends sites adopt 2.2 as the conformance target even if regulation cites older versions."
+    "Working group recommends sites adopt 2.2 as the conformance target even if regulation cites older versions.",
+    "1.4.10 Reflow (AA) requires content without loss of information or functionality and without two-dimensional scrolling at 320 CSS px wide (vertical scrolling content), except content that needs two-dimensional layout.",
+    "Conformance note 2: it is not recommended that Level AAA conformance be required as a general policy for entire sites, because not all AAA criteria can be satisfied for some content.",
+    "AAA criteria worth adopting where cheap: 1.4.8 Visual Presentation (width at most 80 characters, no justified text, line spacing at least 1.5), 2.4.13 Focus Appearance (indicator at least a 2 CSS px perimeter, 3:1 between focused and unfocused pixels), 2.3.3 Animation from Interactions."
    ],
-   "limits": "Normative text only; I did not re-read 1.3.1, 1.4.3, 1.4.11, 2.1.1, 2.4.3, 2.4.7, 3.3.1, 3.3.2 wording in this session beyond the table of contents.",
+   "limits": "Normative text only; read in this session: 1.4.8, 1.4.10, 2.4.13, the conformance note and the 2.2 additions list. Not re-read: 1.3.1, 1.4.3, 1.4.11, 2.1.1, 2.4.3, 2.4.7, 3.3.1, 3.3.2 wording.",
    "evidence_level": "verified",
    "revisit": "WCAG 2.3 or a successor Recommendation; regulator moves to a newer version (EN 301 549, ADA rule updates)."
   },
@@ -3167,6 +3170,47 @@
    "accessed": "2026-10-21",
    "type": "tool",
    "evidence_level": "verified"
+  },
+  {
+   "id": "SRC-A11Y-026",
+   "title": "EN 301 549 V4.1.1 (2026-09), Accessibility requirements for ICT products and services",
+   "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/04.01.01_60/en_301549v040101p.pdf",
+   "publisher": "ETSI, CEN, CENELEC",
+   "published": "2026-09",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "regulation"
+   ],
+   "findings": [
+    "V4.1.1 is published as a Harmonised European Standard dated 2026-09 and builds its web requirements on WCAG 2.2 (the document cites WCAG 2.2 clauses and a WCAG 2.2 AAA informative section).",
+    "It states how conformance with WCAG 2.1 AA maps to clauses 9.1 to 9.4, excluding the 2.2-only criteria, so a 2.1 claim and a 2.2 claim stay distinguishable."
+   ],
+   "limits": "Read the front matter, table of contents and conformance clauses only. Citation in the Official Journal of the EU (expected January 2027 per Deque) was not confirmed and decides when it carries presumption of conformity under the European Accessibility Act; that part is supported, not verified.",
+   "evidence_level": "verified",
+   "revisit": "Official Journal citation; national transposition dates."
+  },
+  {
+   "id": "SRC-A11Y-027",
+   "title": "US DOJ interim final rule: Extension of Compliance Dates, ADA Title II web and mobile app accessibility (91 FR 20902)",
+   "url": "https://www.federalregister.gov/documents/2026/04/20/2026-07663/extension-of-compliance-dates-for-nondiscrimination-on-the-basis-of-disability-accessibility-of-web",
+   "publisher": "US Department of Justice, Federal Register",
+   "published": "2026-04-20",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "regulation"
+   ],
+   "findings": [
+    "Effective 2026-04-20 as an interim final rule.",
+    "Compliance date for state and local entities with a population of 50,000 or more moves from 2026-04-24 to 2027-04-26; for smaller entities and special districts from 2027-04-26 to 2028-04-26.",
+    "The technical standard stays WCAG 2.1 Level AA (June 2018)."
+   ],
+   "limits": "Read the abstract, dates and the WCAG paragraph of the Federal Register text; the govinfo PDF of the same document is https://www.govinfo.gov/content/pkg/FR-2026-04-20/pdf/2026-07663.pdf. Comment period closed 2026-06-22; a final rule could change dates again. US public entities only; not a statement on private-sector ADA exposure.",
+   "evidence_level": "verified",
+   "revisit": "Final rule or further date extension."
   }
  ]
 }
