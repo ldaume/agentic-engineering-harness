@@ -7,6 +7,10 @@
 //   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page.
+//   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
+//            layers hidden and clipping containers opened, and checked for clipped text, stacked
+//            labels, lines through boxes and small text: exactly from inline SVG geometry, then
+//            by Jev and the model like the page.
 //   llm    - only the rules Jev was unsure about go to a vision model, in one call, which
 //            decides them and says where the problem is and what to change. --detail sends
 //            Jev's confident failures too, for their where and fix.
@@ -75,6 +79,21 @@ export const VISUAL_RULES = [
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
 ];
 
+// Asked about each diagram on its own shot. Wording and thresholds from a spike on 7 synthetic
+// diagrams, two runs (2026-11-24): one clean, one with every defect, one per single defect.
+// Jev hit every single-defect case of clipped text, stacked labels and small text, and passed
+// the clean one. "Does a line pass through a box it does not connect" scored 0.07 to 0.14 on
+// true cases; the wording below hits a line across a label (0.84 to 0.90) but stays unsure
+// (0.52 to 0.54) on a line across an empty part of a box, so that rule passes only when Jev is
+// near-certain and otherwise goes to the model; on inline SVG the DOM tier checks it exactly.
+export const DIAGRAM_RULES = [
+  { id: "diagram.clipped-text", type: "noul", instructions: "Is any text in this diagram cut off, wrapped into a frame border, or partly hidden (for example a box or group title running past its frame)?" },
+  { id: "diagram.overlap", type: "noul", yes: 0.6, no: 0.3, instructions: "Are two or more text labels drawn on top of each other?" },
+  { id: "diagram.line-crossing", type: "noul", no: 0.2, instructions: "Does a connector line cross the text or the middle of a box?" },
+  { id: "diagram.small-text", type: "noul", instructions: "Is any text in the diagram too small to read comfortably at this size?" },
+];
+const MAX_DIAGRAMS = 6;
+
 // A noul between these bounds is unsure and goes to the model; so is a score within BAND of
 // the first passing level. Jev's score confidence measures spread, not correctness, and
 // gating on it escalated almost every page. Values from the spike on 8 pages (2026-11-24):
@@ -94,8 +113,8 @@ export function decide(rule, answer = {}) {
   }
   const p = Number(answer.probability ?? answer.noul);
   if (!Number.isFinite(p)) return { status: "unsure", confidence: 0 };
-  if (p >= YES) return { status: "fail", confidence: p, probability: p };
-  if (p <= NO) return { status: "pass", confidence: 1 - p, probability: p };
+  if (p >= (rule.yes ?? YES)) return { status: "fail", confidence: p, probability: p };
+  if (p <= (rule.no ?? NO)) return { status: "pass", confidence: 1 - p, probability: p };
   return { status: "unsure", confidence: Math.abs(p - 0.5) * 2, probability: p };
 }
 
@@ -153,6 +172,120 @@ export function tellsAudit() {
   return hits;
 }
 
+// Runs in the page on one diagram element (locator.evaluate). Exact geometry checks on inline
+// SVG, so no model is needed for these: text past the smallest box around it (or past the
+// foreignObject that clips it), text boxes on top of each other, and a stroke-only line that
+// runs through the inside of a leaf box holding neither of its ends. Canvas and images get none.
+export function diagramAudit(root) {
+  const hits = [];
+  const hit = (rule, text, detail) => { if (!hits.some((h) => h.rule === rule)) hits.push({ rule, text, detail }); };
+  const holds = (b, x, y, m = 0) => x >= b.left - m && x <= b.right + m && y >= b.top - m && y <= b.bottom + m;
+  const within = (a, b) => a.left >= b.left - 1 && a.right <= b.right + 1 && a.top >= b.top - 1 && a.bottom <= b.bottom + 1;
+  const svgs = root.tagName.toLowerCase() === "svg" ? [root] : [...root.querySelectorAll("svg")];
+  for (const svg of svgs) {
+    const boxes = [...svg.querySelectorAll("rect")].filter((r) => !r.closest("defs, marker, clipPath, mask, pattern"))
+      .map((el) => el.getBoundingClientRect()).filter((b) => b.width > 4 && b.height > 4);
+    // A Range measures the glyphs even where a foreignObject clips them.
+    const texts = [...svg.querySelectorAll("text, foreignObject *")]
+      .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && !el.parentElement.closest("text"))
+      .map((el) => { const r = document.createRange(); r.selectNodeContents(el); return { el, text: el.textContent.trim().replace(/\s+/g, " "), box: r.getBoundingClientRect() }; })
+      .filter((t) => t.box.width > 0);
+    for (const t of texts) {
+      const cx = (t.box.left + t.box.right) / 2, cy = (t.box.top + t.box.bottom) / 2;
+      const frame = boxes.filter((b) => holds(b, cx, cy)).sort((a, b) => a.width * a.height - b.width * b.height)[0];
+      const fo = t.el.closest("foreignObject");
+      if ((frame && !within(t.box, frame)) || (fo && !within(t.box, fo.getBoundingClientRect()))) hit("diagram.clipped-text", t.text, "text runs past its box or frame");
+    }
+    for (let i = 0; i < texts.length; i++) for (let j = i + 1; j < texts.length; j++) {
+      const a = texts[i].box, b = texts[j].box;
+      if (texts[i].el.contains(texts[j].el) || texts[j].el.contains(texts[i].el)) continue;
+      if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 2 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 2) hit("diagram.overlap", texts[i].text + " / " + texts[j].text, "labels drawn on top of each other");
+    }
+    const leaves = boxes.filter((b) => !boxes.some((o) => o !== b && within(o, b)));
+    const lines = [...svg.querySelectorAll("path, line, polyline")].filter((el) => !el.closest("defs, marker, clipPath, mask, pattern")
+      && (el.tagName === "line" || getComputedStyle(el).fill === "none") && getComputedStyle(el).stroke !== "none");
+    for (const el of lines) {
+      const length = el.getTotalLength(), steps = Math.min(400, Math.max(10, Math.ceil(length / 4))), ctm = el.getScreenCTM();
+      if (!length || !ctm) continue;
+      const points = Array.from({ length: steps + 1 }, (_, k) => el.getPointAtLength((length * k) / steps).matrixTransform(ctm));
+      const [start, end] = [points[0], points[points.length - 1]];
+      for (const b of leaves) {
+        if (holds(b, start.x, start.y, 6) || holds(b, end.x, end.y, 6)) continue;
+        if (points.some((p) => holds({ left: b.left + 3, right: b.right - 3, top: b.top + 3, bottom: b.bottom - 3 }, p.x, p.y))) {
+          const label = texts.find((t) => holds(b, (t.box.left + t.box.right) / 2, (t.box.top + t.box.bottom) / 2));
+          hit("diagram.line-crossing", label ? label.text : "a box", "a line runs through a box it does not connect");
+        }
+      }
+    }
+  }
+  return hits;
+}
+
+// Runs in the page: marks the outermost large diagram candidates; icons are too small to count.
+function markDiagrams(max) {
+  const big = (el) => { const b = el.getBoundingClientRect(); return b.width >= 300 && b.height >= 150 && getComputedStyle(el).visibility !== "hidden"; };
+  const all = [...document.querySelectorAll("svg, canvas, figure, [role=img]")].filter(big);
+  return all.filter((el) => !all.some((o) => o !== el && o.contains(el))).slice(0, max).map((el, i) => {
+    el.setAttribute("data-design-loop-diagram", String(i));
+    const b = el.getBoundingClientRect();
+    return { index: i, where: `${el.tagName.toLowerCase()}${el.id ? "#" + el.id : ""}${(el.getAttribute("class") || "").trim() ? "." + el.getAttribute("class").trim().split(/\s+/)[0] : ""} at y=${Math.round(b.top + scrollY)}` };
+  });
+}
+
+// Runs in the page: hides fixed and sticky layers and opens clipping ancestors so the shot shows
+// the whole diagram; with `undo` it puts every changed style back.
+function isolate(el, undo) {
+  if (undo) { for (const [node, style] of window.__designLoopUndo || []) style === null ? node.removeAttribute("style") : node.setAttribute("style", style); window.__designLoopUndo = []; return; }
+  const changed = window.__designLoopUndo = [];
+  const set = (node, css) => { changed.push([node, node.getAttribute("style")]); Object.assign(node.style, css); };
+  for (const node of document.querySelectorAll("body *")) if (["fixed", "sticky"].includes(getComputedStyle(node).position) && !node.contains(el)) set(node, { visibility: "hidden" });
+  for (let a = el.parentElement; a && a !== document.documentElement; a = a.parentElement) {
+    const cs = getComputedStyle(a);
+    if (cs.overflowX !== "visible" || cs.overflowY !== "visible" || cs.maxHeight !== "none") set(a, { overflow: "visible", maxHeight: "none" });
+  }
+}
+
+// Runs in the page: Jev takes each side between 280 and MAX_SIDE px, so a diagram is scaled down
+// or padded on white to fit.
+async function fitShot([base64, max]) {
+  const img = new Image();
+  img.src = "data:image/png;base64," + base64;
+  await img.decode();
+  const scale = Math.min(1, max / img.width, max / img.height);
+  const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+  if (scale === 1 && w >= 280 && h >= 280) return base64;
+  const c = document.createElement("canvas");
+  c.width = Math.max(280, w); c.height = Math.max(280, h);
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(img, (c.width - w) / 2, (c.height - h) / 2, w, h);
+  return c.toDataURL("image/png").split(",")[1];
+}
+
+// A diagram that cannot be shot is left out with a note, so the rest of the review still runs.
+async function shootDiagrams(page, outDir, notes) {
+  const diagrams = [];
+  for (const d of await page.evaluate(markDiagrams, MAX_DIAGRAMS)) {
+    const name = `diagram-${d.index + 1}`;
+    const element = page.locator(`[data-design-loop-diagram="${d.index}"]`);
+    try {
+      const dom = await element.evaluate(diagramAudit);
+      await element.evaluate(isolate);
+      let raw;
+      try { raw = await element.screenshot({ animations: "disabled", timeout: 10000 }); }
+      finally { await element.evaluate(isolate, true); }
+      const base64 = await page.evaluate(fitShot, [raw.toString("base64"), MAX_SIDE]);
+      const path = join(outDir, name + ".png");
+      writeFileSync(path, Buffer.from(base64, "base64"));
+      diagrams.push({ name, where: d.where, path, dom, base64 });
+    } catch (error) {
+      notes.push(`${name} (${d.where}) not checked: ${error.message.split("\n")[0]}`);
+    }
+  }
+  await page.evaluate(() => document.querySelectorAll("[data-design-loop-diagram]").forEach((el) => el.removeAttribute("data-design-loop-diagram")));
+  return diagrams;
+}
+
 async function shoot(page, outDir, level) {
   const shots = [];
   const audit = [];
@@ -179,27 +312,32 @@ function auditFindings(audit) {
   return [...seen.values()];
 }
 
-async function askJev({ rules, shots, headlines, keys, fetch }) {
-  const pick = VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n));
+// The page's three screenshots, labeled as the questions name them.
+const pageImages = (shots) => VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n))
+  .map((s) => ({ key: LABEL[s.name], caption: `The ${LABEL[s.name]} screenshot (${s.width} px wide, ${s.scheme}):`, base64: s.base64 }));
+const DIAGRAM_CONTEXT = "A diagram from a web page, shot on its own at the size the reader sees it.";
+
+// One Jev call: text state, labeled images, typed questions.
+async function askJev({ rules, state, images, keys, fetch }) {
   const questions = Object.fromEntries(rules.map((r) => [r.id, r.type === "score"
     ? { type: "score", instructions: r.instructions, criteria: r.criteria }
     : { type: keys.gateway ? "boolean" : "noul", instructions: r.instructions }]));
   let response;
   if (keys.gateway) {
-    const stateParts = [{ type: "text", text: "headlines: " + JSON.stringify(headlines) }];
-    for (const s of pick) stateParts.push({ type: "text", text: `The ${LABEL[s.name]} screenshot (${s.width} px wide, ${s.scheme}):` }, { type: "file", mediaType: "image/png", data: { type: "data", data: s.base64 } });
+    const stateParts = Object.entries(state).map(([k, v]) => ({ type: "text", text: `${k}: ${JSON.stringify(v)}` }));
+    for (const s of images) stateParts.push({ type: "text", text: s.caption }, { type: "file", mediaType: "image/png", data: { type: "data", data: s.base64 } });
     response = await fetch(GATEWAY + "/v4/ai/decision-model", {
       method: "POST",
       headers: { Authorization: "Bearer " + keys.gateway, "Content-Type": "application/json", "ai-gateway-protocol-version": "0.0.1", "ai-decision-model-specification-version": "4", "ai-model-id": "typesafe-ai/jev", "TypeSafe-Danger-Zone-Images": "true" },
       body: JSON.stringify({ stateParts, questions, providerOptions: { gateway: { ...PRIVACY, only: ["typesafe-ai"] } } }),
     });
   } else {
-    const assets = Object.fromEntries(pick.map((s) => [`shot-${s.name}-${crypto.randomUUID()}`, { type: "image", format: "png", data_base64: s.base64 }]));
-    const refs = Object.keys(assets);
+    const refs = images.map((s) => `shot-${s.key}-${crypto.randomUUID()}`);
+    const assets = Object.fromEntries(images.map((s, i) => [refs[i], { type: "image", format: "png", data_base64: s.base64 }]));
     response = await fetch(TYPESAFE, {
       method: "POST",
       headers: { Authorization: "Bearer " + keys.typesafe, "Content-Type": "application/json", "TypeSafe-Danger-Zone-Images": "true" },
-      body: JSON.stringify({ model: "jev-latest", state: { headlines, desktop: refs[0], phone: refs[1], dark: refs[2] }, assets, questions }),
+      body: JSON.stringify({ model: "jev-latest", state: { ...state, ...Object.fromEntries(images.map((s, i) => [s.key, refs[i]])) }, assets, questions }),
     });
   }
   if (!response.ok) throw new Error(`Jev ${response.status}: ${(await response.text()).slice(0, 200)}`);
@@ -210,17 +348,15 @@ async function askJev({ rules, shots, headlines, keys, fetch }) {
   return { answers, cost: tokens * JEV_USD_PER_TOKEN[keys.gateway ? "gateway" : "typesafe"] };
 }
 
-async function askModel({ rules, shots, headlines, key, model, fetch, env }) {
+async function askModel({ rules, intro, images, key, model, fetch, env }) {
   checkModel(model, env);
-  const pick = VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n));
-  const text = "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") +
-    ". headlines: " + JSON.stringify(headlines) + "\nFor each rule answer whether the page fails it, where on which screenshot, and the smallest fix.\n" +
+  const text = intro + "\nFor each rule answer whether it fails, where on which image, and the smallest fix.\n" +
     rules.map((r) => `- ${r.id}: ${r.instructions}${r.type === "score" ? ` Fail when the answer is one of: ${JSON.stringify(r.criteria.slice(0, r.fail + 1))}` : " Fail when yes."}`).join("\n") +
     '\nReply with JSON only: {"<rule id>": {"fail": true|false, "where": "...", "fix": "..."}}';
   const response = await fetch(GATEWAY + "/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
-    body: JSON.stringify({ model, max_tokens: 1500, messages: [{ role: "user", content: [{ type: "text", text }, ...pick.map((s) => ({ type: "image_url", image_url: { url: "data:image/png;base64," + s.base64 } }))] }], providerOptions: { gateway: PRIVACY } }),
+    body: JSON.stringify({ model, max_tokens: 1500, messages: [{ role: "user", content: [{ type: "text", text }, ...images.map((s) => ({ type: "image_url", image_url: { url: "data:image/png;base64," + s.base64 } }))] }], providerOptions: { gateway: PRIVACY } }),
   });
   if (!response.ok) throw new Error(`model ${response.status}: ${(await response.text()).slice(0, 200)}`);
   const payload = await response.json();
@@ -243,6 +379,49 @@ export function firstJson(text) {
   return {};
 }
 
+// Jev first; only the rules it is unsure about go to the model, in one call. A confident Jev
+// failure stands on its own unless the caller wants the model's where and fix too (`detail`).
+// Jev is asked every rule, also those the DOM proved (`proven`): its answers shift with the
+// question set, and the thresholds were calibrated on the full set. Throws when Jev fails.
+async function judge({ rules, proven, keys, detail, evidence, jev, model }) {
+  const r = { findings: [], passed: [], verdicts: {}, cost: { jev: 0, llm: 0 }, escalated: 0, llm: "not needed" };
+  const answers = await jev(rules);
+  r.cost.jev = answers.cost;
+  const open = [];
+  for (const rule of rules) {
+    if (proven.has(rule.id)) continue; // the DOM already proved it, exactly
+    const d = decide(rule, answers.answers[rule.id]);
+    r.verdicts[rule.id] = d; // kept so a reader can see why a rule escalated
+    if (d.status === "pass") r.passed.push(rule.id);
+    else open.push({ rule, d });
+  }
+  const ask = open.filter(({ d }) => detail || d.status === "unsure");
+  const jevFinding = ({ rule, d }) => ({ rule: rule.id, status: d.status, tier: "jev", confidence: d.confidence, evidence: { ...evidence }, detail: rule.instructions });
+  r.findings.push(...open.filter((o) => !ask.includes(o)).map(jevFinding));
+  r.escalated = ask.length;
+  if (!ask.length) return r;
+  if (!keys.gateway) {
+    r.llm = "skipped: no gateway key";
+    r.findings.push(...ask.map(jevFinding));
+    return r;
+  }
+  try {
+    const m = await model(ask.map((o) => o.rule));
+    r.cost.llm = m.cost;
+    r.llm = "ran";
+    for (const o of ask) {
+      const v = m.verdicts[o.rule.id];
+      if (v && v.fail === false) r.passed.push(o.rule.id);
+      else if (v) r.findings.push({ rule: o.rule.id, status: "fail", tier: "llm", confidence: o.d.confidence, evidence: { ...evidence, where: v.where || evidence.where }, detail: v.fix || o.rule.instructions });
+      else r.findings.push(jevFinding(o));
+    }
+  } catch (error) {
+    r.llm = "failed: " + error.message;
+    r.findings.push(...ask.map(jevFinding));
+  }
+  return r;
+}
+
 // Reviews the page that is already loaded in `page`; viewport and scheme change in place.
 export async function review(page, { env = process.env, fetch = globalThis.fetch, outDir, level = "aa", model = DEFAULT_MODEL, detail = false } = {}) {
   const started = Date.now();
@@ -251,72 +430,70 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   const { shots, audit } = await shoot(page, outDir, level);
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.emulateMedia({ colorScheme: "light" });
+  // A diagram far down a long page never reaches the 1568 px screenshots: each gets its own shot.
+  const notes = [];
+  const diagrams = await shootDiagrams(page, outDir, notes);
   const dom = await page.evaluate(tellsAudit);
   const headlines = await page.evaluate(() => [...document.querySelectorAll("h1, h2")].slice(0, 6).map((h) => h.textContent.trim().replace(/\s+/g, " ").slice(0, 120)));
   const findings = [
     ...dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { element: d.element, where: "desktop-light" }, detail: d.detail })),
     ...auditFindings(audit),
+    ...diagrams.flatMap((g) => g.dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { diagram: g.name, where: g.where, element: d.text }, detail: d.detail }))),
   ];
   const cost = { jev: 0, llm: 0 };
   const keys = { gateway: env.AI_GATEWAY_API_KEY || env.VERCEL_AI_GATEWAY_API_KEY, typesafe: env.TYPESAFE_API_KEY };
-  const notes = [];
   const dark = shots.find((s) => s.name === "desktop-dark").base64 !== shots.find((s) => s.name === "desktop-light").base64;
   if (!dark) notes.push("no dark scheme: the dark screenshots equal the light ones");
   const rules = VISUAL_RULES.filter((r) => dark || r.id !== "layout.dark");
-  const tiers = { dom: "ran", audit: `ran (${level})`, visual: "skipped: no model key", llm: "not needed" };
+  const tiers = { dom: "ran", audit: `ran (${level})`, visual: "skipped: no model key", llm: "not needed", diagrams: diagrams.length ? `${diagrams.length} shot, dom ran` : "none found" };
   const passed = [];
-  const verdicts = {}; // Jev's verdict per visual rule, kept so a reader can see why a rule escalated
+  let verdicts = {};
   let escalated = 0;
+  const llmTier = (status) => status === "ran" ? `ran (${model})` : status;
+  const add = (r, prefix = "") => {
+    findings.push(...r.findings);
+    passed.push(...r.passed.map((id) => prefix + id));
+    cost.jev += r.cost.jev;
+    cost.llm += r.cost.llm;
+    escalated += r.escalated;
+    if (r.llm !== "not needed" && tiers.llm === "not needed") tiers.llm = llmTier(r.llm);
+  };
   if (keys.gateway || keys.typesafe) {
     try {
-      const jev = await askJev({ rules, shots, headlines, keys, fetch });
-      cost.jev = jev.cost;
+      const images = pageImages(shots);
+      const r = await judge({
+        rules, proven: new Set(dom.map((d) => d.rule)), keys, detail, evidence: { where: VISUAL_SHOTS.join(", ") },
+        jev: (rs) => askJev({ rules: rs, state: { headlines }, images, keys, fetch }),
+        model: (rs) => askModel({ rules: rs, intro: "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") + ". headlines: " + JSON.stringify(headlines), images, key: keys.gateway, model, fetch, env }),
+      });
       tiers.visual = "ran";
-      const domRules = new Set(dom.map((d) => d.rule));
-      const open = [];
-      for (const rule of rules) {
-        if (domRules.has(rule.id)) continue; // the DOM already proved it, with a selector
-        const d = decide(rule, jev.answers[rule.id]);
-        verdicts[rule.id] = d;
-        if (d.status === "pass") passed.push(rule.id);
-        else open.push({ rule, d });
-      }
-      // Only unsure rules need the model; a confident Jev failure stands on its own unless
-      // the caller wants the model's where and fix for it too (`detail`).
-      const ask = open.filter(({ d }) => detail || d.status === "unsure");
-      const jevFinding = ({ rule, d }) => ({ rule: rule.id, status: d.status, tier: "jev", confidence: d.confidence, evidence: { where: VISUAL_SHOTS.join(", ") }, detail: rule.instructions });
-      findings.push(...open.filter((o) => !ask.includes(o)).map(jevFinding));
-      escalated = ask.length;
-      if (!ask.length) {
-        // nothing to ask
-      } else if (!keys.gateway) {
-        tiers.llm = "skipped: no gateway key";
-        findings.push(...ask.map(jevFinding));
-      } else {
-        try {
-          const m = await askModel({ rules: ask.map((o) => o.rule), shots, headlines, key: keys.gateway, model, fetch, env });
-          cost.llm = m.cost;
-          tiers.llm = `ran (${model})`;
-          for (const o of ask) {
-            const v = m.verdicts[o.rule.id];
-            if (v && v.fail === false) passed.push(o.rule.id);
-            else if (v) findings.push({ rule: o.rule.id, status: "fail", tier: "llm", confidence: o.d.confidence, evidence: { where: v.where || VISUAL_SHOTS.join(", ") }, detail: v.fix || o.rule.instructions });
-            else findings.push(jevFinding(o));
-          }
-        } catch (error) {
-          tiers.llm = "failed: " + error.message;
-          findings.push(...ask.map(jevFinding));
-        }
-      }
+      verdicts = r.verdicts;
+      add(r);
     } catch (error) {
       tiers.visual = "failed: " + error.message; // fail open: the cheap tiers still stand
     }
+    for (const g of diagrams) {
+      const images = [{ key: "diagram", caption: "The diagram:", base64: g.base64 }];
+      try {
+        const r = await judge({
+          rules: DIAGRAM_RULES, proven: new Set(g.dom.map((d) => d.rule)), keys, detail, evidence: { diagram: g.name, where: g.where },
+          jev: (rs) => askJev({ rules: rs, state: { context: DIAGRAM_CONTEXT }, images, keys, fetch }),
+          model: (rs) => askModel({ rules: rs, intro: "You review one diagram from a web page, shot on its own at the size the reader sees it, against design rules.", images, key: keys.gateway, model, fetch, env }),
+        });
+        g.jev = r.verdicts;
+        add(r, g.name + "/");
+      } catch (error) {
+        g.jev = { failed: error.message }; // fail open: the DOM findings for this diagram still stand
+      }
+    }
+    if (diagrams.length) tiers.diagrams = `${diagrams.length} shot, dom ${diagrams.some((g) => g.jev?.failed) ? "ran, jev failed on some" : "and jev ran"}`;
   }
   const report = {
     url: page.url(), tiers, notes, findings, passed, escalated, jev: verdicts,
     cost_usd: { jev: +cost.jev.toFixed(6), llm: +cost.llm.toFixed(6) },
     seconds: +((Date.now() - started) / 1000).toFixed(1),
     shots: shots.map(({ base64, ...s }) => s),
+    diagrams: diagrams.map(({ base64, dom, ...g }) => g),
   };
   writeFileSync(join(outDir, "design-loop.json"), JSON.stringify(report, null, 2));
   return report;

@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES } from "../scripts/design-loop.mjs";
+import { tellsAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, diagramAudit } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -184,4 +184,115 @@ test("given a refused escalation model, no screenshot is sent to it and the unsu
   expect(fetch.calls.filter((c) => c.url.includes("chat/completions"))).toHaveLength(0);
   expect(r.tiers.llm).toMatch(/^failed: .*approv/);
   expect(r.findings.every((f) => f.status === "unsure" || f.tier !== "llm")).toBe(true);
+});
+
+// Diagrams: each one is shot on its own and asked the diagram rules.
+const jevCalls = (fetch) => fetch.calls.filter((c) => c.url.includes("decision-model"));
+const diagramCalls = (fetch) => jevCalls(fetch).filter((c) => Object.keys(c.body.questions).every((id) => id.startsWith("diagram.")));
+const pngSize = (base64) => { const b = Buffer.from(base64, "base64"); return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) }; };
+
+test("given the broken diagram, the DOM tier flags the title past its frame, the stacked labels and the line through a box, and nothing on the clean one", async ({ page }) => {
+  await page.setContent(fixture("diagram-broken.html"));
+  const hits = await page.locator("svg.arch").evaluate(diagramAudit);
+  expect(hits.map((h) => h.rule).sort()).toEqual(["diagram.clipped-text", "diagram.line-crossing", "diagram.overlap"]);
+  expect(hits.find((h) => h.rule === "diagram.clipped-text").text).toMatch(/^Primary region, north pier/);
+  expect(hits.find((h) => h.rule === "diagram.line-crossing").text).toBe("Tide model");
+  await page.setContent(fixture("diagram-clean.html"));
+  expect(await page.locator("svg.arch").evaluate(diagramAudit)).toEqual([]);
+});
+
+test("given a diagram far below the first screen, in a scroll container under a sticky header and a fixed banner, the review shoots all of it on its own and asks Jev every diagram rule about that shot", async ({ page }) => {
+  const banner = '<div style="position:fixed;left:0;right:0;bottom:0;height:500px;background:rgb(200,0,0)"></div>';
+  await page.setContent(fixture("diagram-clean.html").replace("</body>", banner + "</body>"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  expect(r.diagrams).toHaveLength(1); // the 24 px header icon is not a diagram
+  const calls = diagramCalls(fetch);
+  expect(calls).toHaveLength(1);
+  expect(Object.keys(calls[0].body.questions).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).sort());
+  const images = calls[0].body.stateParts.filter((p) => p.type === "file");
+  expect(images).toHaveLength(1);
+  const shot = images[0].data.data;
+  const size = pngSize(shot); // an inline SVG may round up by a pixel
+  expect(size.width).toBe(760);
+  expect(size.height).toBeGreaterThanOrEqual(420);
+  expect(size.height).toBeLessThanOrEqual(422);
+  const pixels = await page.evaluate(async (b64) => {
+    const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+    const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+    const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0);
+    return [[40, 30], [40, 200], [40, 390], [700, 390]].map(([x, y]) => [...ctx.getImageData(x, y, 1, 1).data.slice(0, 3)]);
+  }, shot);
+  // Every sample sits inside a cluster: its fill, not the page behind a 260 px scroll box, a header or a banner.
+  expect(pixels).toEqual([[238, 241, 246], [238, 241, 246], [238, 241, 246], [238, 241, 246]]);
+  expect(r.findings, JSON.stringify(r.findings)).toEqual([]);
+});
+
+test("given the broken diagram and no model key, the DOM findings stand with the diagram as evidence", async ({ page }) => {
+  await page.setContent(fixture("diagram-broken.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const dom = r.findings.filter((f) => f.rule.startsWith("diagram."));
+  expect(dom.map((f) => f.rule).sort()).toEqual(["diagram.clipped-text", "diagram.line-crossing", "diagram.overlap"]);
+  expect(dom.every((f) => f.tier === "dom" && f.evidence.diagram === r.diagrams[0].name)).toBe(true);
+});
+
+test("given the DOM tier already proved diagram rules, Jev is still asked the full set, since its answers shift with the set, but only the unproven rules take its verdict", async ({ page }) => {
+  await page.setContent(fixture("diagram-broken.html"));
+  const fetch = stubFetch({ p: 0.9, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  expect(Object.keys(diagramCalls(fetch)[0].body.questions).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).sort());
+  const found = r.findings.filter((f) => f.rule.startsWith("diagram."));
+  expect(found.map((f) => `${f.rule} ${f.tier}`).sort()).toEqual(["diagram.clipped-text dom", "diagram.line-crossing dom", "diagram.overlap dom", "diagram.small-text jev"]);
+});
+
+test("given the page tells the DOM already proved, Jev is still asked them so the rest keep their calibration", async ({ page }) => {
+  await page.setContent(fixture("generic.html"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const asked = Object.keys(jevCalls(fetch).find((c) => c.body.questions["visual.hierarchy"]).body.questions);
+  expect(asked).toContain("tell.gradient");
+});
+
+test("given diagram rules, each has its own calibrated threshold instead of the page default", () => {
+  const line = DIAGRAM_RULES.find((x) => x.id === "diagram.line-crossing");
+  const clipped = DIAGRAM_RULES.find((x) => x.id === "diagram.clipped-text");
+  const overlap = DIAGRAM_RULES.find((x) => x.id === "diagram.overlap");
+  expect(decide(overlap, { probability: 0.62 }).status).toBe("fail");
+  expect(decide(clipped, { probability: 0.62 }).status).toBe("unsure");
+  expect(decide(line, { probability: 0.61 }).status).toBe("unsure"); // the false yes on stacked labels
+  expect(decide(line, { probability: 0.3 }).status).toBe("unsure");
+  expect(decide(clipped, { probability: 0.3 }).status).toBe("pass");
+});
+
+test("given unsure Jev answers about a diagram, those rules go to the model with only that diagram's shot and come back as findings naming it", async ({ page }) => {
+  await page.setContent(fixture("diagram-clean.html"));
+  const fetch = stubFetch({ p: 0.5, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const asks = fetch.calls.filter((c) => c.url.includes("chat/completions") && c.body.messages[0].content[0].text.includes("diagram."));
+  expect(asks).toHaveLength(1);
+  expect(asks[0].body.messages[0].content.filter((p) => p.type === "image_url")).toHaveLength(1);
+  const found = r.findings.filter((f) => f.rule.startsWith("diagram."));
+  expect(found.map((f) => f.rule).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).sort());
+  expect(found.every((f) => f.tier === "llm" && f.evidence.diagram === r.diagrams[0].name)).toBe(true);
+});
+
+test("given eight large diagrams, only the first six are shot", async ({ page }) => {
+  const svg = '<svg width="400" height="200" viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" fill="#eee" stroke="#333"/><text x="200" y="105" text-anchor="middle">Step</text></svg>';
+  await page.setContent(`<main>${Array.from({ length: 8 }, () => `<figure>${svg}</figure>`).join("")}</main>`);
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.diagrams).toHaveLength(6);
+});
+
+test("given a diagram whose shot fails, the review leaves it out with a note and still reports the page", async ({ page }) => {
+  await page.setContent(fixture("diagram-clean.html"));
+  const locator = page.locator.bind(page);
+  page.locator = (selector) => {
+    const l = locator(selector);
+    if (selector.startsWith("[data-design-loop-diagram")) l.screenshot = async () => { throw new Error("element is not attached"); };
+    return l;
+  };
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.diagrams).toEqual([]);
+  expect(r.notes.some((n) => /^diagram-1 .*not checked: element is not attached/.test(n))).toBe(true);
+  expect(r.shots).toHaveLength(4);
 });
