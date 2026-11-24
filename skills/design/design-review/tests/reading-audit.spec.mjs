@@ -110,3 +110,31 @@ test("given a failing diagram source, it is skipped", async ({ page }) => {
   const r = await run(page, shell(`<pre class="mermaid" style="color:#bbb;font-size:10px">graph TD; A-->B</pre>`), { level: "aaa" });
   expect(r.count).toBe(0);
 });
+
+const lineOf = (n) => shell(`<p style="font-family:monospace;overflow-wrap:anywhere;width:${n}ch">${"a".repeat(400)}</p>`, "main { max-width: none; }");
+
+test("given a 78 character line, AAA notes it as above the reading target and does not fail it (1.4.8 allows 80)", async ({ page }) => {
+  const r = await run(page, lineOf(78), { width: 1280, level: "aaa" });
+  expect(r.findings.lineLength).toHaveLength(0);
+  expect(r.notes.lineLength).toHaveLength(1);
+  expect(r.notes.lineLength[0]).toMatchObject({ observed: 78, required: "above the 45-75 reading target" });
+});
+
+test("given an 85 character line, AAA fails it", async ({ page }) => {
+  const r = await run(page, lineOf(85), { width: 1280, level: "aaa" });
+  expect(r.findings.lineLength).toHaveLength(1);
+  expect(r.findings.lineLength[0]).toMatchObject({ observed: 85, required: "at most 80 characters per line" });
+});
+
+const hiddenInput = "position:absolute;width:1px;height:1px;opacity:0;margin:0";
+
+test("given a visually hidden radio inside a 44px label, the label is the target and both levels are clean", async ({ page }) => {
+  const html = shell(`<label style="display:inline-block;min-height:44px;min-width:88px;line-height:44px"><input type="radio" name="v" style="${hiddenInput}">Weekly</label>`);
+  for (const level of ["aa", "aaa"]) expect((await run(page, html, { level })).findings.targets).toHaveLength(0);
+});
+
+test("given a bare 16px checkbox without a label, AA reports it", async ({ page }) => {
+  const r = await run(page, shell(`<input type="checkbox" style="width:16px;height:16px;margin:0">`), { level: "aa" });
+  expect(r.findings.targets).toHaveLength(1);
+  expect(r.findings.targets[0]).toMatchObject({ observed: "16x16", required: "at least 24x24 px" });
+});

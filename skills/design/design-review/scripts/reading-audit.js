@@ -6,11 +6,16 @@
 //   and set the viewport, e.g. 390 x 800, before calling).
 // Console: paste "(" + this file + ")()" and read the returned object.
 // Options: { level: "aa" | "aaa", skip: "extra css selector", minChars: 45, maxChars: 75 }
+//   minChars and maxChars are the 45-75 reading target; WCAG 1.4.8 itself allows 80.
 //   aa  (default): contrast 4.5:1 (3:1 large text, 1.4.3), targets 24px (2.5.8),
 //       no overflow at the viewport (1.4.10). Text size, line height (1.4.8 is
 //       AAA) and line length come back as `notes`, not `findings`.
 //   aaa: contrast 7:1 (4.5:1 large, 1.4.6), targets 44px (2.5.5); text size,
-//       line height 1.5 and line length are failures.
+//       line height 1.5 and line length above 80 characters (1.4.8) are
+//       failures. A line of 76 to 80 characters passes 1.4.8 and comes back
+//       as a note, "above the 45-75 reading target".
+// A target is measured at the largest box among an input and its labels
+// (input.labels): a visually hidden radio inside a 44px label is the label's size.
 // Too-narrow columns are only checked at 768px and wider; phones are narrow by nature.
 // Limits: background images and gradients are not composited; text on them
 // needs a person.
@@ -20,6 +25,7 @@
   const SKIP = ".mermaid, script, style, noscript, svg" + (opts.skip ? ", " + opts.skip : "");
   const MIN_CH = opts.minChars || 45;
   const MAX_CH = opts.maxChars || 75;
+  const WCAG_MAX_CH = 80; // 1.4.8: at most 80 characters per line
   const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
   const rgba = (css) => {
     ctx.clearRect(0, 0, 1, 1);
@@ -99,7 +105,8 @@
       const widest = Math.max(0, ...counts);
       const avg = full.length ? full.reduce((a, b) => a + b, 0) / full.length : widest;
       if (el.textContent.trim().length >= 100) {
-        if (widest > MAX_CH) add("lineLength", el, widest, "at most " + MAX_CH + " characters per line");
+        if (AAA && widest > WCAG_MAX_CH) add("lineLength", el, widest, "at most " + WCAG_MAX_CH + " characters per line");
+        else if (widest > MAX_CH) notes.lineLength.push({ element: name(el), text: snippet(el), observed: widest, required: "above the " + MIN_CH + "-" + MAX_CH + " reading target" });
         else if (innerWidth >= 768 && full.length && avg < MIN_CH) add("lineLength", el, Math.round(avg), "at least " + MIN_CH + " characters per line");
       }
     }
@@ -111,8 +118,10 @@
     const inline = el.matches("a") && getComputedStyle(el).display === "inline" && el.parentElement &&
       [...el.parentElement.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
     if (inline) continue; // 2.5.8 and 2.5.5 exempt targets inside a sentence
-    const r = el.getBoundingClientRect();
     const min = AAA ? 44 : 24;
+    // The label is the real target of a hidden or small input.
+    const boxes = [el, ...(el.labels || [])].map((n) => n.getBoundingClientRect());
+    const r = boxes.reduce((a, b) => (b.width * b.height > a.width * a.height ? b : a));
     if (r.width < min || r.height < min) add("targets", el, Math.round(r.width) + "x" + Math.round(r.height), `at least ${min}x${min} px`);
   }
 

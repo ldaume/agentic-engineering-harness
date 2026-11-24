@@ -31,6 +31,7 @@ loop only when evidence cannot resolve a material decision.
 | [write-a-skill](./write-a-skill/SKILL.md)                   | create skill, SKILL.md, skill frontmatter, skills CLI      |
 | [documentation-and-adrs](./documentation-and-adrs/SKILL.md) | ADRs, runbooks, public API docs, durable decisions         |
 | [pnpm](./pnpm/SKILL.md)                                     | pnpm workspaces, lockfiles, Corepack, overrides, patches   |
+| [renovate](./renovate/SKILL.md)                             | Renovate config, self-hosting, GitHub App, no PRs, dashboard stuck |
 | [scaffold-monorepo](./scaffold-monorepo/SKILL.md)           | new monorepo, pnpm workspaces, CI, Renovate, quality gates |
 
 Retired from this catalog. The last public tag stays installable by pin and is
