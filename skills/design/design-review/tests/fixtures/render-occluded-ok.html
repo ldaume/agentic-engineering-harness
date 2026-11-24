@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Occluded ok</title>
+<style>body{margin:0;font:16px/1.5 system-ui;height:2600px}
+.sticky{position:sticky;top:0;height:60px;margin-bottom:-60px;background:#111;z-index:5}
+.fixedbar{position:fixed;left:0;right:0;top:46%;height:70px;background:#1d4ed8;z-index:9}
+.sec{position:absolute;left:24px;width:420px}#a{top:900px}#b{top:20px}#c{top:1500px}#d{top:2000px}
+.dupe{position:absolute;inset:0;background:#fff;z-index:2}.fade{position:absolute;inset:0;background:rgba(255,255,255,.6);z-index:2}</style></head>
+<body><div class="sticky"></div><div class="fixedbar"></div>
+<div class="sec" id="a"><p>Case A caption under a fixed bar.</p></div>
+<div class="sec" id="b"><p>Case B text under sticky header.</p></div>
+<div class="sec" id="c" style="min-height:40px"><p>Case C same words in wrapper</p><div class="dupe"><span>Case C same words in wrapper</span></div></div>
+<div class="sec" id="d" style="min-height:40px"><p>Case D under a translucent fade.</p><div class="fade"></div></div></body></html>
