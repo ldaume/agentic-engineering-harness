@@ -84,7 +84,9 @@ Before claiming done, ask and answer in the same loop:
 
 1. **Manifest here?** Does this evidence belong in the current repository
    harness owner (`HARNESS.md`, `AGENTS.md`, checks, Hook, Skill,
-   `LEARNINGS.md`)? Prefer a hard adaptation when the same mistake would recur.
+   `LEARNINGS.md`)? Anchor a lesson at the strongest control that can
+   hold it: type or compiler, test, lint/schema/policy, sandbox or permission,
+   deterministic hook, Skill, rule or ADR. Memory is never the authority.
 2. **Port within your authority?** After every harness change, decide whether a
    generalized variant belongs in a catalog you own or are authorized to
    change. If yes, update that owner in the same loop. Do not push, open a pull

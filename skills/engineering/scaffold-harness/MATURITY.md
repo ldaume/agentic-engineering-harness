@@ -29,6 +29,9 @@ Skill.
 | L6 - Governed value stream | Repeated delivery from intent through production feedback | The delivery system operates autonomously inside explicit goals, risk limits, and deterministic controls | Human-on-the-loop for governed domains; retains veto, incident authority, and accountability | Isolated execution, policy and quality gates, rollback, audit, incident ownership, production feedback, and proven oversight | Engineering, operations, security, and product delivery become one governed operating system |
 | L7 - Adaptive product system | Bounded product, investment, or portfolio decisions | The system selects problems, experiments, and investments within accountable strategic boundaries | Governs objectives, budgets, decision domains, and exceptions; can stop the system | Proven L6 controls plus trusted product signals, experiment and data boundaries, investment budgets, kill criteria, and human-governed portfolio decisions | Product strategy, funding, organizational design, and decision rights change-not only software delivery |
 
+An owner may set the operating frame (for example L7) for an estate; each
+workflow inside it still earns its autonomy by evidence.
+
 ## Independent Dimensions
 
 Do not average these into a vanity score. Record the current evidence and
