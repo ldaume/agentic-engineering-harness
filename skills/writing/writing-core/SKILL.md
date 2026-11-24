@@ -110,7 +110,7 @@ in CI. `tests/run_evals.py routing --host claude|codex` replays
 host actually loads; run it after changing any description.
 
 `references/sources.json` is the evidence registry for all five writing
-skills (44 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
+skills (47 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
 limits, evidence level, and a revisit trigger); rules cite it as
 `[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
 citation without an entry.
