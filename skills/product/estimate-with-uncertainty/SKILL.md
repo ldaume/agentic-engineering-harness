@@ -153,6 +153,10 @@ Keep it at the end of the method document:
 |---|---|---|
 | OLS on log cost, bootstrap over all items (synthetic example) | Bayesian lognormal regression | Open items counted as finished; percentile and BCa intervals disagreed |
 
+Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
+forecast ready, and name each gap by its term (point forecast, interval
+coverage, back-transformation bias, and so on).
+
 Reviewers find the same first-draft errors again and again; check for them
 before review: open items counted as finished, Poisson without a dispersion
 check, a subgroup mean without shrinkage, a p-value instead of a probability,
