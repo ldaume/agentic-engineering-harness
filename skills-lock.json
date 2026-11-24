@@ -53,37 +53,37 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-core/SKILL.md",
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "design-dataviz": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-dataviz/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "design-flows": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-flows/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "design-forms": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-forms/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "design-product-ui": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-product-ui/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "design-research": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-research/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     "design-review": {
       "source": "local",

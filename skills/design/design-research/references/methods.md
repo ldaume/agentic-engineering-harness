@@ -22,6 +22,40 @@
 4. Rate confidence by sample, method fit, and consistency.
 5. Tie each theme to the decision question.
 
+## AI-assisted synthesis
+
+Rules for using a model on research material (hypothesis: practice-based; no
+controlled study of AI synthesis quality was read):
+
+- Allowed: transcription, a first-pass tagging pass, and clustering of
+  verbatim observations, each checked by a person against the source.
+- Never: invented or paraphrased-as-verbatim quotes, synthetic users or
+  simulated participants as evidence, or counts the model produced that a
+  person did not recount.
+- Every finding traces to a participant id, a quote, and a timestamp or
+  location in the recording. A claim without that trail is dropped.
+- Before uploading a transcript or recording to a model, confirm consent
+  covers it, strip names and identifiers, and check the data-processing
+  terms of the tool.
+- Record what the model did and what a person verified, in the synthesis
+  note, so the limits are stated.
+
+## Continuous discovery
+
+For teams that need ongoing, not project-based, research (hypothesis; a
+single-author practitioner method) [SRC-FLOW-032] [SRC-FLOW-006]:
+
+- A weekly customer touchpoint, such as a short interview, for the people who
+  build the product, so fewer decisions run without customer input.
+- Keep an opportunity solution tree: the outcome, opportunities taken from
+  interviews, candidate solutions, and the assumption tests under each;
+  revise it every three to four interviews.
+- Test the riskiest assumption of each solution with the smallest check
+  (a prototype, a fake door, a data pull) before building; compare at least
+  three solutions per opportunity.
+- Interview opinions stay self-reported (see the table); pair them with
+  observation or telemetry before they drive a large bet.
+
 ## Reporting limits
 
 State sample, recruitment, method, what the study cannot show, and which

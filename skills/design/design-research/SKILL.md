@@ -38,12 +38,18 @@ Details, steps, and exit criteria: `references/research-golden-paths.md`.
   their helpers (supported) [SRC-FLOW-005].
 - Never write a quote, a rate, or a finding that was not collected; write
   "not yet tested" and the study that would test it.
+- A model may transcribe, tag a first pass, and cluster observations that a
+  person then verifies; it never supplies quotes, synthetic users as
+  evidence, or unverified counts, and every finding keeps a quote and
+  timestamp trail (hypothesis). Rules and the consent check:
+  `references/methods.md`.
 
 ## Load when
 
 - `references/research-golden-paths.md` - choosing and running path A, B,
   or C.
-- `references/methods.md` - picking a method, sample, and analysis.
+- `references/methods.md` - picking a method, sample, and analysis;
+  AI-assisted synthesis; continuous discovery.
 - `references/templates.md` - research plan, interview guide, usability
   test script, synthesis format (DE and EN).
 

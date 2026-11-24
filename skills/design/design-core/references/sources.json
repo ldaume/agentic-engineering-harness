@@ -2548,20 +2548,20 @@
   {
    "id": "SRC-VIZ-012",
    "title": "Chartability (POUR-CAF) repository",
-   "url": "https://github.com/chartability/POUR-CAF",
-   "publisher": "Chartability community (Frank Elavsky is the known creator; the page I read did not name him)",
+   "url": "https://chartability.github.io/POUR-CAF/",
+   "publisher": "Chartability (created by Frank Elavsky; sponsored by Fizz Studio)",
    "published": "unknown",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "domains": [
     "data-visualization"
    ],
    "findings": [
-    "50 testable heuristics across seven principles: Perceivable, Operable, Understandable, Robust plus Compromising, Assistive, Flexible; 14 are marked critical.",
+    "Workbook of heuristic tests in seven categories: Perceivable, Operable, Understandable, Robust (POUR) plus Compromising, Assistive, Flexible (CAF); some tests are marked critical because they are costly to fix, common, or create significant barriers.",
     "Framed as failure-finding, not pass/fail; inconclusive counts as failure; complements WCAG audits.",
     "Suggested quick pass: visual, keyboard, screen reader, cognitive, context."
    ],
-   "limits": "Heuristics are not empirically validated per item; chartability.fyi and chartability.com did not load, so only the GitHub page was read.",
+   "limits": "Read the workbook site (https://chartability.github.io/POUR-CAF/, loads on 2026-11-24; it credits Frank Elavsky as creator, CC-BY-SA) and earlier the GitHub page. Test counts were not re-counted in the workbook (50 tests, 14 critical comes from the earlier read). Heuristics are not empirically validated per item. chartability.fyi did not load; chartability.com returned an empty page.",
    "evidence_level": "supported",
    "revisit": "new workbook version"
   },
@@ -3273,6 +3273,93 @@
    "limits": "Version read with npm view; the exit-code behavior is the commonly documented one, not re-run in this session (supported). The CLI pins its own Mermaid version.",
    "evidence_level": "supported",
    "revisit": "New major version."
+  },
+  {
+   "id": "SRC-A11Y-028",
+   "title": "Sign in with a passkey through form autofill (web.dev)",
+   "url": "https://web.dev/articles/passkey-form-autofill",
+   "publisher": "web.dev (Chrome team)",
+   "published": "2022-10-16",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "accessibility",
+    "forms",
+    "authentication"
+   ],
+   "findings": [
+    "Add autocomplete=\"username webauthn\" to the username input; autofocus triggers the autofill prompt on load, showing saved passwords and passkeys together.",
+    "Use conditional UI: call navigator.credentials.get() with mediation: 'conditional' on page load; it stays pending until the person picks a passkey from the autofill list. Pass an empty allowCredentials array, and use an AbortController to cancel the pending call.",
+    "Feature-detect before the call: PublicKeyCredential exists, and PublicKeyCredential.getClientCapabilities() reports conditionalGet === true.",
+    "The page frames this as a way to serve passkey and password users in one form without asking people to pick a method."
+   ],
+   "limits": "The page footer shows 2022-10-16 as its last update but its code uses getClientCapabilities(), a newer API; treat the date as unreliable. The article does not name PublicKeyCredential.isConditionalMediationAvailable(); that older check is not read here (supported). It does not cover recovery flows or WCAG 3.3.8; the link to 3.3.8 comes from SRC-A11Y-001.",
+   "evidence_level": "verified",
+   "revisit": "Changes to the WebAuthn Level 3 conditional mediation API or the article."
+  },
+  {
+   "id": "SRC-FLOW-030",
+   "title": "AI Agents as Users (NN/g)",
+   "url": "https://www.nngroup.com/articles/ai-agents-as-users/",
+   "publisher": "Nielsen Norman Group (Sarah Gibbons, Kate Moran)",
+   "published": "2026-04-10",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "ai",
+    "agents",
+    "accessibility"
+   ],
+   "findings": [
+    "AI agents (systems pursuing a goal by iteratively acting, evaluating, and deciding next steps) already use interfaces: navigate, fill forms, compare options, run transactions, crudely and unreliably.",
+    "Near term, design for people and agents at once: clear descriptive labels (no icon-only buttons or 'click here'), predictable and consistent patterns, structural markup that reflects the visual grouping, semantic HTML and ARIA.",
+    "Intentional friction (regulated actions, financial or health data) can be a reason to restrict agent access; the visit-is-the-product and competitive-data cases are other reasons."
+   ],
+   "limits": "Opinion and practice article, not a controlled study; the article says the advice is context-dependent. Read in full on 2026-11-24; the longer-term section on diverging interface layers was only skimmed.",
+   "evidence_level": "supported",
+   "revisit": "A NN/g study with measured agent task success."
+  },
+  {
+   "id": "SRC-FLOW-031",
+   "title": "Generative UI and Outcome-Oriented Design (NN/G)",
+   "url": "https://www.nngroup.com/articles/generative-ui/",
+   "publisher": "Nielsen Norman Group (Kate Moran, Sarah Gibbons)",
+   "published": "2024-03-22",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "ai",
+    "generative-ui"
+   ],
+   "findings": [
+    "Defines generative UI as an interface generated in real time for one user; distinguishes it from AI-assisted design tools.",
+    "Predicts outcome-oriented design: designers set goals and constraints (for example must show, should show, never show) that the generator must satisfy, and research and testing become more important.",
+    "Anticipates short-term challenges for generated interfaces; the challenges section was not read in full."
+   ],
+   "limits": "A 2024 forecast, not evidence about shipped products; read to the start of the challenges section.",
+   "evidence_level": "hypothesis",
+   "revisit": "Studies of shipped generative interfaces."
+  },
+  {
+   "id": "SRC-FLOW-032",
+   "title": "Product Discovery Basics (Product Talk, Teresa Torres)",
+   "url": "https://www.producttalk.org/continuous-discovery/",
+   "publisher": "Product Talk (Teresa Torres)",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "ux-research",
+    "discovery"
+   ],
+   "findings": [
+    "Good discovery teams engage with customers at least weekly, to minimize decisions made without customer input.",
+    "Two weekly activities: customer interviewing (finds opportunities: needs, pain points, desires) and assumption testing (finds solutions).",
+    "The opportunity solution tree links the outcome to opportunities, solutions, and assumption tests."
+   ],
+   "limits": "Single-author practitioner framework; no controlled evidence that it improves outcomes. Read two Product Talk pages, not the book.",
+   "evidence_level": "hypothesis",
+   "revisit": "Peer-reviewed evaluation or a revised method."
   }
  ]
 }

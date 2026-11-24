@@ -13,6 +13,11 @@
   route (supported) [SRC-FLOW-012] [SRC-FLOW-020].
 - Long AI operations say what they are doing, not "Processing..."
   [SRC-FLOW-014].
+- Streaming output has Stop beside it; after stop or failure the person can
+  Retry or Keep the partial output, and partial output stays out of
+  downstream steps until accepted (hypothesis).
+- Show which data the AI read or used, and disclose cost or latency when it
+  changes the decision (hypothesis) [SRC-FLOW-025].
 
 ## Explanations are not a safety net
 
@@ -29,6 +34,17 @@ Developers supervising coding agents plan and scope up front, monitor while
 the agent runs, and review afterwards; a final diff alone is not enough
 (hypothesis; small 2025-2026 preprint samples read at abstract level)
 [SRC-FLOW-024] [SRC-FLOW-025] [SRC-FLOW-026].
+
+## Agent autonomy
+
+Spec per action class what an agent may do without asking, what needs
+confirmation, and what it never does. For each class, model how control
+returns (pause or take over), how the person inspects the action log, and
+how the action is reversed or compensated (supported) [SRC-FLOW-010]
+[SRC-FLOW-025]. Flows an agent will also walk need descriptive labels and
+predictable steps, the same accessibility basics people rely on (supported)
+[SRC-FLOW-030]. Generated interfaces need guard rails written as must show,
+should show, and never show (hypothesis) [SRC-FLOW-031].
 
 ## Collaborative and multi-role flows
 
@@ -48,5 +64,6 @@ reverted, expired, conflict - and from every one of them a way out.
 
 ## Evidence gaps
 
-No NN/g article on AI trust, undo, or review-before-apply was found in the
-2026-10 refresh; no controlled study of diff-review interfaces exists yet.
+NN/g now has articles on agents as users [SRC-FLOW-030] and generative UI
+[SRC-FLOW-031], but none on AI trust, undo, or review-before-apply was found
+as of 2026-11-24; no controlled study of diff-review interfaces exists yet.
