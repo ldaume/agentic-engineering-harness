@@ -3,16 +3,24 @@
 A successful build is not evidence of a good experience. Open the real
 product and check it.
 
-## Gate stack (verified 2026-10-21)
+## Gate stack (verified 2026-11-24)
 
 | Package | Version | License | Role |
 |---|---|---|---|
-| `@playwright/test` | 1.64.1 | Apache-2.0 | Browser runner, viewports, screenshots [SRC-TOOL-003] |
+| `@playwright/test` | 1.65.1 | Apache-2.0 | Browser runner, viewports, screenshots [SRC-TOOL-003] |
 | `@axe-core/playwright` | 4.14.0 | MPL-2.0 | WCAG A/AA scan inside Playwright [SRC-TOOL-002] |
-| `lighthouse` | 13.5.0 | Apache-2.0 | Optional lab performance smoke [SRC-TOOL-004] |
+| `lighthouse` | 13.6.0 | Apache-2.0 | Optional lab performance smoke [SRC-TOOL-004] |
+
+Versions checked against npm on 2026-11-24 (axe 4.14.0 is still the latest).
+Playwright 1.65 no longer tests on Node.js 20 (use 22, 24 or 26; npm engines
+still say `>=20`), and text the browser does not render, such as text inside a
+closed `<details>`, is no longer part of accessible names and aria snapshots:
+re-check `getByRole` names and `toMatchAriaSnapshot` assertions that rely on
+it (release notes read 2026-11-24). Lighthouse 13.6.0 needs Node `>=22.19`.
+The catalog CI runs Node 24.
 
 ```bash
-npm install -D --save-exact @playwright/test@1.64.1 @axe-core/playwright@4.14.0
+npm install -D --save-exact @playwright/test@1.65.1 @axe-core/playwright@4.14.0
 npx playwright install --with-deps chromium
 npx playwright test
 ```
@@ -45,8 +53,12 @@ In a browser console paste `(` + the file + `)({ level: "aa" })`. The default
 level is `aa`: contrast 4.5:1 (3:1 for large text, 24 px or 18.66 px bold),
 targets 24 px outside inline text, no overflow. Text size 16 px, line height
 1.5 on p/li/dd/td and 45 to 75 characters per line come back as `notes`.
-Level `aaa` makes those failures and raises contrast to 7:1 (4.5:1 large) and
-targets to 44 px. Line height 1.5 is 1.4.8, a different criterion from 1.4.12,
+Level `aaa` makes text size and line height failures, raises contrast to 7:1
+(4.5:1 large) and targets to 44 px, and fails a line above 80 characters, the
+limit of 1.4.8; a line of 76 to 80 characters is a note, "above the 45-75
+reading target". A target is the largest box among an input and its labels, so
+a visually hidden radio inside a 44 px label (a segmented control) is the
+label's size. Line height 1.5 is 1.4.8, a different criterion from 1.4.12,
 which is about surviving user overrides. Diagram sources (`.mermaid`), script
 and style are skipped; background images are not composited. Worked tests:
 `tests/reading-audit.spec.mjs` with `tests/playwright.config.mjs` (`npx playwright test -c skills/design/design-review/tests`).
@@ -66,7 +78,11 @@ and style are skipped; background images are not composited. Worked tests:
 ## What automation cannot prove
 
 - WCAG conformance: axe states it finds about 57% of issues on average;
-  `incomplete` results need a person (verified) [SRC-TOOL-001].
+  `incomplete` results need a person (verified) [SRC-TOOL-001]. The 57% is
+  Deque's own study from March 2021 (about 13,000 pages, counted by issue
+  volume, not by WCAG criterion), a vendor figure; independent estimates are
+  reported lower (hypothesis, not confirmed in this run). Treat it as an upper
+  orientation, not a coverage promise.
 - Meaningful alt text, link purpose, reading and focus order, real screen
   reader announcements, cognitive load, plain language, message helpfulness,
   motion comfort, touch use in real hands, visual hierarchy.
