@@ -51,8 +51,10 @@ only for the rules Jev is unsure about. The page screenshots stop at 1568 px,
 so each diagram (a large `svg`, `canvas`, `figure`, or `[role=img]`, up to 6)
 gets its own shot with sticky layers hidden and clipping containers opened,
 and is checked for clipped text, stacked labels, lines through boxes, and
-small text: exactly from the SVG geometry where it is inline SVG, otherwise
-by Jev and the model. On 7 synthetic diagrams Jev caught every clipped title,
+small text: exactly from the SVG geometry where it is inline SVG (text size is
+font size times the SVG scale, measured at 390 and 1280 px against a 12 px floor), otherwise
+by Jev and the model; Jev's answer on small text flipped between runs on 15 px labels
+that render at 12 to 13 px, so it no longer decides inline SVG. On 7 synthetic diagrams Jev caught every clipped title,
 stacked label, and small text and passed the clean one, but stayed unsure on
 a line through an empty part of a box, which goes to the model. The visible
 page text (headings, paragraphs, list items, captions, up to 80 blocks) is
@@ -61,7 +63,9 @@ diagram sideways", "click here", "siehe unten"): exactly by pattern first,
 otherwise by one typed Jev question on the text alone and the model when Jev
 is unsure. On 16 synthetic pages Jev scored such sentences 0.73 to 0.97 and
 product descriptions at most 0.44, except a how-to step inside a product
-(up to 0.81), so a fail needs 0.85. It also measures type and layout craft from the DOM (text under 12 px, near-duplicate font
+(up to 0.81), so a fail needs 0.85. The phone question tells Jev that the shot ends at an artificial cut, because text running off
+the bottom edge made it fail two clean pages in 4 of 5 runs; it now scores them 0.10 to 0.21 and
+real defects 0.64 to 0.95. It also measures type and layout craft from the DOM (text under 12 px, near-duplicate font
 sizes, a lone last word in a heading or bold text, text edges a few pixels off one another, more
 than 3 font families) and asks Jev, in a call of its own, whether the page is noticeably sparse; the rules, thresholds and
 the ones that were measured and dropped are in `references/browser-verification.md`.
