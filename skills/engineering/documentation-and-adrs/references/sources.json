@@ -1,0 +1,156 @@
+{
+ "sources": [
+  {
+   "id": "SRC-DOC-001",
+   "title": "Diataxis: the compass",
+   "url": "https://diataxis.fr/compass/",
+   "publisher": "Diataxis",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "Two questions place content: does it inform action or cognition, and does the reader acquire or apply it.",
+    "The answers map to tutorial, how-to guide, reference, or explanation, and apply to a whole page or a single sentence."
+   ],
+   "limits": "A framework from one author; the page itself says to apply it loosely.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-002",
+   "title": "Diataxis: how-to guides",
+   "url": "https://diataxis.fr/how-to-guides/",
+   "publisher": "Diataxis",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "A how-to guide serves a competent reader with a goal and is distinct from a tutorial, which teaches.",
+    "Explanation and reference stay out of the guide and are linked instead; the title says exactly what the guide shows."
+   ],
+   "limits": "A framework from one author.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-003",
+   "title": "Diataxis: reference",
+   "url": "https://diataxis.fr/reference/",
+   "publisher": "Diataxis",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "Reference only describes: facts without instruction, opinion, or explanation, structured like the product.",
+    "Generated reference can stay accurate to the code but is not all the documentation a product needs."
+   ],
+   "limits": "A framework from one author.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-004",
+   "title": "Documenting Architecture Decisions",
+   "url": "https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions",
+   "publisher": "Cognitect (Michael Nygard)",
+   "published": "2011-11-15",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "An ADR has a title, context, decision, status, and consequences, runs one to two pages in prose, and lives in the repository under sequential, never-reused numbers.",
+    "A reversed decision stays in place and is marked superseded with a pointer to its replacement; ADRs cover architecturally significant decisions."
+   ],
+   "limits": "The original lightweight form; later templates add fields.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-005",
+   "title": "Technical Writing One: Audience",
+   "url": "https://developers.google.com/tech-writing/one/audience",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "Name the reader roles and how close each is to the knowledge, then write what they need to learn or do minus what they already have.",
+    "Experts skip explanations newcomers need (curse of knowledge)."
+   ],
+   "limits": "A course for engineers; guidance, not measured effect.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-006",
+   "title": "Technical Writing Two: Large documents",
+   "url": "https://developers.google.com/tech-writing/two/large-docs",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "Choose one long document or short linked ones by reader and content type; the introduction states coverage, prerequisites, and non-coverage.",
+    "Background such as history belongs at the end, linked; headings name the reader's task."
+   ],
+   "limits": "A course for engineers; guidance, not measured effect.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-007",
+   "title": "Technical Writing One: Define your document's scope and audience",
+   "url": "https://developers.google.com/tech-writing/one/documents",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "State the scope and the non-scope readers would expect, and declare the audience and prerequisites.",
+    "Put the key points first, since some readers stop after the opening; in review, cut what does not serve the scope."
+   ],
+   "limits": "A course for engineers; guidance, not measured effect.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  },
+  {
+   "id": "SRC-DOC-008",
+   "title": "Docs as Code",
+   "url": "https://www.writethedocs.org/guide/docs-as-code/",
+   "publisher": "Write the Docs",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practitioner",
+   "domains": [
+    "documentation"
+   ],
+   "findings": [
+    "Documentation is written with the code's tools: version control, plain text, code review, automated checks, and the issue tracker.",
+    "Teams can block feature merges that lack documentation, so it is written while the feature is fresh."
+   ],
+   "limits": "A community guide; the page does not describe staleness checks in detail.",
+   "evidence_level": "context-dependent",
+   "revisit": "2027-11"
+  }
+ ]
+}
