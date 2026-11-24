@@ -42,6 +42,16 @@ information (optional) (`SRC-WRITE-047`). This reference covers the prose
 only; whether a change needs an ADR and what the decision is belong to
 `documentation-and-adrs`.
 
+## Docs that AI reads
+
+Agents and search retrieve fragments, not whole pages. So each section stands
+alone: name the subject in its first sentence, and write no "as above" or "the
+previous step". A reference page carries no narrative; put the story in an
+explanation page (Diataxis) [SRC-WRITE-046]. Do not mandate an `llms.txt`
+file: a log study of 137,210 domains found that 97 percent of such files got no
+requests in May 2026 (supported) [SRC-WRITE-059], and Google's John Mueller said
+no AI system uses the file (supported, second-hand) [SRC-WRITE-060].
+
 ## Anti-patterns
 
 - Narrating history before the current truth.

@@ -38,6 +38,10 @@ urgency, scarcity, certifications, or case-study outcomes, because public
 copy is checkable and one fake proof point discredits the page. When proof is
 missing, write more specifically and flag the gap to the user.
 
+German consumer-facing copy for digital products and services also falls
+under the understandability duty of the BFSG, in force since 2025-06-28
+(supported) [SRC-WRITE-056]; check the scope in the individual case.
+
 ## Route
 
 - marketing email: `references/marketing-email.md`

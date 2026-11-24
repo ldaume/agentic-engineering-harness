@@ -1141,6 +1141,65 @@
    "limits": "Abstract opened on 2026-11-24. It studies style homogenization from AI suggestions, not translation: it does not test English drafts translated into German.",
    "evidence_level": "supported",
    "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-058",
+   "title": "Rogers and Lasky-Fink: Write shorter messages (HKS Behavioral Insights; book \"Writing for Busy Readers\", 2023)",
+   "url": "https://www.hks.harvard.edu/sites/default/files/HKSEE/HKSEE%20PDFs/Write%20shorter%20messages.pdf",
+   "publisher": "Harvard Kennedy School",
+   "published": "2023",
+   "accessed": "2026-11-24",
+   "type": "field-experiment",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Field experiment with 7,002 school leaders: a 49-word request email drew a 4.8 percent response and a 127-word version 2.7 percent; readers of the short email were more likely to expect a quick task."
+   ],
+   "limits": "The figures come from web search summaries of the authors' material on 2026-11-24; the HKS PDF itself was not opened. One population and one request type; the effect of length alone is not separated from the effect of the request count.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-059",
+   "title": "Ahrefs: We Analyzed 137K Sites: 97% of llms.txt Files Never Get Read",
+   "url": "https://ahrefs.com/blog/llmstxt-study/",
+   "publisher": "Ahrefs",
+   "published": "2026",
+   "accessed": "2026-11-24",
+   "type": "log-study",
+   "domains": [
+    "engineering",
+    "ai-seo",
+    "en"
+   ],
+   "findings": [
+    "Server logs of 137,210 domains: 97 percent of llms.txt files received no requests in May 2026; AI retrieval bots made about 1 percent of the requests that did arrive, and most requesting bots were not AI tools."
+   ],
+   "limits": "Figures from a web search summary on 2026-11-24; the article was not opened. It measures requests for the index file, not whether a bot used the content. The sample skews toward technical sites.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-060",
+   "title": "John Mueller (Google), post on llms.txt, reported by PPC Land",
+   "url": "https://ppc.land/llms-txt-adoption-rises-8-8x-but-97-of-files-get-zero-ai-requests/",
+   "publisher": "PPC Land (reporting a Bluesky post)",
+   "published": "2025-06",
+   "accessed": "2026-11-24",
+   "type": "statement",
+   "domains": [
+    "engineering",
+    "ai-seo",
+    "en"
+   ],
+   "findings": [
+    "Google's John Mueller said no AI system currently uses llms.txt (as reported)."
+   ],
+   "limits": "Second-hand: the original post was not found or opened on 2026-11-24. A vendor statement about the state of the art in mid-2025; it can change.",
+   "evidence_level": "supported",
+   "revisit": "revisit before any llms.txt advice"
   }
  ]
 }

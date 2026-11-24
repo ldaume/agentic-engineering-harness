@@ -33,6 +33,17 @@ High shared context: point, context, ask.
 Length: quick coordination 30 to 90 words, business request 60 to 180,
 sensitive or context-heavy 120 to 300.
 
+## Busy readers
+
+One message, one request. With two asks, number them or send two messages,
+because a second request hides behind the first. Put the ask of an action email
+in the subject or the first line.
+
+In a field experiment with 7,002 school leaders, a 49-word request drew a 4.8
+percent response and a 127-word version 2.7 percent (supported)
+[SRC-WRITE-058]. Treat it as a reason to cut, not as a word limit: the figures
+come from one population and one kind of request.
+
 ## Templates
 
 ```text

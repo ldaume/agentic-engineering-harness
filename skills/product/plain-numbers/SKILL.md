@@ -40,7 +40,14 @@ meeting"). Then apply to every number:
 10. Prefer a numeric range to a verbal hedge: "between 30% and 44%" over
     "fairly uncertain". In experiments, a numeric range cost little trust and a
     verbal hedge cost more (van der Bles et al., PNAS 2020, abstract read on
-    2026-11-24; `SRC-WRITE-045` in the writing-core registry).
+    2026-11-24; verified) [SRC-WRITE-045].
+    A number about the future (effort, cost, date, volume) is always a range,
+    never a point estimate: "between 3 and 5 weeks", "1,500 to 2,500 EUR". Say
+    what the range rests on and what would change it. A forecast computed from
+    measured throughput or cost data beats a guess; show the data and the
+    formula. Where the decision does not need the estimate, define the value
+    and the boundary instead (an outcome and the most the team will spend on
+    it).
 11. State the denominator and the absolute change before any relative change:
     "from 40 to 50 of 200 requests (20% to 25%, +5 points, 25% more)", never
     "+25%" alone.
