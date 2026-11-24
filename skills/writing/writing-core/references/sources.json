@@ -1265,6 +1265,166 @@
    "limits": "Taken from a research pass on 2026-11-24; benchmark of keyword-inclusion instructions in a report task, not of agent context files.",
    "evidence_level": "supported",
    "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-064",
+   "title": "Plain language guide: Writing for understanding (Digital.gov)",
+   "url": "https://digital.gov/guides/plain-language/writing",
+   "publisher": "U.S. General Services Administration (Digital.gov)",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Active voice shows who is responsible for each action; passive voice obscures who handles what. Passive may fit in a few cases, such as when a law is the only actor.",
+    "A hidden verb is a verb turned into a noun (endings -ment, -tion, -sion, -ance, or phrases with make, take, reach); use the strongest, most direct form of the verb."
+   ],
+   "limits": "Adapted from the archived PlainLanguage.gov content; no publication date on the page.",
+   "evidence_level": "verified",
+   "revisit": "check that the guide still carries the active voice and hidden verb sections"
+  },
+  {
+   "id": "SRC-WRITE-065",
+   "title": "Technical Writing One: Active voice (Google for Developers)",
+   "url": "https://developers.google.com/tech-writing/one/active-voice",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "Default to active voice and use passive sparingly: readers convert passive to active in their heads, passive can omit the actor, and active sentences are usually shorter.",
+    "Imperative verbs count as active voice."
+   ],
+   "limits": "Course material; names no specific cases where passive is preferred.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-066",
+   "title": "Technical Writing One: Clear sentences (Google for Developers)",
+   "url": "https://developers.google.com/tech-writing/one/clear-sentences",
+   "publisher": "Google",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "engineering",
+    "en"
+   ],
+   "findings": [
+    "Choose specific verbs over weak generic ones (be, occur, happen); remove 'there is' and 'there are' openers by naming the actor.",
+    "Minimize subjective adjectives and adverbs; replace vague claims with objective, measurable facts."
+   ],
+   "limits": "Course material for technical writers.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-067",
+   "title": "Inverted Pyramid: Writing for Comprehension (Nielsen Norman Group, Amy Schade)",
+   "url": "https://www.nngroup.com/articles/inverted-pyramid/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2018-02-11",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Start with the most important information, then supporting details by how broadly they interest readers; skimmers can stop at any point and keep the main idea.",
+    "Front-load headings and the first sentence of each paragraph; consider a summary."
+   ],
+   "limits": "Practitioner article built on NN/g usability studies; no new study data in the article.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-068",
+   "title": "How Chunking Helps Content Processing (Nielsen Norman Group, Kate Moran)",
+   "url": "https://www.nngroup.com/articles/chunking/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2016-03-20",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Chunking splits content into small, distinct units so readers can scan, understand, and remember it: short paragraphs, clear headings, lists, summaries.",
+    "Miller's 'seven plus or minus two' is not a limit for menus or lists, which rely on recognition; meaningful structure matters more than item count."
+   ],
+   "limits": "Practitioner article; draws on working-memory research rather than a new study.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-069",
+   "title": "GOV.UK Writing to GOV.UK standards: Create a clear structure for your content",
+   "url": "https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/writing-guidelines/clear-structure/",
+   "publisher": "Government Digital Service",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Put the most important information first and taper to smaller details (inverted pyramid).",
+    "Headings are descriptive, front-loaded, active, and removable; avoid generic headings such as 'Introduction' and headings phrased as questions. Bullet lists and steps make lists easier to read."
+   ],
+   "limits": "Government publishing guidance; no last-updated date on the page.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-070",
+   "title": "Communicating quality, uncertainty and change (Government Analysis Function)",
+   "url": "https://analysisfunction.civilservice.gov.uk/policy-store/communicating-quality-uncertainty-and-change/",
+   "publisher": "UK Government Analysis Function (Data Quality Hub, ONS)",
+   "published": "2018-12-17",
+   "accessed": "2026-11-24",
+   "type": "style-guide",
+   "domains": [
+    "numbers",
+    "en"
+   ],
+   "findings": [
+    "Show uncertainty as a range with a central estimate and call figures estimates; follow a caution with what users can and cannot conclude.",
+    "Report the direction, absolute size and relative size of a change against stated baselines (previous period, same period last year, a longer series); call a non-significant change 'broadly stable'."
+   ],
+   "limits": "Published 2018 and marked as under review.",
+   "evidence_level": "verified",
+   "revisit": "check whether the review replaced the guidance"
+  },
+  {
+   "id": "SRC-WRITE-071",
+   "title": "Gigerenzer, Gaissmaier, Kurz-Milcke, Schwartz, Woloshin (2007). Helping Doctors and Patients Make Sense of Health Statistics. Psychological Science in the Public Interest 8(2)",
+   "url": "https://doi.org/10.1111/j.1539-6053.2008.00033.x",
+   "publisher": "Association for Psychological Science (SAGE)",
+   "published": "2007-11",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "numbers",
+    "en"
+   ],
+   "findings": [
+    "Nontransparent framing causes misreading: a 25 percent relative risk reduction from screening meant 1 fewer death in 1,000.",
+    "Recommends frequency statements over single-event probabilities, absolute over relative risks, and natural frequencies over conditional probabilities."
+   ],
+   "limits": "Abstract read through Crossref; the publisher page returned 403. Evidence comes from health statistics.",
+   "evidence_level": "supported",
+   "revisit": "when a newer review of risk communication formats appears"
   }
  ]
 }

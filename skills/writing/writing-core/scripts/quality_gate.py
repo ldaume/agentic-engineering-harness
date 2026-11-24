@@ -193,6 +193,54 @@ BOTTOM_LINE = re.compile(r"(?i)(bottom line|kurzfassung|fazit|tl;dr|kernaussage)
 PERCENT = re.compile(r"(?i)(?<![\d.,])(\d+(?:[.,]\d+)?)\s?(?:%|prozent|percent)")
 
 
+# Stable rule ids for findings, named by references/vocabulary.md so a term can
+# point at the rule that checks it. Messages keep their prefixes because readers
+# match on them; the first pattern that matches a message gives its id, so a
+# specific pattern goes before a generic one.
+RULE_IDS: list[tuple[str, str]] = [
+    ("ai-tell.not-x-but-y", r"ai-tell: not X but Y"),
+    ("ai-tell.justifying-filler", r"ai-tell: 'bewusst"),
+    ("ai-tell.filler-phrase", r"ai-tell: 'ins Spiel"),
+    ("ai-tell.inflated-role", r"ai-tell: '(?:spielt|plays)"),
+    ("ai-tell.stock-word", r"ai-tell: stock AI word"),
+    ("ai-tell.staged-opener", r"ai-tell: staged opener"),
+    ("ai-tell.vague-value", r"ai-tell: 'echter Mehrwert"),
+    ("ai-tell.chat-residue", r"ai-tell: chat residue"),
+    ("ai-tell.copula-avoidance", r"ai-tell: copula avoidance"),
+    ("ai-tell.vague-attribution", r"ai-tell: vague attribution"),
+    ("ai-tell.ui-instruction", r"ai-tell: UI operating instruction"),
+    ("readability.long-sentence", r"readability: \d+ sentence"),
+    ("readability.mean-sentence-length", r"readability: mean sentence length"),
+    ("list.enumeration", r"list: enumeration"),
+    ("list.semicolons", r"list: \d+ semicolons"),
+    ("acronym.first-use", r"acronym: "),
+    ("repetition.near-duplicate", r"repetition: "),
+    ("figures.conflict", r"figures: "),
+    ("term.avoided-variant", r"term: "),
+    ("claim.forbidden", r"claim: forbidden"),
+    ("claim.unsourced-percent", r"claim: \S+% has no"),
+    ("commit.empty-subject", r"commit: empty subject"),
+    ("commit.generic-subject", r"commit: generic subject"),
+    ("commit.subject-length", r"commit: subject is"),
+    ("commit.blank-line", r"commit: second line"),
+    ("artifact.percent-complete", r"\w+: percent complete"),
+    ("artifact.velocity", r"\w+: velocity"),
+    ("artifact.salutation", r"\w+: email-style salutation"),
+    ("artifact.preview-repeats", r"\w+: preview repeats"),
+    ("artifact.headline", r"\w+: (?:missing '# ' headline|headline has)"),
+    ("artifact.missing-part", r"\w+: missing "),
+    ("artifact.recommended-part", r"\w+: no (?!bottom line)"),
+    ("artifact.bottom-line", r"\w+: no bottom line"),
+    ("artifact.word-ceiling", r"\w+: \d+ words, default ceiling"),
+]
+
+
+def rule_ids(messages: list[str]) -> list[str]:
+    """The rule id of each finding, once each, in order."""
+    found = (next((rule for rule, pattern in RULE_IDS if re.match(pattern, m)), None) for m in messages)
+    return list(dict.fromkeys(r for r in found if r))
+
+
 STOP = {
     "en": "the a an and or but of to in on at for with by from as is are was were be been it its this that these those "
           "not no we you they he she i our your their his her has have had do does did will would can could should may "
@@ -379,7 +427,8 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
             if sentence.count(";") >= 2:
                 warnings.append(f"list: {sentence.count(';')} semicolons in one sentence, consider a list: {sentence[:60]!r}")
 
-    return {"artifact": artifact, "language": language, "errors": errors, "warnings": warnings, "diagnostics": diag}
+    return {"artifact": artifact, "language": language, "errors": errors, "warnings": warnings,
+            "rules": rule_ids(errors + warnings), "diagnostics": diag}
 
 
 JEV_DATA = json.loads((Path(__file__).resolve().parent / "jev_questions.json").read_text(encoding="utf-8"))

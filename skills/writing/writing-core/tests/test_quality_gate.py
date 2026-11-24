@@ -568,5 +568,61 @@ class AcronymTest(unittest.TestCase):
         self.assertFalse(any(w.startswith("acronym:") for w in warned(t)))
 
 
+# One text per rule id, each producing that finding and keeping the message
+# prefix existing readers match on.
+RULE_FIXTURES = {
+    "ai-tell.not-x-but-y": ("prose", "It is not a tool, but a habit."),
+    "ai-tell.justifying-filler": ("prose", "Die Seite ist bewusst schlank gehalten."),
+    "ai-tell.filler-phrase": ("prose", "Hier kommt der Cache ins Spiel."),
+    "ai-tell.inflated-role": ("prose", "The cache plays a pivotal role here."),
+    "ai-tell.stock-word": ("prose", "We delve into the logs."),
+    "ai-tell.staged-opener": ("prose", "Here's the thing about logs."),
+    "ai-tell.vague-value": ("prose", "The export adds real value."),
+    "ai-tell.chat-residue": ("prose", "The export is ready. I hope this helps."),
+    "ai-tell.copula-avoidance": ("prose", "The table serves as the index."),
+    "ai-tell.vague-attribution": ("prose", "Experts agree the export is ready."),
+    "ai-tell.ui-instruction": ("prose", "Scroll down to see the chart."),
+    "readability.long-sentence": ("prose", " ".join(["word"] * 35) + "."),
+    "readability.mean-sentence-length": ("prose", " ".join(["word"] * 28) + "."),
+    "list.enumeration": ("prose", "We test exports, imports, reports and audits."),
+    "list.semicolons": ("prose", "We test exports; then imports; then reports."),
+    "acronym.first-use": ("prose", "RLS guards every table."),
+    "repetition.near-duplicate": ("prose", "The export job writes every audit record nightly to storage. "
+                                           "The export job writes every audit record nightly to storage."),
+    "figures.conflict": ("prose", "Match rate 37 % in March. Later the match rate 41 % again."),
+    "term.avoided-variant": ("prose", "The ticket is open."),
+    "claim.forbidden": ("prose", "The export is certified."),
+    "claim.unsourced-percent": ("prose", "Usage rose 12 % this week."),
+    "commit.generic-subject": ("commit", "fixes"),
+    "commit.subject-length": ("commit", "Check audit permission before creating the export job now"),
+    "commit.blank-line": ("commit", "Check audit permission\nReject early."),
+    "artifact.missing-part": ("pull_request", "Adds the export."),
+    "artifact.word-ceiling": ("slack", " ".join(["word"] * 201)),
+    "artifact.bottom-line": ("executive_summary", "Some context first."),
+    "artifact.percent-complete": ("agile_progress", "# Goal\nExport\nCurrent state: 80% complete\nNext: audit"),
+}
+FACTS = {"terms": {"work item": ["ticket"]}, "forbidden_claims": ["certified"], "facts": []}
+
+
+class RuleIdTest(unittest.TestCase):
+    def test_given_each_fixture_when_checked_then_its_rule_id_is_reported(self):
+        for rule, (artifact, text) in RULE_FIXTURES.items():
+            with self.subTest(rule=rule):
+                self.assertIn(rule, check(text, artifact, "en", FACTS)["rules"])
+
+    def test_given_clean_text_when_checked_then_no_rule_ids(self):
+        self.assertEqual(check("The export runs at night.", "prose", "en")["rules"], [])
+
+    def test_given_vocabulary_when_read_then_every_gate_rule_it_names_is_known(self):
+        import re
+        from quality_gate import RULE_IDS
+        known = {rule for rule, _ in RULE_IDS} | {"diagnostics.lix"}
+        text = (Path(__file__).resolve().parents[1] / "references" / "vocabulary.md").read_text(encoding="utf-8")
+        named = {rule for row in text.splitlines() if row.startswith("| ") and row.rstrip().endswith("|")
+                 for rule in re.findall(r"`([a-z][\w-]*\.[\w.-]+)`", row.split("|")[-2]) if "exact" in row.split("|")[-2]}
+        self.assertTrue(named)
+        self.assertFalse(named - known, named - known)
+
+
 if __name__ == "__main__":
     unittest.main()

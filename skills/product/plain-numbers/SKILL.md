@@ -58,6 +58,8 @@ meeting"). Then apply to every number:
     plain-punctuation rule).
 
 Check the figures against the source data before writing prose around them.
+Load `references/vocabulary.md` before reviewing figures and name each
+misreading by its term.
 
 ## Reader test
 
