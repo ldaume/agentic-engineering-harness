@@ -74,7 +74,10 @@ fix is CSS subgrid (`grid-row: span N; grid-template-rows: subgrid`). The Jev ti
 question of the screenshots as `tell.misaligned-cards`, for pages with no DOM
 to measure; the DOM rule stays the exact check. Worked
 fixtures: `tests/fixtures/align-drift.html` (fails), `align-subgrid.html`,
-`align-equal.html` and `align-wrapped.html` (pass).
+`align-equal.html` and `align-wrapped.html` (pass); `align-nav-drift.html` (linked cards
+in a list, a bordered footer pushed down with `margin-top: auto`, fails) and
+`align-nav-subgrid.html` (pass). A wrapper with one child is looked through, and a
+divider is judged by its own top: equal bottoms do not excuse it.
 
 ## Checklist
 

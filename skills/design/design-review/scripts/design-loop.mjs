@@ -126,7 +126,7 @@ export function decide(rule, answer = {}) {
 // children each) must line up part by part: the same child's top, a divider's included, may
 // differ by at most TOL px, unless the bottoms line up (a part that grows to fill the card).
 // A wrapped row is compared per visual row; fewer than 3 in a row is not a card row.
-// Limit: structure is compared by tag sequence, two levels deep; cards of different build are skipped.
+// Limit: structure is compared by tag sequence, four levels deep; cards of different build are skipped.
 export function alignmentAudit() {
   const TOL = 4;
   const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/).join(".") : "");
@@ -134,18 +134,24 @@ export function alignmentAudit() {
   const block = (el) => !getComputedStyle(el).display.startsWith("inline");
   const spread = (xs) => Math.round(Math.max(...xs) - Math.min(...xs));
   const out = [];
-  const compare = (cards, depth) => {
+  const divider = (el) => el.tagName === "HR" || parseFloat(getComputedStyle(el).borderTopWidth) > 0;
+  const compare = (cards, depth, label) => {
     const lists = cards.map((c) => kids(c).filter(block));
-    if (lists[0].length < 2 || lists.some((l) => l.map((e) => e.tagName).join() !== lists[0].map((e) => e.tagName).join())) return;
+    if (lists.some((l) => l.map((e) => e.tagName).join() !== lists[0].map((e) => e.tagName).join())) return;
+    // A wrapper with one child (li > a) is not a part: the parts are one level down.
+    if (lists[0].length === 1 && depth < 4) return compare(lists.map((l) => l[0]), depth + 1, label);
+    if (lists[0].length < 2) return;
     for (let i = 0; i < lists[0].length; i++) {
       const col = lists.map((l) => l[i].getBoundingClientRect());
       const top = spread(col.map((r) => r.top));
-      if (top > TOL && spread(col.map((r) => r.bottom)) > TOL) {
+      // A divider is judged by its own top; equal bottoms (mt-auto) do not excuse it.
+      const grows = !lists.some((l) => divider(l[i])) && spread(col.map((r) => r.bottom)) <= TOL;
+      if (top > TOL && !grows) {
         const text = lists[0][i].textContent.trim().replace(/\s+/g, " ").slice(0, 40);
-        out.push({ element: `${name(cards[0])} > ${name(lists[0][i])} (child ${i + 1})`, text, observed: `${top} px spread across ${cards.length} cards`, required: `within ${TOL} px` });
+        out.push({ element: `${label} > ${name(lists[0][i])} (child ${i + 1})`, text, observed: `${top} px spread across ${cards.length} cards`, required: `within ${TOL} px` });
         return; // everything below drifts with it
       }
-      if (depth < 2) compare(lists.map((l) => l[i]), depth + 1);
+      if (depth < 4) compare(lists.map((l) => l[i]), depth + 1, label);
     }
   };
   for (const parent of document.body.querySelectorAll("*")) {
@@ -158,7 +164,7 @@ export function alignmentAudit() {
     }
     for (const row of rows.values()) {
       const w = row.map((e) => e.getBoundingClientRect().width);
-      if (row.length >= 3 && spread(w) <= 0.1 * Math.max(...w)) compare(row, 0);
+      if (row.length >= 3 && spread(w) <= 0.1 * Math.max(...w)) compare(row, 0, name(row[0]));
     }
   }
   return out;

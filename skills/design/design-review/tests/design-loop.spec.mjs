@@ -324,6 +324,17 @@ test("given six cards wrapped into two aligned rows of three, the alignment chec
   expect(await align(page, "align-wrapped.html")).toEqual([]);
 });
 
+test("given a nav list of linked cards (li > a, flex column, mt-auto bordered footers), the alignment check reports the drifting divider", async ({ page }) => {
+  const hits = await align(page, "align-nav-drift.html");
+  expect(hits.length).toBeGreaterThan(0);
+  expect(hits[0].element).toContain("li");
+  expect(hits[0].element).toContain("span.note");
+});
+
+test("given the same linked cards built with nested subgrid, the alignment check passes", async ({ page }) => {
+  expect(await align(page, "align-nav-subgrid.html")).toEqual([]);
+});
+
 test("given the drifting row, the review reports layout.alignment from the audit tier with its viewports", async ({ page }) => {
   await page.setContent(fixture("align-drift.html"));
   const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
