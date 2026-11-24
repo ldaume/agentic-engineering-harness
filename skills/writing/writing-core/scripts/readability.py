@@ -17,7 +17,21 @@ WORD_RE = re.compile(r"[^\W\d_]+(?:['\u2019-][^\W\d_]+)*")
 SENTENCE_RE = re.compile(r"[.!?]+(?=\s|$)")
 EN_VOWELS = re.compile(r"[aeiouy]+")
 DE_VOWELS = re.compile(r"(?:au|ei|eu|äu|ie|[aeiouyäöü])+")
-LONG_SENTENCE_WORDS = 25
+# Reference-page limits per language: (mean sentence words, longest sentence).
+# German follows plain-language practice; the English maximum is a local working value.
+LIMITS = {"de": (15, 25), "en": (20, 30)}
+
+
+def limits(language: str) -> tuple[int, int]:
+    return LIMITS["de" if is_german(language) else "en"]
+
+
+def resolve_lang(lang: str | None, lang_class: str | None) -> str:
+    """Explicit --lang wins; else the de/en suffix of --lang-class; else en."""
+    if lang:
+        return lang
+    suffix = (lang_class or "").rsplit("-", 1)[-1].lower()
+    return suffix if suffix in LIMITS else "en"
 
 
 @dataclass(frozen=True)
@@ -33,7 +47,7 @@ class Counts:
 # Periods that do not end a sentence: common DE/EN abbreviations and German
 # ordinals ("am 3. Oktober"). Without this guard "z. B." alone adds two sentences.
 ABBREVIATION_RE = re.compile(
-    r"(?i)\b(?:z\.\s?b|u\.\s?a|d\.\s?h|e\.\s?g|i\.\s?e|bzw|ca|dr|nr|vgl|etc|usw|ggf|inkl|evtl|mr|mrs|ms|vs)\."
+    r"(?i)\b(?:u\.s|z\.\s?b|u\.\s?a|d\.\s?h|e\.\s?g|i\.\s?e|bzw|ca|dr|nr|vgl|etc|usw|ggf|inkl|evtl|mr|mrs|ms|vs)\."
 )
 ORDINAL_RE = re.compile(r"\b(\d{1,2})\.(?=\s+[^\W\d_])")
 # A blank line, heading, or list item ends a sentence even without a period.
@@ -80,7 +94,7 @@ def counts(text: str, language: str) -> Counts:
         syllables=max(1, sum(per_word)),
         long_words=sum(1 for w in words if len(w) > 6),
         polysyllables=sum(1 for n in per_word if n >= 3),
-        long_sentences=sum(1 for s in parts if len(WORD_RE.findall(s)) > LONG_SENTENCE_WORDS),
+        long_sentences=sum(1 for s in parts if len(WORD_RE.findall(s)) > limits(language)[1]),
     )
 
 
@@ -93,6 +107,7 @@ def diagnostics(text: str, language: str) -> dict[str, float | int]:
         "sentences": c.sentences,
         "avg_sentence_words": round(wps, 2),
         "long_sentences": c.long_sentences,
+        "max_sentence_words": limits(language)[1],
         "lix": round(wps + 100.0 * c.long_words / c.words, 2),
     }
     if is_german(language):
@@ -207,6 +222,83 @@ def html_sections(html: str, language: str, lang_class: str | None = None) -> li
     return [{"section": k, **diagnostics("\n\n".join(v), language)} for k, v in grouped.items()]
 
 
+LANG_CLASS_RE = re.compile(r"^(.*-)(de|en)$")
+
+
+class _Node:
+    def __init__(self, tag, classes, parent):
+        self.tag, self.classes, self.parent, self.kids, self.text = tag, classes, parent, [], []
+
+    def words(self) -> int:
+        return len(WORD_RE.findall(" ".join(self.text))) + sum(k.words() for k in self.kids)
+
+    def preview(self) -> str:
+        return " ".join(" ".join(self.text).split())[:40] or self.tag
+
+
+def _tree(html: str) -> _Node:
+    root = cur = _Node("root", [], None)
+
+    class P(HTMLParser):
+        def handle_starttag(self, tag, attrs):
+            nonlocal cur
+            if tag in VOID:
+                return
+            n = _Node(tag, (dict(attrs).get("class") or "").split(), cur)
+            cur.kids.append(n)
+            cur = n
+
+        def handle_endtag(self, tag):
+            nonlocal cur
+            n = cur
+            while n.parent and n.tag != tag:
+                n = n.parent
+            if n.parent:
+                cur = n.parent
+
+        def handle_data(self, data):
+            if cur.tag not in {"script", "style"}:
+                cur.text.append(data)
+
+    P().feed(html)
+    return root
+
+
+def _walk(n):
+    yield n
+    for k in n.kids:
+        yield from _walk(k)
+
+
+def bilingual_report(html: str) -> dict:
+    """Measure every language class (prefix-de, prefix-en) found, each with its own
+    formulas and limits, plus twin parity: an element needs an adjacent sibling
+    in the other language, and twins should not differ in length by more than 2x."""
+    found = [m for c in re.findall(r'class="([^"]*)"', html) for t in c.split() if (m := LANG_CLASS_RE.match(t))]
+    if not found:
+        return {"prefix": "", "languages": {}, "parity": []}
+    prefix = found[0].group(1)
+    langs = sorted({m.group(2) for m in found if m.group(1) == prefix})
+    report: dict = {"prefix": prefix, "languages": {l: diagnostics(html_text(html, prefix + l), l) for l in langs}, "parity": []}
+    tag = lambda n: next((t[len(prefix):] for t in n.classes if t.startswith(prefix) and t[len(prefix):] in LIMITS), None)
+    for parent in _walk(_tree(html)):
+        kids = parent.kids
+        paired: set[int] = set()
+        for i, n in enumerate(kids):
+            lang = tag(n)
+            if not lang or tag(parent) or i in paired:
+                continue
+            nxt = kids[i + 1] if i + 1 < len(kids) else None
+            if nxt and tag(nxt) and tag(nxt) != lang and i + 1 not in paired:
+                paired.add(i + 1)
+                a, b = sorted((n.words(), nxt.words()))
+                if a * 2 < b:
+                    report["parity"].append(f"parity: twin word counts differ more than 2x ({n.words()} vs {nxt.words()}): {n.preview()!r}")
+            else:
+                report["parity"].append(f"parity: {lang} element has no twin next to it: {n.preview()!r}")
+    return report
+
+
 def read_input(file: str, html: bool = False, lang_class: str | None = None) -> str:
     text = sys.stdin.read() if file == "-" else open(file, encoding="utf-8").read()
     if html or file.lower().endswith((".html", ".htm")):
@@ -219,12 +311,17 @@ def main(argv: list[str]) -> int:
     import json
 
     parser = argparse.ArgumentParser(description="Readability diagnostics (warn-only).")
-    parser.add_argument("--lang", default="en", help="de or en (default en)")
+    parser.add_argument("--lang", help="de or en (default: suffix of --lang-class, else en)")
     parser.add_argument("--html", action="store_true", help="parse HTML (automatic for .html files)")
-    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de")
+    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de; \"auto\" measures every language class")
     parser.add_argument("--sections", action="store_true", help="HTML only: report per section")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
+    if args.lang_class == "auto":
+        raw = sys.stdin.read() if args.file == "-" else open(args.file, encoding="utf-8").read()
+        print(json.dumps(bilingual_report(raw), indent=2, ensure_ascii=False))
+        return 0
+    args.lang = resolve_lang(args.lang, args.lang_class)
     if args.sections:
         raw = sys.stdin.read() if args.file == "-" else open(args.file, encoding="utf-8").read()
         print(json.dumps(html_sections(raw, args.lang, args.lang_class), indent=2))

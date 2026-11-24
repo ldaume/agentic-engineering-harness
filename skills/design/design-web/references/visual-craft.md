@@ -74,6 +74,9 @@ resize text, not listed in the registry's findings) [SRC-A11Y-001].
   still depend on the viewport.
 - Check 320 px, 375 px, a tablet width, and a wide desktop; no horizontal
   scroll at 320 px (`frontend-craft` holds the mobile rules).
+- Reflow (WCAG 1.4.10, AA): no loss of content or function and no
+  two-dimensional scrolling at 320 CSS px wide, except maps, data tables and
+  other content that needs two dimensions (verified) [SRC-A11Y-001].
 
 ## Imagery
 

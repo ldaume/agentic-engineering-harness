@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from quality_gate import check  # noqa: E402
-from readability import diagnostics, html_blocks, html_sections  # noqa: E402
+from readability import diagnostics, html_blocks, html_sections, sentences  # noqa: E402
 
 
 class ReadabilityTest(unittest.TestCase):
@@ -279,6 +279,138 @@ class EnumerationGateTest(unittest.TestCase):
         text = "Der Wert liegt bei 1,5 und 2,5 oder 3,5. Wir prüfen Text und Tabellen."
         result = check(text, "prose", "de")
         self.assertFalse([w for w in result["warnings"] if "list" in w])
+
+
+class LangDefaultTest(unittest.TestCase):
+    HTML = '<p class="l-de">Der Export ist bereit. Wir starten den Pilot.</p><p class="l-en">The cat sat.</p>'
+
+    def run_cli(self, script, *args):
+        import json
+        import subprocess
+
+        out = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / script), *args],
+            input=self.HTML, capture_output=True, text=True,
+        )
+        return json.loads(out.stdout)
+
+    def test_given_lang_class_de_and_no_lang_when_measured_then_german_formulas(self):
+        result = self.run_cli("readability.py", "--html", "--lang-class", "l-de")
+        self.assertIn("flesch_de", result)
+        self.assertNotIn("flesch_en", result)
+
+    def test_given_explicit_lang_when_lang_class_differs_then_explicit_wins(self):
+        result = self.run_cli("readability.py", "--html", "--lang-class", "l-de", "--lang", "en")
+        self.assertIn("flesch_en", result)
+
+    def test_given_lang_class_de_and_no_lang_when_gated_then_language_is_de(self):
+        result = self.run_cli("quality_gate.py", "--artifact", "prose", "--html", "--lang-class", "l-de")
+        self.assertEqual(result["language"], "de")
+
+    def test_given_no_lang_and_no_lang_class_when_measured_then_english(self):
+        result = self.run_cli("readability.py", "--html")
+        self.assertIn("flesch_en", result)
+
+
+class LimitsTest(unittest.TestCase):
+    def test_given_28_word_german_sentence_when_gated_then_over_german_max(self):
+        text = " ".join(["Wort"] * 28) + "."
+        warnings = check(text, "website_content", "de")["warnings"]
+        self.assertTrue(any("over 25 words" in w for w in warnings))
+
+    def test_given_28_word_english_sentence_when_gated_then_no_max_warning(self):
+        text = " ".join(["word"] * 28) + "."
+        warnings = check(text, "website_content", "en")["warnings"]
+        self.assertFalse(any("readability: 1 sentence" in w for w in warnings))
+
+    def test_given_31_word_english_sentence_when_gated_then_over_english_max(self):
+        text = " ".join(["word"] * 31) + "."
+        warnings = check(text, "website_content", "en")["warnings"]
+        self.assertTrue(any("over 30 words" in w for w in warnings))
+
+    def test_given_german_mean_16_when_gated_then_mean_warning(self):
+        text = " ".join(" ".join(["Wort"] * 16) + "." for _ in range(3))
+        warnings = check(text, "website_content", "de")["warnings"]
+        self.assertTrue(any("mean sentence length" in w and "15" in w for w in warnings))
+
+    def test_given_english_mean_16_when_gated_then_no_mean_warning(self):
+        text = " ".join(" ".join(["word"] * 16) + "." for _ in range(3))
+        warnings = check(text, "website_content", "en")["warnings"]
+        self.assertFalse(any("mean sentence length" in w for w in warnings))
+
+
+class SplitterTest(unittest.TestCase):
+    CASES = [
+        ("Wir nutzen z. B. Tabellen und Listen heute.", 1),
+        ("Das heißt d. h. wir starten heute.", 1),
+        ("Es gibt u. a. drei Optionen hier.", 1),
+        ("Wir liefern A bzw. B am Montag.", 1),
+        ("Es kostet ca. 5 Euro im Monat.", 1),
+        ("Siehe Nr. 5 im Anhang dazu.", 1),
+        ("Wir treffen uns am 20. November im Büro.", 1),
+        ("Use tools, e.g. a linter, daily.", 1),
+        ("That is, i.e. the plan, final.", 1),
+        ("Compare A vs. B before you ship.", 1),
+        ("The U.S. team ships on Monday.", 1),
+        ("Der Wert ist 1,5 und der Rest 2,5 Prozent.", 1),
+        ("The value is 1.5 and the rest 2.5 percent.", 1),
+        ("Install v1.2.3 before you start.", 1),
+        ("Der Export ist bereit. Wir starten den Pilot.", 2),
+    ]
+
+    def test_given_abbreviation_decimal_or_version_when_split_then_no_false_break(self):
+        for text, expected in self.CASES:
+            with self.subTest(text=text):
+                self.assertEqual(len(sentences(text)), expected)
+
+
+class BilingualTest(unittest.TestCase):
+    PAGE = (
+        '<div><p class="l-de">Der Export ist bereit. Wir starten heute.</p>'
+        '<p class="l-en">The export is ready. We start today.</p>'
+        '<p class="l-de">Nur deutsch hier.</p>'
+        '<p class="l-de">Eins.</p><p class="l-en">One two three four five six seven eight nine ten.</p></div>'
+    )
+
+    def test_given_bilingual_page_when_auto_then_each_language_has_own_formulas(self):
+        from readability import bilingual_report
+
+        report = bilingual_report(self.PAGE)
+        self.assertIn("flesch_de", report["languages"]["de"])
+        self.assertIn("flesch_en", report["languages"]["en"])
+        self.assertNotIn("flesch_en", report["languages"]["de"])
+
+    def test_given_missing_twin_when_audited_then_parity_warning(self):
+        from readability import bilingual_report
+
+        warnings = bilingual_report(self.PAGE)["parity"]
+        self.assertTrue(any("no twin" in w and "Nur deutsch" in w for w in warnings))
+
+    def test_given_lopsided_twin_when_audited_then_parity_warning(self):
+        from readability import bilingual_report
+
+        warnings = bilingual_report(self.PAGE)["parity"]
+        self.assertTrue(any("word counts" in w and "Eins" in w for w in warnings))
+
+    def test_given_clean_pair_when_audited_then_no_parity_warning(self):
+        from readability import bilingual_report
+
+        page = '<div><p class="l-de">Der Export ist bereit.</p><p class="l-en">The export is ready.</p></div>'
+        self.assertEqual(bilingual_report(page)["parity"], [])
+
+    def test_given_auto_when_gate_runs_then_report_per_language(self):
+        import json
+        import subprocess
+
+        out = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / "quality_gate.py"),
+             "--artifact", "website_content", "--html", "--lang-class", "auto"],
+            input=self.PAGE, capture_output=True, text=True,
+        )
+        result = json.loads(out.stdout)
+        self.assertEqual(sorted(result["languages"]), ["de", "en"])
+        self.assertEqual(result["languages"]["de"]["language"], "de")
+        self.assertTrue(any("no twin" in w for w in result["warnings"]))
 
 
 if __name__ == "__main__":

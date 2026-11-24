@@ -91,7 +91,8 @@ Load only what the task needs:
 - `references/verification.md`: claim classes, fact checks, test fixtures.
 - `references/quality-model.md`: 0 to 4 rubric, gate thresholds, readability
   formulas, per-artifact gates and the reference-page profile. Both scripts
-  read HTML (`.html` or `--html`, `--lang-class`, `--sections`).
+  read HTML (`.html` or `--html`, `--lang-class`, `--sections`);
+  `--lang-class auto` checks both languages and their twin parity in one run.
 
 ## Done when
 

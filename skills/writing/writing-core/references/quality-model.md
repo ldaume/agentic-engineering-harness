@@ -67,14 +67,21 @@ a necessary complex statement beats a better score.
 
 - German: mean sentence length at most 15 words, no sentence over 25. LIX at
   most about 45, Flesch after Amstad at least about 50.
-- English: mean sentence length at most 20; Flesch Reading Ease at least
-  about 50.
+- English: mean sentence length at most 20, no sentence over 30 (the maximum
+  is a local working value); Flesch Reading Ease at least about 50.
+- The gate applies the language's own limits and warns, never fails.
 - One statement per sentence; a paragraph of at most 3 to 4 sentences.
 - Three or more enumerated things become a list; no chains of commas or
   semicolons (the gate warns on both).
 - A heading or subhead at least every 150 to 300 words.
 - Report the values per section before and after the edit:
   `python3 scripts/readability.py --lang de --lang-class l-de --sections PAGE.html`.
+
+Bilingual pages: `--lang` defaults to the suffix of `--lang-class` (`l-de` is
+German), and an explicit `--lang` wins. `--lang-class auto` (both scripts)
+measures every language class found in one report, each with its own formulas
+and limits. It also warns when an element has no adjacent twin in the other
+language, and when twins differ in word count by more than about 2x.
 
 HTML input counts prose in p, li and dd only. Table cells, script, style and
 diagram source (class contains `mermaid`) are skipped; each block ends a
