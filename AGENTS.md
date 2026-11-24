@@ -116,6 +116,7 @@ python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
 python3 -m unittest discover -s skills/engineering/scaffold-harness/tests
 python3 -m unittest discover -s skills/writing/writing-core/tests
+python3 -m unittest discover -s skills/product/estimate-with-uncertainty/tests
 for t in skills/design/*/tests; do ls "$t"/test_*.py >/dev/null 2>&1 && python3 -m unittest discover -s "$t"; done
 python3 scripts/check-knowledge.py
 npx playwright test -c skills/design/design-forms/tests

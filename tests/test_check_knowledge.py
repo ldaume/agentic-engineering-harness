@@ -88,9 +88,22 @@ class CheckKnowledge(unittest.TestCase):
         errors, _ = ck.check(family([SOURCE], "Do this (supported) [SRC-A11Y-001] and\nthat (verified for the rule)\n[SRC-A11Y-001]."))
         self.assertEqual(errors, [])
 
+    def test_given_citation_registered_in_another_family_when_checked_then_resolved(self) -> None:
+        own = {**SOURCE, "id": "SRC-EST-001"}
+        errors, _ = ck.check(family([own], "[SRC-EST-001] and (verified) [SRC-A11Y-001]."),
+                             catalog={"SRC-A11Y-001": "verified"})
+        self.assertEqual(errors, [])
+
+    def test_given_stronger_claim_for_another_familys_source_when_checked_then_error(self) -> None:
+        own = {**SOURCE, "id": "SRC-EST-001"}
+        errors, _ = ck.check(family([own], "[SRC-EST-001] and (verified) [SRC-A11Y-001]."),
+                             catalog={"SRC-A11Y-001": "supported"})
+        self.assertTrue(any("SRC-A11Y-001" in e for e in errors))
+
     def test_given_the_catalog_when_checked_then_every_registry_passes(self) -> None:
+        catalog = ck.catalog_levels(ROOT / "skills")
         for registry in sorted((ROOT / "skills").rglob("references/sources.json")):
-            errors, _ = ck.check(registry.parents[2])
+            errors, _ = ck.check(registry.parents[2], catalog=catalog)
             self.assertEqual(errors, [], registry)
 
 
