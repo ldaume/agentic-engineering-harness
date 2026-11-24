@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as loop from "../scripts/design-loop.mjs";
-import { measuredAudit, tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE } from "../scripts/design-loop.mjs";
+import { measuredAudit, tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE, vocabAudit, reflowAudit, motionAudit, shiftAudit, focusAudit } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -228,7 +228,9 @@ test("given a diagram far below the first screen, in a scroll container under a 
   }, shot);
   // Every sample sits inside a cluster: its fill, not the page behind a 260 px scroll box, a header or a banner.
   expect(pixels).toEqual([[238, 241, 246], [238, 241, 246], [238, 241, 246], [238, 241, 246]]);
-  expect(r.findings, JSON.stringify(r.findings)).toEqual([]);
+  // The 500 px banner really does hide the focusable scroll box: the focus check is right to say so.
+  const rest = r.findings.filter((f) => f.rule !== "wcag.focus-not-obscured");
+  expect(rest, JSON.stringify(rest)).toEqual([]);
 });
 
 test("given the broken diagram and no model key, the DOM findings stand with the diagram as evidence", async ({ page }) => {
@@ -790,4 +792,125 @@ test("given the clean page, the review still reports no findings with the measur
   await page.setContent(fixture("clean.html"));
   const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
   expect(r.findings, JSON.stringify(r.findings)).toEqual([]);
+});
+
+// Vocabulary rules: the exact checks behind ten design-core vocabulary terms.
+const vocab = async (page, name, rule, width = 1280) => {
+  await page.setViewportSize({ width, height: 800 });
+  await page.setContent(fixture(name));
+  return (await page.evaluate(vocabAudit)).filter((f) => f.rule === rule);
+};
+
+test("given a heading level rendered larger or heavier than a higher level, the ladder check reports it; a stepped ladder passes", async ({ page }) => {
+  const hits = await vocab(page, "type-ladder-bad.html", "type.heading-ladder");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].observed).toContain("h3");
+  expect(await vocab(page, "type-ladder-ok.html", "type.heading-ladder")).toEqual([]);
+});
+
+test("given a heading closer to the previous block than to its own content, the proximity check reports it; space above and a kicker line pass", async ({ page }) => {
+  const hits = await vocab(page, "layout-proximity-bad.html", "layout.proximity");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].text).toBe("Next section");
+  expect(await vocab(page, "layout-proximity-ok.html", "layout.proximity")).toEqual([]);
+  expect(await vocab(page, "layout-proximity-kicker-ok.html", "layout.proximity")).toEqual([]);
+});
+
+test("given a numeric table column in a font whose digits differ in width, the tabular check reports it; equal-width digits pass", async ({ page }) => {
+  const hits = await vocab(page, "type-tabular-bad.html", "type.tabular-figures");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].text).toContain("1,111.11");
+  expect(await vocab(page, "type-tabular-ok.html", "type.tabular-figures")).toEqual([]);
+});
+
+test("given an input whose border and fill sit under 3:1 against the page, the non-text contrast check reports it; a 3:1 border passes", async ({ page }) => {
+  const hits = await vocab(page, "non-text-contrast-bad.html", "wcag.non-text-contrast");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].element).toBe("input");
+  expect(await vocab(page, "non-text-contrast-ok.html", "wcag.non-text-contrast")).toEqual([]);
+});
+
+test("given fixed-height boxes that clip or spill text once the 1.4.12 spacing is applied, the check reports them; boxes that grow pass", async ({ page }) => {
+  const hits = await vocab(page, "wcag-spacing-bad.html", "wcag.text-spacing");
+  expect(hits.map((h) => h.element)).toEqual(["div.card"]);
+  expect(await vocab(page, "wcag-spacing-ok.html", "wcag.text-spacing")).toEqual([]);
+  expect(await page.evaluate(() => document.querySelectorAll("style").length)).toBe(1); // the override is removed again
+});
+
+test("given a block 600 px wide, the reflow check reports a horizontal scroll at 320 px; fluid content and a scrolling table pass", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 256 });
+  await page.setContent(fixture("wcag-reflow-bad.html"));
+  const hits = await page.evaluate(reflowAudit);
+  expect(hits).toHaveLength(1);
+  expect(hits[0].rule).toBe("wcag.reflow");
+  expect(hits[0].observed).toContain("320");
+  await page.setContent(fixture("wcag-reflow-ok.html"));
+  expect(await page.evaluate(reflowAudit)).toEqual([]);
+});
+
+test("given reduced motion is requested, a transform animation that keeps running is reported; one switched off, and a fade, pass", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setContent(fixture("motion-reduced-bad.html"));
+  const hits = await page.evaluate(motionAudit);
+  expect(hits).toHaveLength(1);
+  expect(hits[0].rule).toBe("motion.reduced");
+  expect(hits[0].observed).toContain("transform");
+  await page.setContent(fixture("motion-reduced-ok.html"));
+  expect(await page.evaluate(motionAudit)).toEqual([]);
+});
+
+// Chrome marks a shift in a page written by setContent as caused by input, so these two load the fixture by URL.
+const fixtureUrl = (name) => new URL(`fixtures/${name}`, import.meta.url).href;
+
+test("given a banner that arrives late and pushes the page down, the shift check reports a CLS over 0.1; reserved space passes", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto(fixtureUrl("perf-shift-bad.html"));
+  const hits = await page.evaluate(shiftAudit);
+  expect(hits).toHaveLength(1);
+  expect(hits[0].rule).toBe("perf.layout-shift");
+  await page.goto(fixtureUrl("perf-shift-ok.html"));
+  expect(await page.evaluate(shiftAudit)).toEqual([]);
+});
+
+test("given controls with the outline removed, the focus check reports each; an outline, or a ring drawn by the wrapper, passes", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("focus-visible-bad.html"));
+  const bad = await focusAudit(page);
+  expect(bad.visible.map((f) => f.text)).toEqual(["Link one", "Button", "Link two"]);
+  expect(bad.visible[0].rule).toBe("wcag.focus-visible");
+  for (const name of ["focus-visible-ok.html", "focus-visible-wrapper-ok.html"]) {
+    await page.setContent(fixture(name));
+    expect((await focusAudit(page)).visible, name).toEqual([]);
+  }
+});
+
+test("given a fixed banner over the focused link, the focus check reports it as obscured; room reserved with scroll padding passes", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("focus-obscured-bad.html"));
+  const bad = await focusAudit(page);
+  expect(bad.obscured.length).toBeGreaterThan(0);
+  expect(bad.obscured[0].rule).toBe("wcag.focus-not-obscured");
+  await page.setContent(fixture("focus-obscured-ok.html"));
+  expect((await focusAudit(page)).obscured).toEqual([]);
+});
+
+test("given the vocabulary fixtures, the review reports their rule ids from the audit tier", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const rules = async (name) => { await page.goto(fixtureUrl(name)); return (await review(page, { env: {}, fetch: stubFetch(), outDir: out() })).findings.map((f) => f.rule); };
+  expect(await rules("type-ladder-bad.html")).toContain("type.heading-ladder");
+  expect(await rules("wcag-reflow-bad.html")).toContain("wcag.reflow");
+  expect(await rules("focus-visible-bad.html")).toContain("wcag.focus-visible");
+  expect(await rules("perf-shift-bad.html")).toContain("perf.layout-shift");
+  expect(await rules("motion-reduced-bad.html")).toContain("motion.reduced"); // the review emulates reduce itself
+  expect(await rules("motion-reduced-ok.html")).not.toContain("motion.reduced");
+  expect(await rules("focus-obscured-bad.html")).toContain("wcag.focus-not-obscured");
+});
+
+test("given rules no real page has confirmed yet, the review reports them as advisory; reflow and non-text contrast, confirmed on real pages, fail the run", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const status = async (name, rule) => { await page.goto(fixtureUrl(name)); return (await review(page, { env: {}, fetch: stubFetch(), outDir: out() })).findings.find((f) => f.rule === rule)?.status; };
+  expect(await status("type-ladder-bad.html", "type.heading-ladder")).toBe("advisory");
+  expect(await status("focus-visible-bad.html", "wcag.focus-visible")).toBe("advisory");
+  expect(await status("wcag-reflow-bad.html", "wcag.reflow")).toBe("fail");
+  expect(await status("non-text-contrast-bad.html", "wcag.non-text-contrast")).toBe("fail");
 });

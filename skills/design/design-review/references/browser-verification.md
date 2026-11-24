@@ -162,6 +162,45 @@ a page that needs a click or a hover to show text is not a defect and is not rep
 uses `hidden`, `aria-hidden`, `details` or a tooltip role.
 Fixtures, all synthetic, each rule with a failing and a passing page: `tests/fixtures/tell-glow-bad.html`, `tests/fixtures/tell-glow-ok.html`, `tests/fixtures/tell-gray-on-color-bad.html`, `tests/fixtures/tell-gray-on-color-ok.html`, `tests/fixtures/tell-icon-tile-bad.html`, `tests/fixtures/tell-icon-tile-ok.html`, `tests/fixtures/tell-nested-cards-bad.html`, `tests/fixtures/tell-nested-cards-ok.html`, `tests/fixtures/render-hidden-bad.html`, `tests/fixtures/render-hidden-ok.html`, `tests/fixtures/render-broken-image-bad.html`, `tests/fixtures/render-broken-image-ok.html`, `tests/fixtures/render-occluded-bad.html`, `tests/fixtures/render-occluded-ok.html`.
 
+## Vocabulary rules
+
+Ten exact checks name the rule ids of `design-core` `references/vocabulary.md` (a term's Check cell
+names its rule). They run in the audit tier of `scripts/design-loop.mjs`, each reporting element, text,
+observed, required and where. Measured on 3 hand-written clean references, 6 real pages, 4 live product
+pages, 21 synthetic fixtures (a failing and a passing page per rule) and the real pages again with a defect
+injected (a heading ladder, tight spacing above headings, proportional figures, no outline, a fixed banner
+over the page). A rule stayed when at least 70 percent of its findings were real, no clean page was flagged
+for a reason that is not a true defect, every synthetic positive was caught, and it took at most two
+threshold iterations. Only two rules found a real defect; the other eight found none on those pages,
+caught every synthetic and injected defect, and so are `advisory` (reported, never failing the run)
+until a real page confirms them, as `tell.icon-tile` was.
+
+| Rule | Status | Fails when | Exempt |
+|---|---|---|---|
+| `type.heading-ladder` | advisory | the median size of a lower heading level is more than 5 percent larger than a higher level, or equal in size and at least 200 weight units heavier | a level that appears once is still compared; headings that are not visible |
+| `layout.proximity` | advisory | a stacked heading has less than 0.75 times as much space above it as below it, measured from the ink of the neighbors (text and painted boxes, not their padding) | first and last children, side-by-side layouts, absolutely positioned neighbors, a one-line text smaller than the heading above it (a label or kicker; a one-line paragraph above a tight heading is missed) |
+| `type.tabular-figures` | advisory | in a table column with 2 or more numeric cells the rendered widths of the digits 1, 0 and 8 differ by more than 0.5 px | a font whose digits are equal by default or through `font-variant-numeric: tabular-nums`; measured one digit at a time without kerning, because kerned repeated digits look proportional in fonts that are not |
+| `wcag.non-text-contrast` | fail | an enabled text input, textarea, select or textbox has its border, fill and shadow all under 3:1 against the color behind it (the wrapper's border counts) | checkboxes, radios, buttons, disabled fields, an image behind the field. Chart lines are not checked: no chart in the sample produced a hit |
+| `wcag.text-spacing` | advisory | with line height 1.5, letter spacing 0.12em, word spacing 0.16em and 2em paragraph spacing injected, HTML text is newly clipped by `overflow: hidden` or spills below the bottom of its painted box, or a horizontal scroll appears; the override is removed again | svg text, text in a box that already clips or scrolls (`line-clamp`, `truncate`, `overflow: auto`), `text-overflow: ellipsis`, anything that was already clipped before |
+| `wcag.reflow` | fail | the page scrolls horizontally at 320 px wide; the widest element outside a scrolling or clipping box is named | a table or code block in its own `overflow-x: auto` box |
+| `motion.reduced` | advisory | with `prefers-reduced-motion: reduce` emulated, a running animation of transform, translate, rotate, scale, position, margin or a scroll timeline, or `scroll-behavior: smooth`, remains | opacity and color animations; hidden targets |
+| `perf.layout-shift` | advisory | Cumulative Layout Shift (the largest session window, shifts after input excluded) is above 0.1 over the load and one and a half seconds more | run before any resize or scroll; a page loaded by `setContent` counts its shifts as input, so test pages load by URL |
+| `wcag.focus-visible` | advisory | tabbing (up to 40 stops) shows no change of outline, box shadow, border, background, color, underline, transform or filter on the focused element, its parent, its parent's children or its grandparent | a wrapper that draws the ring counts; focused boxes under 2 px |
+| `wcag.focus-not-obscured` | advisory | all sample points of the visible part of the focused element lie under a fixed or sticky layer that does not contain it | a layer around the element; partly covered elements |
+
+`wcag.reflow` and `wcag.non-text-contrast` are the two that found real defects: a horizontal scroll of
+a few pixels at 320 px in two product pages and one static page, and text inputs with a 1.5:1 to 1.8:1
+border in a product screen and in a hand-written reference. The reference is clean for every older rule and
+fails WCAG 1.4.11, so the new rule stays and the reference is not clean for it.
+
+Measured and dropped: none of the ten. Dropped part: the chart-line half of `wcag.non-text-contrast`
+(strokes of 2 px or more against the chart background), because no sample held a chart line to test, so its
+precision is unknown. Not measured: the ten other exact vocabulary terms (space scale, signifier, empty state,
+error identification, status message, accessible name, resize text, pause stop hide, design token,
+proportional ink) still name no rule id.
+
+Fixtures, all synthetic, each rule with a failing and a passing page, plus the kicker and wrapper exemptions: `tests/fixtures/focus-obscured-bad.html`, `tests/fixtures/focus-obscured-ok.html`, `tests/fixtures/focus-visible-bad.html`, `tests/fixtures/focus-visible-ok.html`, `tests/fixtures/focus-visible-wrapper-ok.html`, `tests/fixtures/layout-proximity-bad.html`, `tests/fixtures/layout-proximity-kicker-ok.html`, `tests/fixtures/layout-proximity-ok.html`, `tests/fixtures/motion-reduced-bad.html`, `tests/fixtures/motion-reduced-ok.html`, `tests/fixtures/non-text-contrast-bad.html`, `tests/fixtures/non-text-contrast-ok.html`, `tests/fixtures/perf-shift-bad.html`, `tests/fixtures/perf-shift-ok.html`, `tests/fixtures/type-ladder-bad.html`, `tests/fixtures/type-ladder-ok.html`, `tests/fixtures/type-tabular-bad.html`, `tests/fixtures/type-tabular-ok.html`, `tests/fixtures/wcag-reflow-bad.html`, `tests/fixtures/wcag-reflow-ok.html`, `tests/fixtures/wcag-spacing-bad.html`, `tests/fixtures/wcag-spacing-ok.html`.
+
 ## Checklist
 
 - Desktop and mobile widths; the breakpoints the layout actually uses.
