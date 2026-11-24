@@ -142,6 +142,10 @@ arbitrary batch of hoped-for features.
 
 ## Value-Defined Issues
 
+A user story is a trigger for a conversation, not a specification. Add
+acceptance criteria only where wrong guesses are costly: behavior rules, edge
+cases, permissions, contracts, compliance, accessibility, and error states.
+
 Create a decision or delivery work issue only when the next decision or action
 is bounded and sharp enough to own. Use the target's existing tracker and
 format:
@@ -166,8 +170,40 @@ Draft or create tracker state only when the target repository and authority are
 clear. Creating an issue does not grant product priority or implementation
 authority.
 
+## Viability Before Focus
+
+A problem users have is not yet a bet the business can sustain. Before a bet
+takes focus, check two fits, because a build that nobody can sell or pay for
+only moves the failure downstream:
+
+- **Pricing fit:** which segment pays, whether the capability is core, a
+  differentiator, or an add-on, which tier carries it, what it costs to serve,
+  whether the buyer actually pays for it, and whether the user is also the
+  buyer.
+- **GTM fit:** whether sales can say it in one sentence, who onboards,
+  supports, and drives adoption, and where procurement or legal friction
+  appears.
+
+A weak answer is a risk to burn down (pricing test, sales narrative), not a
+reason to skip the bet.
+
+## Choosing a Solution
+
+Fix a solution only after the outcome and the opportunities under it are
+named. Lay out the outcome, the opportunities (customer needs, pains, desires),
+two or three candidate solutions per opportunity, and under each the
+assumption test that would show it fails. This is an opportunity solution tree
+(Teresa Torres, continuous discovery); a few lines in the target's own format
+are enough. One candidate with no test is a decision already made, so say so.
+
 ## Decision Rules
 
+- Before a bet takes focus, answer: why this, why now, why us rather than a
+  process, partner, or manual work, why this much investment, what evidence
+  would change our mind, and what not doing it and doing it badly would cost.
+- Compete risk-reduction and trust bets on value like any other bet: deals won
+  or kept, renewals, questionnaire and evidence effort, avoided scope. Do not
+  book them as overhead that needs no case.
 - If evidence is weak, frame a discovery or risk burn-down step before delivery.
 - If the value is unclear, write a Problem Brief before discussing solution
   shape.
@@ -266,3 +302,8 @@ Stop and reframe when you see:
 - discovery that never changes scope
 - delivery work with no kill criteria, review date, or learning plan
 - "done" declared at release without adoption or outcome review
+- AI synthesis of customer evidence without traceable sources
+- AI-generated issues treated as alignment
+- outcomes defined while output is what gets rewarded
+- flow measured but work in progress not reduced
+- learning claimed but no decision changed
