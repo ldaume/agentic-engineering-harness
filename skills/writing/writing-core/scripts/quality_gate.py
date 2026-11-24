@@ -14,17 +14,27 @@ facts.json: {"facts": [...], "forbidden_claims": [...],
              "known_terms": ["RLS", ...]}
 Every artifact also gets the AI-tell warnings (references/ai-tells.md).
 Exit code 1 when any error is found; warnings never fail.
+
+--jev adds an advisory tier after the deterministic checks: one typed TypeSafe
+Jev call per section (questions, thresholds, rules and examples live in
+jev_questions.json), warnings tagged "jev:". Keys: VERCEL_AI_GATEWAY_API_KEY or
+AI_GATEWAY_API_KEY (gateway, zero retention), else TYPESAFE_API_KEY. Without a
+key or an answer the tier is skipped and says why; it never fails the gate.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from html.parser import HTMLParser
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from readability import WORD_RE, bilingual_report, diagnostics, html_text, is_german, limits, read_input, resolve_lang, sentences  # noqa: E402
+from readability import WORD_RE, bilingual_report, diagnostics, html_text, is_german, limits, resolve_lang, sentences  # noqa: E402
 
 # Each required part is a regex that may match DE or EN wording.
 WHY = r"(?im)^#+\s*(why|warum|context|kontext|hintergrund|motivation|problem)\b"
@@ -372,6 +382,178 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
     return {"artifact": artifact, "language": language, "errors": errors, "warnings": warnings, "diagnostics": diag}
 
 
+JEV_DATA = json.loads((Path(__file__).resolve().parent / "jev_questions.json").read_text(encoding="utf-8"))
+JEV_GATEWAY = "https://ai-gateway.vercel.sh/v4/ai/decision-model"
+JEV_DIRECT = "https://api.typesafe.ai/v1/systemone"
+JEV_DIRECT_USD_PER_TOKEN = 0.042e-6
+DEFAULT_AUDIENCE = "General readers who did not take part in the work."
+
+
+def text_sections(text: str) -> list[tuple[str, str]]:
+    """(heading, body) per Markdown heading; text before the first heading has heading ''."""
+    out: list[tuple[str, list[str]]] = [("", [])]
+    for line in text.splitlines():
+        m = re.match(r"#{1,6}\s+(.+)", line)
+        if m:
+            out.append((m.group(1).strip(), []))
+        else:
+            out[-1][1].append(line)
+    return [(h, "\n".join(b).strip()) for h, b in out if "\n".join(b).strip()]
+
+
+class _JevSections(HTMLParser):
+    """Whole sections as the pilot saw them: every visible text of one language,
+    table cells joined by ' | ', a section starting at <section> or <h2> and named by its h2."""
+
+    BLOCK = {"p", "li", "tr", "h1", "h2", "h3", "h4", "h5", "h6", "div", "dt", "dd", "caption", "figcaption", "br"}
+    VOID = {"br", "img", "hr", "meta", "link", "input", "source", "wbr"}
+
+    def __init__(self, lang_class: str | None):
+        super().__init__(convert_charrefs=True)
+        prefix = lang_class.rsplit("-", 1)[0] + "-" if lang_class else None
+        self.foreign = lambda c: bool(prefix and c.startswith(prefix) and c != lang_class)
+        self.stack: list[tuple[str, bool]] = []
+        self.skip = 0
+        self.sections: list[list] = []
+        self.h2: list[str] | None = None
+
+    def start(self) -> None:
+        if not self.sections or self.sections[-1][1] or self.sections[-1][0]:
+            self.sections.append(["", []])
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "section" or (tag == "h2" and not self.skip and (not self.sections or self.sections[-1][0])):
+            self.start()
+        if tag in self.BLOCK and self.sections:
+            self.sections[-1][1].append("\n")
+        if tag in self.VOID:
+            return
+        drop = tag in {"script", "style", "svg"} or any(self.foreign(c) for c in (dict(attrs).get("class") or "").split())
+        self.stack.append((tag, drop))
+        self.skip += drop
+        if tag == "h2" and not self.skip:
+            self.h2 = []
+
+    def handle_endtag(self, tag):
+        if tag in self.VOID:
+            return
+        if tag == "h2" and self.h2 is not None:
+            self.sections[-1][0] = " ".join("".join(self.h2).split())
+            self.h2 = None
+        if tag in {"td", "th"} and self.sections:
+            self.sections[-1][1].append(" | ")
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                self.skip -= sum(d for _, d in self.stack[i:])
+                del self.stack[i:]
+                break
+
+    def handle_data(self, data):
+        if self.skip:
+            return
+        if not self.sections:
+            self.sections.append(["", []])
+        if self.h2 is not None:
+            self.h2.append(data)
+        self.sections[-1][1].append(data)
+
+
+def html_page_sections(html: str, lang_class: str | None) -> list[tuple[str, str]]:
+    parser = _JevSections(lang_class)
+    parser.feed(html)
+    parser.close()
+    out = []
+    for heading, parts in parser.sections:
+        lines = (" ".join(l.split()) for l in "".join(parts).split("\n"))
+        body = "\n".join(l for l in lines if l)
+        if body:
+            out.append((heading, body))
+    return out
+
+
+def jev_keys(env) -> tuple[str, str] | None:
+    gateway = env.get("VERCEL_AI_GATEWAY_API_KEY") or env.get("AI_GATEWAY_API_KEY")
+    if gateway:
+        return ("gateway", gateway)
+    return ("typesafe", env["TYPESAFE_API_KEY"]) if env.get("TYPESAFE_API_KEY") else None
+
+
+def jev_request(section, sections, audience: str, key: tuple[str, str]):
+    """The pilot's arm C: examples and rules first, then audience, heading, text, the rest of the page."""
+    qs = JEV_DATA["questions"]
+    heading, body = section
+    state = {
+        "labeled_examples": "labeled_examples (synthetic):\n" + "\n".join(f"{q}\n {v['examples'][0]}\n {v['examples'][1]}" for q, v in qs.items()),
+        "skill_rules": "skill_rules (house style, condensed):\n" + "\n".join(v["rule"] for v in qs.values()),
+        "audience": audience,
+        "section_heading": heading,
+        "section_text": json.dumps(body, ensure_ascii=False),
+        "other_sections": json.dumps("\n\n".join(f"## {h}\n{b}" for h, b in sections if (h, b) != section), ensure_ascii=False),
+    }
+    kind, secret = key
+    if kind == "gateway":
+        parts = [{"type": "text", "text": v if k in ("labeled_examples", "skill_rules") else f"{k}: {v}"} for k, v in state.items()]
+        headers = {"Authorization": "Bearer " + secret, "Content-Type": "application/json", "ai-gateway-protocol-version": "0.0.1",
+                   "ai-decision-model-specification-version": "4", "ai-model-id": "typesafe-ai/jev"}
+        body = {"stateParts": parts, "questions": {q: {"type": "boolean", "instructions": v["question"]} for q, v in qs.items()},
+                "providerOptions": {"gateway": {"zeroDataRetention": True, "disallowPromptTraining": True, "only": ["typesafe-ai"]}}}
+        return JEV_GATEWAY, headers, body
+    # A text-only call: TypeSafe rejects the image opt-in header and an empty assets map here.
+    headers = {"Authorization": "Bearer " + secret, "Content-Type": "application/json"}
+    body = {"model": "jev-latest", "state": state, "questions": {q: {"type": "noul", "instructions": v["question"]} for q, v in qs.items()}}
+    return JEV_DIRECT, headers, body
+
+
+def jev_post(url: str, headers: dict, body: dict) -> dict:
+    request = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
+    with urllib.request.urlopen(request, timeout=90) as response:
+        return json.loads(response.read())
+
+
+def jev_tier(sections, audience: str, env, post=None) -> dict:
+    """Advisory: a warning per question whose probability reaches its threshold; fails open."""
+    post = post or jev_post
+    key = jev_keys(env)
+    if not key:
+        return {"warnings": [], "calls": 0, "cost_usd": 0.0,
+                "note": "Jev tier skipped: no key (set VERCEL_AI_GATEWAY_API_KEY, AI_GATEWAY_API_KEY or TYPESAFE_API_KEY)"}
+    if not sections:
+        return {"warnings": [], "calls": 0, "cost_usd": 0.0, "note": "Jev tier skipped: no text"}
+
+    def ask(section):
+        try:
+            return section, post(*jev_request(section, sections, audience, key)), None
+        except Exception as exc:  # fail open: a network, HTTP or parse error never blocks the gate
+            return section, None, f"{type(exc).__name__}: {str(exc)[:160]}"
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        results = list(pool.map(ask, sections))
+    warnings, failures, cost, calls = [], [], 0.0, 0
+    for (heading, _), payload, error in results:
+        if error:
+            failures.append(f"section {heading!r}: {error}")
+            continue
+        calls += 1
+        gateway_cost = (payload.get("providerMetadata") or {}).get("gateway", {}).get("cost")
+        usage = payload.get("usage") or {}
+        cost += float(gateway_cost) if gateway_cost is not None else (usage.get("inputTokens") or usage.get("input_tokens") or 0) * JEV_DIRECT_USD_PER_TOKEN
+        for q, spec in JEV_DATA["questions"].items():
+            answer = (payload.get("answers") or {}).get(q) or {}
+            p = answer.get("probability", answer.get("noul"))
+            if p is not None and spec["threshold"] is not None and float(p) >= spec["threshold"]:
+                warnings.append(f"jev: {q} p={float(p):.2f} in section {heading!r} (advisory: reread it)")
+    note = "Jev tier skipped: " + "; ".join(failures) if failures else None
+    return {"warnings": warnings, "calls": calls, "cost_usd": round(cost, 6), "note": note}
+
+
+def add_jev(result: dict, sections, audience: str) -> None:
+    tier = jev_tier(sections, audience, os.environ, post=jev_post)
+    result["warnings"] = result["warnings"] + tier.pop("warnings")
+    result["jev"] = tier
+    if tier["note"]:
+        print(tier["note"], file=sys.stderr)
+
+
 def main(argv: list[str]) -> int:
     import argparse
 
@@ -381,6 +563,8 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--facts", help="JSON file with facts, forbidden_claims and terms")
     parser.add_argument("--html", action="store_true", help="parse HTML (automatic for .html files)")
     parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de; \"auto\" gates every language class")
+    parser.add_argument("--jev", action="store_true", help="advisory Jev tier per section after the deterministic checks (sends the text to TypeSafe)")
+    parser.add_argument("--audience", default=DEFAULT_AUDIENCE, help="who reads the text, for the Jev tier")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
     facts = json.loads(Path(args.facts).read_text(encoding="utf-8")) if args.facts else None
@@ -393,11 +577,19 @@ def main(argv: list[str]) -> int:
             "errors": [f"{l}: {e}" for l, r in langs.items() for e in r["errors"]],
             "warnings": [f"{l}: {w}" for l, r in langs.items() for w in r["warnings"]] + report["parity"],
         }
+        if args.jev:
+            for l in langs:
+                add_jev(langs[l], html_page_sections(raw, report["prefix"] + l), args.audience)
+                merged["warnings"] += [f"{l}: {w}" for w in langs[l]["warnings"] if w.startswith("jev:")]
         print(json.dumps(merged, indent=2, ensure_ascii=False))
         return 1 if merged["errors"] else 0
     args.lang = resolve_lang(args.lang, args.lang_class)
-    text = read_input(args.file, args.html, args.lang_class)
+    raw = sys.stdin.read() if args.file == "-" else Path(args.file).read_text(encoding="utf-8")
+    is_html = args.html or args.file.lower().endswith((".html", ".htm"))
+    text = html_text(raw, args.lang_class) if is_html else raw
     result = check(text, args.artifact, args.lang, facts)
+    if args.jev:
+        add_jev(result, html_page_sections(raw, args.lang_class) if is_html else text_sections(text), args.audience)
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 1 if result["errors"] else 0
 

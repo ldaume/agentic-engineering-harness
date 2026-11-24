@@ -1,0 +1,95 @@
+{
+  "calibration": "2026-11-24 labeled pilot: one Jev call per section with the labeled examples and these rules as state (arm C). At these thresholds it flagged every labeled defect with 0 to 25 percent false positives on clean text; two runs differ by about 0.02. Labels were thin and the thresholds were chosen on the same labels, so every hit is advisory. repetition and unexplained_term are not usable (threshold null): they stay in the bundle because the other answers were calibrated with them asked (dropping them raised contradiction from 3 to 5 hits on 12 clean sections), but they are never reported; the deterministic checks cover them. Re-score on a new labeled page before changing a threshold. ui_instruction asks about section_text (2026-11-24 re-score on the same slice: 3/3 found, 1/12 false positives on clean sections, 0/10 on other-defect sections, against 2/10 with the earlier page-wide wording, which also flagged sections next to the one with the instruction).",
+  "questions": {
+    "ui_instruction": {
+      "threshold": 0.7,
+      "question": "Does the section_text contain an instruction on how to operate the page or a diagram itself (for example swipe, click, scroll, tap, zoom), as opposed to describing the system?",
+      "rule": "RULE ui_instruction: A documentation page describes the system. Instructions for operating the page or its diagrams (swipe, click, scroll, tap) are not documentation and do not belong in the text.",
+      "examples": [
+        "YES: 'Tippen Sie auf einen Baustein, um die Details zu sehen.'",
+        "NO: 'Gestrichelte Pfeile zeigen optionale Verbindungen.'"
+      ]
+    },
+    "repetition": {
+      "threshold": null,
+      "question": "Does a statement in the section_text repeat, almost word for word or in the same facts, a statement that also appears in other_sections?",
+      "rule": "RULE repetition: Each statement has one home. The same point again in another section, in other or identical words, is restating. Compare against other_sections.",
+      "examples": [
+        "YES: section says 'Sitzung 24 Stunden, Token 7 Tage.' and other_sections already say 'Sitzung 24 Stunden, Token 7 Tage.'",
+        "NO: section links to the other place: 'Die Laufzeiten stehen unter Anmeldung.'"
+      ]
+    },
+    "contradiction": {
+      "threshold": 0.7,
+      "question": "Does the section_text contain two claims that cannot both be true, or claim something that other_sections contradicts?",
+      "rule": "RULE contradiction: Two claims that cannot both hold (a figure, a date, a status, an 'excluded' versus an 'exception today') are a self-contradiction.",
+      "examples": [
+        "YES: 'Externe Anbieter sind ausgeschlossen.' and, elsewhere, 'Ausnahme heute: Anbieter X.'",
+        "NO: 'Externe Anbieter sind ausgeschlossen. Anbieter X läuft heute noch und wird abgeschaltet.'"
+      ]
+    },
+    "target_as_built": {
+      "threshold": 0.7,
+      "question": "Does the section_text state in the present tense that something is done, running or available that, according to the page, is only intended, planned or still to be built?",
+      "rule": "RULE target_as_built: Overclaiming says more than exists. A target state, a plan or a thing to be built must be written as such ('soll', 'ist geplant'), never in the present tense as done.",
+      "examples": [
+        "YES: 'Der Kunde übernimmt die Konfiguration unverändert.' (not yet done, only intended)",
+        "NO: 'Der Kunde soll die Konfiguration übernehmen.'"
+      ]
+    },
+    "universal_claim": {
+      "threshold": 0.8,
+      "question": "Does the section_text make a universal claim (only, always, never, all, every, none) without naming evidence, or one that another passage on the page contradicts?",
+      "rule": "RULE universal_claim: A claim about a system that nothing backs, in particular universal words (only, always, never, all), is an unanchored claim. It needs evidence in the text, or must be limited.",
+      "examples": [
+        "YES: 'Alle Agenten nutzen nur Modell M.' while the page says the builder runs on model N",
+        "NO: 'Die Agenten der Plattform nutzen heute Modell M; der Builder läuft mit Modell N.'"
+      ]
+    },
+    "unexplained_term": {
+      "threshold": null,
+      "question": "Does the section_text use an acronym, protocol name or internal name that the stated audience probably does not know and that is not explained at first use?",
+      "rule": "RULE unexplained_term: Every term, acronym or internal name the target group may not know is explained at first use or sits in a glossary.",
+      "examples": [
+        "YES: 'Die Anmeldung nutzt PKCE und JWKS-Rotation.' for a non-specialist audience",
+        "NO: 'Die Anmeldung läuft über den Identity Provider (IdP) des Kunden.'"
+      ]
+    },
+    "provoking": {
+      "threshold": 0.7,
+      "question": "Does the section_text name an assessment label, certification, maturity level, employee-representation body or internal programme that a technical platform description for outside reviewers does not need?",
+      "rule": "RULE provoking: Name only what the reader needs. Naming assessment labels, maturity models, employee-representation bodies or internal programmes that the description does not need signals insider knowledge or invites objections.",
+      "examples": [
+        "YES: a table row 'Betriebsrat: noch nicht beteiligt' in a technical description",
+        "NO: 'Die Verarbeitung erfolgt in der EU.'"
+      ]
+    },
+    "tell_not_x_but_y": {
+      "threshold": 0.7,
+      "question": "Does the section_text contain a contrast of the form 'not X but Y' (nicht X, sondern Y) where X names something nobody claimed?",
+      "rule": "RULE tell_not_x_but_y: 'Not X but Y' (nicht X, sondern Y; not just X, but Y): the negative half names something nobody claimed so the positive half sounds larger. State Y.",
+      "examples": [
+        "YES: 'Das ist kein Werkzeug, sondern ein Partner.'",
+        "NO: 'Der Export ist ein Werkzeug, das Dateien als Archiv ablegt.'"
+      ]
+    },
+    "tell_filler": {
+      "threshold": 0.7,
+      "question": "Does the section_text contain justifying filler (for example 'bewusst schlank', 'damit wir schnell lernen') or a vague mechanism phrase (for example 'spielt eine zentrale Rolle', 'kommt ins Spiel') instead of stating what is there?",
+      "rule": "RULE tell_filler: Justifying filler ('bewusst schlank', 'damit wir schnell lernen') defends a state instead of describing it. A vague mechanism ('kommt ins Spiel', 'spielt eine zentrale Rolle') names no thing and place.",
+      "examples": [
+        "YES: 'Heute bewusst schlank, damit wir schnell lernen.'",
+        "NO: 'Heute gibt es zwei Rollen; weitere folgen im Herbst.'"
+      ]
+    },
+    "tell_closer": {
+      "threshold": 0.7,
+      "question": "Does the section_text end a paragraph with a one-line closer that only repeats the paragraph as a lesson, or contain a staged opener ('Die Wahrheit ist', 'Here is the thing')?",
+      "rule": "RULE tell_closer: A one-line closer repeats the paragraph as a lesson ('Der Hebel ist das Wissen.'). A staged opener ('Die Wahrheit ist', 'Here is the thing') delays the point. Cut both.",
+      "examples": [
+        "YES: paragraph ends with 'Am Ende zählt das Vertrauen.'",
+        "NO: paragraph ends with the last concrete fact."
+      ]
+    }
+  }
+}
