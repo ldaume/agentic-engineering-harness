@@ -66,6 +66,12 @@ detail destroys the trust the rest of the text earned.
    audience `terms`; fix every error, judge each warning. A page's diagram
    captions and legends count as prose; a sentence telling readers how to
    operate the page (swipe, scroll, click here) is a warning: fix the design.
+   For client-facing or public text add `--jev --audience "<who reads it>"`:
+   an advisory tier asks TypeSafe Jev typed questions per section (UI
+   instruction, three AI tells, contradiction, universal claim, target as
+   built, provoking content). A `jev:` warning means reread that section; it
+   never fails the gate, and "Jev tier skipped: <reason>" means no key or no
+   answer (`references/quality-model.md`).
 7. Return the finished artifact, without commentary unless asked.
 
 ## Language
@@ -119,7 +125,7 @@ structure fits artifact and audience, and remaining uncertainty is stated.
 
 Golden outputs in the domain references double as fixtures: each sits after a
 `<!-- golden: <artifact> <de|en> -->` marker, and `tests/run_evals.py golden`
-gates all of them. `tests/test_quality_gate.py` and `tests/test_evals.py` run
+gates all of them. `tests/test_quality_gate.py`, `tests/test_jev_tier.py` (Jev stubbed) and `tests/test_evals.py` run
 in CI. `tests/run_evals.py routing --host claude|codex` replays
 `tests/routing-cases.json` in fresh headless sessions to show which skill a
 host actually loads; run it after changing any description.
