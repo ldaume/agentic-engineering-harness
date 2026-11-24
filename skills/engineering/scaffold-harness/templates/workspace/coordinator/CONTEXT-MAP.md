@@ -22,11 +22,13 @@ maps drift and no session can tell which is current.
 
 ## Relationships
 
-| Provider -> Consumer | Contract | Compatibility check | Escalation |
-|---|---|---|---|
-| `service-a -> web-app` | `<API, schema, event, package>` | `<command or test>` | `<who decides on a break>` |
+| Provider -> Consumer | Contract | Consumer files | Compatibility check | Escalation |
+|---|---|---|---|---|
+| `service-a -> web-app` | `<API, schema, event, package>` | `<path in the consumer that reads it>` | `<command or test>` | `<who decides on a break>` |
 
-Record a relationship only when a change on one side can break the other.
+Record a relationship only when a change on one side can break the other, and
+in the same change that creates it. These rows are the graph a session follows
+from a provider to every consumer before it changes the contract.
 
 ## Source routing
 
