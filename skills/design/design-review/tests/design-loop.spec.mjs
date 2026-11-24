@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as loop from "../scripts/design-loop.mjs";
-import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE } from "../scripts/design-loop.mjs";
+import { measuredAudit, tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -707,4 +707,87 @@ test("given the phone question, Jev is told the screenshot ends at an artificial
   expect(q["layout.phone"].instructions).toMatch(/ignore anything cut off by the bottom edge/);
   expect(q["layout.dark"].instructions).toBe("Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?");
   expect(q["tell.hero-cards"].instructions).toBe("Does the desktop screenshot show a centered hero section followed by a row of three equal feature cards?");
+});
+
+// Measured DOM rules (design-review 1.9.0): exact colour and box tests ported from a spike. Dom
+// tier: tell.glow and tell.gray-on-color block; tell.icon-tile and tell.nested-cards are advisory
+// (their thresholds rest on synthetic fixtures with narrow margins). Audit tier, per screenshot
+// viewport and scheme: render.hidden-at-rest, render.broken-image, render.text-occluded.
+const measured = async (page, name, phase) => { await page.setViewportSize({ width: 1280, height: 800 }); await page.setContent(fixture(name)); return page.evaluate(measuredAudit, phase); };
+const DOM_RULES = [["tell.glow", "tell-glow", false], ["tell.gray-on-color", "tell-gray-on-color", false], ["tell.icon-tile", "tell-icon-tile", true], ["tell.nested-cards", "tell-nested-cards", true]];
+for (const [rule, base, advisory] of DOM_RULES) {
+  test(`given the ${base}-bad page, the DOM tier flags ${rule} as ${advisory ? "advisory" : "blocking"} with a selector`, async ({ page }) => {
+    const hit = (await measured(page, `${base}-bad.html`, "slop")).find((h) => h.rule === rule);
+    expect(hit, rule).toBeTruthy();
+    expect(hit.element.length).toBeGreaterThan(0);
+    expect(!!hit.advisory).toBe(advisory);
+  });
+  test(`given the ${base}-ok page with its exemptions, the DOM tier does not flag ${rule}`, async ({ page }) => {
+    expect((await measured(page, `${base}-ok.html`, "slop")).map((h) => h.rule)).not.toContain(rule);
+  });
+}
+const RENDER_RULES = [["render.hidden-at-rest", "render-hidden", "rest"], ["render.broken-image", "render-broken-image", "rest"], ["render.text-occluded", "render-occluded", "late"]];
+for (const [rule, base, phase] of RENDER_RULES) {
+  test(`given the ${base}-bad page, the audit reports ${rule} with element, text, observed and required`, async ({ page }) => {
+    const f = (await measured(page, `${base}-bad.html`, phase)).find((h) => h.rule === rule);
+    expect(f, rule).toBeTruthy();
+    expect(f.element).toBeTruthy();
+    expect(f.observed).toBeTruthy();
+    expect(f.required).toBeTruthy();
+  });
+  test(`given the ${base}-ok page with its exemptions, the audit does not report ${rule}`, async ({ page }) => {
+    expect((await measured(page, `${base}-ok.html`, phase)).map((h) => h.rule)).not.toContain(rule);
+  });
+}
+
+test("given the clean page, the measured rules flag nothing in any phase", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("clean.html"));
+  for (const phase of ["slop", "rest", "late"]) expect(await page.evaluate(measuredAudit, phase), phase).toEqual([]);
+});
+
+test("given a page scrolled to 300 px, the occlusion phase puts the scroll back where it was", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("render-occluded-ok.html"));
+  await page.evaluate(() => scrollTo(0, 300));
+  await page.evaluate(measuredAudit, "late");
+  expect(await page.evaluate(() => scrollY)).toBe(300);
+});
+
+test("given the rest phase, it never scrolls the page", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("render-occluded-ok.html"));
+  await page.evaluate(measuredAudit, "rest");
+  expect(await page.evaluate(() => scrollY)).toBe(0);
+});
+
+test("given pages with a glow, gray text on colour, a hidden section, a broken image and covered text, the review reports each as a blocking finding with its tier", async ({ page }) => {
+  const expectFail = async (name, rule, tier) => {
+    await page.setContent(fixture(name));
+    const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+    const f = r.findings.find((x) => x.rule === rule);
+    expect(f, `${rule}: ${JSON.stringify(r.findings.map((x) => x.rule))}`).toBeTruthy();
+    expect(f.status).toBe("fail");
+    expect(f.tier).toBe(tier);
+  };
+  await expectFail("tell-glow-bad.html", "tell.glow", "dom");
+  await expectFail("tell-gray-on-color-bad.html", "tell.gray-on-color", "dom");
+  await expectFail("render-hidden-bad.html", "render.hidden-at-rest", "audit");
+  await expectFail("render-broken-image-bad.html", "render.broken-image", "audit");
+  await expectFail("render-occluded-bad.html", "render.text-occluded", "audit");
+});
+
+test("given a page whose only findings are icon tiles or nested cards, the review lists them as advisory and no finding fails the run", async ({ page }) => {
+  for (const [name, rule] of [["tell-icon-tile-bad.html", "tell.icon-tile"], ["tell-nested-cards-bad.html", "tell.nested-cards"]]) {
+    await page.setContent(fixture(name));
+    const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+    expect(r.findings.find((f) => f.rule === rule), rule).toMatchObject({ status: "advisory", tier: "dom" });
+    expect(r.findings.some((f) => f.status === "fail"), JSON.stringify(r.findings)).toBe(false);
+  }
+});
+
+test("given the clean page, the review still reports no findings with the measured rules in place", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings, JSON.stringify(r.findings)).toEqual([]);
 });

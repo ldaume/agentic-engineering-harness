@@ -122,13 +122,45 @@ narrow cards or phone width, 0 percent real), line height (34 hits on ordinary T
 sizes, then no signal), a spacing grid (2, 6 and 10 px are half steps, not errors), the
 count of distinct left edges (kanban columns and chat), the count of font weights, and
 the Jev questions on hierarchy contrast (apps and references scored alike), focal point (40
-percent real, references flagged) and grouping by proximity (0 of 3 real).
+percent real, references flagged) and grouping by proximity (0 of 3 real), and the kicker or
+eyebrow rule (a small uppercase or tracked label, or a pill, above a heading): the DOM cannot
+tell a functional chip (a status, a category, a step count) from a decorative eyebrow, so any
+threshold either flagged real product labels or missed the decorative ones.
 Worked fixtures, each rule with a failing and a passing page: `tests/fixtures/type-small-bad.html`
 and `type-small-ok.html`, `type-scale-bad.html` and `type-scale-ok.html`, `type-widow-bad.html`
 and `type-widow-ok.html`, `layout-edge-bad.html` and `layout-edge-ok.html`, `type-families-bad.html`
 and `type-families-ok.html`; `type-widow-band.html` has a lone last word only at 1100 px and is not
 reported; `type-widow-cells-ok.html`, `type-widow-labels-ok.html`, `type-widow-narrow-ok.html`
 and `type-widow-paren-ok.html` pass; `type-widow-phone-bad.html` and `type-widow-narrow-bad.html` fail.
+
+## Measured DOM rules
+
+`measuredAudit` in `scripts/design-loop.mjs` adds seven rules that are exact colour and box
+arithmetic, with the element in the finding. Ideas for them came from impeccable (Apache-2.0);
+the code, thresholds and fixtures are our own. A rule was ported only when its findings were
+all real and it flagged nothing on 2 real clean pages, the legit fixtures, 3 clean references and
+12 live product-UI runs, and every synthetic positive was caught. Those samples are small and the
+thresholds were tuned on them.
+
+| Rule | Tier | Fails when | Exempt |
+|---|---|---|---|
+| `tell.glow` | dom, blocking | a coloured (chroma 0.25 or more, alpha 0.2 or more) `box-shadow` with blur 24 px or more and blur plus twice the spread, times alpha, at least 12, on a box of 48 px or more with an offset under 0.75 times the blur; a radial-gradient halo of 200 px or more that fades to transparent on a decorative layer; a `blur()` of 40 px or more on a coloured box of 200 px or more | inset shadows, small indicators (under 48 px), focus rings (no blur), neutral shadows |
+| `tell.gray-on-color` | dom, blocking | text of chroma 0.08 or less and lightness 0.3 to 0.75 on a background of saturation 0.4 or more and lightness 0.08 to 0.8 | pale tints (lightness 0.8 or more), near-black, neutral gray backgrounds, images behind the text. It complements the WCAG contrast audit: gray text can pass the ratio and still look dull on colour |
+| `tell.icon-tile` | dom, advisory | 2 or more identical tinted (chroma 0.05 or more) near-square tiles of 32 to 128 px, with an icon, rounded, directly above a heading | a single tile, neutral tiles |
+| `tell.nested-cards` | dom, advisory | an opaque card (rounded 6 px or more, 120 x 56 px or more, bordered on all sides or shadowed) inside another card whose left padding is 20 px or more | a flat tinted note, a tight outer card, table and list parts |
+| `render.hidden-at-rest` | audit, blocking | text of 3 or more characters in the layout with opacity under 0.02, `visibility: hidden`, or fully off-screen horizontally; run first, before any scrolling | `checkVisibility()` false, `hidden`, `aria-hidden`, collapsed `details`, tooltips, skip links, fixed ancestors, scroll containers |
+| `render.broken-image` | audit, blocking | an `img` that finished loading with `naturalWidth` 0 and a `src` or `srcset` | an `img` without a source, images still loading |
+| `render.text-occluded` | audit, blocking | an opaque box (alpha 0.95 or more, or an `img`, `video` or `canvas`) is on top of 2 of 5 sample points of a text, found with `elementFromPoint` after scrolling the text to mid screen; run last because it scrolls, and restores the position | a fixed or sticky coverer or ancestor, a coverer that contains the text or repeats it, translucent overlays |
+
+`tell.icon-tile` and `tell.nested-cards` are advisory: they appear in the report with status
+`advisory` and never set the exit code, because their thresholds rest on synthetic fixtures with
+narrow margins (no real page was flagged and no real page confirmed them). Pinned chrome
+covering text, such as a sticky header over a heading, is not caught by `render.text-occluded`,
+because the exemption that keeps real fixed bars quiet also hides that defect. A page that
+reveals content on scroll and keeps it hidden at rest is reported by `render.hidden-at-rest`;
+a page that needs a click or a hover to show text is not a defect and is not reported when it
+uses `hidden`, `aria-hidden`, `details` or a tooltip role.
+Fixtures, all synthetic, each rule with a failing and a passing page: `tests/fixtures/tell-glow-bad.html`, `tests/fixtures/tell-glow-ok.html`, `tests/fixtures/tell-gray-on-color-bad.html`, `tests/fixtures/tell-gray-on-color-ok.html`, `tests/fixtures/tell-icon-tile-bad.html`, `tests/fixtures/tell-icon-tile-ok.html`, `tests/fixtures/tell-nested-cards-bad.html`, `tests/fixtures/tell-nested-cards-ok.html`, `tests/fixtures/render-hidden-bad.html`, `tests/fixtures/render-hidden-ok.html`, `tests/fixtures/render-broken-image-bad.html`, `tests/fixtures/render-broken-image-ok.html`, `tests/fixtures/render-occluded-bad.html`, `tests/fixtures/render-occluded-ok.html`.
 
 ## Checklist
 
