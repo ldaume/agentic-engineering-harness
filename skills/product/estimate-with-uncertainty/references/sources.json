@@ -1,0 +1,218 @@
+{
+  "sources": [
+    {
+      "id": "SRC-EST-001",
+      "title": "Data Analysis Using Regression and Multilevel/Hierarchical Models (Gelman, Hill)",
+      "url": "https://doi.org/10.1017/CBO9780511790942",
+      "publisher": "Cambridge University Press",
+      "published": "2007",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "regression",
+        "multilevel",
+        "shrinkage"
+      ],
+      "findings": [
+        "Log transforms for positive right-skewed outcomes; multilevel models partially pool small groups toward the overall mean.",
+        "Simulation from the fitted model carries parameter uncertainty into predictions."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "A new edition."
+    },
+    {
+      "id": "SRC-EST-002",
+      "title": "Regression and Other Stories (Gelman, Hill, Vehtari)",
+      "url": "https://avehtari.github.io/ROS-Examples/",
+      "publisher": "Cambridge University Press",
+      "published": "2020",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "regression",
+        "bayesian",
+        "prediction"
+      ],
+      "findings": [
+        "Bayesian regression with weakly informative default priors; posterior predictive simulation for forecasts instead of plug-in point predictions."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "A new edition."
+    },
+    {
+      "id": "SRC-EST-003",
+      "title": "Prior Choice Recommendations (Stan wiki)",
+      "url": "https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations",
+      "publisher": "Stan Development Team",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-guide",
+      "domains": [
+        "priors",
+        "bayesian"
+      ],
+      "findings": [
+        "Generic weakly informative normal(0, 1) on parameters after scaling; the prior depends on the parameterization.",
+        "Half-normal, half-t or half-Cauchy for hierarchical scales; avoid hard bounds unless real.",
+        "Student-t with 3 to 7 degrees of freedom is more robust than normal for logistic regression coefficients."
+      ],
+      "limits": "Wiki page, read in this session; living document without a fixed date.",
+      "evidence_level": "verified",
+      "revisit": "Page restructured or recommendations changed."
+    },
+    {
+      "id": "SRC-EST-004",
+      "title": "Smearing estimate: a nonparametric retransformation method (Duan)",
+      "url": "https://doi.org/10.1080/01621459.1983.10478017",
+      "publisher": "Journal of the American Statistical Association 78(383)",
+      "published": "1983",
+      "accessed": "2026-11-24",
+      "type": "paper",
+      "domains": [
+        "retransformation",
+        "log-models"
+      ],
+      "findings": [
+        "The mean of a log-scale model is not exp of the mean log; the smearing estimate multiplies by the average of exp(residuals) without assuming normal errors."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected; classic result."
+    },
+    {
+      "id": "SRC-EST-005",
+      "title": "An Introduction to the Bootstrap (Efron, Tibshirani)",
+      "url": "https://doi.org/10.1201/9780429246593",
+      "publisher": "Chapman and Hall",
+      "published": "1993",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "bootstrap",
+        "intervals"
+      ],
+      "findings": [
+        "Percentile and BCa intervals; BCa corrects bias and skewness, and a large gap between them signals that the sample is too small for reliable bootstrap intervals."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-006",
+      "title": "Queueing Systems, Volume 1: Theory (Kleinrock)",
+      "url": "https://www.wiley.com/en-us/Queueing+Systems%2C+Volume+1-p-9780471491101",
+      "publisher": "Wiley",
+      "published": "1975",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "queueing",
+        "capacity"
+      ],
+      "findings": [
+        "M/M/c and the Erlang C waiting probability; exponential service and Poisson arrivals are assumptions, so bursty arrivals and skewed durations need simulation, with Erlang C as a cross-check."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-007",
+      "title": "Estimating log models: to transform or not to transform? (Manning, Mullahy)",
+      "url": "https://doi.org/10.1016/S0167-6296(01)00086-8",
+      "publisher": "Journal of Health Economics 20(4)",
+      "published": "2001",
+      "accessed": "2026-11-24",
+      "type": "paper",
+      "domains": [
+        "log-models",
+        "cost"
+      ],
+      "findings": [
+        "Retransformation bias in log-cost models matters when residuals are heteroscedastic or heavy-tailed; check alternatives before trusting exp(sigma^2/2)."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-008",
+      "title": "Prior distributions for variance parameters in hierarchical models (Gelman)",
+      "url": "https://doi.org/10.1214/06-BA117A",
+      "publisher": "Bayesian Analysis 1(3)",
+      "published": "2006",
+      "accessed": "2026-11-24",
+      "type": "paper",
+      "domains": [
+        "priors",
+        "hierarchical"
+      ],
+      "findings": [
+        "Inverse-Gamma(epsilon, epsilon) priors on hierarchical variances cause serious problems; half-t priors are recommended when the number of groups is small."
+      ],
+      "limits": "Abstract and secondary summaries read in this session through a search; full text not re-read.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-009",
+      "title": "Measurement Error in Nonlinear Models, 2nd edition (Carroll, Ruppert, Stefanski, Crainiceanu)",
+      "url": "https://doi.org/10.1201/9781420010138",
+      "publisher": "Chapman and Hall",
+      "published": "2006",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "measurement-error",
+        "bayesian"
+      ],
+      "findings": [
+        "A covariate or outcome measured with known-direction error can be handled by drawing the error inside the Bayesian fit, so its uncertainty reaches the posterior."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-010",
+      "title": "Estimation of relationships for limited dependent variables (Tobin)",
+      "url": "https://doi.org/10.2307/1907382",
+      "publisher": "Econometrica 26(1)",
+      "published": "1958",
+      "accessed": "2026-11-24",
+      "type": "paper",
+      "domains": [
+        "censoring"
+      ],
+      "findings": [
+        "Censored regression treats values known only as a bound (for example cost to date of open items) without discarding them."
+      ],
+      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "evidence_level": "supported",
+      "revisit": "None expected."
+    },
+    {
+      "id": "SRC-EST-011",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Prediction intervals",
+      "url": "https://otexts.com/fpp3/prediction-intervals.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "intervals"
+      ],
+      "findings": [
+        "Point forecasts can be of almost no value without the accompanying prediction intervals.",
+        "Bootstrapped intervals from resampled residuals need no normality assumption and can be asymmetric."
+      ],
+      "limits": "Read in this session; online edition is updated continuously.",
+      "evidence_level": "verified",
+      "revisit": "A 4th edition or a rewrite of the section."
+    }
+  ]
+}

@@ -44,10 +44,10 @@ complete prompts for one repository and for a workspace are under
 
 | Part | What it gives you | Built by |
 |---|---|---|
-| [Skills catalog](#catalog) | 47 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
+| [Skills catalog](#catalog) | 48 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
 | Repository harness | Agent instructions, context, checks, and an [operating level](#operating-levels) from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.3.0 |
 | Multi-repository workspace | A working root and a coordinator repository that every agent session reads before it works | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md#multi-repository-workspace) 3.3.0 |
-| Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.1.0 |
+| Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.2.0 |
 
 ## How a workspace fits together
 
@@ -118,6 +118,7 @@ real session loads what you installed.
 | Deliver a dependency upgrade through production | [`deliver-dependency-upgrades`](./skills/engineering/deliver-dependency-upgrades/SKILL.md) |
 | Shape value-defined issues and honest roadmaps | [`product-craft`](./skills/product/product-craft/SKILL.md) |
 | Write numbers a non-participant reads correctly | [`plain-numbers`](./skills/product/plain-numbers/SKILL.md) |
+| Forecast cost, capacity, or volume from small data as ranges | [`estimate-with-uncertainty`](./skills/product/estimate-with-uncertainty/SKILL.md) |
 | Design a flow, form, product screen, site, dashboard, or deck with evidence | [`skills/design`](./skills/design/README.md) |
 | Write an email, status, hero, PR, or commit with its golden path | [`skills/writing`](./skills/writing/README.md) |
 | Run the full signal-to-outcome loop | [`run-product-engineering`](./skills/product/run-product-engineering/SKILL.md) |
@@ -297,7 +298,7 @@ resolved by reusing an existing Skill or writing a project-local one with
 | Category | Skills |
 |---|---|
 | [Engineering](./skills/engineering/README.md) | `scaffold-harness`, `agent-sync`, `update-harness`, `grill-harness-with-docs`, `start-gate`, `coding-discipline`, `completion-gate`, `shift-left-security`, `documentation-and-adrs`, `deliver-dependency-upgrades`, `build-autonomous-agents`, `learn-agentic-engineering`, `write-a-skill`, `scaffold-monorepo`, `pnpm`, `renovate` |
-| [Product](./skills/product/README.md) | `product-craft`, `run-product-engineering`, `integrate-product-compliance`, `plain-numbers` |
+| [Product](./skills/product/README.md) | `product-craft`, `run-product-engineering`, `integrate-product-compliance`, `plain-numbers`, `estimate-with-uncertainty` |
 | [Design](./skills/design/README.md) | `design-core`, `design-research`, `design-flows`, `design-forms`, `design-product-ui`, `design-web`, `design-dataviz`, `design-slides`, `design-systems`, `design-review` |
 | [Writing](./skills/writing/README.md) | `writing-core`, `writing-editorial`, `writing-marketing`, `writing-product`, `writing-engineering` |
 | [Frontend](./skills/frontend/README.md) | `frontend-craft` |

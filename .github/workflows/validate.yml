@@ -48,6 +48,9 @@ jobs:
       - name: Test writing quality gate and golden outputs
         run: python3 -m unittest discover -s skills/writing/writing-core/tests
 
+      - name: Test forecast sketch
+        run: python3 -m unittest discover -s skills/product/estimate-with-uncertainty/tests
+
       - name: Test design skill scripts
         shell: bash
         run: |

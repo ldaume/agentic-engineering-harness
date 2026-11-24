@@ -45,7 +45,7 @@ meeting"). Then apply to every number:
     never a point estimate: "between 3 and 5 weeks", "1,500 to 2,500 EUR". Say
     what the range rests on and what would change it. A forecast computed from
     measured throughput or cost data beats a guess; show the data and the
-    formula. Where the decision does not need the estimate, define the value
+    formula (`estimate-with-uncertainty` owns computing it). Where the decision does not need the estimate, define the value
     and the boundary instead (an outcome and the most the team will spend on
     it).
 11. State the denominator and the absolute change before any relative change:

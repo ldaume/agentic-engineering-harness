@@ -34,7 +34,20 @@ def registries(family: Path) -> list[Path]:
     return sorted(family.glob("*/references/sources.json"))
 
 
-def check(family: Path) -> tuple[list[str], list[str]]:
+def catalog_levels(skills: Path) -> dict[str, str]:
+    """Every registered source id in the catalog with its level.
+
+    A Skill may cite a source another family registered (one paper backs a rule
+    in two families); resolving it there keeps one entry instead of two that drift.
+    """
+    levels: dict[str, str] = {}
+    for registry in sorted(skills.rglob("references/sources.json")):
+        for entry in json.loads(registry.read_text(encoding="utf-8")).get("sources", []):
+            levels.setdefault(entry.get("id", ""), entry.get("evidence_level"))
+    return levels
+
+
+def check(family: Path, catalog: dict[str, str] | None = None) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     known: dict[str, Path] = {}
@@ -57,12 +70,14 @@ def check(family: Path) -> tuple[list[str], list[str]]:
             known[sid] = registry
             levels[sid] = entry.get("evidence_level")
 
+    foreign = {sid: level for sid, level in (catalog or {}).items() if sid not in known}
+    levels = {**foreign, **levels}
     cited: set[str] = set()
     for md in sorted(family.glob("*/**/*.md")):
         text = md.read_text(encoding="utf-8")
         for sid in CITATION.findall(text):
             cited.add(sid)
-            if sid not in known:
+            if sid not in known and sid not in foreign:
                 errors.append(f"{md.relative_to(family)}: cites {sid}, which no registry lists")
         for written, group in LEVELED.findall(re.sub(r"\s+", " ", text)):
             ids = [sid for sid in CITATION.findall(group) if levels.get(sid) in RANK]
@@ -78,9 +93,10 @@ def check(family: Path) -> tuple[list[str], list[str]]:
 
 def main(argv: list[str]) -> int:
     families = [Path(a) for a in argv] or sorted({r.parents[2] for r in (ROOT / "skills").rglob("references/sources.json")})
+    catalog = catalog_levels(ROOT / "skills")
     failed = False
     for family in families:
-        errors, warnings = check(family)
+        errors, warnings = check(family, catalog)
         for line in errors:
             print(f"ERROR {family.name}: {line}")
         for line in warnings:
