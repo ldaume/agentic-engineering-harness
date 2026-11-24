@@ -113,6 +113,9 @@ Start with scope reduction and verified data flows:
 - payment-page scripts and e-commerce eligibility
 - storage, processing, transmission, logging, and administrative access
 
+As a design rule, account data never reaches logs, analytics, support tools, or
+data warehouses; check each of those sinks, since they widen scope silently.
+
 Do not infer SAQ eligibility, applicability, compensating controls, customized
 approach acceptability, ROC requirements, or compliance status. Involve the
 merchant or service-provider compliance owner and a QSA or other qualified PCI

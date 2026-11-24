@@ -16,6 +16,26 @@ required.
 | record a durable decision | Decision Record |
 | assess impact | Outcome Review |
 
+Choose by the dominant uncertainty when the table above does not fit:
+
+| Dominant uncertainty | Artifact |
+|---|---|
+| is the problem real | Problem Brief |
+| which opportunity or solution | opportunity solution tree |
+| is it worth investing | Bet Brief |
+| does a hypothesis hold | Experiment Card |
+| expected behavior | examples or BDD |
+| contract or design between parties | API contract or RFC |
+| a durable choice | ADR |
+| security risk | threat model |
+| compliance | control mapping |
+| running it | runbook and SLO |
+| changing live data or systems | migration and rollback plan |
+| AI quality | eval plan |
+| usability | prototype plus test script |
+
+Do not force one format on all work.
+
 Give dates and costs as ranges or as an investment boundary, never as single
 values.
 

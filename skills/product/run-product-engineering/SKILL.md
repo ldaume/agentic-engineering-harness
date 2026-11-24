@@ -52,8 +52,9 @@ provenance, triage, outcome evidence, or kill criteria.
 Triage enough to establish:
 
 - source, affected users or system, evidence strength, and urgency
-- value, usability, feasibility, viability, security, compliance, and
-  operability risk
+- value, usability, feasibility, viability, security, compliance,
+  operability, data (available, correct, explainable), adoption (used in the
+  real workflow), and strategic fit risk
 - reversibility, blast radius, dependencies, and decision owner
 - next action: discard, observe, investigate, contain, discover, deliver, or
   escalate
@@ -79,6 +80,9 @@ Create or update only the target's smallest equivalent of:
 
 The work is ready for focus when the next investment decision is possible, not
 when every implementation detail is specified.
+
+Pick the discovery method from the dominant risk (table in the operating
+model reference); a method that cannot change the decision is skipped.
 
 Treat the domain model and solution concept as hypotheses that examples,
 implementation, and production evidence may refine. Do not freeze a complete
@@ -176,7 +180,8 @@ examples, invariants, contracts, and context map together with the implementing
 slice. Do not let code, tests, and domain artifacts describe different models.
 
 Read [references/operating-model.md](./references/operating-model.md) when
-designing stages, metrics, or exceptional paths.
+designing stages, metrics, discovery methods, decision rights, cadence, or
+adopting the model in an existing organization.
 
 ## 8. Complete
 

@@ -5,7 +5,13 @@
 - [Closed Loop](#closed-loop)
 - [Stage Contract](#stage-contract)
 - [Exceptional Paths](#exceptional-paths)
+- [Discovery Method by Risk](#discovery-method-by-risk)
+- [Decision Rights](#decision-rights)
+- [Cadence for Human Teams](#cadence-for-human-teams)
 - [Evidence and Metrics](#evidence-and-metrics)
+- [Portfolio Questions](#portfolio-questions)
+- [Adopting the Model](#adopting-the-model)
+- [FaST-Compatible Operating for Human Teams](#fast-compatible-operating-for-human-teams)
 - [Primary Sources](#primary-sources)
 
 ## Closed Loop
@@ -95,6 +101,42 @@ Emergency paths shorten decision latency, not quality, evidence, or
 accountability. Complete the missing review after recovery when prior review
 would increase harm.
 
+## Discovery Method by Risk
+
+Pick the cheapest method that can change the decision for the dominant risk.
+A method that cannot change the decision is skipped.
+
+| Dominant risk | Methods |
+|---|---|
+| value | interview, fake door, concierge |
+| usability | prototype or task test |
+| feasibility | spike or RFC |
+| viability | pricing test, sales narrative |
+| security or compliance | threat model, control mapping, data-flow mapping |
+| operability | SLO review, load test |
+| adoption | pilot or beta |
+| data | profiling, eval dataset |
+
+## Decision Rights
+
+Name, per value stream, who decides each of these, and write it where the team
+works: problem focus, scope cuts, stop or pivot, security risk, release, and
+platform investment. Accountability without the decision right is not
+ownership: an owner who must ask someone else to cut scope or stop a bet is
+only the person blamed when it fails.
+
+## Cadence for Human Teams
+
+Guidance for human teams; agents follow the harness and their own loop, not a
+calendar.
+
+| Rhythm | Content |
+|---|---|
+| continuous | flow of work, incidents, production observation |
+| weekly | triage and discovery review |
+| monthly | bet review and investment decisions |
+| quarterly | portfolio mix and team topology |
+
 ## Evidence and Metrics
 
 Use a balanced set tied to a decision. Do not turn metrics into individual
@@ -109,9 +151,58 @@ targets or vanity dashboards.
 | Product quality | defects by affected behavior, accessibility, security findings, support burden, performance and cost | fix, redesign, or change investment |
 | Portfolio | active bets, investment mix, killed bets, outcome coverage, concentration and risk exposure | rebalance funding and focus |
 
+Add a trust and compliance row when confirmed scope applies: controls with
+current evidence, evidence freshness, expiring exceptions, finding and
+vulnerability age, and questionnaire cycle time.
+
 Instrument the user behavior and system path needed to evaluate the bet.
 OpenTelemetry can provide vendor-neutral traces, metrics, and logs; it does not
 define product outcomes or replace an observability backend.
+
+## Portfolio Questions
+
+Ask each quarter, with the data the portfolio view already holds:
+
+- Which outcomes are underfunded against their stated importance?
+- How much capacity does maintenance drag take, and is it growing?
+- Do short-term sales asks crowd out platform and risk work?
+- Which dependencies make teams wait systemically, not once?
+
+## Adopting the Model
+
+In an existing organization, change the system in this order, so each step
+shows value before the next costs anything:
+
+1. Make the current system visible. Classify the backlog into signal, problem,
+   solution, and delivery work; check the top 20 active items for a named
+   outcome and risk; show flow (work age, blocked time).
+2. Pilot the loop on one outcome, with its own bet, review date, and kill
+   criteria.
+3. Move steering to match what the pilot proved: bet review, decision rights,
+   an outcome roadmap.
+
+When a compliance scope applies, add one step inside the pilot: map its
+controls to the slice with **integrate-product-compliance**, not a parallel
+program.
+
+## FaST-Compatible Operating for Human Teams
+
+An option for human teams that want to organize around collective value
+instead of fixed team ownership; agents do not need it. The Fluid Scaling
+Technology guide (fastagile.io; licensed CC BY-NC-ND, so cite it and do not
+copy it) describes a compatible way of working. In short:
+
+- value is pursued in continuous, pull-based cycles of the shortest sensible
+  length
+- roles are member, product manager, a volunteer team steward per cycle, and
+  optionally a feature steward
+- a living collective agreement records how decisions are made and conflicts
+  are resolved
+- people self-select onto work in a marketplace
+- teams resolve their dependencies themselves
+- people may move between teams when it helps the work
+
+Use **writing-product** `references/fast.md` for roadmaps in this mode.
 
 ## Primary Sources
 
@@ -122,3 +213,5 @@ define product outcomes or replace an observability backend.
 - [DORA proactive failure notification](https://dora.dev/capabilities/proactive-failure-notification/)
 - [OpenTelemetry observability primer](https://opentelemetry.io/docs/concepts/observability-primer/)
 - [OpenTelemetry signals](https://opentelemetry.io/docs/concepts/signals/)
+- [Fluid Scaling Technology](https://fastagile.io/) - cited, not reproduced
+- Teresa Torres, *Continuous Discovery Habits* - opportunity solution tree

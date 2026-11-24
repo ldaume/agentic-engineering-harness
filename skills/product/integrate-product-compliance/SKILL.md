@@ -46,6 +46,13 @@ Trace what changes across:
 - locations, teams, operating procedures, support, and incident response
 - customer promises, assessment boundaries, and evidence obligations
 
+Record the data classes touched (public, internal, confidential, strictly
+confidential, personal, payment), the confidentiality, integrity, and
+availability impact, and an initial risk class. Carry that class into focus
+and release; it is what the later risk-based policy keys on. Add two risks to
+the usual list: auditability (can the behavior be evidenced later) and scope
+(does the change widen PCI, TISAX, or audit scope).
+
 Prefer scope reduction and simpler architecture when it preserves the intended
 outcome. A compliance label is not a reason to maximize controls or artifacts.
 
@@ -99,8 +106,8 @@ Use **run-product-engineering** and add compliance where it changes a decision:
 | State | Compliance contribution |
 |---|---|
 | Signal and triage | customer requirement, finding, incident, data or scope change |
-| Problem and discovery | data flow, threat, control, supplier, auditability, and scope risk |
-| Bet and focus | control impact, evidence cost, deadline, owner, and risk boundary |
+| Problem and discovery | data flow, threat, control, supplier, auditability, and scope risk; once scope is confirmed, a trust context in the problem brief (class, obligations, owner) |
+| Bet and focus | control impact, evidence cost, deadline, owner, risk boundary, and the customer or GTM value the trust capability creates (deals, renewals, less questionnaire effort) |
 | Build and validate | secure design, least privilege, tests, logging, configuration, and traceability |
 | Release | locally defined risk class, approval, rollback, and evidence package |
 | Production and outcome | control effectiveness, incidents, exceptions, customer trust, and improvement |
