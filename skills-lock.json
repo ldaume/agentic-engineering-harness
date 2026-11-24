@@ -113,7 +113,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
-      "version": "1.6.2"
+      "version": "1.7.0"
     },
     "estimate-with-uncertainty": {
       "source": "local",
