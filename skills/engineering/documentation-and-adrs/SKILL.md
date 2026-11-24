@@ -130,6 +130,10 @@ re-checking.
 
 ## Red Flags
 
+Load [`references/vocabulary.md`](references/vocabulary.md) before judging a doc or
+an ADR and name each gap by its term (mode mixing, missing confirmation, an
+edited-in-place ADR), not by "feels off".
+
 - doc repeats code or config verbatim
 - decision has no alternatives or consequences
 - an ADR was followed without checking its assumptions, or has none to check
