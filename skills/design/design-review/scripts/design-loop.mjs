@@ -322,7 +322,20 @@ export function widowAudit() {
   const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0] : "");
   const strong = (el) => { const cs = getComputedStyle(el); return parseFloat(cs.fontSize) >= 16 && +cs.fontWeight >= 600; };
   const isHead = (el) => /^H[1-6]$/.test(el.tagName) || el.getAttribute("role") === "heading";
+  // Labels wrap by the width of their cell or column, not by a layout decision: cells, term and
+  // caption text, form labels, buttons and links are not judged unless they are headings themselves.
+  const LABEL = "td, th, dt, dd, caption, figcaption, label, button, a";
+  const ctx = document.createElement("canvas").getContext("2d");
+  const narrow = (el) => { // bold text under 30ch of its own font wraps by its box, not by a decision; a heading is judged at any width
+    const cs = getComputedStyle(el);
+    ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    return el.getBoundingClientRect().width < 30 * ctx.measureText("0").width;
+  };
+  // A parenthetical or a capitalized abbreviation of up to 3 letters ("a)", "(1)", "Inc.") ends a heading without being its last word.
+  const skippable = (w) => /[()]/.test(w) && w.length <= 4 || /^[A-Z][a-z]{0,2}\.$/.test(w);
   const candidates = [...document.body.querySelectorAll("*")].filter((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden" && !el.closest("svg, [aria-hidden=true]")
+    && (isHead(el) || !el.closest(LABEL))
+    && (isHead(el) || !narrow(el))
     && (isHead(el) || ([...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && strong(el))));
   const out = [];
   for (const el of candidates) {
@@ -338,7 +351,9 @@ export function widowAudit() {
       }
     }
     if (words.length < 3) continue;
-    const last = words[words.length - 1];
+    let end = words.length - 1;
+    if (skippable(words[end].word)) end--;
+    const last = words[end];
     const sameLine = words.filter((w) => Math.abs(w.top - last.top) < 3);
     if (sameLine.length === 1) out.push({ rule: "type.widow", element: name(el), text: el.innerText.trim().replace(/\s+/g, " ").slice(0, 40), observed: `last line is the single word "${last.word}"`, required: "two or more words on the last line" });
   }
@@ -625,7 +640,8 @@ function auditFindings(audit) {
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
     seen.set(id, { rule: f.rule ?? "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
-  return [...seen.values()].map(({ hits, widths, ...f }) => f);
+  // A lone last word that appears only between the screenshot widths is not what a reader of the shots sees: the sweep does not report it.
+  return [...seen.values()].filter((f) => f.rule !== "type.widow" || SHOTS.some((s) => f.hits.includes(s.width))).map(({ hits, widths, ...f }) => f);
 }
 
 // The page's three screenshots, labeled as the questions name them.

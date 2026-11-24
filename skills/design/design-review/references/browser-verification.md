@@ -95,7 +95,7 @@ node of its own.
 |---|---|---|
 | `type.small-text` | rendered text is under 12 px | `display:none`, `visibility:hidden` and `aria-hidden` text, and a single character, are skipped |
 | `type.scale-near-duplicate` | two adjacent font sizes (rounded to 0.5 px) are under 10 percent apart and each is used by 2 or more texts | reports the pair, both counts and an example of each; a size used once is a one-off, not a scale step |
-| `type.widow` | the last line of a heading (`h1` to `h6`, `role=heading`) or of bold text (weight 600 or more) of 16 px or more is a single word | measured with Range rects over every word; runs in the width sweep (every 32 px from 360 to 1592 px) and names the failing bands; a heading of fewer than 3 words is skipped. Fix: `text-wrap: balance` or `pretty` |
+| `type.widow` | the last line of a heading (`h1` to `h6`, `role=heading`) or of bold text (weight 600 or more) of 16 px or more is a single word | measured with Range rects over every word; runs in the width sweep (every 32 px from 360 to 1592 px) and names the failing bands; a heading of fewer than 3 words is skipped; text in `td`, `th`, `dt`, `dd`, `caption`, `figcaption`, `label`, `button` and `a` (unless a heading) and bold text in a box under 30ch of its own font are skipped; a last word that is a parenthetical or a capitalized abbreviation of up to 3 letters ("a)", "(1)", "Inc.") is skipped and the word before it judged; reported only when it occurs at 390 or 1280 px, with every band in `where` (a widow only between them is dropped). Fix: `text-wrap: balance` or `pretty` |
 | `layout.edge-near-miss` | inside one landmark (`main`, `nav`, `aside`, `header`, `footer`, a `section` with a heading) text left edges are 1 to 6 px apart and each edge is shared by 2 or more texts | centered and right-aligned text, inline elements, and text in buttons, tabs, table cells and labels are skipped |
 | `type.families` | more than 3 font families are rendered | the first face of each computed `font-family` |
 
@@ -126,8 +126,9 @@ percent real, references flagged) and grouping by proximity (0 of 3 real).
 Worked fixtures, each rule with a failing and a passing page: `tests/fixtures/type-small-bad.html`
 and `type-small-ok.html`, `type-scale-bad.html` and `type-scale-ok.html`, `type-widow-bad.html`
 and `type-widow-ok.html`, `layout-edge-bad.html` and `layout-edge-ok.html`, `type-families-bad.html`
-and `type-families-ok.html`; `type-widow-band.html` has a lone last word only at 360 px, found
-only by the sweep.
+and `type-families-ok.html`; `type-widow-band.html` has a lone last word only at 1100 px and is not
+reported; `type-widow-cells-ok.html`, `type-widow-labels-ok.html`, `type-widow-narrow-ok.html`
+and `type-widow-paren-ok.html` pass; `type-widow-phone-bad.html` and `type-widow-narrow-bad.html` fail.
 
 ## Checklist
 
