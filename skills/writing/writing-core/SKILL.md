@@ -10,12 +10,21 @@ Write for reader change, not for text production: a text is good when it asks
 the least cognitive work of its reader without losing meaning, uncertainty, or
 precision.
 
-Hand off when the artifact has an owner, because each owner carries the golden
-path for that format: email, Slack, PO and executive summaries to
-`writing-editorial`; marketing email, hero, landing and web pages to
-`writing-marketing`; status, roadmaps, FaST, progress and product briefs
-to `writing-product`; Confluence and technical docs, PRs and commits
-to `writing-engineering`.
+## Route first
+
+When the artifact has an owner, load it now, in this turn, before the first
+sentence, because each owner carries the golden path for that format and this
+core alone stays generic. Being named alone ("use writing-core") is the same
+request: route by the artifact, then follow both.
+
+| Artifact | Load |
+|---|---|
+| email, Slack, decision request, follow-up, PO or executive summary | `writing-editorial` |
+| hero, landing or web page, marketing email, campaign copy | `writing-marketing` |
+| status update, roadmap, FaST, progress report, product brief | `writing-product` |
+| PR description, commit message, Confluence or technical doc | `writing-engineering` |
+| a text that carries percentages, counts, or metrics | `plain-numbers` as well |
+| a rewrite, translation, or review with no owner above | this core alone |
 
 ## Frame before drafting
 

@@ -21,6 +21,13 @@ class RoutingCases(unittest.TestCase):
         covered = {s for c in cases for s in c.get("should_activate", [])}
         self.assertEqual(SKILLS - covered, set())
 
+    def test_given_design_core_when_named_alone_then_the_route_table_names_every_sibling(self):
+        body = (HERE.parent / "SKILL.md").read_text(encoding="utf-8")
+        table = body.split("## Route first")[1].split("\n## ")[0]
+        rows = "\n".join(line for line in table.splitlines() if line.startswith("|"))
+        for sibling in sorted(SKILLS - {"design-core"}) + ["frontend-craft", "writing-core"]:
+            self.assertIn(f"`{sibling}`", rows, sibling)
+
 
 if __name__ == "__main__":
     unittest.main()

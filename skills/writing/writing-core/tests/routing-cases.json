@@ -124,6 +124,46 @@
       "should_activate": [
         "writing-core"
       ]
+    },
+    {
+      "id": "core-mention-slack-en",
+      "prompt": "Use writing-core: tighten this Slack message to Anna asking for her release decision by noon: 'Hi Anna, just wanted to quickly check in whether you maybe had time to look at the release.'",
+      "should_activate": [
+        "writing-core",
+        "writing-editorial"
+      ]
+    },
+    {
+      "id": "core-bare-mail-de",
+      "prompt": "writing-core. Schreib Anna eine kurze Mail: Der Security Review ist durch, wir brauchen bis morgen 12 Uhr ihre Release-Entscheidung.",
+      "should_activate": [
+        "writing-core",
+        "writing-editorial"
+      ]
+    },
+    {
+      "id": "core-mention-commit",
+      "prompt": "With writing-core, write the commit message for a change that rejects unauthorized audit export requests before a job is queued.",
+      "should_activate": [
+        "writing-core",
+        "writing-engineering"
+      ]
+    },
+    {
+      "id": "core-mention-status-de",
+      "prompt": "Nutze writing-core und schreib ein kurzes Produkt-Status-Update zum Audit-Export-Pilot: Machbarkeit bewiesen, Berechtigungen offen, naechste Entscheidung am Freitag.",
+      "should_activate": [
+        "writing-core",
+        "writing-product"
+      ]
+    },
+    {
+      "id": "core-mention-hero-en",
+      "prompt": "writing-core: write the hero headline and subhead for our audit export launch page for enterprise admins.",
+      "should_activate": [
+        "writing-core",
+        "writing-marketing"
+      ]
     }
   ]
 }
