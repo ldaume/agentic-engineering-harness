@@ -61,7 +61,11 @@ diagram sideways", "click here", "siehe unten"): exactly by pattern first,
 otherwise by one typed Jev question on the text alone and the model when Jev
 is unsure. On 16 synthetic pages Jev scored such sentences 0.73 to 0.97 and
 product descriptions at most 0.44, except a how-to step inside a product
-(up to 0.81), so a fail needs 0.85. It writes `.design-loop/design-loop.json`
+(up to 0.81), so a fail needs 0.85. It also measures type and layout craft from the DOM (text under 12 px, near-duplicate font
+sizes, a lone last word in a heading or bold text, text edges a few pixels off one another, more
+than 3 font families) and asks Jev, in a call of its own, whether the page is noticeably sparse; the rules, thresholds and
+the ones that were measured and dropped are in `references/browser-verification.md`.
+It writes `.design-loop/design-loop.json`
 (findings with rule, tier, confidence, evidence, cost) and exits 1 on a
 failure. Run it before calling any UI change done, because the agent that
 built the page is the worst judge of how it looks; serve the page on
@@ -71,8 +75,8 @@ it found 21 of the 22 rule
 failures the reviewer found at about 2% of its cost, and half the pages
 needed no model beyond Jev.
 Tests with model calls stubbed: `tests/design-loop.spec.mjs` with the
-fixtures `tests/fixtures/generic.html`, `diagram-broken.html` and
-`text-instructions.html` (must be flagged) and `clean.html` and `diagram-clean.html` (must pass).
+fixtures `tests/fixtures/generic.html`, `diagram-broken.html`, `text-instructions.html` and the
+`type-*-bad.html` and `layout-edge-bad.html` files (must be flagged) and `clean.html` and `diagram-clean.html` (must pass).
 
 ## Load when
 

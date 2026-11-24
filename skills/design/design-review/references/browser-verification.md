@@ -82,6 +82,53 @@ in a list, a bordered footer pushed down with `margin-top: auto`, fails) and
 a band between, found only by the sweep). A wrapper with one child is looked through, and a
 divider is judged by its own top: equal bottoms do not excuse it.
 
+## Type and layout craft
+
+`scripts/design-loop.mjs` runs five more DOM rules in the audit tier, per screenshot
+viewport and scheme (1280 and 390 px, light and dark), each reporting element, text,
+observed, required, and where. They come from a spike on 8 app pages and 3 hand-written
+clean references: a rule stayed only when at least 70 percent of its findings were real
+and no clean reference was flagged. The measured text is every visible element with a text
+node of its own.
+
+| Rule | Fails when | Notes |
+|---|---|---|
+| `type.small-text` | rendered text is under 12 px | `display:none`, `visibility:hidden` and `aria-hidden` text, and a single character, are skipped |
+| `type.scale-near-duplicate` | two adjacent font sizes (rounded to 0.5 px) are under 10 percent apart and each is used by 2 or more texts | reports the pair, both counts and an example of each; a size used once is a one-off, not a scale step |
+| `type.widow` | the last line of a heading (`h1` to `h6`, `role=heading`) or of bold text (weight 600 or more) of 16 px or more is a single word | measured with Range rects over every word; runs in the width sweep (every 32 px from 360 to 1592 px) and names the failing bands; a heading of fewer than 3 words is skipped. Fix: `text-wrap: balance` or `pretty` |
+| `layout.edge-near-miss` | inside one landmark (`main`, `nav`, `aside`, `header`, `footer`, a `section` with a heading) text left edges are 1 to 6 px apart and each edge is shared by 2 or more texts | centered and right-aligned text, inline elements, and text in buttons, tabs, table cells and labels are skipped |
+| `type.families` | more than 3 font families are rendered | the first face of each computed `font-family` |
+
+The Jev tier adds one visual craft question, `tell.sparse`: "Is the page noticeably
+sparse: large empty areas with little content?" It is a second Jev call of its own, with
+only that question, the whitespace rules, one labeled NO and one labeled YES example
+(`assets/examples/sparse-no.png`, `sparse-yes.png`, synthetic) and the three page shots cut
+24 px below the last content, because a short page that ends early is normal. It is not in the
+shared screenshot call: in a spike, rules plus labeled examples in the request pulled every
+other score down (the hierarchy scores fell and 21 of 22 pages were flagged), and the shared
+rules are calibrated without that context. The shared call stays byte for byte what it was in
+1.6.0, with uncut shots; cutting them moved no answer by more than 0.11 on 5 pages (2 of 65
+verdicts went from unsure to pass), which is still more than the shared rules were calibrated
+for. The sparse call costs about $0.0004 per page, a little more than the shared call.
+`tell.sparse` detects sparse only and never reports a cramped page: the spike's whitespace
+answer separated sparse pages from the rest but not cramped ones. Thresholds (fail from 0.75,
+pass up to 0.5, between goes to the model) come from 11 real pages, twice each, in the isolated
+call: 0.77 to 0.87 on two real sparse pages, 0.6 on a third, 0.58 on a noisy one, at most 0.49 on
+every page that is not sparse. That is a small sample tuned on its own pages, so treat a pass
+as weak evidence.
+
+Measured and dropped, so nobody re-adds them blindly: line length (14 of 14 findings were
+narrow cards or phone width, 0 percent real), line height (34 hits on ordinary Tailwind
+sizes, then no signal), a spacing grid (2, 6 and 10 px are half steps, not errors), the
+count of distinct left edges (kanban columns and chat), the count of font weights, and
+the Jev questions on hierarchy contrast (apps and references scored alike), focal point (40
+percent real, references flagged) and grouping by proximity (0 of 3 real).
+Worked fixtures, each rule with a failing and a passing page: `tests/fixtures/type-small-bad.html`
+and `type-small-ok.html`, `type-scale-bad.html` and `type-scale-ok.html`, `type-widow-bad.html`
+and `type-widow-ok.html`, `layout-edge-bad.html` and `layout-edge-ok.html`, `type-families-bad.html`
+and `type-families-ok.html`; `type-widow-band.html` has a lone last word only at 360 px, found
+only by the sweep.
+
 ## Checklist
 
 - Desktop and mobile widths; the breakpoints the layout actually uses.

@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions } from "../scripts/design-loop.mjs";
+import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -80,12 +80,12 @@ test("given a clean page and confident Jev passes, the review passes with no esc
 
 test("given unsure Jev answers, those rules escalate in one model call and its verdicts become findings", async ({ page }) => {
   await page.setContent(fixture("clean.html"));
-  const fetch = stubFetch({ p: 0.5, score: 3 });
+  const fetch = stubFetch({ p: 0.6, score: 3 });
   const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
   const nouls = VISUAL_RULES.filter((x) => x.type === "noul").length;
-  expect(r.escalated).toBe(nouls + TEXT_RULES.length); // the page-text rule escalates in its own call
-  expect(modelCalls(fetch).filter((c) => c.images > 0)).toHaveLength(1);
-  expect(r.findings.filter((f) => f.tier === "llm" && !f.rule.startsWith("text."))).toHaveLength(nouls);
+  expect(r.escalated).toBe(nouls + 1 + TEXT_RULES.length); // tell.sparse and the page-text rule escalate in their own calls
+  expect(modelCalls(fetch).filter((c) => c.images > 0)).toHaveLength(2); // the shared rules, then tell.sparse
+  expect(r.findings.filter((f) => f.tier === "llm" && !f.rule.startsWith("text."))).toHaveLength(nouls + 1);
   expect(r.findings[0].evidence).toMatchObject({ where: "top of the desktop screenshot" });
   expect(r.cost_usd.llm).toBeCloseTo(0.001);
   expect(r.cost_usd.jev).toBeGreaterThan(0);
@@ -125,7 +125,7 @@ test("given confident Jev failures, they stand as findings without a model call 
   expect(r.findings.filter((f) => f.tier === "jev" && f.status === "fail").length).toBeGreaterThan(0);
   const detailed = stubFetch({ p: 0.9, score: 3 });
   const d = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch: detailed, outDir: out(), detail: true });
-  expect(modelCalls(detailed).filter((c) => c.images > 0)).toHaveLength(1);
+  expect(modelCalls(detailed).filter((c) => c.images > 0)).toHaveLength(2); // the shared rules, then tell.sparse
   expect(d.findings.some((f) => f.tier === "llm")).toBe(true);
 });
 
@@ -448,4 +448,174 @@ test("given only a TypeSafe key, the text question goes without assets or the im
   expect(text.headers["TypeSafe-Danger-Zone-Images"]).toBeUndefined();
   expect(calls.find((c) => c.body.questions["visual.hierarchy"]).headers["TypeSafe-Danger-Zone-Images"]).toBe("true");
   expect(r.passed).toContain("text.ui-instructions");
+});
+
+// Type and layout craft: measured from the DOM in the audit tier, per viewport and scheme.
+const craft = async (page, name, rule, width = 1280) => {
+  await page.setViewportSize({ width, height: 800 });
+  await page.setContent(fixture(name));
+  return (await page.evaluate(craftAudit)).filter((f) => f.rule === rule);
+};
+const widows = async (page, name, width = 1280) => {
+  await page.setViewportSize({ width, height: 800 });
+  await page.setContent(fixture(name));
+  return page.evaluate(widowAudit);
+};
+
+test("given text under 12 px, the craft check reports each element with its size; 12 px, display:none and aria-hidden text pass", async ({ page }) => {
+  const hits = await craft(page, "type-small-bad.html", "type.small-text");
+  expect(hits.map((h) => h.text)).toEqual(["Owner", "Status"]);
+  expect(hits[0].observed).toBe("11.2 px");
+  expect(hits[0].required).toBe(">= 12 px");
+  expect(hits[0].element).toContain("p.l");
+  expect(await craft(page, "type-small-ok.html", "type.small-text")).toEqual([]);
+});
+
+test("given adjacent font sizes under 10 percent apart that two texts each use, the craft check reports the pair; a size used once or a clear step passes", async ({ page }) => {
+  const hits = await craft(page, "type-scale-bad.html", "type.scale-near-duplicate");
+  expect(hits.map((h) => h.observed)).toEqual(["12 px (2 texts) and 13 px (2 texts), ratio 1.08", "13 px (2 texts) and 14 px (2 texts), ratio 1.08"]);
+  expect(hits[0].text).toBe("Owner / Open");
+  expect(hits[0].required).toContain("1.10");
+  expect(await craft(page, "type-scale-ok.html", "type.scale-near-duplicate")).toEqual([]);
+});
+
+test("given a heading or bold text of 16 px or more whose last line is one word, the widow check reports it; two words, a plain text, small bold text and a one-line heading pass", async ({ page }) => {
+  const hits = await widows(page, "type-widow-bad.html");
+  expect(hits.map((h) => h.text)).toEqual(["Waiting for the person who filed it.", "Plans for the next quarter", "Bold text that ends alone"]);
+  expect(hits[0].observed).toBe('last line is the single word "it."');
+  expect(hits[0].rule).toBe("type.widow");
+  expect(await widows(page, "type-widow-ok.html")).toEqual([]);
+});
+
+test("given text left edges 2 px apart that two texts each share inside one section, the craft check reports them; aligned, deliberately stepped, single stray and centered text pass", async ({ page }) => {
+  const hits = await craft(page, "layout-edge-bad.html", "layout.edge-near-miss");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].observed).toBe("left edges 66 and 68 px, 2 px apart (2 and 2 texts)");
+  expect(hits[0].text).toBe("Nothing here.");
+  expect(await craft(page, "layout-edge-ok.html", "layout.edge-near-miss")).toEqual([]);
+});
+
+test("given more than three rendered font families, the craft check names them; three or fewer pass", async ({ page }) => {
+  const hits = await craft(page, "type-families-bad.html", "type.families");
+  expect(hits).toHaveLength(1);
+  expect(hits[0].observed).toContain("5 font families");
+  expect(hits[0].required).toBe("at most 3");
+  expect(await craft(page, "type-families-ok.html", "type.families")).toEqual([]);
+});
+
+test("given a page with small text, the review reports type.small-text from the audit tier with each viewport and scheme", async ({ page }) => {
+  await page.setContent(fixture("type-small-bad.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const f = r.findings.find((x) => x.rule === "type.small-text" && x.evidence.text === "Owner");
+  expect(f, JSON.stringify(r.findings)).toBeTruthy();
+  expect(f.tier).toBe("audit");
+  expect(f.evidence.where).toEqual(["1280 light", "1280 dark", "390 light", "390 dark"]);
+});
+
+test("given a heading that is alone on its last line only at 360 px, the width sweep finds it and names that band; the screenshot widths alone would not", async ({ page }) => {
+  for (const width of [1280, 390]) expect(await widows(page, "type-widow-band.html", width), `at ${width}`).toEqual([]);
+  expect(await widows(page, "type-widow-band.html", 360)).toHaveLength(1);
+  await page.setContent(fixture("type-widow-band.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const f = r.findings.find((x) => x.rule === "type.widow");
+  expect(f, JSON.stringify(r.findings)).toBeTruthy();
+  expect(f.tier).toBe("audit");
+  expect(f.evidence.where).toEqual(["360 px"]);
+});
+
+test("given the clean page, the craft and widow checks flag nothing", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture("clean.html"));
+  expect(await page.evaluate(craftAudit)).toEqual([]);
+  expect(await page.evaluate(widowAudit)).toEqual([]);
+});
+
+// The one visual craft question: sparse only, never cramped. It is asked in its own Jev call:
+// its context (rules and labeled examples) pulled every hierarchy score down in a spike, so it
+// must not ride in the shared call the other 12 rules were calibrated on.
+const PAGE_RULE_IDS = ["visual.hierarchy", "visual.distinct", "tell.hero-cards", "tell.gradient", "tell.emoji-icons", "tell.illustration", "tell.uniform", "tell.slogan", "tell.placeholder", "layout.phone", "layout.dark", "tell.misaligned-cards", "ui.disabled"];
+const jevBodies = (fetch) => fetch.calls.filter((c) => c.url.includes("decision-model")).map((c) => c.body);
+const pngHeight = (b64) => Buffer.from(b64, "base64").readUInt32BE(20);
+const imagesOf = (body) => body.stateParts.filter((p) => p.type === "file").map((p) => p.data.data);
+
+test("given the shared screenshot call, it carries the 13 page rules, the headlines and the three untrimmed shots exactly as before, and nothing about whitespace", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const shared = jevBodies(fetch).find((b) => "visual.hierarchy" in b.questions);
+  expect(Object.keys(shared.questions)).toEqual(PAGE_RULE_IDS);
+  expect(VISUAL_RULES.map((x) => x.id)).toEqual(PAGE_RULE_IDS);
+  const texts = shared.stateParts.filter((p) => p.type === "text").map((p) => p.text);
+  expect(texts).toEqual(['headlines: ["Tides at the north pier"]', "The desktop screenshot (1280 px wide, light):", "The phone screenshot (390 px wide, light):", "The dark screenshot (1280 px wide, dark):"]);
+  const files = ["desktop-light", "phone-light", "desktop-dark"].map((n) => readFileSync(r.shots.find((x) => x.name === n).path).toString("base64"));
+  expect(imagesOf(shared)).toEqual(files);
+  expect(pngHeight(files[0])).toBe(800); // not trimmed
+});
+
+test("given the visual rules, tell.sparse is asked alone in its own Jev call with the whitespace rules, a labeled NO and YES example and the trimmed shots, and a confident yes fails as its own rule", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.95, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const calls = jevBodies(fetch).filter((b) => "tell.sparse" in b.questions);
+  expect(calls).toHaveLength(1);
+  const body = calls[0];
+  expect(Object.keys(body.questions)).toEqual(["tell.sparse"]);
+  expect(body.questions["tell.sparse"].type).toBe("boolean");
+  expect(body.questions["tell.sparse"].instructions).toMatch(/sparse/);
+  const parts = body.stateParts.map((p) => p.text ?? "[image]");
+  expect(parts.some((t) => /whitespace/i.test(t) && /cramped/i.test(t))).toBe(true);
+  const iNo = parts.findIndex((t) => /tell\.sparse example, answer NO/.test(t));
+  const iYes = parts.findIndex((t) => /tell\.sparse example, answer YES/.test(t));
+  expect(iNo).toBeGreaterThan(-1);
+  expect(iYes).toBeGreaterThan(iNo);
+  expect(parts[iNo + 1]).toBe("[image]");
+  expect(parts[iYes + 1]).toBe("[image]");
+  const shots = imagesOf(body).slice(0, 3);
+  expect(imagesOf(body)).toHaveLength(5); // 3 trimmed shots, then the two examples
+  expect(pngHeight(shots[0])).toBeLessThan(800);
+  expect(pngHeight(shots[0])).toBeGreaterThanOrEqual(280);
+  expect(r.findings.some((f) => f.rule === "tell.sparse" && f.tier === "jev")).toBe(true);
+});
+
+test("given empty space inside the content, the sparse call's shot keeps it; only the blank viewport below the last content is cut, 24 px below it", async ({ page }) => {
+  await page.setContent('<body style="margin:0;font:16px Arial"><p>Top</p><div style="height:500px"></div><p>Bottom</p></body>');
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const body = jevBodies(fetch).find((b) => "tell.sparse" in b.questions);
+  expect(pngHeight(imagesOf(body)[0])).toBeGreaterThan(500);
+  expect(pngHeight(imagesOf(body)[0])).toBeLessThan(620);
+});
+
+test("given an unsure tell.sparse answer, the model gets the trimmed page screenshots and the whitespace rules, never the examples", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.6, score: 3, fail: false });
+  await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const call = modelCalls(fetch).find((c) => /- tell\.sparse:/.test(c.body.messages[0].content[0].text));
+  expect(call).toBeTruthy();
+  expect(call.body.messages[0].content[0].text).toMatch(/Whitespace rules/);
+  const images = call.body.messages[0].content.filter((p) => p.type === "image_url");
+  expect(images).toHaveLength(3);
+  expect(pngHeight(images[0].image_url.url.split(",")[1])).toBeLessThan(800);
+});
+
+test("given a Jev failure on the sparse call, the page rules and the DOM findings still stand", async ({ page }) => {
+  await page.setContent(fixture("type-small-bad.html"));
+  const inner = stubFetch({ p: 0.05, score: 3 });
+  const fetch = async (url, init) => (Object.keys(JSON.parse(init.body).questions || {}).join() === "tell.sparse" ? new Response("boom", { status: 500 }) : inner(url, init));
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  expect(r.tiers.visual).toBe("ran");
+  expect(r.tiers.sparse).toMatch(/^failed/);
+  expect(r.findings.some((f) => f.rule === "type.small-text")).toBe(true);
+});
+
+test("given the text tier, tell.sparse is not part of its questions or of the shared visual rules", () => {
+  expect(TEXT_RULES.map((r) => r.id)).not.toContain("tell.sparse");
+  expect(VISUAL_RULES.map((r) => r.id)).not.toContain("tell.sparse");
+});
+
+test("given the tell.sparse thresholds from the 11-page calibration, 0.82 fails, 0.45 passes, and the 0.53 to 0.63 band that held a real and a noisy page goes to the model", () => {
+  expect(decide(SPARSE_RULE, { probability: 0.82 }).status).toBe("fail");
+  expect(decide(SPARSE_RULE, { probability: 0.45 }).status).toBe("pass");
+  expect(decide(SPARSE_RULE, { probability: 0.53 }).status).toBe("unsure");
+  expect(decide(SPARSE_RULE, { probability: 0.63 }).status).toBe("unsure");
 });
