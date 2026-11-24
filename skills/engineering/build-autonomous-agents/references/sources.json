@@ -1,0 +1,193 @@
+{
+  "sources": [
+    {
+      "id": "SRC-AGENT-001",
+      "title": "Building effective agents",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "publisher": "Anthropic",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-documentation",
+      "domains": [
+        "agents",
+        "engineering"
+      ],
+      "findings": [
+        "Separates workflows, where code orchestrates LLM calls along predefined paths, from agents, where the LLM directs its own process and tool use.",
+        "Names the augmented LLM building block and the patterns prompt chaining, routing, parallelization (sectioning, voting), orchestrator-workers, and evaluator-optimizer.",
+        "Agents are LLMs using tools on environmental feedback in a loop; they may pause for human checkpoints and carry stopping conditions such as a maximum iteration count.",
+        "Advises starting with plain LLM API calls, adding complexity only when simpler setups fall short, and giving tool definitions as much prompt-engineering care as prompts (the agent-computer interface).",
+        "Warns that frameworks add abstraction layers that hide prompts and responses and invite needless complexity."
+      ],
+      "limits": "Vendor engineering guidance from late 2024; a page note says much of the tooling landscape has changed since. Not a controlled study.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-002",
+      "title": "Your AI Product Needs Evals",
+      "url": "https://hamel.dev/blog/posts/evals/",
+      "publisher": "Hamel Husain",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "agents",
+        "evaluation"
+      ],
+      "findings": [
+        "Describes fast, cheap assertions as the first level of evals, run on every code change.",
+        "Says to read traces and keep looking at data; examine as much as possible at first and sample more later."
+      ],
+      "limits": "Single practitioner's experience; opinionated, not a controlled study.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-003",
+      "title": "LLM Evals: Everything You Need to Know (evals FAQ)",
+      "url": "https://hamel.dev/blog/posts/evals-faq/",
+      "publisher": "Hamel Husain and Shreya Shankar",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "agents",
+        "evaluation"
+      ],
+      "findings": [
+        "Error analysis is open coding of traces into notes, then axial coding into a failure taxonomy with counts per category.",
+        "Prefers binary pass/fail judgments over 1-5 scales for clearer labels and smaller samples.",
+        "An LLM judge is validated against human labels, using its true positive and true negative rates, before its scores are trusted.",
+        "Generic metrics such as a hallucination score rarely capture what matters; build application-specific evaluators.",
+        "For most teams one domain expert sets the quality standard."
+      ],
+      "limits": "The authors call these sharp opinions about what works in most cases, not universal rules; they also sell a course.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-004",
+      "title": "Model Context Protocol specification, overview (2025-11-25)",
+      "url": "https://modelcontextprotocol.io/specification/latest",
+      "publisher": "Model Context Protocol project",
+      "published": "2025-11-25",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Servers offer resources, prompts, and tools; clients may offer sampling, roots, and elicitation.",
+        "Users must consent to data access and tool invocation; tool descriptions and annotations are untrusted unless from a trusted server."
+      ],
+      "limits": "The page served for the latest version was read; the version moves, so re-read the current one.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-005",
+      "title": "MCP specification: tools (2025-11-25)",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/server/tools",
+      "publisher": "Model Context Protocol project",
+      "published": "2025-11-25",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Tools are model-controlled; there should always be a human in the loop able to deny a tool call.",
+        "Execution errors return isError with actionable text the model can use to retry; protocol errors are different and less recoverable."
+      ],
+      "limits": "Specification text for one dated version.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-006",
+      "title": "MCP specification: sampling (2025-11-25)",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/client/sampling",
+      "publisher": "Model Context Protocol project",
+      "published": "2025-11-25",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Sampling lets a server request an LLM call through the client, nested in its own features, without holding model keys.",
+        "There should be a human in the loop able to deny sampling requests."
+      ],
+      "limits": "Specification text for one dated version.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-007",
+      "title": "MCP specification: roots (2025-11-25)",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/client/roots",
+      "publisher": "Model Context Protocol project",
+      "published": "2025-11-25",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Roots are the filesystem locations a client tells a server it may operate in, usually set through workspace configuration."
+      ],
+      "limits": "Specification text for one dated version.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-008",
+      "title": "MCP specification: elicitation (2025-11-25)",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation",
+      "publisher": "Model Context Protocol project",
+      "published": "2025-11-25",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "agents",
+        "mcp"
+      ],
+      "findings": [
+        "Elicitation lets a server ask the user for input, in form mode or URL mode.",
+        "Servers must not request passwords, keys, tokens, or payment credentials in form mode; sensitive interactions use URL mode."
+      ],
+      "limits": "Specification text for one dated version.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    },
+    {
+      "id": "SRC-AGENT-009",
+      "title": "Effective context engineering for AI agents (agent context techniques)",
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "publisher": "Anthropic",
+      "published": "2025",
+      "accessed": "2026-11-24",
+      "type": "vendor-documentation",
+      "domains": [
+        "agents",
+        "context"
+      ],
+      "findings": [
+        "Context rot: as tokens in the window grow, recall of that context falls, so context is a finite attention budget with diminishing returns.",
+        "Just-in-time context: agents keep lightweight identifiers (file paths, stored queries, links) and load data through tools at runtime instead of pre-loading everything.",
+        "Compaction summarizes a conversation near the window limit and restarts from the summary, keeping decisions and unresolved bugs; clearing old tool results is the lightest form.",
+        "Structured note-taking persists notes outside the window and reads them back later, tracking progress across long tasks.",
+        "Sub-agents work in clean windows and return a condensed summary (often 1,000 to 2,000 tokens), isolating detailed search context from the lead agent.",
+        "Aim for the minimal set of high-signal tokens; tools are the contract with the environment and should be token efficient with minimal overlap."
+      ],
+      "limits": "Vendor engineering guidance from experience, not a controlled study; the same page is registered for its prompt-writing findings as SRC-WRITE-050 in the writing registry.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-05"
+    }
+  ]
+}

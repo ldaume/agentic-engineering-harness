@@ -140,6 +140,10 @@ generalized abstractions.
 
 ## 7. Evaluate and Observe
 
+Load [`references/vocabulary.md`](references/vocabulary.md) before judging.
+Use its term when one fits; otherwise name the defect with the standard field
+term. Finish with an open sweep for anything outside the vocabulary.
+
 Test representative success, refusal, malformed output, tool failure, timeout,
 retry, duplicate delivery, cancellation, and permission-denied cases. Assert
 schemas, tool calls, side effects, latency, and cost where relevant.
