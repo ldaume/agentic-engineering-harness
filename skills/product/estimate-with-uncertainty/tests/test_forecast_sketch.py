@@ -89,9 +89,28 @@ class ChecksTest(unittest.TestCase):
     def test_a_published_figure_that_differs_from_the_model_fails(self):
         # Given a page that shows 1,540 where the model computed 1,534
         lines = fs.check_published({"budget": 1540, "items": 23}, {"budget": 1534.2, "items": 22.6}, round_to=1)
-        # Then the budget line fails and the item line passes after rounding
-        self.assertEqual(lines, ["FAIL budget: page 1540, model 1534", "PASS items: page 23, model 23"])
+        # Then the budget line fails, the item line passes after rounding, and the run fails overall
+        self.assertEqual(lines, ["FAIL budget: page 1540, model 1534", "PASS items: page 23, model 23", "OVERALL FAIL"])
 
+    def test_fractional_and_half_way_figures_pass_when_rounded_as_written(self):
+        # Given figures shown to one decimal and a half-way value rounded up on the page
+        tenths = fs.check_published({"rate": 0.3, "share": 0.7}, {"rate": 0.3, "share": 0.70001}, round_to=0.1)
+        whole = fs.check_published({"count": 3}, {"count": 2.5}, round_to=1)
+        # Then nothing fails for float noise or half-even rounding
+        self.assertEqual(tenths[-1], "OVERALL PASS", tenths)
+        self.assertEqual(whole[-1], "OVERALL PASS", whole)
+
+
+class ExpectedRangeTest(unittest.TestCase):
+    def test_the_expected_period_carries_volume_uncertainty(self):
+        # Given one fitted model and two volume histories with the same mean but different spread
+        rows, y = synthetic(40, -1.0, 0.6, 0.9, seed=7)
+        draws = fs.fit_lognormal(rows, y, prior_sd=[10, 1, 1], draws=800, burn=300, seed=8)
+        new = [[1.0, math.log(s), 0.0] for s in (50, 200, 400, 900, 3000)]
+        steady = fs.forecast(draws, new, [11, 11, 11, 11, 11, 11, 11, 11], periods=2, sims=500, seed=9)["expected"]
+        bursty = fs.forecast(draws, new, [2, 20, 4, 18, 3, 19, 6, 16], periods=2, sims=500, seed=9)["expected"]
+        # When the expected period is summarized, then the bursty history gives the wider interval
+        self.assertGreater(bursty["p95"] - bursty["p5"], steady["p95"] - steady["p5"])
 
 if __name__ == "__main__":
     unittest.main()

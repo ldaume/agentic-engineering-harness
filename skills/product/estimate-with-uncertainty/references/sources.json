@@ -17,7 +17,7 @@
         "Log transforms for positive right-skewed outcomes; multilevel models partially pool small groups toward the overall mean.",
         "Simulation from the fitted model carries parameter uncertainty into predictions."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "A new edition."
     },
@@ -37,7 +37,7 @@
       "findings": [
         "Bayesian regression with weakly informative default priors; posterior predictive simulation for forecasts instead of plug-in point predictions."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "A new edition."
     },
@@ -77,7 +77,7 @@
       "findings": [
         "The mean of a log-scale model is not exp of the mean log; the smearing estimate multiplies by the average of exp(residuals) without assuming normal errors."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected; classic result."
     },
@@ -94,9 +94,9 @@
         "intervals"
       ],
       "findings": [
-        "Percentile and BCa intervals; BCa corrects bias and skewness, and a large gap between them signals that the sample is too small for reliable bootstrap intervals."
+        "Percentile and BCa bootstrap intervals; BCa corrects for bias and skewness. That a large gap between them at small n argues for a model-based interval is this Skill's heuristic, not a finding of the book."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected."
     },
@@ -115,7 +115,7 @@
       "findings": [
         "M/M/c and the Erlang C waiting probability; exponential service and Poisson arrivals are assumptions, so bursty arrivals and skewed durations need simulation, with Erlang C as a cross-check."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected."
     },
@@ -134,7 +134,7 @@
       "findings": [
         "Retransformation bias in log-cost models matters when residuals are heteroscedastic or heavy-tailed; check alternatives before trusting exp(sigma^2/2)."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected."
     },
@@ -172,7 +172,7 @@
       "findings": [
         "A covariate or outcome measured with known-direction error can be handled by drawing the error inside the Bayesian fit, so its uncertainty reaches the posterior."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected."
     },
@@ -190,7 +190,7 @@
       "findings": [
         "Censored regression treats values known only as a bound (for example cost to date of open items) without discarding them."
       ],
-      "limits": "Bibliographic data and findings from the textbook as commonly cited; not re-read in this session.",
+      "limits": "Bibliographic data and findings as commonly cited; not re-read in this session.",
       "evidence_level": "supported",
       "revisit": "None expected."
     },

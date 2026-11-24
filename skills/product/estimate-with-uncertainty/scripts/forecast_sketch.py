@@ -16,6 +16,7 @@ from __future__ import annotations
 import math
 import random
 import statistics
+from decimal import ROUND_HALF_UP, Decimal
 
 
 def _inv(m):
@@ -87,8 +88,9 @@ def forecast(draws, new_rows, counts, periods=2, sims=20000, seed=9):
     """
     rng = random.Random(seed)
     lin = lambda b, x: sum(bi * xi for bi, xi in zip(b, x))
-    volume = periods * sum(counts) / len(counts)
-    expected = [volume * sum(math.exp(lin(b, x) + s2 / 2) for x in new_rows) / len(new_rows) for b, s2 in draws]
+    # Each draw also resamples the mean volume, so the interval covers how sure the average volume is.
+    volume = lambda: periods * statistics.mean(rng.choice(counts) for _ in counts)
+    expected = [volume() * sum(math.exp(lin(b, x) + s2 / 2) for x in new_rows) / len(new_rows) for b, s2 in draws]
 
     def period(b, s2):
         n = sum(rng.choice(counts) for _ in range(periods))
@@ -108,26 +110,41 @@ def dispersion(counts):
 
 
 def check_published(published, computed, round_to=1):
-    """One PASS or FAIL line per figure the page shows, against the model output."""
-    lines = []
+    """One PASS or FAIL line per stated figure against the model output, then OVERALL.
+
+    Rounds half up in decimal, the way a page writes a number, so float noise
+    or half-even rounding never fails a correct figure.
+    """
+    step, lines = Decimal(str(round_to)), []
     for name, shown in published.items():
-        model = round(computed[name] / round_to) * round_to
-        model = int(model) if float(model).is_integer() else model
-        lines.append(f"{'PASS' if shown == model else 'FAIL'} {name}: page {shown}, model {model}")
+        model = (Decimal(str(computed[name])) / step).quantize(Decimal(1), ROUND_HALF_UP) * step
+        model = model.normalize() if model != model.to_integral() else model.to_integral()
+        ok = Decimal(str(shown)) == model
+        lines.append(f"{'PASS' if ok else 'FAIL'} {name}: page {shown}, model {model}")
+    lines.append("OVERALL " + ("PASS" if all(l.startswith("PASS") for l in lines) else "FAIL"))
     return lines
 
-
 if __name__ == "__main__":
+    # Synthetic data: 20 finished or open features, 6 of them from a new group, 4 still open.
     rng = random.Random(42)
     rows, y = [], []
-    for i in range(19):
+    for i in range(20):
         size, grp = math.exp(rng.gauss(5.6, 0.9)), 1.0 if i < 6 else 0.0
         rows.append([1.0, math.log(size), grp])
         y.append(math.exp(-0.6 + 0.55 * math.log(size) + 0.7 * grp + rng.gauss(0, 0.95)))
-    open_mask = [i in (2, 9, 15) for i in range(19)]
+    open_mask = [i in (2, 7, 11, 16) for i in range(20)]
     draws = fit_lognormal(rows, y, prior_sd=[10, 1, 1], open_mask=open_mask)
-    backlog = [[1.0, rng.gauss(5.8, 1.2), 1.0] for _ in range(90)]
+    largest = max(r[1] for r in rows)
+    backlog = [[1.0, rng.gauss(5.8, 1.2), 1.0] for _ in range(100)]
     sprints = [22, 10, 12, 7, 7, 10, 14, 9, 11, 7, 5, 4, 19, 12, 5, 14, 15, 6, 16, 20]
     print(f"dispersion of sprint counts: {dispersion(sprints):.2f}")
-    for key, val in forecast(draws, backlog, sprints, periods=2, sims=5000).items():
+    print(f"planned items larger than the largest built: {sum(b[1] > largest for b in backlog)} of {len(backlog)}")
+    out = forecast(draws, backlog, sprints, periods=2, sims=5000)
+    for key, val in out.items():
         print(key, {k: round(v) for k, v in val.items()})
+    # The figures exactly as the example answer states them, rounded to 10 as written.
+    STATED = {"average month": 1040, "average low": 470, "average high": 2000, "typical month": 840, "busy month": 1330}
+    computed = {"average month": out["expected"]["mean"], "average low": out["expected"]["p5"],
+                "average high": out["expected"]["p95"], "typical month": out["period_to_period"]["p50"],
+                "busy month": out["period_to_period"]["p90"]}
+    print("\n".join(check_published(STATED, computed, round_to=10)))
