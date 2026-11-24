@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import * as loop from "../scripts/design-loop.mjs";
 import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions, craftAudit, widowAudit, SPARSE_RULE } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
@@ -244,7 +245,7 @@ test("given the DOM tier already proved diagram rules, Jev is still asked the fu
   const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
   expect(Object.keys(diagramCalls(fetch)[0].body.questions).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).sort());
   const found = r.findings.filter((f) => f.rule.startsWith("diagram."));
-  expect(found.map((f) => `${f.rule} ${f.tier}`).sort()).toEqual(["diagram.clipped-text dom", "diagram.line-crossing dom", "diagram.overlap dom", "diagram.small-text jev"]);
+  expect(found.map((f) => `${f.rule} ${f.tier}`).sort()).toEqual(["diagram.clipped-text dom", "diagram.line-crossing dom", "diagram.overlap dom"]); // small text on inline SVG is decided by the DOM, and these labels are 15 px
 });
 
 test("given the page tells the DOM already proved, Jev is still asked them so the rest keep their calibration", async ({ page }) => {
@@ -274,7 +275,7 @@ test("given unsure Jev answers about a diagram, those rules go to the model with
   expect(asks).toHaveLength(1);
   expect(asks[0].body.messages[0].content.filter((p) => p.type === "image_url")).toHaveLength(1);
   const found = r.findings.filter((f) => f.rule.startsWith("diagram."));
-  expect(found.map((f) => f.rule).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).sort());
+  expect(found.map((f) => f.rule).sort()).toEqual(DIAGRAM_RULES.map((x) => x.id).filter((id) => id !== "diagram.small-text").sort()); // the DOM measured the text
   expect(found.every((f) => f.tier === "llm" && f.evidence.diagram === r.diagrams[0].name)).toBe(true);
 });
 
@@ -618,4 +619,73 @@ test("given the tell.sparse thresholds from the 11-page calibration, 0.82 fails,
   expect(decide(SPARSE_RULE, { probability: 0.45 }).status).toBe("pass");
   expect(decide(SPARSE_RULE, { probability: 0.53 }).status).toBe("unsure");
   expect(decide(SPARSE_RULE, { probability: 0.63 }).status).toBe("unsure");
+});
+
+// Diagram text size: inline SVG is measured exactly, so Jev's flipping answers on 15 px text never decide it.
+const svgWith = (px, extra = "") => `<main><figure><svg viewBox="0 0 760 300" ${extra}><rect x="10" y="10" width="740" height="280" fill="#eef" stroke="#333"/><text x="40" y="100" font-size="${px}">Gauge reader</text><text x="40" y="200" font-size="${px}">Tide model</text></svg></figure></main>`;
+const FIXED_STYLE = "<style>body,figure{margin:0}svg{display:block}</style>";
+const SIZE_STYLE = "<style>body,figure{margin:0}svg{display:block;width:100%;height:auto}</style>";
+
+test("given inline SVG text, its rendered size is the font size times the SVG scale: 15 px labels in a 760 unit viewBox shrink to 7.7 px at 390 px width and stay 15 px at 760", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.setContent(SIZE_STYLE + svgWith(15));
+  const narrow = await page.locator("svg").evaluate(loop.diagramTextSize);
+  expect(narrow.texts).toBe(2);
+  expect(narrow.min).toBeGreaterThan(7.5);
+  expect(narrow.min).toBeLessThan(7.9);
+  await page.setViewportSize({ width: 760, height: 800 });
+  const wide = await page.locator("svg").evaluate(loop.diagramTextSize);
+  expect(wide.min).toBeGreaterThan(14.5);
+  expect(wide.min).toBeLessThan(15.5);
+});
+
+test("given a diagram with 9 px labels, the review fails diagram.small-text from the DOM tier even when Jev says no; 15 px labels pass with no verdict from Jev", async ({ page }) => {
+  await page.setContent(FIXED_STYLE + svgWith(9, 'width="760" height="300"'));
+  let fetch = stubFetch({ p: 0.05, score: 3 });
+  let r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const small = r.findings.filter((f) => f.rule === "diagram.small-text");
+  expect(small.map((f) => f.tier)).toEqual(["dom"]);
+  expect(small[0].evidence.element).toMatch(/Gauge reader|Tide model/);
+  expect(small[0].detail).toMatch(/9/);
+  await page.setContent(FIXED_STYLE + svgWith(15, 'width="760" height="300"'));
+  fetch = stubFetch({ p: 0.95, score: 3 }); // Jev would fail it; the DOM already knows the text is large enough
+  r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text")).toEqual([]);
+  expect(r.passed).toContain("diagram-1/diagram.small-text");
+});
+
+test("given a responsive SVG whose 15 px text renders under 12 px at 390 px, the review fails it, since phones are the house width", async ({ page }) => {
+  await page.setContent(SIZE_STYLE + svgWith(25)); // 25 units * 390/760 = 12.8 px passes
+  let r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text")).toEqual([]);
+  await page.setContent(SIZE_STYLE + svgWith(15));
+  r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text").map((f) => f.tier)).toEqual(["dom"]);
+});
+
+test("given a canvas diagram, there is no text to measure, so Jev still decides diagram.small-text", async ({ page }) => {
+  await page.setContent('<main><canvas id="c" width="600" height="300" style="width:600px;height:300px"></canvas></main><script>const g=document.getElementById("c").getContext("2d");g.fillStyle="#eef";g.fillRect(0,0,600,300);g.fillStyle="#000";g.font="8px Arial";g.fillText("tiny label",20,40)</script>');
+  const fetch = stubFetch({ p: 0.95, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text").map((f) => f.tier)).toEqual(["jev"]);
+});
+
+test("given labels that render at 11.9 px, the floor of 12 px holds with a half pixel of rounding; 11.4 px fails", async ({ page }) => {
+  await page.setContent(FIXED_STYLE + svgWith(11.9, 'width="760" height="300"'));
+  let r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text")).toEqual([]);
+  await page.setContent(FIXED_STYLE + svgWith(11.4, 'width="760" height="300"'));
+  r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings.filter((f) => f.rule === "diagram.small-text").map((f) => f.tier)).toEqual(["dom"]);
+});
+
+test("given the phone question, Jev is told the screenshot ends at an artificial cut of a longer page and that content cut by the bottom edge is not a defect; the other 12 page questions are untouched", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const q = jevBodies(fetch).find((b) => "visual.hierarchy" in b.questions).questions;
+  expect(q["layout.phone"].instructions).toMatch(/top part of a longer page/);
+  expect(q["layout.phone"].instructions).toMatch(/ignore anything cut off by the bottom edge/);
+  expect(q["layout.dark"].instructions).toBe("Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?");
+  expect(q["tell.hero-cards"].instructions).toBe("Does the desktop screenshot show a centered hero section followed by a row of three equal feature cards?");
 });

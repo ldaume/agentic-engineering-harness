@@ -21,8 +21,9 @@
 //            It detects sparse only, never cramped.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
 //            layers hidden and clipping containers opened, and checked for clipped text, stacked
-//            labels, lines through boxes and small text: exactly from inline SVG geometry, then
-//            by Jev and the model like the page.
+//            labels, lines through boxes and small text: exactly from inline SVG geometry (text size is
+//            font size times the SVG scale, measured at 390 and 1280 px, floor 12 px; Jev decides it
+//            only for a diagram without SVG text), then by Jev and the model like the page.
 //   text   - the visible page text (headings, paragraphs, list items, captions; capped) checked for
 //            sentences that tell the reader how to operate the page (swipe, scroll, click here):
 //            first exactly by pattern, then, when no pattern hit, as one typed Jev question on the
@@ -79,6 +80,9 @@ const SWEEP = Array.from({ length: 39 }, (_, i) => 360 + 32 * i); // 360 to 1592
 const VISUAL_SHOTS = ["desktop-light", "phone-light", "desktop-dark"];
 const LABEL = { "desktop-light": "desktop", "phone-light": "phone", "desktop-dark": "dark" }; // the names the questions use
 
+// layout.phone: the phone shot is the top 1568 px of the page, so text running off its bottom edge
+// read as "cut off": 4 of 5 runs failed two clean real pages at 0.67 to 0.80 (2026-11-24). The
+// question now names that cut; clean pages scored 0.10 to 0.21, real defects 0.64 to 0.95 (default band).
 // One question per rule; the ids are the rule ids in the report. Sources: generic-look
 // tells (design-core), hierarchy and layout (design-web), disabled actions (design-product-ui).
 export const VISUAL_RULES = [
@@ -91,7 +95,7 @@ export const VISUAL_RULES = [
   { id: "tell.uniform", type: "noul", instructions: "Do all boxes share one radius, one padding and one height, so nothing stands out by size or shape?" },
   { id: "tell.slogan", type: "noul", instructions: "Is the main headline (see `headlines`) a slogan that could fit any product rather than saying what this one does?" },
   { id: "tell.placeholder", type: "noul", instructions: "Does the page show placeholder content: names like Acme or Jane Doe, lorem ipsum, or invented round numbers like 10,000+?" },
-  { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off, overlapping, squeezed, or too small to read?" },
+  { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off at its sides or inside its container, overlapping, squeezed, or too small to read? The screenshot is only the top part of a longer page and ends at an artificial cut: ignore anything cut off by the bottom edge of the image." },
   { id: "layout.dark", type: "noul", instructions: "Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?" },
   { id: "tell.misaligned-cards", type: "noul", instructions: "Look at each row of cards or tiles. Draw an imaginary horizontal line through a part of one card (its title, its divider, its footer or its button). Does that line miss the same part of a neighboring card by more than a few pixels? Empty space inside a card is not misalignment; only the position of the matching parts counts." },
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
@@ -444,6 +448,29 @@ export function diagramAudit(root) {
   return hits;
 }
 
+// Runs in the page on one diagram element (locator.evaluate). The rendered size of every inline
+// SVG text, exactly: its font size in user units times the scale from user units to CSS px (the
+// SVG's viewBox against its box, transforms included). A diagram without such text (canvas, an
+// image) has `texts: 0` and is left to Jev. The house floor is 12 px, checked at 390 px too.
+export function diagramTextSize(root) {
+  const svgs = root.tagName.toLowerCase() === "svg" ? [root] : [...root.querySelectorAll("svg")];
+  const sizes = [];
+  for (const svg of svgs) {
+    for (const el of svg.querySelectorAll("text, foreignObject *")) {
+      if (!el.parentElement.closest("text") && [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) {
+        const cs = getComputedStyle(el);
+        if (cs.display === "none" || cs.visibility === "hidden") continue;
+        const m = (el.closest("foreignObject") || el).getScreenCTM();
+        if (!m) continue;
+        const scale = Math.sqrt(Math.abs(m.a * m.d - m.b * m.c));
+        sizes.push({ text: el.textContent.trim().replace(/\s+/g, " ").slice(0, 40), px: +(parseFloat(cs.fontSize) * scale).toFixed(1) });
+      }
+    }
+  }
+  return { texts: sizes.length, min: sizes.length ? Math.min(...sizes.map((x) => x.px)) : null, smallest: sizes.sort((a, b) => a.px - b.px)[0] };
+}
+const SMALL_DIAGRAM_PX = 12, SMALL_DIAGRAM_TOLERANCE = 0.5; // a text that rounds to 12 px reads as 12: 11.9 px measured on real SVG scaling is not a defect
+
 // Runs in the page: marks the outermost large diagram candidates; icons are too small to count.
 function markDiagrams(max) {
   const big = (el) => { const b = el.getBoundingClientRect(); return b.width >= 300 && b.height >= 150 && getComputedStyle(el).visibility !== "hidden"; };
@@ -513,11 +540,22 @@ async function trimShot([base64, min]) {
 // A diagram that cannot be shot is left out with a note, so the rest of the review still runs.
 async function shootDiagrams(page, outDir, notes) {
   const diagrams = [];
-  for (const d of await page.evaluate(markDiagrams, MAX_DIAGRAMS)) {
+  const marked = await page.evaluate(markDiagrams, MAX_DIAGRAMS);
+  // Text size is a property of the layout: measured at the phone width as well as the desktop one.
+  const sizes = {};
+  for (const width of [SHOTS.find((s) => s.name === "phone-light").width, 1280]) {
+    await page.setViewportSize({ width, height: 800 });
+    for (const d of marked) sizes[d.index] = [...(sizes[d.index] || []), await page.locator(`[data-design-loop-diagram="${d.index}"]`).evaluate(diagramTextSize).catch(() => null)];
+  }
+  for (const d of marked) {
     const name = `diagram-${d.index + 1}`;
     const element = page.locator(`[data-design-loop-diagram="${d.index}"]`);
     try {
       const dom = await element.evaluate(diagramAudit);
+      const measured = (sizes[d.index] || []).filter((x) => x?.texts);
+      const exact = measured.length > 0;
+      const worst = measured.map((x) => x.smallest).sort((a, b) => a.px - b.px)[0];
+      if (worst && worst.px < SMALL_DIAGRAM_PX - SMALL_DIAGRAM_TOLERANCE) dom.push({ rule: "diagram.small-text", text: worst.text, detail: `text renders at ${worst.px} px, under the ${SMALL_DIAGRAM_PX} px floor (measured at 390 and 1280 px width)` });
       await element.evaluate(isolate);
       let raw;
       try { raw = await element.screenshot({ animations: "disabled", timeout: 10000 }); }
@@ -525,7 +563,7 @@ async function shootDiagrams(page, outDir, notes) {
       const base64 = await page.evaluate(fitShot, [raw.toString("base64"), MAX_SIDE]);
       const path = join(outDir, name + ".png");
       writeFileSync(path, Buffer.from(base64, "base64"));
-      diagrams.push({ name, where: d.where, path, dom, base64 });
+      diagrams.push({ name, where: d.where, path, dom, exact, base64 });
     } catch (error) {
       notes.push(`${name} (${d.where}) not checked: ${error.message.split("\n")[0]}`);
     }
@@ -774,12 +812,13 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
       const images = [{ key: "diagram", caption: "The diagram:", base64: g.base64 }];
       try {
         const r = await judge({
-          rules: DIAGRAM_RULES, proven: new Set(g.dom.map((d) => d.rule)), keys, detail, evidence: { diagram: g.name, where: g.where },
+          rules: DIAGRAM_RULES, proven: new Set([...g.dom.map((d) => d.rule), ...(g.exact ? ["diagram.small-text"] : [])]), keys, detail, evidence: { diagram: g.name, where: g.where },
           jev: (rs) => askJev({ rules: rs, state: { context: DIAGRAM_CONTEXT }, images, keys, fetch }),
           model: (rs) => askModel({ rules: rs, intro: "You review one diagram from a web page, shot on its own at the size the reader sees it, against design rules.", images, key: keys.gateway, model, fetch, env }),
         });
         g.jev = r.verdicts;
         add(r, g.name + "/");
+        if (g.exact && !g.dom.some((d) => d.rule === "diagram.small-text")) passed.push(g.name + "/diagram.small-text"); // the DOM measured every text
       } catch (error) {
         g.jev = { failed: error.message }; // fail open: the DOM findings for this diagram still stand
       }
