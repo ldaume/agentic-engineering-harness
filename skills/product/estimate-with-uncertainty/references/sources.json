@@ -213,6 +213,147 @@
       "limits": "Read in this session; online edition is updated continuously.",
       "evidence_level": "verified",
       "revisit": "A 4th edition or a rewrite of the section."
+    },
+    {
+      "id": "SRC-EST-012",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Some simple forecasting methods",
+      "url": "https://otexts.com/fpp3/simple-methods.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "benchmarks"
+      ],
+      "findings": [
+        "The mean, naive (last value), seasonal naive (last value of the same season), and drift (average change extended) methods serve as benchmarks.",
+        "A new method is worth using only if it beats these benchmarks."
+      ],
+      "limits": "Online edition, updated continuously; read in this session.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-013",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Residual diagnostics",
+      "url": "https://otexts.com/fpp3/diagnostics.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "diagnostics"
+      ],
+      "findings": [
+        "Residuals must be uncorrelated with zero mean: leftover correlation means unused information, a nonzero mean means biased forecasts.",
+        "Constant variance and normal residuals are useful for intervals but not required; check with a residual time plot, histogram, ACF plot and a portmanteau test (Box-Pierce, Ljung-Box)."
+      ],
+      "limits": "Online edition, updated continuously; read in this session.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-014",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Evaluating point forecast accuracy and distributional forecast accuracy",
+      "url": "https://otexts.com/fpp3/accuracy.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "accuracy"
+      ],
+      "findings": [
+        "Accuracy is judged on a held-out test set (about 20 percent, at least as long as the forecast horizon), not on training residuals, which look better than true forecast errors.",
+        "MAE and RMSE are scale-dependent; MAPE is undefined at zero and extreme near zero; MASE scales by the in-sample naive error, below 1 beats the benchmark.",
+        "Quantile score (pinball loss), Winkler score for intervals and CRPS (average quantile score over all probabilities) score distributional forecasts; an 80 percent interval should hold the actual about 80 percent of the time."
+      ],
+      "limits": "Online edition, updated continuously; read in this session. The page defines no empirical coverage metric; coverage is stated as the interval's intent.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-015",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Time series cross-validation",
+      "url": "https://otexts.com/fpp3/tscv.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "validation"
+      ],
+      "findings": [
+        "Evaluates on many test sets, each trained only on earlier observations (a rolling forecasting origin), and averages the accuracy.",
+        "A single train/test split gives only one accuracy assessment."
+      ],
+      "limits": "Online edition, updated continuously; read in this session.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-016",
+      "title": "Forecasting: Principles and Practice, 3rd edition (Hyndman, Athanasopoulos), section Transformations and adjustments",
+      "url": "https://otexts.com/fpp3/ftransformations.html",
+      "publisher": "OTexts",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner-book",
+      "domains": [
+        "forecasting",
+        "transformations"
+      ],
+      "findings": [
+        "Naively back-transforming a forecast usually gives the median, not the mean; a bias adjustment recovers the mean, which matters when forecasts are summed.",
+        "Prediction intervals are back-transformed endpoint by endpoint, keeping coverage but becoming asymmetric."
+      ],
+      "limits": "Online edition, updated continuously; read in this session.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-017",
+      "title": "Value Measurements of Intangibles (Hubbard Decision Research)",
+      "url": "https://hubbardresearch.com/measurement-intangibles/",
+      "publisher": "Hubbard Decision Research",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "decision",
+        "measurement"
+      ],
+      "findings": [
+        "Measurement inversion: the more important something is to a decision, the less it tends to be understood and measured.",
+        "Intangibles often look unmeasurable only because they are not clearly defined; reduced uncertainty raises the chance of a good decision."
+      ],
+      "limits": "Vendor page; says nothing on calibrated estimates.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-EST-018",
+      "title": "Applied Information Economics (Hubbard Decision Research)",
+      "url": "https://hubbardresearch.com/about/applied-information-economics/",
+      "publisher": "Hubbard Decision Research",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "decision",
+        "value-of-information"
+      ],
+      "findings": [
+        "Applied Information Economics compensates for the natural overconfidence and inconsistency of managers.",
+        "Every model variable has an information value that points to the variables worth measuring."
+      ],
+      "limits": "Vendor page; no formulas, no mention of 90 percent intervals or the Rule of Five (page for those not found: calibrated-estimates and rule-of-five returned 404).",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
     }
   ]
 }
