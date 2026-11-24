@@ -221,7 +221,7 @@ test("given a diagram far below the first screen, in a scroll container under a 
     const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
     const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
     const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0);
-    return [[40, 30], [40, 200], [40, 390], [700, 390]].map(([x, y]) => [...ctx.getImageData(x, y, 1, 1).data.slice(0, 3)]);
+    return [[30, 66], [40, 200], [40, 390], [700, 390]].map(([x, y]) => [...ctx.getImageData(x, y, 1, 1).data.slice(0, 3)]);
   }, shot);
   // Every sample sits inside a cluster: its fill, not the page behind a 260 px scroll box, a header or a banner.
   expect(pixels).toEqual([[238, 241, 246], [238, 241, 246], [238, 241, 246], [238, 241, 246]]);
