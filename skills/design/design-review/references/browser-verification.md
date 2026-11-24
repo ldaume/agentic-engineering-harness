@@ -25,6 +25,32 @@ wait until `document.getAnimations()` has nothing running, because a scan
 during a fade measures the half-transparent text as a contrast failure (this
 failed in CI on a 160 ms fade that a faster machine never caught).
 
+## Reading pages
+
+axe's A/AA tags do not check AAA contrast, line height (1.4.8) or the 44 px
+target (2.5.5), and none of them measure line length. For a long-form
+documentation or reading page run `scripts/reading-audit.js`: one dependency-free
+function that returns JSON per check. The caller sets the color scheme and
+viewport; run it for light and dark, and at 390 px for overflow.
+
+```js
+const fn = fs.readFileSync("skills/design/design-review/scripts/reading-audit.js", "utf8");
+for (const colorScheme of ["light", "dark"]) {
+  await page.emulateMedia({ colorScheme });
+  const r = await page.evaluate(`(${fn})({ level: "aa" })`);   // or "aaa"
+}
+```
+
+In a browser console paste `(` + the file + `)({ level: "aa" })`. The default
+level is `aa`: contrast 4.5:1 (3:1 for large text, 24 px or 18.66 px bold),
+targets 24 px outside inline text, no overflow. Text size 16 px, line height
+1.5 on p/li/dd/td and 45 to 75 characters per line come back as `notes`.
+Level `aaa` makes those failures and raises contrast to 7:1 (4.5:1 large) and
+targets to 44 px. Line height 1.5 is 1.4.8, a different criterion from 1.4.12,
+which is about surviving user overrides. Diagram sources (`.mermaid`), script
+and style are skipped; background images are not composited. Worked tests:
+`tests/reading-audit.spec.mjs` with `tests/playwright.config.mjs` (`npx playwright test -c skills/design/design-review/tests`).
+
 ## Checklist
 
 - Desktop and mobile widths; the breakpoints the layout actually uses.
