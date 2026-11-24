@@ -513,15 +513,34 @@ test("given a page with small text, the review reports type.small-text from the 
   expect(f.evidence.where).toEqual(["1280 light", "1280 dark", "390 light", "390 dark"]);
 });
 
-test("given a heading that is alone on its last line only at 360 px, the width sweep finds it and names that band; the screenshot widths alone would not", async ({ page }) => {
+test("given a lone last word in a table cell, th, caption, dt, dd, label, button, link or figcaption, or in a block narrower than 30ch, the widow check ignores it", async ({ page }) => {
+  for (const name of ["type-widow-cells-ok.html", "type-widow-labels-ok.html", "type-widow-narrow-ok.html"]) expect(await widows(page, name), name).toEqual([]);
+});
+
+test("given a narrow heading (a card in a grid) whose last line is one word, the widow check still reports it: only bold text is skipped for its narrow box", async ({ page }) => {
+  expect(await widows(page, "type-widow-narrow-bad.html")).toHaveLength(1);
+});
+
+test("given a heading whose last word is a parenthetical or an abbreviation of up to 3 characters, the widow check judges the word before it", async ({ page }) => {
+  expect(await widows(page, "type-widow-paren-ok.html")).toEqual([]);
+});
+
+test("given a heading that is alone on its last line only at 1100 px, the sweep sees it but the review does not report it: the shots are 390 and 1280 px", async ({ page }) => {
   for (const width of [1280, 390]) expect(await widows(page, "type-widow-band.html", width), `at ${width}`).toEqual([]);
-  expect(await widows(page, "type-widow-band.html", 360)).toHaveLength(1);
+  expect(await widows(page, "type-widow-band.html", 1100)).toHaveLength(1);
   await page.setContent(fixture("type-widow-band.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  expect(r.findings.filter((x) => x.rule === "type.widow")).toEqual([]);
+});
+
+test("given a heading that is alone on its last line at 390 px, the review reports it and lists every band where it occurs", async ({ page }) => {
+  await page.setContent(fixture("type-widow-phone-bad.html"));
   const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
   const f = r.findings.find((x) => x.rule === "type.widow");
   expect(f, JSON.stringify(r.findings)).toBeTruthy();
   expect(f.tier).toBe("audit");
-  expect(f.evidence.where).toEqual(["360 px"]);
+  expect(f.evidence.where.length).toBeGreaterThan(0);
+  expect(f.evidence.where).toEqual(["360-392 px"]); // a band, every width of the sweep where it occurs
 });
 
 test("given the clean page, the craft and widow checks flag nothing", async ({ page }) => {
