@@ -2,6 +2,8 @@
 name: writing-product
 description: Use whenever writing or revising a product status report, Now/Next/Later roadmap, progress update, problem or bet brief, experiment card, product decision record, or outcome review (Statusbericht, Roadmap, Fortschritt, Problem Brief). Outcome and evidence instead of ticket activity. Not for deciding what to build, which product-craft owns.
 license: MIT
+metadata:
+  vocabulary: writing-core
 ---
 
 # Product & Agile Writing
@@ -47,9 +49,9 @@ From this skill's directory, run
 --lang <de|en> FILE` with type one of `agile_status|fast_roadmap|agile_progress|product_document`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
-warning, because warnings are heuristics, not rules. Load
-`writing-core/references/vocabulary.md` before judging and name each defect by
-its term; a finding's `rules` id points at its row.
+warning, because warnings are heuristics, not rules. A
+gate finding's `rules` id names its row in
+`writing-core/references/vocabulary.md`.
 
 ## Done when
 

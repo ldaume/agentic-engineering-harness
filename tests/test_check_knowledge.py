@@ -182,13 +182,20 @@ class CheckVocabulary(unittest.TestCase):
         directory = skill(self.root, "gitea-tea", frontmatter="metadata:\n  vocabulary: vendor\n")
         self.assertEqual(self.check(directory), ([], []))
 
-    def test_given_pointer_to_a_sibling_vocabulary_when_checked_then_no_findings(self) -> None:
+    def test_given_metadata_naming_a_sibling_with_a_vocabulary_when_checked_then_no_findings(self) -> None:
         skill(self.root, "design-core", vocabulary=HEADER + ROW)
-        directory = skill(self.root, "design-web", body="Load `design-core/references/vocabulary.md` before judging.")
+        directory = skill(self.root, "design-web", frontmatter="metadata:\n  vocabulary: design-core\n")
         self.assertEqual(self.check(directory), ([], []))
 
-    def test_given_pointer_to_a_missing_vocabulary_when_checked_then_warning(self) -> None:
-        directory = skill(self.root, "design-web", body="Load `design-nope/references/vocabulary.md` before judging.")
+    def test_given_metadata_naming_a_sibling_without_a_vocabulary_when_checked_then_warning(self) -> None:
+        directory = skill(self.root, "design-web", frontmatter="metadata:\n  vocabulary: design-nope\n")
+        _, warnings = self.check(directory)
+        self.assertTrue(any("vocabulary" in w for w in warnings), warnings)
+
+    def test_given_only_a_body_pointer_to_a_sibling_vocabulary_when_checked_then_warning(self) -> None:
+        # Reviews no longer load the vocabulary, so a load-it pointer is not coverage.
+        skill(self.root, "design-core", vocabulary=HEADER + ROW)
+        directory = skill(self.root, "design-web", body="Load `design-core/references/vocabulary.md` before judging.")
         _, warnings = self.check(directory)
         self.assertTrue(any("vocabulary" in w for w in warnings), warnings)
 

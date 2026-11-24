@@ -185,8 +185,8 @@ These hold for every change, boundary or not:
 
 ## 12. Review before merge
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging
-and name each finding by its term, so the author can look it up and fix it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 Read the diff against the threat note: where access is enforced, how input
 is parsed, what is logged, which new egress, dependency, rules file, or CI
 change appeared. Run a secret scanner on the diff (for example gitleaks or

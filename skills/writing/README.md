@@ -18,7 +18,7 @@ alone; with the core installed beside them they also get its quality gate.
 
 `writing-core/references/vocabulary.md` holds the family's expert vocabulary
 (38 terms, each with a source, an observable marker, and how it is checked);
-every `writing-*` skill loads it before judging, and
+authors and check scripts use it, reviews do not load it by default, and
 `scripts/check-knowledge.py --vocabulary` validates it.
 
 Neighbors split the work instead of competing: `product-craft` decides what to

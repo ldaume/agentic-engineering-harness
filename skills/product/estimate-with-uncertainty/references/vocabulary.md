@@ -2,12 +2,13 @@
 
 The terms forecasters use to judge whether an estimate is honest, so a review
 names the gap the way the field does and points at something visible in the
-forecast, its script, or its page. Load before judging a forecast ready.
-Wording of figures lives in `plain-numbers`; hypothesis tests in
-`statistical-analysis`. A term is admitted only with a registered source and
-an observable marker; evidence and access dates are in `sources.json`. Check:
-`exact` (a pattern a script could match; none ships here, so no rule ids) or
-`judge` (a person or model decides). No `jev`: no typed question exists yet.
+forecast, its script, or its page. Authors and check scripts use it; reviews do
+not load it by default. Wording of figures lives in `plain-numbers`; hypothesis
+tests in `statistical-analysis`. A term is admitted only with a registered
+source and an observable marker; evidence and access dates are in
+`sources.json`. Check: `exact` (a pattern a script could match; none ships
+here, so no rule ids) or `judge` (a person or model decides). No `jev`: no
+typed question exists yet.
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

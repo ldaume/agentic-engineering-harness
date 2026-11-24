@@ -2,8 +2,8 @@
 
 The terms statisticians, risk communicators, and data journalists use when they
 judge how a figure is reported, so a review names the misreading a number
-invites. Load before reviewing figures or running the reader test. Prose terms
-(sentence length, claim class, restating) live in writing-core's
+invites. Authors and check scripts use it; reviews do not load it by default.
+Prose terms (sentence length, claim class, restating) live in writing-core's
 `references/vocabulary.md`; chart marks (proportional ink, direct labeling) in
 design-core's. Check: `exact`, `jev`, or `judge`; no check script ships these
 rules yet, so every row is `judge` until one does.

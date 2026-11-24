@@ -2,6 +2,8 @@
 name: design-forms
 description: Use whenever designing, building, fixing, or reviewing a form or input-heavy interaction - sign-up, login, checkout, settings, multi-step forms, validation and error messages, autosave, undo, double submits (Formular, Validierung, Fehlermeldung, Registrierung). Ships browser tests. Not for whole flows across screens, which design-flows owns.
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Forms and Interactions
@@ -53,9 +55,6 @@ submit, errors on focus) that nobody chose.
 - `references/interaction-patterns.md` - for optimistic UI, autosave, undo,
   confirmation, destructive actions, double-submit prevention, status
   announcements outside forms.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Gates
 

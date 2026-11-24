@@ -2,6 +2,8 @@
 name: design-review
 description: Use whenever auditing or critiquing an existing interface, website, flow, form, dashboard, or deck - UX audit, accessibility audit, heuristic review, visual QA, Playwright and axe checks - into a prioritized backlog (UX-Audit, Design-Review, Barrierefreiheit prüfen). Not for code correctness, which code review owns; frontend-craft fixes the findings.
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Design Review
@@ -93,9 +95,6 @@ fixtures `tests/fixtures/generic.html`, `diagram-broken.html`, `text-instruction
 - `references/browser-verification.md` - whenever the product can be opened
   in a browser; its "Reading pages" section for long-form pages (contrast in
   light and dark, line height, line length, target size, overflow).
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Done when
 

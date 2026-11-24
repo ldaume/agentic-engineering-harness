@@ -1,15 +1,15 @@
 # Review and Integration Vocabulary
 
 The terms reviewers and integrators use to judge whether a change is ready to
-merge, so a gate names the gap the way the field does and points at something
-a reader can see in the pull request, its comments, or the branch history.
-Load before judging a change ready. Change-shape and test terms (small change,
-why comment, red run) live in `coding-discipline` and `testing-strategies`. A
-term is admitted only with a registered source and an observable marker;
-evidence and access dates are in `sources.json`. Check: `exact` (a pattern in
-the pull request, comments, or git data a script can match; none ships here
-yet, so no rule ids), `jev` (a typed question), `judge` (a person or model
-decides).
+merge, so a gate names the gap the way the field does and points at something a
+reader can see in the pull request, its comments, or the branch history.
+Authors and check scripts use it; reviews do not load it by default.
+Change-shape and test terms (small change, why comment, red run) live in
+`coding-discipline` and `testing-strategies`. A term is admitted only with a
+registered source and an observable marker; evidence and access dates are in
+`sources.json`. Check: `exact` (a pattern in the pull request, comments, or git
+data a script can match; none ships here yet, so no rule ids), `jev` (a typed
+question), `judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

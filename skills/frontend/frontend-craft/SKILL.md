@@ -228,9 +228,8 @@ and suggestions that name the act of their button.
 
 ## Review Checklist
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging
-frontend code and name each gap by its term, so the author can look it up and
-fix it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 - Does the screen answer one primary question, and does the entry point
   promise that question?

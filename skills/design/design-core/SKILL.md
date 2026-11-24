@@ -96,10 +96,8 @@ an average hides the one dimension that sinks the release: utility,
 usability, clarity, accessibility, interaction quality, visual craft,
 performance, trust, journey continuity, outcome. Scale and gate rules:
 `references/quality-model.md`.
-Load `references/vocabulary.md` before judging or reviewing, and name each
-finding by its term and marker, because a defect named the way the field
-names it, with something a reader can see, is one the author can fix and a
-check can catch.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 ## Motion
 

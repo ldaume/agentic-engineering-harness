@@ -55,8 +55,9 @@ detail destroys the trust the rest of the text earned.
    concrete), language-native, copy (terms, spelling, dates), proof (names,
    numbers, links), then the AI-tell pass (`references/ai-tells.md`). Separate
    passes, because one combined pass fixes commas and misses a wrong order,
-   and a line edit tightens a tell instead of removing it. Load
-   `references/vocabulary.md` before judging and name each defect by its term.
+   and a line edit tightens a tell instead of removing it.
+   `references/vocabulary.md` lists the field's terms for authors and check
+   scripts; a review does not load it.
 5. Verify: classify each claim as sourced fact, inference, recommendation, or
    unknown. Re-check time-sensitive or externally published facts at the
    source. For AI-assisted text, fact-check body and metadata by hand

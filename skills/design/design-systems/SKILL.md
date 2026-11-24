@@ -2,6 +2,8 @@
 name: design-systems
 description: Use whenever creating, extending, or auditing a design system - tokens and naming, color, type, spacing, theming and dark mode, component specs with states and keyboard behavior, versioning, migration (Designsystem, Design Tokens, Komponentenbibliothek, Theming). Checks token contrast. Not for building one screen, which frontend-craft owns.
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Design Systems
@@ -57,9 +59,6 @@ encodes a guess; never abstract and every team re-solves focus handling.
   make one.
 - `references/governance.md` - versioning, deprecation, migration,
   contribution, design-to-code alignment.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Gates
 

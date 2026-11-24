@@ -2,8 +2,8 @@
 
 The terms application security engineers use to judge a change, so a review
 names the weakness the way the field does and points at something a reader can
-see in the diff, the config, or the PR. Load before judging or reviewing a
-change that crosses a trust boundary. A term is admitted only with a registered
+see in the diff, the config, or the PR. Authors and check scripts use it;
+reviews do not load it by default. A term is admitted only with a registered
 source and an observable marker. Check: `exact` (a pattern in code or config a
 scanner or script can match; none ships here yet, so no rule ids), `jev` (a
 typed question), `judge` (a person or model decides).

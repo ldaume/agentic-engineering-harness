@@ -2,13 +2,14 @@
 
 The terms research practitioners use to judge a study plan, a session, or a
 synthesis, so a review names the gap the way the field does and points at
-something a reader can see in the plan, script, notes, or report. Load before
-judging research work. Design terms (layout, type, contrast) live in
-`design-core/references/vocabulary.md`; none are repeated here. A term is
-admitted only with a registered source and an observable marker; evidence and
-access dates are in `sources.json` and the design-family registry. Check:
-`exact` (a pattern a script could match in the document; none ships here yet,
-so no rule ids), `jev` (a typed question), `judge` (a person or model decides).
+something a reader can see in the plan, script, notes, or report. Authors and
+check scripts use it; reviews do not load it by default. Design terms (layout,
+type, contrast) live in `design-core/references/vocabulary.md`; none are
+repeated here. A term is admitted only with a registered source and an
+observable marker; evidence and access dates are in `sources.json` and the
+design-family registry. Check: `exact` (a pattern a script could match in the
+document; none ships here yet, so no rule ids), `jev` (a typed question),
+`judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

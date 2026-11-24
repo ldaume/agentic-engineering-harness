@@ -225,9 +225,8 @@ Choose checks by risk:
 
 ## Red Flags
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
-backend change or its operability and name each gap by its term, so the author
-can look it up and fix it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 Stop and revise when you see:
 

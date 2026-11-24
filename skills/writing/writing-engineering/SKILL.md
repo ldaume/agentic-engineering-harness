@@ -2,6 +2,8 @@
 name: writing-engineering
 description: Use whenever writing a commit message, pull request description, Confluence technical page, developer or operational documentation, or engineering decision summary, even a one-line commit (Commit-Message, PR-Beschreibung, technische Doku). Carries why-before-what and honest validation. Not for changing code, or for whether a change needs an ADR (documentation-and-adrs).
 license: MIT
+metadata:
+  vocabulary: writing-core
 ---
 
 # Engineering Writing
@@ -41,9 +43,9 @@ From this skill's directory, run
 --lang <de|en> FILE` with type one of `pull_request|commit|confluence`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
-warning, because warnings are heuristics, not rules. Load
-`writing-core/references/vocabulary.md` before judging and name each defect by
-its term; a finding's `rules` id points at its row.
+warning, because warnings are heuristics, not rules. A
+gate finding's `rules` id names its row in
+`writing-core/references/vocabulary.md`.
 
 ## Done when
 

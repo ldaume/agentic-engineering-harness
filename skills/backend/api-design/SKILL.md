@@ -71,9 +71,8 @@ Before changing an API:
 
 ## Red Flags
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging an
-API change and name each gap by its term, so the author can look it up and fix
-it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 - silent response shape change
 - unbounded list endpoint

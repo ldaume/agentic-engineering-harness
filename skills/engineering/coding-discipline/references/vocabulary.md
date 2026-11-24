@@ -2,11 +2,12 @@
 
 The terms experienced engineers use to judge a code change, so a review names
 the defect the way the field does and points at something a reader can see in
-the diff or the test run. Load before judging or reviewing a change, your own
-included. A term is admitted only with a registered source and an observable
-marker; evidence and access dates are in `sources.json`. Check: `exact` (a
-pattern in the diff or a test run a script can match; none ships here yet, so
-no rule ids), `jev` (a typed question), `judge` (a person or model decides).
+the diff or the test run. Authors and check scripts use it; reviews do not load
+it by default. A term is admitted only with a registered source and an
+observable marker; evidence and access dates are in `sources.json`. Check:
+`exact` (a pattern in the diff or a test run a script can match; none ships
+here yet, so no rule ids), `jev` (a typed question), `judge` (a person or model
+decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

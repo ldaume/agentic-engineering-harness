@@ -1,12 +1,13 @@
 # Design Vocabulary
 
-The terms practicing designers use to judge a page, screen, deck, or chart, so a
-review names the defect the way the field does and points at something a reader
-can see. Load before judging or reviewing any visual artifact; the other
-`design-*` skills point here instead of keeping a copy. A term is admitted only
-with a registered source and an observable marker. Check: `exact` (DOM, computed
-style, or geometry; the rule id is the design loop's), `jev` (a typed question on
-a screenshot or text), `judge` (a person or model decides).
+The terms practicing designers use to judge a page, screen, deck, or chart, so
+a review names the defect the way the field does and points at something a
+reader can see. Authors and check scripts use it; reviews do not load it by
+default. The other `design-*` skills name it in their metadata instead of
+keeping a copy. A term is admitted only with a registered source and an
+observable marker. Check: `exact` (DOM, computed style, or geometry; the rule
+id is the design loop's), `jev` (a typed question on a screenshot or text),
+`judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

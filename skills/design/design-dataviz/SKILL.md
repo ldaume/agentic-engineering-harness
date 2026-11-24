@@ -2,6 +2,8 @@
 name: design-dataviz
 description: Use whenever deciding what a chart, graph, table, KPI view, or dashboard should show - chart choice for a decision, dashboard design, misleading axes, uncertainty, accessible charts (Diagramm, Dashboard, Kennzahlen, Datenvisualisierung). Not for chart code or palettes (dataviz, frontend-craft), or slides and architecture diagrams (design-slides).
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Data Visualization
@@ -94,9 +96,6 @@ do not restate them.
 Charts on a slide: pick the chart here, the slide structure in
 `design-slides`. An audit of an existing dashboard pairs with
 `design-review`.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Gates
 

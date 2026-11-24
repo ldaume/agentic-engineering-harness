@@ -14,7 +14,7 @@ warning: it may be kept on purpose for a planned rule.
 registered source, an observable marker, and how it is checked. A Skill that
 judges quality without one, and a source not re-read for a year, are warnings;
 a malformed table is an error. The mode exits 0 unless `--strict`, which
-fails on errors and on Skills without a vocabulary, pointer, or exemption;
+fails on errors and on Skills without a vocabulary or a metadata declaration;
 an `exact` row without a rule id and a stale source stay warnings, because
 they are the backlog for the next check, not a broken contract.
 
@@ -49,8 +49,9 @@ MAX_TERMS = 40
 MAX_LINES = 80
 CHECKS = {"exact", "jev", "judge"}
 RULE_ID = re.compile(r"`[a-z0-9]+(?:[.-][A-Za-z0-9-]+)+`")
-POINTER = re.compile(r"(?:([a-z0-9-]+)/)?references/vocabulary\.md")
-EXEMPT = re.compile(r"^metadata:\s*\n(?:[ \t]+.*\n)*?[ \t]+vocabulary:\s*[\"']?(vendor|house)[\"']?\s*$", re.M)
+# metadata.vocabulary: vendor or house exempts a Skill; a sibling Skill name
+# (design-core) borrows that sibling's file, so a family keeps one copy.
+DECLARED = re.compile(r"^metadata:\s*\n(?:[ \t]+.*\n)*?[ \t]+vocabulary:\s*[\"']?([a-z0-9-]+)[\"']?\s*$", re.M)
 STALE_DAYS = 365
 
 
@@ -119,15 +120,16 @@ def check_vocabulary(skill: Path, known: set[str]) -> tuple[list[str], list[str]
     """Errors and warnings for one Skill's expert vocabulary."""
     text = (skill / "SKILL.md").read_text(encoding="utf-8")
     frontmatter = text.split("---", 2)[1] + "\n" if text.startswith("---") else ""
-    if EXEMPT.search(frontmatter):
+    declared = DECLARED.search(frontmatter)
+    if declared and declared.group(1) in {"vendor", "house"}:
         return [], []
     vocabulary = skill / "references" / "vocabulary.md"
     if not vocabulary.exists():
-        # A pointer to a sibling's vocabulary counts, so a family keeps one copy.
-        targets = [skill.parent / (m.group(1) or skill.name) / "references" / "vocabulary.md" for m in POINTER.finditer(text)]
-        if any(t.exists() for t in targets):
+        # Coverage is declared in metadata, not by a pointer the reviewer would load:
+        # loading the vocabulary into reviews lowered recall outside it (2026-11-24).
+        if declared and (skill.parent / declared.group(1) / "references" / "vocabulary.md").exists():
             return [], []
-        return [], ["no references/vocabulary.md, pointer, or metadata.vocabulary: vendor|house"]
+        return [], ["no references/vocabulary.md or metadata.vocabulary: vendor|house|<sibling skill>"]
 
     errors: list[str] = []
     warnings: list[str] = []

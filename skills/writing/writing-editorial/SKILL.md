@@ -2,6 +2,8 @@
 name: writing-editorial
 description: Use whenever drafting or revising an email, Slack message, decision request, follow-up, or summary for a PO, manager, C-level, or customer, even a two-line ping (Mail schreiben, Slack-Nachricht, Zusammenfassung, Management-Update). Carries point-context-ask and tone. Not for marketing copy (writing-marketing), product status (writing-product), PRs, or commits.
 license: MIT
+metadata:
+  vocabulary: writing-core
 ---
 
 # Editorial
@@ -44,9 +46,9 @@ From this skill's directory, run
 --lang <de|en> FILE` with type one of `business_email|slack|po_summary|executive_summary`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
-warning, because warnings are heuristics, not rules. Load
-`writing-core/references/vocabulary.md` before judging and name each defect by
-its term; a finding's `rules` id points at its row.
+warning, because warnings are heuristics, not rules. A
+gate finding's `rules` id names its row in
+`writing-core/references/vocabulary.md`.
 
 ## Done when
 

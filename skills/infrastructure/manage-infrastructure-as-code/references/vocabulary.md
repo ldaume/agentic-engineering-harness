@@ -3,10 +3,10 @@
 The terms practitioners use to judge whether infrastructure is managed as
 reviewable desired state, so a review names a gap the way the field does and
 points at something visible in a repository, plan, state configuration, or
-pipeline. Load before judging an infrastructure change or workflow. Security
-terms live in `shift-left-security`; Ansible, Gitea CI, and host hardening
-terms live in their vendor Skills. A term is admitted only with a registered
-source and an observable marker; evidence and access dates are in
+pipeline. Authors and check scripts use it; reviews do not load it by default.
+Security terms live in `shift-left-security`; Ansible, Gitea CI, and host
+hardening terms live in their vendor Skills. A term is admitted only with a
+registered source and an observable marker; evidence and access dates are in
 `sources.json`. Check: `exact` (a pattern in files, config, or plan output a
 script can match; none ships here yet, so no rule ids), `jev` (a typed
 question), `judge` (a person or model decides).

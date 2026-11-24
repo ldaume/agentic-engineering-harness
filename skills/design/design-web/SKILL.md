@@ -2,6 +2,8 @@
 name: design-web
 description: Use whenever designing, structuring, or reviewing a website rather than an app - marketing site, landing page, editorial, storefront, docs site - for structure, layout, typography, visual direction, or Core Web Vitals (Webdesign, Landingpage-Layout, Seitenstruktur). Not for the copy (writing-marketing), app screens (design-product-ui), or code (frontend-craft).
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Web Experiences
@@ -74,9 +76,6 @@ Order matters because each step constrains the next.
   you need its Baseline status and fallback rule.
 - Motion: `design-core/references/motion.md` for every animated
   surface.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Gates
 

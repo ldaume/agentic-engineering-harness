@@ -129,9 +129,8 @@ wrapper with real local deltas, not a duplicate of portable TDD.
 - Quality at the start: acceptance criteria and tests - not late inspection.
 - Readable over clever; abstractions only when they remove real complexity.
 - Direct communication: name trade-offs, constraints, and next step.
-- Load [`references/vocabulary.md`](references/vocabulary.md) before judging
-  a change, your own or another's, and name each finding by its term, so the
-  author can look it up and fix it.
+- `references/vocabulary.md` lists the field's terms for authors and check
+  scripts; a review does not load it.
 
 ## Optional Complement
 

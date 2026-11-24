@@ -31,9 +31,8 @@ Before running this gate:
 
 ### 2. Correctness and design
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
-change ready and name each gap by its term, so the author can look it up and
-fix it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 - [ ] Solves the **actual** problem, not an adjacent one
 - [ ] Fits existing architecture (read `AGENTS.md`, `CONTEXT.md`, relevant ADRs)
