@@ -165,6 +165,46 @@
     "design-forms"
    ],
    "note": "playwright-best-practices owns it."
+  },
+  {
+   "id": "design-core-mention-form",
+   "prompt": "design-core: our signup form only shows errors after submit and people give up. What should it do instead?",
+   "should_activate": [
+    "design-core",
+    "design-forms"
+   ]
+  },
+  {
+   "id": "design-core-bare-dashboard-de",
+   "prompt": "design-core. Entwirf ein Dashboard, auf dem das Ops-Team Ausreisser in den Bestellzahlen sofort sieht und priorisieren kann.",
+   "should_activate": [
+    "design-core",
+    "design-dataviz"
+   ]
+  },
+  {
+   "id": "design-core-mention-deck",
+   "prompt": "Use design-core for this: a ten-slide deck that asks leadership to pick one of two pricing options.",
+   "should_activate": [
+    "design-core",
+    "design-slides"
+   ]
+  },
+  {
+   "id": "design-core-mention-landing-de",
+   "prompt": "Mit design-core: gestalte eine Landingpage fuer unser neues Audit-Export-Feature, die nicht nach generischer KI-Seite aussieht.",
+   "should_activate": [
+    "design-core",
+    "design-web"
+   ]
+  },
+  {
+   "id": "design-core-mention-audit",
+   "prompt": "design-core: critique this checkout screen: one page with 14 fields, a Pay button disabled until every field is valid, and error text in light gray.",
+   "should_activate": [
+    "design-core",
+    "design-review"
+   ]
   }
  ]
 }

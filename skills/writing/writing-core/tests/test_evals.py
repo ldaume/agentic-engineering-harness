@@ -41,6 +41,29 @@ class EvalsTest(unittest.TestCase):
         ])
         self.assertEqual(run_evals.loaded_skills("codex", out), {"design-research"})
 
+    def test_given_writing_core_when_named_alone_then_a_route_table_names_every_sibling_before_the_method(self):
+        body = (HERE.parent / "SKILL.md").read_text(encoding="utf-8")
+        table = body.split("## Frame before drafting")[0]
+        rows = [line for line in table.splitlines() if line.startswith("|")]
+        self.assertTrue(rows, "no route table above the method")
+        for sibling in sorted(SIBLINGS - {"writing-core"}) + ["plain-numbers"]:
+            self.assertIn(f"`{sibling}`", "\n".join(rows), sibling)
+
+    def test_given_codex_when_a_case_runs_then_stdin_is_closed_so_exec_does_not_wait_for_input(self):
+        seen = {}
+
+        def fake_run(cmd, **kwargs):
+            seen.update(kwargs)
+            return run_evals.subprocess.CompletedProcess(cmd, 0, "", "")
+
+        original = run_evals.subprocess.run
+        run_evals.subprocess.run = fake_run
+        try:
+            run_evals.run_host("codex", "hello", ".")
+        finally:
+            run_evals.subprocess.run = original
+        self.assertIs(seen.get("stdin"), run_evals.subprocess.DEVNULL)
+
 
 if __name__ == "__main__":
     unittest.main()
