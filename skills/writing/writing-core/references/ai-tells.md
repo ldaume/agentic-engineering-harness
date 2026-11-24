@@ -132,6 +132,23 @@ stiff parallel, participle clauses ("hervorhebend", "betonend"), a "sowohl ...
 als auch" triad, "Es ist wichtig zu beachten, dass". Write the German
 sentence the German reader would say (supported) [SRC-WRITE-048].
 
+**Operating instructions for the page.** A sentence that tells readers how to
+operate the page or document they are looking at: swipe, scroll, click, tap,
+zoom, hover, "click here", "siehe unten", "klicken Sie hier". The interface
+already shows it, so the sentence adds weight and no content. When readers
+really cannot tell, the fix is design (a visible overflow edge, a scrollbar, a
+larger default size), not prose. A hint a screen reader needs belongs in an
+`aria-label`. Describing product behavior in technical docs ("Der Nutzer
+klickt auf Freigeben", "the list scrolls to the newest item") or a how-to step
+inside the product is content, not this tell. Evidence: observed. In November
+2026 a published page shipped "swipe the diagram sideways" three times, and
+neither the gate nor the design review flagged it; the gate now warns on it.
+
+- Before: "Auf dem Handy lässt sich das Diagramm seitlich wischen."
+- After: no caption; the diagram shows a cut-off edge that invites the swipe.
+- Before: "Hover over a bar to see its value."
+- After: "Berlin had the most orders in March (412)." The value sits on the bar.
+
 ## Structural tells
 
 These need a reader, not a regex; the gate only helps with the first (it warns

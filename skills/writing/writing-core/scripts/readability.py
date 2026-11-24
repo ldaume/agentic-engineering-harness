@@ -124,15 +124,16 @@ def diagnostics(text: str, language: str) -> dict[str, float | int]:
 
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
-PROSE = {"p", "li", "dd"}
+PROSE = {"p", "li", "dd", "figcaption"}
 # Everything else that starts or ends a block, so text never runs across it.
 BREAKS = {"ul", "ol", "dl", "dt", "div", "section", "article", "header", "footer", "blockquote",
-          "h1", "h2", "h3", "h4", "h5", "h6", "tr", "pre", "figure", "figcaption", "br"}
+          "h1", "h2", "h3", "h4", "h5", "h6", "tr", "pre", "figure", "br"}
 
 
 class _Extractor(HTMLParser):
-    """Collects prose blocks (p, li, dd) with their section. Skips script, style,
-    tables, diagram source (class contains "mermaid") and, with lang_class, any
+    """Collects prose blocks (p, li, dd, figcaption) with their section. Skips script,
+    style, tables, diagram source (class "mermaid"; a "mermaid-legend" caption is
+    prose the reader sees) and, with lang_class, any
     element carrying a sibling language class (same prefix, other suffix)."""
 
     def __init__(self, lang_class: str | None) -> None:
@@ -163,7 +164,7 @@ class _Extractor(HTMLParser):
             return
         drop = (
             tag in {"script", "style", "table"}
-            or any("mermaid" in c for c in classes)
+            or "mermaid" in classes
             or bool(self.prefix and any(c.startswith(self.prefix) and c != self.lang_class for c in classes))
         )
         self.stack.append((tag, drop))

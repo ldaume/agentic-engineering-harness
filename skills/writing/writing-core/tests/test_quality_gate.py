@@ -241,6 +241,8 @@ PAGE = """<html><body>
 <table><tr><td>Cell alpha</td><td>Cell beta</td></tr></table>
 <script>var s = "Script words here.";</script>
 <div class="mermaid">graph TD; A-->B;</div>
+<p class="mermaid-legend">Legend under the diagram.</p>
+<figure><svg></svg><figcaption>Caption of the figure.</figcaption></figure>
 </section>
 <section id="detail"><h2>Detail</h2><dl><dd>One more sentence.</dd></dl></section>
 </body></html>"""
@@ -253,6 +255,11 @@ class HtmlInputTest(unittest.TestCase):
         for noise in ("Cell alpha", "Script words", "graph TD", "Chip one"):
             self.assertNotIn(noise, joined)
         self.assertIn("The export is ready. Der Export ist bereit.", blocks)
+
+    def test_given_diagram_caption_or_legend_when_extracted_then_it_is_prose(self):
+        blocks = [b for _, b in html_blocks(PAGE)]
+        self.assertIn("Legend under the diagram.", blocks)
+        self.assertIn("Caption of the figure.", blocks)
 
     def test_given_nested_lists_when_extracted_then_items_stay_separate(self):
         blocks = [b for _, b in html_blocks(PAGE)]
@@ -270,7 +277,7 @@ class HtmlInputTest(unittest.TestCase):
         report = {r["section"]: r for r in html_sections(PAGE, "en", "l-en")}
         self.assertEqual(set(report), {"intro", "detail"})
         self.assertEqual(report["detail"]["words"], 3)
-        self.assertEqual(report["intro"]["words"], 4 + 2 + 3 + 3 + 1)
+        self.assertEqual(report["intro"]["words"], 4 + 2 + 3 + 3 + 1 + 4 + 4)
         self.assertIn("lix", report["intro"])
 
 
@@ -483,6 +490,60 @@ class CurrentTellsTest(unittest.TestCase):
     def test_given_plain_copula_and_named_source_when_checked_then_no_tell(self):
         t = "The library is a bridge between teams. The ETH study measured a 20 percent cost increase."
         self.assertFalse(any(w.startswith("ai-tell") for w in warned(t)))
+
+
+# Synthetic sentences. Positives tell the reader how to operate the page itself;
+# negatives describe product UI behavior or instruct inside the product, which
+# technical docs do legitimately.
+UI_INSTRUCTIONS = [
+    ("Auf dem Handy lässt sich das Diagramm seitlich wischen.", "de"),
+    ("Die Tabelle lässt sich auf kleinen Bildschirmen waagerecht scrollen.", "de"),
+    ("Zum Vergrößern auf das Bild tippen.", "de"),
+    ("Klicken Sie hier, um den Bericht zu öffnen.", "de"),
+    ("Scrollen Sie nach unten für die Details.", "de"),
+    ("Weitere Zahlen siehe unten.", "de"),
+    ("Fahren Sie mit der Maus über einen Balken, um den Wert zu sehen.", "de"),
+    ("Auf dem Smartphone kann man die Grafik seitlich wischen.", "de"),
+    ("On a phone, swipe the diagram sideways.", "en"),
+    ("Scroll horizontally to see the whole table.", "en"),
+    ("Tap to zoom.", "en"),
+    ("Click here for the full report.", "en"),
+    ("Hover over a bar to see its value.", "en"),
+    ("Scroll down to the results.", "en"),
+    ("See below for the numbers.", "en"),
+    ("Click on the image to enlarge it.", "en"),
+]
+UI_DESCRIPTIONS = [
+    ("Der Nutzer klickt auf Freigeben, dann startet der Export.", "de"),
+    ("Die Liste scrollt automatisch zum neuen Eintrag.", "de"),
+    ("Klicken Sie auf Speichern, um den Entwurf zu sichern.", "de"),
+    ("Bei Klick auf Exportieren erzeugt das System ein PDF.", "de"),
+    ("Das Diagramm zeigt den Ablauf von links nach rechts.", "de"),
+    ("Die App erkennt Wischgesten und Zoomen mit zwei Fingern.", "de"),
+    ("Der Speicher lässt sich später vergrößern.", "de"),
+    ("Der Bericht lässt sich als PDF exportieren.", "de"),
+    ("The user clicks Approve and the export starts.", "en"),
+    ("The list scrolls to the newest item.", "en"),
+    ("Click Approve to publish the release.", "en"),
+    ("Users swipe left to archive a message.", "en"),
+    ("Hover states use the accent color.", "en"),
+    ("Tap targets are at least 44 px.", "en"),
+    ("Scrolling performance improved after the fix.", "en"),
+    ("The carousel lets shoppers swipe through products.", "en"),
+    ("See the runbook for the restore steps.", "en"),
+    ('Link text names its target, never "click here".', "en"),
+    ('Ein Link sagt nie "hier klicken", sondern nennt sein Ziel.', "de"),
+]
+
+
+class UiInstructionTest(unittest.TestCase):
+    def test_given_instruction_how_to_operate_the_page_when_checked_then_ai_tell(self):
+        for t, lang in UI_INSTRUCTIONS:
+            self.assertTrue(any("UI operating instruction" in w for w in warned(t, lang)), t)
+
+    def test_given_product_ui_described_or_instructed_when_checked_then_no_ui_tell(self):
+        for t, lang in UI_DESCRIPTIONS:
+            self.assertFalse(any("UI operating instruction" in w for w in warned(t, lang)), t)
 
 
 class AcronymTest(unittest.TestCase):

@@ -89,7 +89,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-review/SKILL.md",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "design-slides": {
       "source": "local",
@@ -263,7 +263,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-core/SKILL.md",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "writing-editorial": {
       "source": "local",

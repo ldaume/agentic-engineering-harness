@@ -96,8 +96,9 @@ measures every language class found in one report, each with its own formulas
 and limits. It also warns when an element has no adjacent twin in the other
 language, and when twins differ in word count by more than about 2x.
 
-HTML input counts prose in p, li and dd only. Table cells, script, style and
-diagram source (class contains `mermaid`) are skipped; each block ends a
+HTML input counts prose in p, li, dd and figcaption only. Table cells, script,
+style and diagram source (class `mermaid`) are skipped, while a caption or
+legend beside a diagram counts; each block ends a
 sentence, so nested list items stay separate.
 
 ## Gates per artifact
