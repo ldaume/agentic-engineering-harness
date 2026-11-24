@@ -1,0 +1,286 @@
+{
+  "sources": [
+    {
+      "id": "SRC-RES-001",
+      "title": "When to Use Which User-Experience Research Methods",
+      "url": "https://www.nngroup.com/articles/which-ux-research-methods/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Methods differ on an attitudinal (what people say) versus behavioral (what people do) dimension; self-report is limited by what people notice and will say.",
+        "By project phase, generative methods find direction, formative methods improve a design, summative methods measure it; focus groups are named as less useful for usability."
+      ],
+      "limits": "Vendor training body's synthesis; the method map is a heuristic, not an experiment.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-002",
+      "title": "Thinking Aloud: The #1 Usability Tool",
+      "url": "https://www.nngroup.com/articles/thinking-aloud-the-1-usability-tool/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "In a thinking-aloud test participants use the system while continuously verbalizing thoughts; recruit representative users, give representative tasks, and let them talk.",
+        "Facilitator prompts can bias behavior; mark biased stretches so they are discarded, because decisions on them mislead."
+      ],
+      "limits": "One practitioner's account; the article is old and its claims about cost are anecdotal.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-003",
+      "title": "Affinity Diagramming for Collaboratively Sorting UX Findings and Design Ideas",
+      "url": "https://www.nngroup.com/articles/affinity-diagram/",
+      "publisher": "Nielsen Norman Group",
+      "published": "2024",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Affinity diagramming has three steps: generate notes, cluster them into themes, prioritize clusters and next steps.",
+        "Small clusters are not discarded for being small; they can signal diverse perspectives."
+      ],
+      "limits": "Describes a workshop method; shows no evidence about result quality.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-004",
+      "title": "Avoid Leading Questions to Get Better Insights from Participants",
+      "url": "https://www.nngroup.com/articles/leading-questions/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "A leading question puts the wanted answer in the question, so participants confirm it or alter their behavior; a facilitator asking what a button does can show the participant it is a link.",
+        "Prepared questions can be reviewed and rewritten neutral before the session."
+      ],
+      "limits": "Practitioner guidance; the facilitator effect is illustrated, not measured.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-005",
+      "title": "Write Better Qualitative Usability Tasks: Top 10 Mistakes to Avoid",
+      "url": "https://www.nngroup.com/articles/better-usability-tasks/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Poorly written tasks yield shallow or misleading findings; a short scenario can give a task context, and a task must not name the steps or labels it wants to observe.",
+        "Tasks that mention future dates or current content need checking against the test day."
+      ],
+      "limits": "Practitioner checklist; no outcome data.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-006",
+      "title": "The Use and Misuse of Focus Groups",
+      "url": "https://www.nngroup.com/articles/focus-groups/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Focus groups discover what users want and feel but are a poor method for judging usability; whether people can operate a system is learned by watching one user at a time.",
+        "Focus groups should not be the only source of usability data; group opinions on a demo can contradict behavior in the task."
+      ],
+      "limits": "Written by one expert in an earlier web era; the point about method fit still holds.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-007",
+      "title": "Personas Make Users Memorable",
+      "url": "https://www.nngroup.com/articles/persona/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "A persona is a fictional but realistic target user and must be based on user research; characteristics come from observed users, clustered into distinct roles.",
+        "Personas are validated and refined with analytics segments."
+      ],
+      "limits": "Practitioner guidance; it does not test whether personas change decisions.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-008",
+      "title": "Research Repositories 101",
+      "url": "https://www.nngroup.com/articles/research-repositories/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "A research repository is a central place for reports, recordings, notes, and other research data, often maintained by a ResearchOps function.",
+        "Good tags or folder labels let contributors file research and readers find it."
+      ],
+      "limits": "Practitioner guidance on tooling choices; no measured benefit.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-009",
+      "title": "Obtaining Consent for User Research",
+      "url": "https://www.nngroup.com/articles/informed-consent/",
+      "publisher": "Nielsen Norman Group",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Informed consent respects and protects participants; transcribing a person's quotes or sharing their details with the team goes beyond what a plain call implies and needs their agreement."
+      ],
+      "limits": "Practitioner guidance; legal duties vary by jurisdiction.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-010",
+      "title": "Capturing research questions",
+      "url": "https://www.gov.uk/service-manual/user-research/capturing-research-questions/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Capture research questions at the start of each phase; they are what the team needs to learn, not questions to ask users, and broad open questions help more than narrow yes or no ones.",
+        "The team sorts, prioritizes by dot vote, and chooses research activities that answer the top questions."
+      ],
+      "limits": "Government service-delivery guidance for the UK public sector.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-011",
+      "title": "Analyse a research session",
+      "url": "https://www.gov.uk/service-manual/user-research/analyse-a-research-session/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Each observation is one note recording exactly what was seen or heard, not what it means; observations are sorted into themes (affinity sorting), and a finding or insight is a short statement agreed from each group.",
+        "Actions go on a third note per group; analysis is planned about an hour per two hours of research and done with the people who observed."
+      ],
+      "limits": "Government service-delivery guidance; time ratio is a planning rule of thumb.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-012",
+      "title": "Finding participants for user research",
+      "url": "https://www.gov.uk/service-manual/user-research/find-user-research-participants/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Participants must be actual or likely users; recruitment criteria are written down and include access methods such as screen reader use.",
+        "Recruitment is biased by activity, timing, place and channel; use varied approaches, and watch for agencies that exclude disabled people or over-recruit people with flexible schedules."
+      ],
+      "limits": "Government service-delivery guidance for the UK public sector.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-013",
+      "title": "Getting informed consent for user research",
+      "url": "https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Consent is informed when participants know who researches, why, what data, what happens, who sees results, that taking part is voluntary and can be withdrawn, how long data is kept, and whether the session is observed or recorded."
+      ],
+      "limits": "UK public-sector guidance tied to UK data protection law.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-014",
+      "title": "Plan a round of user research",
+      "url": "https://www.gov.uk/service-manual/user-research/plan-round-of-user-research/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Each round has clear, actionable objectives drawn from the problems to solve, the assumptions to test, and what the team must know to decide next.",
+        "Plan participants, access needs, consent and analysis time up front; a lab day holds at most six one-hour sessions."
+      ],
+      "limits": "Government service-delivery guidance.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-RES-015",
+      "title": "Running research sessions with disabled people",
+      "url": "https://www.gov.uk/service-manual/user-research/running-research-sessions-with-people-with-disabilities/",
+      "publisher": "GOV.UK Service Manual",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "research"
+      ],
+      "findings": [
+        "Ask participants to bring their own assistive technology because personal settings are hard to recreate; talk to the participant, not the helper, and ask instead of assuming abilities or feelings."
+      ],
+      "limits": "Government guidance; individual needs vary and the participant is the authority.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}
