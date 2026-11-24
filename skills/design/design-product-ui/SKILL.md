@@ -43,6 +43,9 @@ hides the information or action the task needs.
   notifications, progressive disclosure, multi-user context.
 - `references/ai-native-interfaces.md` - when AI generates, proposes, or
   applies content or actions.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Rules that change the result
 

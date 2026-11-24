@@ -27,6 +27,10 @@ registry was built from sources opened on 2026-10-21 (156 entries with URL,
 access date, findings, limits, and a revisit trigger); gaps found during that
 research stay listed in each skill's "Evidence gaps". `scripts/check-knowledge.py`
 fails the build when a citation has no registry entry.
+`design-core/references/vocabulary.md` holds the family's expert vocabulary
+(40 terms, each with a source, an observable marker, and how it is checked);
+every `design-*` skill loads it before judging, and
+`scripts/check-knowledge.py --vocabulary` validates it.
 
 An award is evidence of a jury's judgment of craft, not of usability,
 accessibility, or product outcome; the skills keep those claims apart.

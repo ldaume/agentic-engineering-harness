@@ -82,6 +82,9 @@ flowcharts belong to `design-flows`.
   ledger against the source, every visible state, technical deep dives.
 - `references/diagrams.md` - any diagram: architecture, C4, system map,
   sequence, state, data model, or choosing a diagram-as-code format.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Gates
 

@@ -93,6 +93,9 @@ fixtures `tests/fixtures/generic.html`, `diagram-broken.html`, `text-instruction
 - `references/browser-verification.md` - whenever the product can be opened
   in a browser; its "Reading pages" section for long-form pages (contrast in
   light and dark, line height, line length, target size, overflow).
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Done when
 

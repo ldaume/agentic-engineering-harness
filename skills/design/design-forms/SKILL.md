@@ -53,6 +53,9 @@ submit, errors on focus) that nobody chose.
 - `references/interaction-patterns.md` - for optimistic UI, autosave, undo,
   confirmation, destructive actions, double-submit prevention, status
   announcements outside forms.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Gates
 

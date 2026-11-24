@@ -11,7 +11,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/ansible-automation/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "api-design": {
       "source": "local",
@@ -53,31 +53,31 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-core/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "design-dataviz": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-dataviz/SKILL.md",
-      "version": "1.1.1"
+      "version": "1.2.0"
     },
     "design-flows": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-flows/SKILL.md",
-      "version": "1.1.1"
+      "version": "1.2.0"
     },
     "design-forms": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-forms/SKILL.md",
-      "version": "1.1.1"
+      "version": "1.2.0"
     },
     "design-product-ui": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-product-ui/SKILL.md",
-      "version": "1.3.1"
+      "version": "1.4.0"
     },
     "design-research": {
       "source": "local",
@@ -89,25 +89,25 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-review/SKILL.md",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "design-slides": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-slides/SKILL.md",
-      "version": "1.1.2"
+      "version": "1.2.0"
     },
     "design-systems": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-systems/SKILL.md",
-      "version": "1.1.1"
+      "version": "1.2.0"
     },
     "design-web": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-web/SKILL.md",
-      "version": "1.3.1"
+      "version": "1.4.0"
     },
     "documentation-and-adrs": {
       "source": "local",
@@ -131,13 +131,13 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/gitea-actions/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "gitea-tea": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/gitea-tea/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "grill-harness-with-docs": {
       "source": "local",
@@ -167,13 +167,13 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/backend/meilisearch/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "multi-stage-dockerfile": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/multi-stage-dockerfile/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "plain-numbers": {
       "source": "local",
@@ -185,13 +185,13 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/playwright-best-practices/SKILL.md",
-      "version": "2.0.0"
+      "version": "2.0.1"
     },
     "pnpm": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/pnpm/SKILL.md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "product-craft": {
       "source": "local",
@@ -227,7 +227,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/secure-linux-web-hosting/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "shift-left-security": {
       "source": "local",
@@ -257,7 +257,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/write-a-skill/SKILL.md",
-      "version": "1.7.0"
+      "version": "1.8.0"
     },
     "writing-core": {
       "source": "local",

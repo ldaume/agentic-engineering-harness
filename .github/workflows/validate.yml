@@ -62,6 +62,9 @@ jobs:
       - name: Check knowledge registries
         run: python3 scripts/check-knowledge.py
 
+      - name: Check expert vocabularies (warn-only)
+        run: python3 scripts/check-knowledge.py --vocabulary
+
       - name: Install Chromium for browser tests
         run: npx playwright install --with-deps chromium
 

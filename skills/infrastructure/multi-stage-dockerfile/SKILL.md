@@ -1,6 +1,9 @@
 ---
 name: multi-stage-dockerfile
 description: Creates and reviews secure, cache-friendly multi-stage Dockerfiles for Node, web, backend, and static-site projects. Use when writing Dockerfiles, optimizing image size, separating build/runtime stages, hardening containers, fixing slow Docker builds, or preparing production images.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Multi-Stage Dockerfile

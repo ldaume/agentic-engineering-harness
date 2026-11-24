@@ -1,6 +1,9 @@
 ---
 name: playwright-best-practices
 description: Writes, reviews, and debugs Playwright tests for web apps with stable locators, fixtures, auth setup, API mocking, trace debugging, responsive checks, accessibility assertions, and CI reliability. Use when creating Playwright tests, fixing flaky e2e tests, debugging traces, testing UI flows, or configuring browser tests.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Playwright Best Practices

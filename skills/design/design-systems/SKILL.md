@@ -57,6 +57,9 @@ encodes a guess; never abstract and every team re-solves focus handling.
   make one.
 - `references/governance.md` - versioning, deprecation, migration,
   contribution, design-to-code alignment.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Gates
 

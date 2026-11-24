@@ -1,12 +1,20 @@
 """Check a skill family's knowledge base: source registry and citations.
 
 Usage: check-knowledge.py [FAMILY_DIR ...]   (default: every family in skills/)
+       check-knowledge.py --vocabulary [--strict]
 
 A family keeps its registry at `<core>/references/sources.json`; its Markdown
 cites sources as `[SRC-DOMAIN-NNN]`. A rule that cites a missing source, or a
 source that cannot be re-checked, makes the golden path untrustworthy without
 anyone noticing, so both are errors. A registered source nothing cites is a
 warning: it may be kept on purpose for a planned rule.
+
+`--vocabulary` checks every Skill's expert vocabulary,
+`references/vocabulary.md`: one table row per term with a definition, a
+registered source, an observable marker, and how it is checked. A Skill that
+judges quality without one, and a source not re-read for a year, are warnings;
+a malformed table is an error. The mode exits 0 unless `--strict`, so the
+catalog stays green while Skills adopt the contract one by one.
 """
 
 from __future__ import annotations
@@ -14,6 +22,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +37,16 @@ RANK = {"verified": 4, "supported": 3, "context-dependent": 2, "hypothesis": 1, 
 LEVELED = re.compile(
     r"\((verified|supported|context-dependent|hypothesis|aesthetic)\b[^)]*\)\s*((?:\[SRC-[A-Z0-9]+-\d{3}\]\s*)+)"
 )
+
+
+# A vocabulary is loaded into context while judging, so its size is a budget.
+MAX_TERMS = 40
+MAX_LINES = 80
+CHECKS = {"exact", "jev", "judge"}
+RULE_ID = re.compile(r"`[a-z0-9]+(?:[.-][A-Za-z0-9-]+)+`")
+POINTER = re.compile(r"(?:([a-z0-9-]+)/)?references/vocabulary\.md")
+EXEMPT = re.compile(r"^metadata:\s*\n(?:[ \t]+.*\n)*?[ \t]+vocabulary:\s*[\"']?(vendor|house)[\"']?\s*$", re.M)
+STALE_DAYS = 365
 
 
 def registries(family: Path) -> list[Path]:
@@ -91,7 +110,103 @@ def check(family: Path, catalog: dict[str, str] | None = None) -> tuple[list[str
     return sorted(set(errors)), warnings
 
 
+def check_vocabulary(skill: Path, known: set[str]) -> tuple[list[str], list[str]]:
+    """Errors and warnings for one Skill's expert vocabulary."""
+    text = (skill / "SKILL.md").read_text(encoding="utf-8")
+    frontmatter = text.split("---", 2)[1] + "\n" if text.startswith("---") else ""
+    if EXEMPT.search(frontmatter):
+        return [], []
+    vocabulary = skill / "references" / "vocabulary.md"
+    if not vocabulary.exists():
+        # A pointer to a sibling's vocabulary counts, so a family keeps one copy.
+        targets = [skill.parent / (m.group(1) or skill.name) / "references" / "vocabulary.md" for m in POINTER.finditer(text)]
+        if any(t.exists() for t in targets):
+            return [], []
+        return [], ["no references/vocabulary.md, pointer, or metadata.vocabulary: vendor|house"]
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    lines = vocabulary.read_text(encoding="utf-8").splitlines()
+    if len(lines) > MAX_LINES:
+        errors.append(f"vocabulary.md has {len(lines)} lines, over {MAX_LINES}")
+    terms: list[str] = []
+    in_table = False
+    for line in lines:
+        if not line.startswith("|"):
+            in_table = False
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if cells and cells[0] == "Term":
+            in_table = True
+            continue
+        if not in_table or set("".join(cells)) <= set("-: "):
+            continue
+        term = cells[0] or "<no term>"
+        terms.append(term)
+        if len(cells) != 5 or not all(cells):
+            errors.append(f"{term}: needs 5 filled cells (Term, Definition, Source, Marker, Check)")
+            continue
+        ids = CITATION.findall(cells[2])
+        if not ids:
+            errors.append(f"{term}: names no [SRC-...] source")
+        for sid in ids:
+            if sid not in known:
+                errors.append(f"{term}: cites {sid}, which no registry lists")
+        kind = cells[4].split()[0]
+        if kind not in CHECKS:
+            errors.append(f"{term}: Check is {kind!r}, not one of {', '.join(sorted(CHECKS))}")
+        elif kind == "exact" and not RULE_ID.search(cells[4]):
+            warnings.append(f"{term}: exact check names no rule id yet")
+    if len(terms) > MAX_TERMS:
+        errors.append(f"vocabulary.md has {len(terms)} terms, over {MAX_TERMS}")
+    seen: set[str] = set()
+    for term in terms:
+        if term.lower() in seen:
+            errors.append(f"{term}: duplicate term")
+        seen.add(term.lower())
+    return errors, warnings
+
+
+def stale_sources(family: Path, today: date | None = None) -> list[str]:
+    """Sources nobody has re-read for a year; their findings may have moved."""
+    today = today or date.today()
+    warnings: list[str] = []
+    for registry in registries(family):
+        for entry in json.loads(registry.read_text(encoding="utf-8")).get("sources", []):
+            accessed = str(entry.get("accessed", ""))
+            if not DATE.match(accessed):
+                continue
+            parts = [int(p) for p in accessed.split("-")] + [1, 1]
+            if (today - date(parts[0], parts[1], parts[2])).days > STALE_DAYS:
+                warnings.append(f"{entry.get('id')}: accessed {accessed}, over {STALE_DAYS} days ago")
+    return warnings
+
+
+def vocabulary_main(strict: bool) -> int:
+    skills = ROOT / "skills"
+    known = set(catalog_levels(skills))
+    errors = warnings = missing = 0
+    for path in sorted(skills.glob("*/*/SKILL.md")):
+        errs, warns = check_vocabulary(path.parent, known)
+        for line in errs:
+            print(f"ERROR {path.parent.name}: {line}")
+        for line in warns:
+            print(f"warn  {path.parent.name}: {line}")
+        errors += len(errs)
+        warnings += len(warns)
+        missing += any(w.startswith("no references/vocabulary.md") for w in warns)
+    for family in sorted({r.parents[2] for r in skills.rglob("references/sources.json")}):
+        for line in stale_sources(family):
+            print(f"warn  {family.name}: {line}")
+            warnings += 1
+    print(f"vocabulary: {errors} errors, {warnings} warnings, {missing} skills without a vocabulary"
+          f"{'' if strict else ' (warn-only; --strict fails on errors)'}")
+    return 1 if strict and errors else 0
+
+
 def main(argv: list[str]) -> int:
+    if "--vocabulary" in argv:
+        return vocabulary_main("--strict" in argv)
     families = [Path(a) for a in argv] or sorted({r.parents[2] for r in (ROOT / "skills").rglob("references/sources.json")})
     catalog = catalog_levels(ROOT / "skills")
     failed = False

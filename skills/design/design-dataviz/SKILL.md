@@ -94,6 +94,9 @@ do not restate them.
 Charts on a slide: pick the chart here, the slide structure in
 `design-slides`. An audit of an existing dashboard pairs with
 `design-review`.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Gates
 

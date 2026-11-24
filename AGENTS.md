@@ -119,6 +119,7 @@ python3 -m unittest discover -s skills/writing/writing-core/tests
 python3 -m unittest discover -s skills/product/estimate-with-uncertainty/tests
 for t in skills/design/*/tests; do ls "$t"/test_*.py >/dev/null 2>&1 && python3 -m unittest discover -s "$t"; done
 python3 scripts/check-knowledge.py
+python3 scripts/check-knowledge.py --vocabulary
 npx playwright test -c skills/design/design-forms/tests
 npx playwright test -c skills/design/design-review/tests
 ```

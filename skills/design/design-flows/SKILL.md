@@ -46,6 +46,9 @@ engineering meets first: failures, interruptions, and missing permissions.
   changes, or several roles or people act on the same object.
 - `references/example-approval-flow.md` - a complete worked example that
   passes `flow_lint.py`; copy its structure.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Rules that change the result
 

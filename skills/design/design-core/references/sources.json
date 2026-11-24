@@ -3711,6 +3711,299 @@
    "limits": "A practitioner convention book, not a reading study; the page shows no date. Complements the 45-90 character range in SRC-WEB-018.",
    "evidence_level": "context-dependent",
    "revisit": "Evidence on measure in ch versus other approaches."
+  },
+  {
+   "id": "SRC-WEB-034",
+   "title": "Headings (Butterick's Practical Typography)",
+   "url": "https://practicaltypography.com/headings.html",
+   "publisher": "Matthew Butterick",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "typography"
+   ],
+   "findings": [
+    "Fewer heading levels and subtler emphasis: too many levels lead to desperate mixes of bold, italic, underlining, size and caps.",
+    "Use the smallest size increment that makes a visible difference between levels."
+   ],
+   "limits": "A practitioner book; the page shows no date. Conventions, not a reading study.",
+   "evidence_level": "context-dependent",
+   "revisit": "A new edition of the book."
+  },
+  {
+   "id": "SRC-WEB-035",
+   "title": "Modular scale (Every Layout)",
+   "url": "https://every-layout.dev/rudiments/modular-scale/",
+   "publisher": "Every Layout (Heydon Pickering, Andy Bell)",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "typography",
+    "css"
+   ],
+   "findings": [
+    "Sizes derive from one ratio applied repeatedly, expressed as custom properties and calc(), so every step relates to the others."
+   ],
+   "limits": "Practitioner convention; no evidence that a ratio beats hand-picked sizes for reading. The page shows no date.",
+   "evidence_level": "context-dependent",
+   "revisit": "A new edition of the book."
+  },
+  {
+   "id": "SRC-WEB-036",
+   "title": "font-variant-numeric (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "typography",
+    "css"
+   ],
+   "findings": [
+    "tabular-nums selects figures that all have the same width so numbers align as in tables (OpenType tnum); proportional-nums selects figures of varying width (pnum)."
+   ],
+   "limits": "Reference for the property; the effect depends on the font shipping tabular figures.",
+   "evidence_level": "verified",
+   "revisit": "The CSS Fonts specification changes the property."
+  },
+  {
+   "id": "SRC-WEB-037",
+   "title": "text-wrap (MDN)",
+   "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap",
+   "publisher": "MDN Web Docs",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "typography",
+    "css"
+   ],
+   "findings": [
+    "text-wrap: balance evens out line lengths across a broken heading; pretty trades speed for better layout in body copy, for example fewer orphans.",
+    "Baseline widely available since March 2024; some values may vary by browser."
+   ],
+   "limits": "Reference for the property; does not say when a lone last word is acceptable.",
+   "evidence_level": "verified",
+   "revisit": "Browser support for balance or pretty changes."
+  },
+  {
+   "id": "SRC-WEB-038",
+   "title": "Visual Hierarchy in UX: Definition (NN/g)",
+   "url": "https://www.nngroup.com/articles/visual-hierarchy-ux-definition/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2021-01-17",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "visual-design",
+    "layout"
+   ],
+   "findings": [
+    "A clear visual hierarchy guides the eye to the most important elements; it is created through color and contrast, scale, and grouping.",
+    "Pages where elements are all of similar size and color, without breathing room, give no starting point."
+   ],
+   "limits": "Practitioner definition with examples, not a controlled study.",
+   "evidence_level": "supported",
+   "revisit": "NN/g revises the article."
+  },
+  {
+   "id": "SRC-WEB-039",
+   "title": "Beyond Blue Links: Making Clickable Elements Recognizable (NN/g)",
+   "url": "https://www.nngroup.com/articles/clickable-elements/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2015-03-08",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "interaction",
+    "visual-design"
+   ],
+   "findings": [
+    "Interactive components need cues that suggest clickability (signifiers), flat style or not: borders, color, size, consistency, placement, and web conventions.",
+    "Do not style static text like links (blue or underlined); apply one link treatment consistently."
+   ],
+   "limits": "Based on usability-study observations; dated 2015, conventions may have shifted.",
+   "evidence_level": "supported",
+   "revisit": "NN/g revises the article or newer evidence on flat signifiers appears."
+  },
+  {
+   "id": "SRC-WEB-040",
+   "title": "Information Scent: How Users Decide Where to Go Next (NN/g)",
+   "url": "https://www.nngroup.com/articles/information-scent/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2020-02-02",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "interaction",
+    "navigation",
+    "content"
+   ],
+   "findings": [
+    "Users choose the links with the highest information scent, a mix of cues from the link label, the context it is shown in, and prior experience."
+   ],
+   "limits": "Practitioner article drawing on information-foraging theory; no thresholds a check can measure.",
+   "evidence_level": "supported",
+   "revisit": "NN/g revises the article."
+  },
+  {
+   "id": "SRC-WEB-041",
+   "title": "Using Grids in Interface Designs (NN/g)",
+   "url": "https://www.nngroup.com/articles/using-grids-in-interface-designs/",
+   "publisher": "Nielsen Norman Group",
+   "published": "2022-07-17",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "layout",
+    "visual-design"
+   ],
+   "findings": [
+    "Grids help create cohesive layouts that people can scan; elements and content align to columns (column grid) or to modules (modular grid).",
+    "A good grid adapts to screen sizes and orientations."
+   ],
+   "limits": "Practitioner article; gives no pixel tolerance for a near-miss edge.",
+   "evidence_level": "supported",
+   "revisit": "NN/g revises the article."
+  },
+  {
+   "id": "SRC-A11Y-031",
+   "title": "Understanding SC 1.4.3 Contrast (Minimum) (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "color"
+   ],
+   "findings": [
+    "Level AA: text and images of text need a contrast ratio of at least 4.5:1; large-scale text at least 3:1.",
+    "Exempt: incidental text (inactive components, pure decoration, invisible text, text in a picture with other significant content) and logotypes."
+   ],
+   "limits": "Normative text and the Understanding document; APCA is not part of this criterion.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation changes this criterion."
+  },
+  {
+   "id": "SRC-A11Y-032",
+   "title": "Understanding SC 2.4.7 Focus Visible (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "focus"
+   ],
+   "findings": [
+    "Level AA: any keyboard operable interface has a mode of operation where the keyboard focus indicator is visible; without it sighted keyboard users cannot operate the page."
+   ],
+   "limits": "Sets no size or contrast for the indicator; 2.4.13 Focus Appearance (AAA) does.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation changes this criterion."
+  },
+  {
+   "id": "SRC-A11Y-033",
+   "title": "Understanding SC 1.4.12 Text Spacing (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "typography"
+   ],
+   "findings": [
+    "Level AA: no loss of content or functionality when a user sets line height to 1.5 times the font size, paragraph spacing to 2 times, letter spacing to 0.12 times and word spacing to 0.16 times, changing no other style.",
+    "Scripts that do not use one of these properties conform with the properties they have."
+   ],
+   "limits": "Normative text and the Understanding document.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation changes this criterion."
+  },
+  {
+   "id": "SRC-A11Y-034",
+   "title": "Understanding SC 1.4.4 Resize Text (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "typography"
+   ],
+   "findings": [
+    "Level AA: except captions and images of text, text can be resized without assistive technology up to 200 percent without loss of content or functionality."
+   ],
+   "limits": "Normative text and the Understanding document.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation changes this criterion."
+  },
+  {
+   "id": "SRC-A11Y-035",
+   "title": "Understanding SC 4.1.2 Name, Role, Value (WCAG 2.2)",
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "publisher": "W3C WAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "accessibility",
+    "components"
+   ],
+   "findings": [
+    "Level A: for all user interface components the name and role can be programmatically determined, settable states and values can be set programmatically, and changes are notified to user agents including assistive technology."
+   ],
+   "limits": "Normative text and the Understanding document; axe-core rules test parts of it.",
+   "evidence_level": "verified",
+   "revisit": "WCAG 2.3 or a successor Recommendation changes this criterion."
+  },
+  {
+   "id": "SRC-VIZ-037",
+   "title": "The principle of proportional ink (Fundamentals of Data Visualization)",
+   "url": "https://clauswilke.com/dataviz/proportional-ink.html",
+   "publisher": "Claus O. Wilke",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "data-visualization"
+   ],
+   "findings": [
+    "The sizes of shaded areas need to be proportional to the data values they represent (Bergstrom and West).",
+    "A bar chart whose value axis starts above zero is misleading because bar heights are no longer proportional to the values."
+   ],
+   "limits": "A textbook by a practicing data scientist; the online edition shows no date.",
+   "evidence_level": "supported",
+   "revisit": "A new edition of the book."
+  },
+  {
+   "id": "SRC-VIZ-038",
+   "title": "Redundant coding (Fundamentals of Data Visualization)",
+   "url": "https://clauswilke.com/dataviz/redundant-coding.html",
+   "publisher": "Claus O. Wilke",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "data-visualization",
+    "color"
+   ],
+   "findings": [
+    "Encode a category with a second channel such as shape so it survives color-vision deficiency; colors that look alike to some readers fail otherwise.",
+    "Matching legend entries to lines costs mental effort; label the series directly in the figure instead of a legend."
+   ],
+   "limits": "A textbook by a practicing data scientist; the online edition shows no date.",
+   "evidence_level": "supported",
+   "revisit": "A new edition of the book."
   }
  ]
 }

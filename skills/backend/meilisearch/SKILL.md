@@ -1,6 +1,9 @@
 ---
 name: meilisearch
 description: Designs, configures, and debugs Meilisearch indexing, search settings, filters, ranking rules, synonyms, typo tolerance, multi-tenant indexes, and reindex/backfill flows. Use when adding Meilisearch, changing search relevance, debugging missing results, tuning facets, or operating search indexes.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Meilisearch
