@@ -3,7 +3,9 @@
 //   node design-loop.mjs <url> [--out dir] [--level aa|aaa] [--model provider/model] [--detail]
 //
 // Tiers, in order of cost:
-//   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector.
+//   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector. Also
+//            `measuredAudit("slop")`: `tell.glow` and `tell.gray-on-color` block; `tell.icon-tile` and
+//            `tell.nested-cards` are advisory (status "advisory", never fail the run).
 //   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow;
 //            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
 //            (title, text, divider, footnote) sit at different heights. The width sweep is 360 to 1592 px in 32 px steps (light). Jev asks the same of
@@ -13,6 +15,8 @@
 //            `layout.edge-near-miss` (text edges 1 to 6 px apart in one landmark) and `type.families`
 //            (more than 3). `type.widow` (`widowAudit`, a lone last word in a heading or bold text of 16 px
 //            or more) runs in the width sweep and reports bands, because it depends on wrapping.
+//            Per screenshot viewport and scheme, `measuredAudit`: `render.hidden-at-rest` (before any scrolling),
+//            `render.broken-image` and, last because it scrolls and restores, `render.text-occluded`.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page. `tell.sparse` ("is
 //            the page noticeably sparse") is a second Jev call of its own, so its context does not shift
@@ -414,6 +418,170 @@ export function tellsAudit() {
   return hits;
 }
 
+// Runs in the page (page.evaluate(measuredAudit, phase)). Rules measured on real pages, with their
+// thresholds, by colour and box arithmetic; every phase returns exact findings with an element.
+//   "slop"  dom tier, once: tell.glow, tell.gray-on-color (blocking); tell.icon-tile, tell.nested-cards
+//           (advisory: true, their thresholds rest on synthetic fixtures with narrow margins).
+//   "rest"  audit tier, per viewport and scheme, before any scrolling: render.hidden-at-rest, render.broken-image.
+//   "late"  audit tier, run last because it scrolls (and restores): render.text-occluded.
+export function measuredAudit(phase) {
+  const T = { glowBlur: 24, glowAlpha: 0.2, glowChroma: 0.25, glowStrength: 12, glowMin: 48, bigBox: 200, tileMin: 32, tileMax: 128, tileGap: 40, tileChroma: 0.05,
+    cardMinW: 120, cardMinH: 56, cardRadius: 6, nestedOuterPad: 20, grayChromaMax: 0.08, grayLMin: 0.3, grayLMax: 0.75, bgSatMin: 0.4, grayBgLMax: 0.8, occCover: 0.4, cap: 10 };
+  const found = [];
+  const cs = (el, p) => getComputedStyle(el, p);
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "");
+  const textOf = (el) => (el.innerText || el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 40);
+  const add = (rule, el, extra) => { if (found.filter((f) => f.rule === rule).length < T.cap) found.push({ rule, element: name(el), ...extra }); };
+  const canvas = document.createElement("canvas"); canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  const memo = new Map();
+  const parse = (s) => { // canvas takes rgb, oklch, color() and hex alike
+    if (!memo.has(s)) {
+      let v = null;
+      try { ctx.clearRect(0, 0, 1, 1); ctx.fillStyle = "#000"; ctx.fillStyle = s; ctx.fillRect(0, 0, 1, 1); const d = ctx.getImageData(0, 0, 1, 1).data; v = { r: d[0], g: d[1], b: d[2], a: d[3] / 255 }; } catch { /* unparsable colour: unknown */ }
+      memo.set(s, v);
+    }
+    return memo.get(s);
+  };
+  const COLOR = /(rgba?\([^)]*\)|oklab\([^)]*\)|oklch\([^)]*\)|color\([^)]*\)|hsla?\([^)]*\)|#[0-9a-fA-F]{3,8})/g;
+  const chroma = (c) => (Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b)) / 255;
+  const hsl = (c) => { const [r, g, b] = [c.r / 255, c.g / 255, c.b / 255], mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, l = (mx + mn) / 2; return { l, s: d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1)) }; };
+  const ownBg = (el) => { // a solid colour, the mean of gradient stops, or {unknown} for an image
+    const s = cs(el), bi = s.backgroundImage;
+    if (bi && bi !== "none") {
+      if (/url\(/.test(bi) && !/gradient/.test(bi)) return { unknown: true };
+      const cols = (bi.match(COLOR) || []).map(parse).filter((c) => c && c.a > 0.05);
+      if (cols.length) { const n = cols.length, m = (k) => cols.reduce((a, c) => a + c[k], 0) / n; return { r: m("r"), g: m("g"), b: m("b"), a: 1 }; }
+    }
+    const c = parse(s.backgroundColor);
+    return c && c.a > 0.02 ? c : null;
+  };
+  const effBg = (el) => { // layers blended up to the first opaque one; null when an image sits behind
+    const layers = [];
+    for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const b = ownBg(e); if (b?.unknown) return null; if (b) { layers.push(b); if (b.a >= 0.99) break; } }
+    let acc = { r: 255, g: 255, b: 255 };
+    for (const b of layers.reverse()) acc = { r: acc.r * (1 - b.a) + b.r * b.a, g: acc.g * (1 - b.a) + b.g * b.a, b: acc.b * (1 - b.a) + b.b * b.a };
+    return acc;
+  };
+  const all = [...document.body.querySelectorAll("*")].filter((e) => !/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|PATH|DEFS|LINEARGRADIENT|STOP|BR)$/i.test(e.tagName));
+  const leaves = [];
+  for (const el of all) {
+    if (el.closest("svg") && !(el instanceof SVGTextElement) && el.tagName.toLowerCase() !== "svg") continue;
+    const own = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim());
+    if (own.length) leaves.push({ el, text: own.map((n) => n.textContent).join(" ").trim().replace(/\s+/g, " "), node: own[0] });
+  }
+  const isHeading = (el) => /^H[1-6]$/.test(el.tagName) || (parseFloat(cs(el).fontSize) >= 18 && +cs(el).fontWeight >= 600 && el.textContent.trim().length < 120);
+  const pinned = (el, position) => { for (let p = el; p && p.nodeType === 1; p = p.parentElement) if (cs(p).position === position) return true; return false; };
+
+  if (phase === "slop") {
+    const splitTop = (s) => { const parts = []; let depth = 0, cur = ""; for (const ch of s) { if (ch === "(") depth++; if (ch === ")") depth--; if (ch === "," && depth === 0) { parts.push(cur.trim()); cur = ""; } else cur += ch; } if (cur.trim()) parts.push(cur.trim()); return parts; };
+    for (const el of all) { // tell.glow: a coloured large soft box-shadow, a radial-gradient halo or a big blur() blob
+      const s = cs(el), r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2 || s.display === "none") continue;
+      for (const sh of s.boxShadow && s.boxShadow !== "none" ? splitTop(s.boxShadow) : []) {
+        if (/inset/.test(sh)) continue;
+        const col = parse((sh.match(COLOR) || [])[0] || ""); if (!col) continue;
+        const [ox = 0, oy = 0, blur = 0, spread = 0] = (sh.replace(COLOR, "").match(/-?[\d.]+px/g) || []).map(parseFloat);
+        if (blur >= T.glowBlur && col.a >= T.glowAlpha && chroma(col) >= T.glowChroma && (blur + 2 * spread) * col.a >= T.glowStrength && Math.max(r.width, r.height) >= T.glowMin && Math.hypot(ox, oy) <= blur * 0.75)
+          add("tell.glow", el, { detail: `coloured soft shadow, blur ${blur} px, alpha ${+col.a.toFixed(2)}: a glow; use a neutral elevation or a border` });
+      }
+      const bg = s.filter && /blur\(/.test(s.filter) ? ownBg(el) : null;
+      if (bg && !bg.unknown && parseFloat((s.filter.match(/blur\(([\d.]+)px/) || [])[1]) >= 40 && chroma(bg) >= T.glowChroma && r.width >= T.bigBox) add("tell.glow", el, { detail: "blurred coloured blob behind the content: a glow" });
+      for (const pseudo of [null, "::before", "::after"]) {
+        const p = pseudo ? cs(el, pseudo) : s;
+        if (pseudo && (p.content === "none" || p.content === "normal")) continue;
+        if (!/radial-gradient/.test(p.backgroundImage || "")) continue;
+        const cols = (p.backgroundImage.match(COLOR) || []).map(parse).filter(Boolean);
+        const solid = cols.some((c) => c.a >= T.glowAlpha && chroma(c) >= T.glowChroma), fades = cols.some((c) => c.a < 0.6) || /transparent/.test(p.backgroundImage);
+        const w = (pseudo && parseFloat(p.width)) || r.width, h = (pseudo && parseFloat(p.height)) || r.height;
+        if (solid && fades && w >= T.bigBox && h >= T.bigBox * 0.6 && (pseudo || p.position === "absolute" || p.position === "fixed" || !el.textContent.trim()))
+          add("tell.glow", el, { detail: `radial gradient halo ${Math.round(w)} x ${Math.round(h)} px: a glow` });
+      }
+    }
+    for (const { el, text } of leaves) { // tell.gray-on-color: mid-gray text on a saturated background; a pale tint or near-black is exempt
+      const fg = parse(cs(el).color);
+      if (text.length < 2 || !fg || fg.a < 0.5 || !el.checkVisibility()) continue;
+      const bg = effBg(el); if (!bg) continue;
+      const L = hsl(fg).l, b = hsl(bg);
+      if (chroma(fg) <= T.grayChromaMax && L >= T.grayLMin && L <= T.grayLMax && b.s >= T.bgSatMin && b.l > 0.08 && b.l < T.grayBgLMax)
+        add("tell.gray-on-color", el, { detail: `gray text ${cs(el).color} on a saturated background: tint the text from the background hue or use white or black` });
+    }
+    const tiles = []; // tell.icon-tile (advisory): the same tinted near-square icon tile above a heading, 2 or more times
+    for (const el of all) {
+      const r = el.getBoundingClientRect(), s = cs(el), bg = ownBg(el);
+      if (r.width < T.tileMin || r.width > T.tileMax || r.height < T.tileMin || r.height > T.tileMax || r.width / r.height < 0.8 || r.width / r.height > 1.25 || s.display === "inline") continue;
+      if (!bg || bg.unknown || chroma(bg) < T.tileChroma || (parseFloat(s.borderTopLeftRadius) < 4 && !/%/.test(s.borderTopLeftRadius))) continue;
+      const pbg = el.parentElement && effBg(el.parentElement);
+      if (pbg && Math.hypot(bg.r - pbg.r, bg.g - pbg.g, bg.b - pbg.b) < 8) continue;
+      const t = el.textContent.trim();
+      if (!(el.querySelector("svg, img, i, [class*=icon]") || /^[\p{Extended_Pictographic}\s]{1,4}$/u.test(t)) || (t.length > 4 && !/^[\p{Extended_Pictographic}\s]+$/u.test(t))) continue;
+      let node = el, heading = null;
+      for (let up = 0; up < 3 && node && !heading; up++, node = node.parentElement) {
+        const n = node.nextElementSibling; if (!n) continue;
+        heading = isHeading(n) ? n : n.firstElementChild && isHeading(n.firstElementChild) ? n.firstElementChild : null;
+        if (up === 0 && !heading) break;
+      }
+      if (!heading) continue;
+      const h = heading.getBoundingClientRect(), gap = h.top - r.bottom;
+      if (gap >= -2 && gap <= T.tileGap && (Math.abs(h.left - r.left) <= 12 || Math.abs(h.left + h.width / 2 - (r.left + r.width / 2)) <= 12))
+        tiles.push({ el, key: `${Math.round(r.width)}x${Math.round(r.height)}|${Math.round(bg.r)},${Math.round(bg.g)},${Math.round(bg.b)}` });
+    }
+    const byKey = Object.groupBy(tiles, (t) => t.key);
+    for (const g of Object.values(byKey)) if (g.length >= 2) add("tell.icon-tile", g[0].el, { advisory: true, detail: `${g.length} identical tinted icon tiles above headings: use the real icon without a tile, or vary the layout` });
+    const isCard = (el) => { // tell.nested-cards (advisory): a bordered or shadowed opaque card inside another, the outer padded 20 px or more
+      if (/^(PRE|BUTTON|INPUT|SELECT|TEXTAREA|A|TD|TH|TR|TABLE|LI|SUMMARY|IMG|SVG)$/i.test(el.tagName)) return false;
+      const s = cs(el), r = el.getBoundingClientRect(), bg = ownBg(el);
+      if (s.display === "inline" || r.width < T.cardMinW || r.height < T.cardMinH || (parseFloat(s.borderTopLeftRadius) < T.cardRadius && !/%/.test(s.borderTopLeftRadius)) || !bg || bg.unknown || bg.a < 0.9) return false;
+      const bordered = ["Top", "Right", "Bottom", "Left"].every((d) => parseFloat(s["border" + d + "Width"]) >= 1 && (parse(s["border" + d + "Color"]) || { a: 0 }).a > 0.05 && s["border" + d + "Style"] !== "none");
+      return bordered || (s.boxShadow && s.boxShadow !== "none");
+    };
+    const cards = new Set(all.filter(isCard));
+    for (const el of cards) {
+      let p = el.parentElement; while (p && !cards.has(p)) p = p.parentElement;
+      if (p && p !== document.body && parseFloat(cs(p).paddingLeft) >= T.nestedOuterPad) add("tell.nested-cards", el, { advisory: true, detail: `card inside card (${name(p)}): drop the inner border and shadow, or split the content` });
+    }
+  }
+
+  if (phase === "rest") {
+    const scrolls = (el) => { for (let p = el.parentElement; p && p !== document.documentElement; p = p.parentElement) if (/(auto|scroll)/.test(cs(p).overflowX) && p.scrollWidth > p.clientWidth + 2) return true; return false; };
+    const pageWidth = Math.max(document.documentElement.scrollWidth, innerWidth);
+    for (const { el, text } of leaves) { // render.hidden-at-rest: text that is in the layout but never shown (a reveal that did not fire, off-screen, visibility)
+      const s = cs(el), r = el.getBoundingClientRect();
+      if (text.length < 3 || s.display === "none" || r.width <= 1 || r.height <= 1) continue;
+      if (el.closest("[hidden], details:not([open]) :not(summary), [role=tooltip], [aria-hidden=true], dialog:not([open]), template")) continue; // collapsed, tooltips, skip links
+      if (!el.checkVisibility({ checkOpacity: false, checkVisibilityCSS: false, contentVisibilityAuto: true })) continue;
+      let opacity = 1; for (let p = el; p && p.nodeType === 1; p = p.parentElement) opacity *= +cs(p).opacity;
+      const why = opacity < 0.02 ? `opacity ${opacity.toFixed(2)}` : s.visibility === "hidden" ? "visibility: hidden" : (r.right <= 0 || r.left >= pageWidth) && !scrolls(el) && !pinned(el, "fixed") && !el.closest("a[href^='#']") ? `off-screen at x ${Math.round(r.left)} px` : null;
+      if (why) add("render.hidden-at-rest", el, { text, observed: why, required: "visible text at rest, or hidden on purpose (hidden, aria-hidden, a scroll container, a collapsed section)" });
+    }
+    for (const img of document.images) { // render.broken-image: loaded, nothing decoded
+      if (img.complete && img.naturalWidth === 0 && (img.currentSrc || img.getAttribute("src") !== null || img.getAttribute("srcset"))) add("render.broken-image", img, { text: (img.getAttribute("alt") || "").slice(0, 40), observed: "naturalWidth 0: " + (img.currentSrc || img.getAttribute("src") || "").slice(-60), required: "an image that decodes" });
+    }
+  }
+
+  if (phase === "late") { // render.text-occluded: an opaque box on top of the text, found by elementFromPoint with the text scrolled to mid screen
+    const [sx, sy] = [scrollX, scrollY];
+    for (const { el, text, node } of leaves) {
+      if (text.length < 3 || cs(el).visibility === "hidden" || +cs(el).opacity < 0.5 || !el.checkVisibility()) continue;
+      const range = document.createRange(); range.selectNodeContents(node);
+      const first = [...range.getClientRects()].find((x) => x.width > 4 && x.height > 4); if (!first) continue;
+      scrollTo(sx, Math.max(0, first.top + sy - innerHeight / 2));
+      const rect = range.getClientRects()[0]; if (!rect) continue;
+      const points = [0.5, 0.1, 0.3, 0.7, 0.9].map((f) => [rect.left + rect.width * f, rect.top + rect.height / 2]).filter(([x, y]) => x >= 0 && y >= 0 && x < innerWidth && y < innerHeight);
+      let covered = 0, by = null;
+      for (const [x, y] of points) {
+        const top = document.elementFromPoint(x, y);
+        if (!top || top === el || el.contains(top) || top.contains(el) || pinned(top, "fixed") || pinned(top, "sticky") || (top.textContent || "").includes(text)) continue; // pinned chrome is not caught; a wrapper or a duplicate is not a cover
+        const tb = ownBg(top), solid = /^(IMG|VIDEO|CANVAS)$/i.test(top.tagName) || (tb && !tb.unknown && tb.a >= 0.95 && +cs(top).opacity >= 0.95);
+        if (solid) { covered++; by = top; }
+      }
+      if (points.length && covered && covered / points.length >= T.occCover - 1e-9) add("render.text-occluded", el, { text, observed: `covered by ${name(by)} at ${covered} of ${points.length} points`, required: "text that no box covers" });
+    }
+    scrollTo(sx, sy);
+  }
+  return found;
+}
+
 // Runs in the page on one diagram element (locator.evaluate). Exact geometry checks on inline
 // SVG, so no model is needed for these: text past the smallest box around it (or past the
 // foreignObject that clips it), text boxes on top of each other, and a stroke-only line that
@@ -593,6 +761,7 @@ async function shoot(page, outDir, level) {
   for (const s of SHOTS) {
     await page.setViewportSize({ width: s.width, height: 800 });
     await page.emulateMedia({ colorScheme: s.scheme, reducedMotion: "reduce" });
+    for (const f of await page.evaluate(measuredAudit, "rest")) audit.push({ key: "render", ...f, viewport: s.width, scheme: s.scheme }); // before any scrolling
     const height = await page.evaluate(() => document.documentElement.scrollHeight);
     const path = join(outDir, s.name + ".png");
     const buffer = await page.screenshot({ fullPage: true, clip: { x: 0, y: 0, width: s.width, height: Math.min(Math.max(height, 280), MAX_SIDE) } });
@@ -601,6 +770,7 @@ async function shoot(page, outDir, level) {
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
     for (const f of await page.evaluate(craftAudit)) audit.push({ key: "craft", ...f, viewport: s.width, scheme: s.scheme });
+    for (const f of await page.evaluate(measuredAudit, "late")) audit.push({ key: "render", ...f, viewport: s.width, scheme: s.scheme }); // last: it scrolls and restores
   }
   // Card drift depends on how the text wraps, so it is measured over a width sweep (DOM only, light).
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
@@ -768,12 +938,12 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   // A diagram far down a long page never reaches the 1568 px screenshots: each gets its own shot.
   const notes = [];
   const diagrams = await shootDiagrams(page, outDir, notes);
-  const dom = await page.evaluate(tellsAudit);
+  const dom = [...await page.evaluate(tellsAudit), ...await page.evaluate(measuredAudit, "slop")];
   const text = await page.evaluate(pageText, MAX_TEXT_BLOCKS);
   const textHits = uiInstructions(text);
   const headlines = await page.evaluate(() => [...document.querySelectorAll("h1, h2")].slice(0, 6).map((h) => h.textContent.trim().replace(/\s+/g, " ").slice(0, 120)));
   const findings = [
-    ...dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { element: d.element, where: "desktop-light" }, detail: d.detail })),
+    ...dom.map((d) => ({ rule: d.rule, status: d.advisory ? "advisory" : "fail", tier: "dom", confidence: 1, evidence: { element: d.element, where: "desktop-light" }, detail: d.detail })),
     ...auditFindings(audit),
     ...diagrams.flatMap((g) => g.dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { diagram: g.name, where: g.where, element: d.text }, detail: d.detail }))),
     ...textHits.map((t) => ({ rule: "text.ui-instructions", status: "fail", tier: "dom", confidence: 1, evidence: { text: t, where: "page text" }, detail: "tells the reader how to operate the page; cut it and fix the design so the page shows it (a hint for screen readers goes in aria-label)" })),

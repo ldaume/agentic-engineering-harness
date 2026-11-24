@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hidden ok</title>
+<style>body{margin:0;font:16px/1.5 system-ui;padding:24px}section{margin:0 0 30px;max-width:640px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tip{opacity:0;position:absolute;background:#111;color:#fff;padding:4px}
+.drawer{position:fixed;top:0;left:0;width:260px;height:100%;background:#fff;transform:translateX(-100%);padding:16px}
+.car{display:flex;gap:12px;overflow-x:auto;width:360px}.car div{flex:0 0 300px;background:#eee;padding:8px}
+.skip{position:absolute;left:-999px}.skip:focus{left:0}</style></head>
+<body><a class="skip" href="#m">Skip to content</a><span class="sr">Screen reader only label</span>
+<section id="m"><h2>Normal page</h2><p>All of this text is visible.</p><button>Info</button><span class="tip" role="tooltip">Tooltip text hidden until hover</span>
+<details><summary>More</summary><p>Collapsed details content.</p></details><p hidden>Hidden attribute text.</p>
+<div class="car"><div>Slide one text</div><div>Slide two text</div><div>Slide three text</div></div></section>
+<nav class="drawer">Mobile navigation drawer, closed</nav></body></html>

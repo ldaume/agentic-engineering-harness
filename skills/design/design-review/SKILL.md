@@ -67,7 +67,11 @@ product descriptions at most 0.44, except a how-to step inside a product
 the bottom edge made it fail two clean pages in 4 of 5 runs; it now scores them 0.10 to 0.21 and
 real defects 0.64 to 0.95. It also measures type and layout craft from the DOM (text under 12 px, near-duplicate font
 sizes, a lone last word in a heading or bold text, text edges a few pixels off one another, more
-than 3 font families) and asks Jev, in a call of its own, whether the page is noticeably sparse; the rules, thresholds and
+than 3 font families), and seven more measured rules: a coloured glow, gray text on a saturated
+background, a hidden-at-rest section, a broken image, and text covered by an opaque box block the run;
+repeated icon tiles and nested cards are listed as advisory and never fail it. Each blocking rule had no
+false alarm on 2 real clean pages, 3 clean references and 12 live product-UI runs, a small sample tuned on
+itself, and pinned chrome covering text is not caught. It also asks Jev, in a call of its own, whether the page is noticeably sparse; the rules, thresholds and
 the ones that were measured and dropped are in `references/browser-verification.md`.
 It writes `.design-loop/design-loop.json`
 (findings with rule, tier, confidence, evidence, cost) and exits 1 on a
@@ -80,7 +84,7 @@ failures the reviewer found at about 2% of its cost, and half the pages
 needed no model beyond Jev.
 Tests with model calls stubbed: `tests/design-loop.spec.mjs` with the
 fixtures `tests/fixtures/generic.html`, `diagram-broken.html`, `text-instructions.html` and the
-`type-*-bad.html` and `layout-edge-bad.html` files (must be flagged) and `clean.html` and `diagram-clean.html` (must pass).
+`type-*-bad.html`, `layout-edge-bad.html`, `tell-*-bad.html` and `render-*-bad.html` files (must be flagged) and `clean.html` and `diagram-clean.html` (must pass).
 
 ## Load when
 
