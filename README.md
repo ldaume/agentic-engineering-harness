@@ -44,7 +44,7 @@ complete prompts for one repository and for a workspace are under
 
 | Part | What it gives you | Built by |
 |---|---|---|
-| [Skills catalog](#catalog) | 46 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
+| [Skills catalog](#catalog) | 47 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
 | Repository harness | Agent instructions, context, checks, and an [operating level](#operating-levels) from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.1.0 |
 | Multi-repository workspace | A working root and a coordinator repository that every agent session reads before it works | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md#multi-repository-workspace) 3.1.0 |
 | Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.1.0 |
@@ -296,7 +296,7 @@ resolved by reusing an existing Skill or writing a project-local one with
 
 | Category | Skills |
 |---|---|
-| [Engineering](./skills/engineering/README.md) | `scaffold-harness`, `agent-sync`, `update-harness`, `grill-harness-with-docs`, `start-gate`, `coding-discipline`, `completion-gate`, `shift-left-security`, `documentation-and-adrs`, `deliver-dependency-upgrades`, `build-autonomous-agents`, `learn-agentic-engineering`, `write-a-skill`, `scaffold-monorepo`, `pnpm` |
+| [Engineering](./skills/engineering/README.md) | `scaffold-harness`, `agent-sync`, `update-harness`, `grill-harness-with-docs`, `start-gate`, `coding-discipline`, `completion-gate`, `shift-left-security`, `documentation-and-adrs`, `deliver-dependency-upgrades`, `build-autonomous-agents`, `learn-agentic-engineering`, `write-a-skill`, `scaffold-monorepo`, `pnpm`, `renovate` |
 | [Product](./skills/product/README.md) | `product-craft`, `run-product-engineering`, `integrate-product-compliance`, `plain-numbers` |
 | [Design](./skills/design/README.md) | `design-core`, `design-research`, `design-flows`, `design-forms`, `design-product-ui`, `design-web`, `design-dataviz`, `design-slides`, `design-systems`, `design-review` |
 | [Writing](./skills/writing/README.md) | `writing-core`, `writing-editorial`, `writing-marketing`, `writing-product`, `writing-engineering` |
