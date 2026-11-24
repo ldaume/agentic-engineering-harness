@@ -63,6 +63,17 @@ which is about surviving user overrides. Diagram sources (`.mermaid`), script
 and style are skipped; background images are not composited. Worked tests:
 `tests/reading-audit.spec.mjs` with `tests/playwright.config.mjs` (`npx playwright test -c skills/design/design-review/tests`).
 
+## Card rows
+
+`scripts/design-loop.mjs` also runs `layout.alignment` (`alignmentAudit`) in the
+audit tier at every viewport: for 3 or more same-width siblings in one visual
+row, each with 2 or more block children, the same child (title, text, divider,
+footnote) must sit within 4 px of its twin, or share a bottom edge. A wrapped
+row is compared per visual row; cards built differently are skipped. The usual
+fix is CSS subgrid (`grid-row: span N; grid-template-rows: subgrid`). Worked
+fixtures: `tests/fixtures/align-drift.html` (fails), `align-subgrid.html`,
+`align-equal.html` and `align-wrapped.html` (pass).
+
 ## Checklist
 
 - Desktop and mobile widths; the breakpoints the layout actually uses.

@@ -4,7 +4,9 @@
 //
 // Tiers, in order of cost:
 //   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector.
-//   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow.
+//   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow;
+//            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
+//            (title, text, divider, footnote) sit at different heights.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
@@ -116,6 +118,48 @@ export function decide(rule, answer = {}) {
   if (p >= (rule.yes ?? YES)) return { status: "fail", confidence: p, probability: p };
   if (p <= (rule.no ?? NO)) return { status: "pass", confidence: 1 - p, probability: p };
   return { status: "unsure", confidence: Math.abs(p - 0.5) * 2, probability: p };
+}
+
+// Runs in the page. Cards in one visual row (3+ siblings, same width, same structure, 2+ block
+// children each) must line up part by part: the same child's top, a divider's included, may
+// differ by at most TOL px, unless the bottoms line up (a part that grows to fill the card).
+// A wrapped row is compared per visual row; fewer than 3 in a row is not a card row.
+// Limit: structure is compared by tag sequence, two levels deep; cards of different build are skipped.
+export function alignmentAudit() {
+  const TOL = 4;
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/).join(".") : "");
+  const kids = (el) => [...el.children].filter((c) => c.getClientRects().length > 0 && getComputedStyle(c).position !== "absolute" && getComputedStyle(c).position !== "fixed");
+  const block = (el) => !getComputedStyle(el).display.startsWith("inline");
+  const spread = (xs) => Math.round(Math.max(...xs) - Math.min(...xs));
+  const out = [];
+  const compare = (cards, depth) => {
+    const lists = cards.map((c) => kids(c).filter(block));
+    if (lists[0].length < 2 || lists.some((l) => l.map((e) => e.tagName).join() !== lists[0].map((e) => e.tagName).join())) return;
+    for (let i = 0; i < lists[0].length; i++) {
+      const col = lists.map((l) => l[i].getBoundingClientRect());
+      const top = spread(col.map((r) => r.top));
+      if (top > TOL && spread(col.map((r) => r.bottom)) > TOL) {
+        const text = lists[0][i].textContent.trim().replace(/\s+/g, " ").slice(0, 40);
+        out.push({ element: `${name(cards[0])} > ${name(lists[0][i])} (child ${i + 1})`, text, observed: `${top} px spread across ${cards.length} cards`, required: `within ${TOL} px` });
+        return; // everything below drifts with it
+      }
+      if (depth < 2) compare(lists.map((l) => l[i]), depth + 1);
+    }
+  };
+  for (const parent of document.body.querySelectorAll("*")) {
+    const items = kids(parent).filter(block);
+    const rows = new Map();
+    for (const el of items) {
+      const r = el.getBoundingClientRect();
+      const key = [...rows.keys()].find((t) => Math.abs(t - r.top) <= 2) ?? r.top;
+      rows.set(key, [...(rows.get(key) || []), el]);
+    }
+    for (const row of rows.values()) {
+      const w = row.map((e) => e.getBoundingClientRect().width);
+      if (row.length >= 3 && spread(w) <= 0.1 * Math.max(...w)) compare(row, 0);
+    }
+  }
+  return out;
 }
 
 // Runs in the page (page.evaluate). Each tell is a default taken without a decision;
@@ -298,6 +342,7 @@ async function shoot(page, outDir, level) {
     shots.push({ ...s, path, base64: buffer.toString("base64") });
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
+    for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: s.width, scheme: s.scheme });
   }
   return { shots, audit };
 }
@@ -307,7 +352,7 @@ function auditFindings(audit) {
   for (const f of audit) {
     const id = `${f.key}|${f.element}|${f.text}`;
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
-    seen.set(id, { rule: "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
+    seen.set(id, { rule: f.key === "alignment" ? "layout.alignment" : "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
   return [...seen.values()];
 }
