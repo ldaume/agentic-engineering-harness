@@ -47,7 +47,9 @@ From this skill's directory, run
 --lang <de|en> FILE` with type one of `agile_status|fast_roadmap|agile_progress|product_document`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
-warning, because warnings are heuristics, not rules.
+warning, because warnings are heuristics, not rules. Load
+`writing-core/references/vocabulary.md` before judging and name each defect by
+its term; a finding's `rules` id points at its row.
 
 ## Done when
 

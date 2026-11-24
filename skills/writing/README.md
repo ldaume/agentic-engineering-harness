@@ -16,6 +16,11 @@ short email and a status report is not a ticket inventory.
 Domain skills summarize the core contract inline, so each works when installed
 alone; with the core installed beside them they also get its quality gate.
 
+`writing-core/references/vocabulary.md` holds the family's expert vocabulary
+(38 terms, each with a source, an observable marker, and how it is checked);
+every `writing-*` skill loads it before judging, and
+`scripts/check-knowledge.py --vocabulary` validates it.
+
 Neighbors split the work instead of competing: `product-craft` decides what to
 build and these skills write it up; `plain-numbers` owns how metrics read and
 is loaded alongside status and executive text; `documentation-and-adrs`

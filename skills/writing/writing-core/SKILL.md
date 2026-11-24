@@ -55,7 +55,8 @@ detail destroys the trust the rest of the text earned.
    concrete), language-native, copy (terms, spelling, dates), proof (names,
    numbers, links), then the AI-tell pass (`references/ai-tells.md`). Separate
    passes, because one combined pass fixes commas and misses a wrong order,
-   and a line edit tightens a tell instead of removing it.
+   and a line edit tightens a tell instead of removing it. Load
+   `references/vocabulary.md` before judging and name each defect by its term.
 5. Verify: classify each claim as sourced fact, inference, recommendation, or
    unknown. Re-check time-sensitive or externally published facts at the
    source. For AI-assisted text, fact-check body and metadata by hand
@@ -131,7 +132,7 @@ in CI. `tests/run_evals.py routing --host claude|codex` replays
 host actually loads; run it after changing any description.
 
 `references/sources.json` is the evidence registry for all five writing
-skills (60 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
+skills (71 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
 limits, evidence level, and a revisit trigger); rules cite it as
 `[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
 citation without an entry.
