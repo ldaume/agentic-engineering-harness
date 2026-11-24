@@ -9,6 +9,13 @@
 | First use | Lower density, empty states that teach, one next action | Learnability dominates |
 | Mixed audience | A named density setting applied to table, header, and toolbar together (context-dependent) [SRC-PROD-014] | One setting, consistent result |
 
+In dense tools, lower the visual weight of navigation and orientation once
+the person has arrived (a dimmer sidebar, compact tabs, fewer decorative
+icons); the work object keeps the contrast. Linear applied this in its 2026
+refresh as "don't compete for attention you haven't earned"
+(context-dependent) [SRC-PROD-037]. Keep the current location visible and
+contrast above AA.
+
 ## Navigation and information architecture
 
 - Structure follows the objects and tasks people know, not the org chart;
@@ -94,6 +101,12 @@ Status always pairs color with text or a symbol (verified for 1.4.1)
 [SRC-A11Y-001] [SRC-PROD-016].
 
 ## Dark mode
+
+Follow the OS preference with a three-way control (system, light, dark),
+persisted per person. If one default must be forced on a general audience,
+choose light: it performed better for people with normal vision in the
+studies NN/g reviews, and dark mode may help some low-vision users, so offer
+it (supported) [SRC-PROD-036]. Test both modes.
 
 Step surfaces lighter as they rise (context-dependent) [SRC-PROD-017];
 override semantic tokens, never component styles (context-dependent)

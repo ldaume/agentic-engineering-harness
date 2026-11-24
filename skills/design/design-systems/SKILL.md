@@ -43,6 +43,11 @@ encodes a guess; never abstract and every team re-solves focus handling.
    breaking flag (supported) [SRC-PROD-029] [SRC-PROD-026].
 8. Keep design and code linked and reviewed (context-dependent)
    [SRC-PROD-027].
+9. Write for agents as consumers of the system: usage rules and do/don't
+   with the reason, typed props, one canonical example per variant, lint
+   rules for what a machine can check, and accepted decisions kept in the
+   repository (supported) [SRC-TOOL-009] [SRC-PROD-035]. Detail in
+   `references/governance.md`.
 
 ## Load when
 

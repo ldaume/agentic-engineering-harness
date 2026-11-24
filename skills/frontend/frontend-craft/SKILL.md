@@ -145,6 +145,9 @@ Avoid:
 - Use stable dimensions for buttons, toolbars, rows, grids, counters, and
   dynamic labels.
 - Do not animate layout properties; use transform and opacity.
+- Web fonts: at most two families, WOFF2, subset, preload only the LCP-text
+  font, `font-display: swap` with a metric-matched fallback (rules in
+  `design-web/references/performance.md`).
 - Respect `prefers-reduced-motion`.
 - Motion guides focus: check every context change for a missing transition,
   animate at most one element for attention at a time, and move keyboard
