@@ -1,6 +1,8 @@
 ---
 name: deliver-dependency-upgrades
 description: Assess and deliver dependency version changes from a bot signal through source-backed impact analysis, adaptation, protected integration, rollout, observation, rollback, and linked feature-opportunity capture. Use when a dependency bump must pass through its bounded production lifecycle. Do not use for updater configuration, managed Skill pins, isolated CI repair, or release-note summaries.
+metadata:
+  vocabulary: house
 ---
 
 # Deliver Dependency Upgrades
