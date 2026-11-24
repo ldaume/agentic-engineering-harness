@@ -17,8 +17,8 @@
 // The screenshots leave the machine: do not point it at a page that shows secrets or tokens.
 // Exit code 1 when a finding fails, so a hook or CI step can block on it.
 // Playwright refuses file:// in some sandboxes: serve the page on 127.0.0.1.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { readFileSync, writeFileSync, mkdirSync, realpathSync } from "node:fs";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
@@ -322,16 +322,15 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   return report;
 }
 
-// Playwright from the project the agent works in first: an installed Skill has no node_modules.
-export async function loadChromium(cwd) {
-  const local = createRequire(join(cwd, "package.json"));
-  for (const name of ["playwright", "@playwright/test"]) {
-    try { return local(name).chromium; } catch {}
+// Playwright from the project the agent works in first, then from beside the script: an installed Skill has no node_modules.
+export async function loadChromium(cwd, scriptDir = dirname(realpathSync(fileURLToPath(import.meta.url)))) {
+  for (const dir of [cwd, scriptDir]) {
+    const req = createRequire(join(dir, "package.json"));
+    for (const name of ["playwright", "@playwright/test"]) {
+      try { return req(name).chromium; } catch {}
+    }
   }
-  for (const name of ["playwright", "@playwright/test"]) {
-    try { return (await import(name)).chromium; } catch {}
-  }
-  throw new Error("Playwright not found: run from a project that has it, or `npm i --no-save playwright` there");
+  throw new Error("Playwright not found in the current project or beside the script. Run: npm i --no-save playwright && npx playwright install chromium");
 }
 
 async function main(argv) {
@@ -341,7 +340,9 @@ async function main(argv) {
     else if (argv[i].startsWith("--")) args[argv[i].slice(2)] = argv[++i];
     else args.url = argv[i];
   }
-  if (!args.url) { console.error("usage: node design-loop.mjs <url> [--out dir] [--level aa|aaa] [--model provider/model] [--detail]"); process.exit(2); }
+  const usage = "usage: node design-loop.mjs <url> [--out dir] [--level aa|aaa] [--model provider/model] [--detail]";
+  if (argv.includes("--help")) { console.log(usage); return; }
+  if (!args.url) { console.error(usage); process.exit(2); }
   const chromium = await loadChromium(process.cwd());
   const browser = await chromium.launch();
   try {
@@ -355,4 +356,6 @@ async function main(argv) {
   }
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) await main(process.argv.slice(2));
+function sameFile(a, b) { try { return realpathSync(a) === realpathSync(b); } catch { return false; } }
+// Compare real paths: an installed Skill is started through a symlink.
+if (process.argv[1] && sameFile(process.argv[1], fileURLToPath(import.meta.url))) await main(process.argv.slice(2));

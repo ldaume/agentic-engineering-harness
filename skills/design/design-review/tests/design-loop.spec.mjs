@@ -1,7 +1,8 @@
 // Run: npx playwright test -c skills/design/design-review/tests
 // The model calls are stubbed: these tests check the tiers and their wiring, not a model.
 import { test, expect } from "@playwright/test";
-import { readFileSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, symlinkSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -135,6 +136,35 @@ test("given the project the agent works in has Playwright, the runner uses that 
   writeFileSync(join(pkg, "package.json"), JSON.stringify({ name: "playwright", main: "index.js" }));
   writeFileSync(join(pkg, "index.js"), "module.exports = { chromium: 'from-project' };");
   expect(await loadChromium(project)).toBe("from-project");
+});
+
+test("given the runner is started through a symlink to it, as an installed Skill is, it still runs", async () => {
+  const link = join(out(), "design-loop.mjs");
+  symlinkSync(fileURLToPath(new URL("../scripts/design-loop.mjs", import.meta.url)), link);
+  const run = spawnSync(process.execPath, [link, "--help"], { encoding: "utf8" });
+  expect(run.status).toBe(0);
+  expect(run.stdout).toMatch(/usage: node design-loop\.mjs <url>/);
+});
+
+test("given the module is imported by a host whose argv[1] is not a file, the import does not throw", async () => {
+  const src = fileURLToPath(new URL("../scripts/design-loop.mjs", import.meta.url));
+  const run = spawnSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify("file://" + src)})`, "no-such-file"], { encoding: "utf8" });
+  expect(run.stderr).toBe("");
+  expect(run.status).toBe(0);
+});
+
+test("given Playwright is in neither the project nor beside the script, the error names the exact install command", async () => {
+  const empty = out();
+  await expect(loadChromium(empty, empty)).rejects.toThrow(/npm i --no-save playwright && npx playwright install chromium/);
+});
+
+test("given only the script's own directory has Playwright, the runner falls back to it", async () => {
+  const scriptDir = out();
+  const pkg = join(scriptDir, "node_modules", "playwright");
+  mkdirSync(pkg, { recursive: true });
+  writeFileSync(join(pkg, "package.json"), JSON.stringify({ name: "playwright", main: "index.js" }));
+  writeFileSync(join(pkg, "index.js"), "module.exports = { chromium: 'from-script-dir' };");
+  expect(await loadChromium(out(), scriptDir)).toBe("from-script-dir");
 });
 
 test("given an escalation model from a restricted-jurisdiction family or an unlisted provider, the review refuses it unless that exact id is approved", async () => {
