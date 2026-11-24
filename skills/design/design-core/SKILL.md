@@ -113,7 +113,8 @@ question; template in `references/decision-records.md`.
 ## Done when
 
 The owner skill's gates pass, the tells list has been run on any visual
-artifact, each material recommendation has an evidence
+artifact (for a page or screen, `design-review/scripts/design-loop.mjs` runs
+it with the reading audit on screenshots, so no visual change ships unseen), each material recommendation has an evidence
 level and source or is marked hypothesis, accessibility is checked against
 WCAG 2.2 AA [SRC-A11Y-001], and what automation could not prove is listed for
 manual review.
