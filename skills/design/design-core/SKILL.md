@@ -58,6 +58,37 @@ no claim of superiority). Cite the registry, `references/sources.json`, as
 test outcomes; write "not measured" instead. An award is a jury's subjective
 score, usability included, not tested usability [SRC-WEB-024].
 
+## Owner stance
+
+Deliberate positions of the repository owner, set 2026-11-24. They choose
+between options that evidence leaves open; they never override a test, a
+standard, or a user's task. Each line carries its level.
+
+- **Unique, not typical** (aesthetic; the detail failures of AI output, such
+  as weak hierarchy, grouping, contrast, and spacing, are supported
+  [SRC-WEB-031]). Aim for distinctive, award-level work that fits a world
+  where agents are in daily use. Before any styling of a visual artifact,
+  write the concept in one sentence and three to five constraints; a reviewer
+  must be able to name what only this product could look like. Run the tells
+  in `references/generic-tells.md` as a review gate.
+- **Give people time instead of taking it** (supported for batching
+  [SRC-PROD-033]; calm technology is a convention [SRC-PROD-034]). Attention
+  is a budget. Classify every signal: act now (interrupt), act today
+  (digest), FYI (in the product, no push). Quiet by default, one channel per
+  urgency, controllable by the person. Push never hides state: status stays
+  inspectable on demand.
+- **Decide the default, then allow depth** (supported [SRC-PROD-032]). When
+  the options are known, choose the default and record why; configurability
+  is not a substitute for a decision, because most people never change it.
+- **Support instead of silently disabling.** An action that cannot run yet
+  stays reachable and says what is missing (owner position; mechanisms in
+  `design-forms`).
+- **Motion guides focus** (aesthetic; the job rules in `references/motion.md`
+  are supported). Supportive motion is always considered and never decoration
+  where everything moves. Its goal is to steer focus cleanly: show where
+  something came from or went, what changed, what to look at next, and where
+  focus now is.
+
 ## Quality model
 
 Judge ten dimensions separately and show the profile, not one total, because
@@ -69,9 +100,10 @@ performance, trust, journey continuity, outcome. Scale and gate rules:
 ## Motion
 
 Motion must do a job - feedback, orientation, continuity, attention - or it
-goes, and every motion has a reduced-motion variant, because vestibular
-triggers and distraction are real costs [SRC-WEB-002] [SRC-WEB-006]. Durations, easing,
-and per-surface rules: `references/motion.md`.
+goes, a missing transition where context changes is a defect too, and every
+motion has a reduced-motion variant, because vestibular triggers and
+distraction are real costs [SRC-WEB-002] [SRC-WEB-006]. Durations, easing,
+focus, and per-surface rules: `references/motion.md`.
 
 ## Decisions
 
@@ -80,7 +112,8 @@ question; template in `references/decision-records.md`.
 
 ## Done when
 
-The owner skill's gates pass, each material recommendation has an evidence
+The owner skill's gates pass, the tells list has been run on any visual
+artifact, each material recommendation has an evidence
 level and source or is marked hypothesis, accessibility is checked against
 WCAG 2.2 AA [SRC-A11Y-001], and what automation could not prove is listed for
 manual review.

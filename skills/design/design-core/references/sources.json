@@ -3360,6 +3360,95 @@
    "limits": "Single-author practitioner framework; no controlled evidence that it improves outcomes. Read two Product Talk pages, not the book.",
    "evidence_level": "hypothesis",
    "revisit": "Peer-reviewed evaluation or a revised method."
+  },
+  {
+   "id": "SRC-WEB-031",
+   "title": "Good from Afar, But Far from Good: AI Prototyping in Real Design Contexts",
+   "url": "https://www.nngroup.com/articles/ai-prototyping/",
+   "publisher": "Nielsen Norman Group (Huei-Hsin Wang, Megan Brown)",
+   "published": "2025-10-24",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "ai",
+    "visual-craft",
+    "web-experiences"
+   ],
+   "findings": [
+    "AI prototyping tools follow instructions toward a general goal but do not weigh design tradeoffs; outputs look polished at a glance.",
+    "Detailed prompts (components, visual style, interaction states) and attached sketches or frames gave far better results; ambiguous terms such as 'profile page' produced the wrong pattern.",
+    "Without visual direction, outputs defaulted to flat, minimal styles lacking brand identity.",
+    "Review hierarchy, grouping of related elements, color contrast, color overuse, margin consistency, and states.",
+    "AI prototypes are suited to ideation, proof of concept, and rapid usability-test prototypes; they still need validation and refinement before shipping."
+   ],
+   "limits": "Qualitative evaluation of a small set of tools and scenarios; tool behavior changes fast. Page opened 2026-11-24 (shows last review 2026-08-19). It does not study 'award-level' design; that is an owner position.",
+   "evidence_level": "supported",
+   "revisit": "A new NN/g evaluation round or a controlled study of AI-generated UI quality."
+  },
+  {
+   "id": "SRC-PROD-032",
+   "title": "The Power of Defaults",
+   "url": "https://www.nngroup.com/articles/the-power-of-defaults/",
+   "publisher": "Nielsen Norman Group (Jakob Nielsen)",
+   "published": "2005-09-25",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "product-interfaces",
+    "defaults"
+   ],
+   "findings": [
+    "Most people rarely use customization features, so the default experience is what most get and deserves optimization.",
+    "In a Cornell search study the top result kept most clicks even after the top two were swapped (42% to 34%): position bias, with quality still mattering.",
+    "Pre-fill fields with the most common value; a good default works as just-in-time instruction and reduces errors.",
+    "Choose defaults deliberately, not by alphabet or first-listed order."
+   ],
+   "limits": "2005 article by one author; search-position evidence is from one study cited by the article. Opened 2026-11-24. Applying it to role-based default views is an extension, not a tested result.",
+   "evidence_level": "supported",
+   "revisit": "Newer NN/g or peer-reviewed work on defaults in complex apps."
+  },
+  {
+   "id": "SRC-PROD-033",
+   "title": "Batching smartphone notifications can improve well-being",
+   "url": "https://doi.org/10.1016/j.chb.2019.07.016",
+   "publisher": "Computers in Human Behavior 101, pp. 84-94 (Fitz et al.)",
+   "published": "2019",
+   "accessed": "2026-11-24",
+   "type": "research",
+   "domains": [
+    "product-interfaces",
+    "notifications",
+    "attention"
+   ],
+   "findings": [
+    "Randomized field experiment (237 participants per a secondary summary): notifications as usual, never, or batched.",
+    "Batching three times a day (9am, 3pm, 9pm in one summary) improved attention and was linked to feeling happier, more productive, and less stressed; hourly batching had few benefits.",
+    "Authors did not collect objective learning measures such as memory tests."
+   ],
+   "limits": "Not read first-hand: the PDF text could not be extracted in this run; findings come from search-result summaries of the paper (DOI and journal confirmed). Smartphone notifications, not email: a CHI 2016 study found no stress benefit from batching email. Re-read the paper before quoting numbers.",
+   "evidence_level": "supported",
+   "revisit": "Open the paper text; replications or work on workplace tools and agent notifications."
+  },
+  {
+   "id": "SRC-PROD-034",
+   "title": "Principles of calm technology (Amber Case; Weiser and Seely Brown 1995)",
+   "url": "https://www.oreilly.com/content/principles-calm-technology-we-are-not-bad-at-technology-technology-is-bad-at-us",
+   "publisher": "O'Reilly (Amber Case)",
+   "published": "2015",
+   "accessed": "2026-11-24",
+   "type": "practice",
+   "domains": [
+    "product-interfaces",
+    "notifications",
+    "attention"
+   ],
+   "findings": [
+    "Eight principles, including: require the smallest possible amount of attention, inform without overwhelming, use the periphery, and work even when failing.",
+    "Aim: reach a goal with the least mental cost."
+   ],
+   "limits": "Design convention, not an experiment. Known only from search-result summaries; the page was not opened in this run.",
+   "evidence_level": "context-dependent",
+   "revisit": "Open the primary text; any controlled study of calm-technology patterns."
   }
  ]
 }
