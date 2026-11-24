@@ -60,10 +60,16 @@ audience; LIX below 40 is plain, above 50 is dense specialist prose.
 
 ## Reference-page profile (local targets)
 
-For reader-facing reference pages and documentation, plain-language practice
-(ISO 24495-1) suggests these targets (hypothesis) [SRC-WRITE-037]. They are
-local sensors that find passages to reread, not pass marks; a correct term or
-a necessary complex statement beats a better score.
+For reader-facing reference pages and documentation, these are local working
+values, not values from a standard (hypothesis) [SRC-WRITE-037]. ISO 24495-1
+gives principles (relevant, findable, understandable, usable) and asks to test
+with readers; it sets no word counts or formulas. The one published number
+close to them is GOV.UK's "Try to split up sentences that are over 25 words
+long" (verified) [SRC-WRITE-042]. They are sensors that find passages to
+reread, not pass marks; a correct term or a necessary complex statement beats
+a better score. For legal communication ISO 24495-2:2025 builds on part 1
+(supported) [SRC-WRITE-039]. A mean-sentence limit can reward choppy text and a formula
+penalizes lists and necessary terms: judge, do not chase the number.
 
 - German: mean sentence length at most 15 words, no sentence over 25. LIX at
   most about 45, Flesch after Amstad at least about 50.
@@ -76,6 +82,10 @@ a necessary complex statement beats a better score.
 - A heading or subhead at least every 150 to 300 words.
 - Report the values per section before and after the edit:
   `python3 scripts/readability.py --lang de --lang-class l-de --sections PAGE.html`.
+- The real test is a reader-based check, because the sensors cannot see
+  meaning (supported) [SRC-WRITE-043]: a fresh reader who restates the point,
+  a highlighter test (readers mark what they do not understand), or a short
+  comprehension task with 5 people from the target group.
 
 Bilingual pages: `--lang` defaults to the suffix of `--lang-class` (`l-de` is
 German), and an explicit `--lang` wins. `--lang-class auto` (both scripts)

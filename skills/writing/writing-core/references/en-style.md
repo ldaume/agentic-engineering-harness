@@ -18,7 +18,8 @@ variant. US spelling (prioritize, color), serial comma, month-day dates
 - No corporate filler: "leverage synergies", "circle back", "touch base",
   "best-in-class", "seamless".
 - For global and translated readers: one idea per sentence, sentences under
-  about 20 words, one term per concept, no idioms, humor, or seasonal
+  about 20 words (local maximum 30; GOV.UK's check is "try to split up
+  sentences that are over 25 words long" (verified) [SRC-WRITE-042]), one term per concept, no idioms, humor, or seasonal
   references, and modal verbs chosen deliberately ("must", "should", "can"
   are not interchangeable) (supported) [SRC-WRITE-004] [SRC-WRITE-022].
   ISO 18968:2026 treats translation-oriented writing as part of authoring;
