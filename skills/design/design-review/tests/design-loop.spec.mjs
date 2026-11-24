@@ -352,3 +352,16 @@ test("given the visual rules, Jev is asked whether matching card parts sit at di
   expect(asked["tell.misaligned-cards"].type).toBe("boolean");
   expect(r.findings.some((f) => f.rule === "tell.misaligned-cards" && f.tier === "jev")).toBe(true);
 });
+
+test("given cards aligned at 1280 and 390 px but drifting in a band between, only the width sweep finds it and names the band", async ({ page }) => {
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.setContent(fixture("align-band.html"));
+    expect(await page.evaluate(alignmentAudit), `at ${width}`).toEqual([]);
+  }
+  await page.setContent(fixture("align-band.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const f = r.findings.find((x) => x.rule === "layout.alignment");
+  expect(f, JSON.stringify(r.findings)).toBeTruthy();
+  expect(f.evidence.where.join()).toMatch(/\d+(-\d+)? px/);
+});

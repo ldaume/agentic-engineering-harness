@@ -6,7 +6,7 @@
 //   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector.
 //   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow;
 //            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
-//            (title, text, divider, footnote) sit at different heights. Jev asks the same of
+//            (title, text, divider, footnote) sit at different heights. The width sweep is 360 to 1592 px in 32 px steps (light). Jev asks the same of
 //            the screenshots as `tell.misaligned-cards`.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page.
@@ -62,6 +62,7 @@ const SHOTS = [
   { name: "phone-light", width: 390, scheme: "light" },
   { name: "phone-dark", width: 390, scheme: "dark" },
 ];
+const SWEEP = Array.from({ length: 39 }, (_, i) => 360 + 32 * i); // 360 to 1592 px
 const VISUAL_SHOTS = ["desktop-light", "phone-light", "desktop-dark"];
 const LABEL = { "desktop-light": "desktop", "phone-light": "phone", "desktop-dark": "dark" }; // the names the questions use
 
@@ -350,19 +351,45 @@ async function shoot(page, outDir, level) {
     shots.push({ ...s, path, base64: buffer.toString("base64") });
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
-    for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: s.width, scheme: s.scheme });
   }
+  // Card drift depends on how the text wraps, so it is measured over a width sweep (DOM only, light).
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  const widths = [...new Set([...SWEEP, ...SHOTS.map((s) => s.width)])].sort((a, b) => a - b);
+  for (const width of widths) {
+    await page.setViewportSize({ width, height: 800 });
+    for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: width, widths });
+  }
+  const last = SHOTS[SHOTS.length - 1];
+  await page.setViewportSize({ width: last.width, height: 800 });
+  await page.emulateMedia({ colorScheme: last.scheme, reducedMotion: "reduce" });
   return { shots, audit };
+}
+
+// Consecutive tested widths that fail become one band: "1024-1072 px".
+function bands(hit, widths) {
+  const out = [];
+  for (const w of widths.filter((x) => hit.includes(x))) {
+    const i = widths.indexOf(w);
+    if (out.length && widths[i - 1] === out[out.length - 1][1]) out[out.length - 1][1] = w;
+    else out.push([w, w]);
+  }
+  return out.map(([a, b]) => (a === b ? `${a} px` : `${a}-${b} px`));
 }
 
 function auditFindings(audit) {
   const seen = new Map();
   for (const f of audit) {
     const id = `${f.key}|${f.element}|${f.text}`;
+    if (f.key === "alignment") {
+      const hit = seen.get(id) ?? seen.set(id, { rule: "layout.alignment", status: "fail", tier: "audit", confidence: 1, hits: [], widths: f.widths, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required } }).get(id);
+      hit.hits.push(f.viewport);
+      hit.evidence.where = bands(hit.hits, hit.widths);
+      continue;
+    }
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
-    seen.set(id, { rule: f.key === "alignment" ? "layout.alignment" : "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
+    seen.set(id, { rule: "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
-  return [...seen.values()];
+  return [...seen.values()].map(({ hits, widths, ...f }) => f);
 }
 
 // The page's three screenshots, labeled as the questions name them.
