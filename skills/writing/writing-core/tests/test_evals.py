@@ -41,6 +41,10 @@ class EvalsTest(unittest.TestCase):
         ])
         self.assertEqual(run_evals.loaded_skills("codex", out), {"design-research"})
 
+    def test_given_codex_reads_skills_with_brace_expansion_when_parsed_then_each_counts(self):
+        out = '{"type":"item.started","item":{"type":"command_execution","command":"/bin/zsh -lc \'cat /h/.agents/skills/{writing-core,writing-editorial}/SKILL.md\'"}}'
+        self.assertEqual(run_evals.loaded_skills("codex", out), {"writing-core", "writing-editorial"})
+
     def test_given_writing_core_when_named_alone_then_a_route_table_names_every_sibling_before_the_method(self):
         body = (HERE.parent / "SKILL.md").read_text(encoding="utf-8")
         table = body.split("## Frame before drafting")[0]
@@ -49,20 +53,31 @@ class EvalsTest(unittest.TestCase):
         for sibling in sorted(SIBLINGS - {"writing-core"}) + ["plain-numbers"]:
             self.assertIn(f"`{sibling}`", "\n".join(rows), sibling)
 
-    def test_given_codex_when_a_case_runs_then_stdin_is_closed_so_exec_does_not_wait_for_input(self):
-        seen = {}
+    def test_given_a_replay_when_the_command_is_built_then_it_cannot_write_or_drive_apps(self):
+        codex = run_evals.command("codex", "hello")
+        claude = run_evals.command("claude", "hello")
+        self.assertIn("read-only", codex[codex.index("--sandbox") + 1])
+        denied = claude[claude.index("--disallowedTools") + 1]
+        for tool in ("Bash", "Write", "Edit", "mcp__claude-in-chrome", "mcp__computer-use"):
+            self.assertIn(tool, denied)
 
-        def fake_run(cmd, **kwargs):
-            seen.update(kwargs)
-            return run_evals.subprocess.CompletedProcess(cmd, 0, "", "")
+    def test_given_skill_loads_when_events_stream_then_the_task_has_not_started(self):
+        events = [
+            {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Skill", "input": {"skill": "writing-core"}}]}},
+            {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Bash", "input": {"command": "cat ~/.claude/skills/writing-core/references/ai-tells.md"}}]}},
+        ]
+        self.assertFalse(any(run_evals.task_started("claude", e) for e in events))
+        codex = {"type": "item.started", "item": {"type": "command_execution", "command": "/bin/zsh -lc 'cat /h/.agents/skills/writing-core/SKILL.md'"}}
+        self.assertFalse(run_evals.task_started("codex", codex))
+        for read in ("cat /h/dev/harness/AGENTS.md", "rg -n commit scripts/quality_gate.py; git rev-parse --show-toplevel", "ls -la"):
+            event = {"type": "item.started", "item": {"type": "command_execution", "command": f"/bin/zsh -lc '{read}'"}}
+            self.assertFalse(run_evals.task_started("codex", event), read)
 
-        original = run_evals.subprocess.run
-        run_evals.subprocess.run = fake_run
-        try:
-            run_evals.run_host("codex", "hello", ".")
-        finally:
-            run_evals.subprocess.run = original
-        self.assertIs(seen.get("stdin"), run_evals.subprocess.DEVNULL)
+    def test_given_task_work_when_events_stream_then_the_replay_stops_there(self):
+        claude = {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Write", "input": {"file_path": "index.html"}}]}}
+        codex = {"type": "item.started", "item": {"type": "command_execution", "command": "/bin/zsh -lc 'open index.html'"}}
+        self.assertTrue(run_evals.task_started("claude", claude))
+        self.assertTrue(run_evals.task_started("codex", codex))
 
 
 if __name__ == "__main__":
