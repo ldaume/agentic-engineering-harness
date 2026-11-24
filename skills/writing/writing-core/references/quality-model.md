@@ -128,3 +128,34 @@ judge it.
 Known types: business_email, marketing_email, slack, hero, landing_page,
 website_content, confluence, agile_status, fast_roadmap, agile_progress,
 product_document, po_summary, executive_summary, pull_request, commit.
+
+## Jev tier (advisory)
+
+`quality_gate.py --jev` runs after the deterministic checks and never changes
+the exit code. It asks TypeSafe Jev one typed boolean bundle per section
+(Markdown heading, or HTML `section`/`h2` with table cells kept) given the
+audience (`--audience`), the section heading and text, the rest of the page
+for comparison, a condensed rules excerpt from `ai-tells.md`, and one
+synthetic yes and one no example per question. Questions, rules, examples,
+and thresholds live in `scripts/jev_questions.json`, so a re-calibration
+changes data, not code. A hit prints `jev: <question> p=<probability> in
+section '<heading>'`; a person or an LLM reviewer then reads that section.
+
+- Calibration (2026-11-24, labeled pilot on one 13-section documentation
+  page plus synthetic injections): at 0.7 (0.8 for `universal_claim`) every
+  labeled defect was found, with 0 to 25 percent false positives on clean
+  sections; two runs differ by about 0.02. Labels were thin and the
+  thresholds were chosen on the same labels: advisory, never a block. Re-score
+  on a new labeled page before raising the tier.
+- Not usable: `repetition` and `unexplained_term`. They stay in the bundle
+  unreported (threshold `null`), because dropping them shifted the other
+  answers (`contradiction` rose from 3 to 5 hits on 12 clean sections); the
+  deterministic near-duplicate and acronym checks cover them.
+- Keys: `VERCEL_AI_GATEWAY_API_KEY` or `AI_GATEWAY_API_KEY` (gateway, zero
+  data retention, no training, TypeSafe only), else `TYPESAFE_API_KEY`
+  (direct, text only, no image opt-in). About $0.0008 per section of a long
+  page. No key, an HTTP error, or no answer prints "Jev tier skipped:
+  <reason>" and the deterministic result stands.
+- Opt-in, not automatic on a key: the flag sends the text to an external
+  provider, which a deterministic gate must never do silently, for example
+  with confidential client text.
