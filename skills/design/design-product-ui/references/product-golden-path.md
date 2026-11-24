@@ -40,9 +40,45 @@
 
 ## Notifications
 
-A notification with an action never auto-dismisses (context-dependent)
-[SRC-PROD-015]. Group, deduplicate, and let people control channels;
-urgent means interrupt only for things the person must act on now.
+Owner stance: give people time instead of taking it; the product pushes, the
+person does not watch. Attention is a budget (batching three times a day
+improved attention and well-being in a field experiment; supported)
+[SRC-PROD-033].
+
+- Classify every signal: act now (interrupt), act today (digest), FYI (in the
+  product, no push). Quiet by default; one channel per urgency, controllable
+  by the person.
+- Agent work that needs a person arrives as an inbox item: the decision, the
+  proposed action, the evidence, and Approve / Edit / Reject. Nobody has to
+  watch a run or a dashboard to find it. The item opens on the decision, not
+  on a list.
+- Routine results go into a scheduled digest, not one message each.
+- Status stays pullable: push never hides state, so the current state of any
+  run or item can be opened on demand.
+- A notification with an action never auto-dismisses (context-dependent)
+  [SRC-PROD-015]. Group, deduplicate, and let people control channels;
+  interrupt only for what the person must act on now.
+
+## Default view
+
+Owner stance: do not leave people alone with filters. Defaults carry most of
+the experience because most people never change them (supported)
+[SRC-PROD-032].
+
+- Each list or overview opens on the view this role needs now: exceptions and
+  items waiting on the person first, the answer before the data.
+- Filters, raw data, and saved views are one step away, keyboard-reachable,
+  and encoded in the URL so a view can be shared and restored.
+- Never an empty filter builder as the first screen. Choose the default and
+  record why; configurable layouts are an addition, not the default.
+
+## Actions that cannot run yet
+
+Owner stance: support instead of silently disabling. An action that cannot
+run yet stays reachable. On activation it says what is missing and marks the
+places that need attention. A disabled control without a visible reason is a
+defect. `design-forms` keeps its narrow submit-button exception (one required
+choice not yet made, visible reason, `aria-disabled`); see its table.
 
 ## Settings and permissions
 

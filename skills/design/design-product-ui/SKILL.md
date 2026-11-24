@@ -51,6 +51,11 @@ hides the information or action the task needs.
   for atmosphere on screens people use all day (hypothesis).
 - Progressive disclosure hides advanced options behind a clear control, never
   options that most people need together (supported) [SRC-PROD-006].
+- Agent work that needs a person arrives as an inbox item, not as something
+  to watch; each list opens on the view the role needs now; an action that
+  cannot run yet stays reachable and says what is missing. Rules and
+  evidence: `references/product-golden-path.md` (owner stance in
+  `design-core`).
 - Motion in product UI is short and functional; see
   `design-core/references/motion.md`.
 

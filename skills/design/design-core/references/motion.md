@@ -33,6 +33,30 @@ No job from this list: remove the motion. Every motion that stays:
 - never makes people wait, and is cancellable when it blocks (supported)
   [SRC-WEB-021].
 
+## Guide focus, in both directions
+
+Owner stance (aesthetic): motion exists to steer focus cleanly, so it is
+always considered, never sprinkled. Excess motion is a defect, and so is a
+missing transition where context changes.
+
+- **Check every screen and flow for where motion would guide.** Ask at each
+  change of context: where did this come from or go, what changed, what
+  should the eye do next, where is focus now? A hard cut that leaves the
+  person hunting for the changed element is a finding, the same as a loop
+  that distracts. The answer may still be "no motion"; it has to be asked.
+- **At most one element animates for attention at a time.** Two competing
+  movements split focus and each loses its job (supported) [SRC-WEB-020].
+  Stagger or drop one.
+- **Motion and focus land together.** After an animated change, keyboard
+  focus and the screen-reader announcement go to the same element the motion
+  points to (a dialog's first control, the new row, the error summary),
+  because motion that points one place while focus sits elsewhere sends
+  sighted and non-sighted people to different places. Announce without
+  waiting for the animation to end, and keep focus visible and unobscured
+  (2.4.7, 2.4.11) [SRC-A11Y-001].
+- Reduced-motion variants stay as listed below; the guidance does not change
+  with them, only the movement.
+
 ## Duration and easing
 
 Starting points from NN/g, Material, and Carbon. They converge, but none is a
