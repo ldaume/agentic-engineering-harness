@@ -1,0 +1,291 @@
+{
+  "sources": [
+    {
+      "id": "SRC-IAC-001",
+      "title": "OpenGitOps principles v1.0.0",
+      "url": "https://opengitops.dev/",
+      "publisher": "OpenGitOps (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "infrastructure-as-code",
+        "gitops"
+      ],
+      "findings": [
+        "Names four principles: desired state expressed declaratively; stored so it is versioned and immutable with complete history; pulled automatically by software agents; continuously reconciled by agents that observe actual state and try to apply the desired state."
+      ],
+      "limits": "Principles only; the page itself does not define desired state, drift or software agent.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-002",
+      "title": "OpenGitOps glossary",
+      "url": "https://github.com/open-gitops/documents/blob/main/GLOSSARY.md",
+      "publisher": "OpenGitOps (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "infrastructure-as-code",
+        "gitops"
+      ],
+      "findings": [
+        "Desired state is the configuration needed to rebuild a system so its instances behave the same, usually without persistent application data.",
+        "Drift is actual state moving or having moved away from desired state; reconciliation brings actual state into line whenever they diverge, from drift or an intended change.",
+        "A declarative description states the wanted operating condition without the steps to reach it."
+      ],
+      "limits": "No entry for software agent or state seed at access time.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-003",
+      "title": "Infrastructure As Code (Martin Fowler bliki)",
+      "url": "https://martinfowler.com/bliki/InfrastructureAsCode.html",
+      "publisher": "martinfowler.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "infrastructure-as-code"
+      ],
+      "findings": [
+        "Keep all configuration code in source control so each change is recorded for audit and builds are reproducible.",
+        "Nobody should log into a server and make on-the-fly adjustments; such changes breed snowflakes and belong only to developing the definition code."
+      ],
+      "limits": "Short bliki entry; does not use the word drift.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-004",
+      "title": "Snowflake Server (Martin Fowler bliki)",
+      "url": "https://martinfowler.com/bliki/SnowflakeServer.html",
+      "publisher": "martinfowler.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "infrastructure-as-code"
+      ],
+      "findings": [
+        "A server made unique by accumulated manual tweaks is hard to rebuild, keep in sync across a cluster or mirror for testing; unrecorded changes pile up and upgrades cause unpredictable side effects."
+      ],
+      "limits": "Does not name configuration drift; the effects are described only.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-005",
+      "title": "Phoenix Server (Martin Fowler bliki)",
+      "url": "https://martinfowler.com/bliki/PhoenixServer.html",
+      "publisher": "martinfowler.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "infrastructure-as-code"
+      ],
+      "findings": [
+        "A phoenix server is regularly burned down and rebuilt from source configuration to guard against configuration drift, meaning untracked ad hoc changes.",
+        "Re-syncing tools correct drift only in areas they manage; rebuilding catches drift anywhere; the author recommends using both."
+      ],
+      "limits": "Server-centric view from the configuration-management era.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-006",
+      "title": "Immutable Server (Martin Fowler bliki)",
+      "url": "https://martinfowler.com/bliki/ImmutableServer.html",
+      "publisher": "martinfowler.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "infrastructure-as-code"
+      ],
+      "findings": [
+        "An immutable server is never modified after deployment, only replaced; changes go to the base image, are tested and rolled out, and per-instance differences come from outside metadata."
+      ],
+      "limits": "Assumes disposable instances with data kept on separate storage.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-007",
+      "title": "Open Policy Agent documentation",
+      "url": "https://www.openpolicyagent.org/docs/",
+      "publisher": "Open Policy Agent (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "policy"
+      ],
+      "findings": [
+        "OPA decouples policy decision-making from enforcement: software sends structured input and receives a decision.",
+        "Policy is written as code in Rego, a declarative language over hierarchical data."
+      ],
+      "limits": "Vendor documentation of its own product.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-008",
+      "title": "OPA policy testing",
+      "url": "https://www.openpolicyagent.org/docs/policy-testing",
+      "publisher": "Open Policy Agent (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "policy"
+      ],
+      "findings": [
+        "Policy tests are ordinary Rego rules prefixed test_, run with opa test; a test that is undefined or not true fails, and --fail-on-empty fails a run that executes no tests."
+      ],
+      "limits": "Vendor documentation of its own product.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-009",
+      "title": "OPA with Terraform",
+      "url": "https://www.openpolicyagent.org/docs/terraform",
+      "publisher": "Open Policy Agent (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "policy"
+      ],
+      "findings": [
+        "The plan is exported as JSON (terraform plan --out, then terraform show -json) and Rego rules read resource_changes and their actions to return an allow or deny decision."
+      ],
+      "limits": "Worked example; thresholds shown are illustrative.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-010",
+      "title": "OPA in CI/CD",
+      "url": "https://www.openpolicyagent.org/docs/cicd",
+      "publisher": "Open Policy Agent (CNCF)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "policy"
+      ],
+      "findings": [
+        "OPA supports policy-as-code guardrails in CI/CD to verify configurations and enforce organizational policy before code reaches production; Conftest is suggested for IaC files in git."
+      ],
+      "limits": "Does not cover policy testing or Terraform plan JSON.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-011",
+      "title": "OpenTofu state storage and locking backends",
+      "url": "https://opentofu.org/docs/language/state/backends/",
+      "publisher": "OpenTofu",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "state"
+      ],
+      "findings": [
+        "A backend stores state and provides locking; with a non-local backend state is generally not kept on disk, except a local copy after a failed write; not every backend supports locking."
+      ],
+      "limits": "OpenTofu-specific; Terraform behavior may differ.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-012",
+      "title": "OpenTofu state locking",
+      "url": "https://opentofu.org/docs/language/state/locking/",
+      "publisher": "OpenTofu",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "state"
+      ],
+      "findings": [
+        "State is locked automatically during any operation that could write it to protect against corruption; -lock=false is discouraged; force-unlock risks multiple writers and is only for releasing your own lock."
+      ],
+      "limits": "OpenTofu-specific; Terraform behavior may differ.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-013",
+      "title": "OpenTofu plan command",
+      "url": "https://opentofu.org/docs/cli/commands/plan/",
+      "publisher": "OpenTofu",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "state"
+      ],
+      "findings": [
+        "-out writes a plan file meant to be applied in automation and to be treated as sensitive; a plain plan is speculative and not meant to be applied.",
+        "-refresh-only syncs state with out-of-band changes; routine resource targeting can leave undetected configuration drift."
+      ],
+      "limits": "OpenTofu-specific; Terraform behavior may differ.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-014",
+      "title": "OpenTofu sensitive data in state",
+      "url": "https://opentofu.org/docs/language/state/sensitive-data/",
+      "publisher": "OpenTofu",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "state"
+      ],
+      "findings": [
+        "State holds all resource attributes, including secrets such as initial database passwords; local state is plain-text JSON; treat state as sensitive data."
+      ],
+      "limits": "OpenTofu-specific; says nothing about plan files.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-IAC-015",
+      "title": "OpenTofu import",
+      "url": "https://opentofu.org/docs/cli/import/",
+      "publisher": "OpenTofu",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "vendor-docs",
+      "domains": [
+        "infrastructure-as-code",
+        "state"
+      ],
+      "findings": [
+        "Existing resources can be brought under management; import blocks can import several resources and be reviewed in the normal plan and apply workflow."
+      ],
+      "limits": "OpenTofu-specific; Terraform behavior may differ.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}
