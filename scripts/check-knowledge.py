@@ -1,7 +1,7 @@
 """Check a skill family's knowledge base: source registry and citations.
 
 Usage: check-knowledge.py [FAMILY_DIR ...]   (default: every family in skills/)
-       check-knowledge.py --vocabulary [--strict]
+       check-knowledge.py --vocabulary [--strict] [--root DIR]
 
 A family keeps its registry at `<core>/references/sources.json`; its Markdown
 cites sources as `[SRC-DOMAIN-NNN]`. A rule that cites a missing source, or a
@@ -13,8 +13,13 @@ warning: it may be kept on purpose for a planned rule.
 `references/vocabulary.md`: one table row per term with a definition, a
 registered source, an observable marker, and how it is checked. A Skill that
 judges quality without one, and a source not re-read for a year, are warnings;
-a malformed table is an error. The mode exits 0 unless `--strict`, so the
-catalog stays green while Skills adopt the contract one by one.
+a malformed table is an error. The mode exits 0 unless `--strict`, which
+fails on errors and on Skills without a vocabulary, pointer, or exemption;
+an `exact` row without a rule id and a stale source stay warnings, because
+they are the backlog for the next check, not a broken contract.
+
+`--root DIR` checks another catalog laid out as `DIR/skills/<category>/<name>/`
+(default: this repository), so a private catalog runs the same contract.
 """
 
 from __future__ import annotations
@@ -182,8 +187,8 @@ def stale_sources(family: Path, today: date | None = None) -> list[str]:
     return warnings
 
 
-def vocabulary_main(strict: bool) -> int:
-    skills = ROOT / "skills"
+def vocabulary_main(strict: bool, root: Path = ROOT) -> int:
+    skills = root / "skills"
     known = set(catalog_levels(skills))
     errors = warnings = missing = 0
     for path in sorted(skills.glob("*/*/SKILL.md")):
@@ -200,13 +205,14 @@ def vocabulary_main(strict: bool) -> int:
             print(f"warn  {family.name}: {line}")
             warnings += 1
     print(f"vocabulary: {errors} errors, {warnings} warnings, {missing} skills without a vocabulary"
-          f"{'' if strict else ' (warn-only; --strict fails on errors)'}")
-    return 1 if strict and errors else 0
+          f"{'' if strict else ' (warn-only; --strict fails on errors and missing vocabularies)'}")
+    return 1 if strict and (errors or missing) else 0
 
 
 def main(argv: list[str]) -> int:
     if "--vocabulary" in argv:
-        return vocabulary_main("--strict" in argv)
+        root = Path(argv[argv.index("--root") + 1]) if "--root" in argv else ROOT
+        return vocabulary_main("--strict" in argv, root)
     families = [Path(a) for a in argv] or sorted({r.parents[2] for r in (ROOT / "skills").rglob("references/sources.json")})
     catalog = catalog_levels(ROOT / "skills")
     failed = False
