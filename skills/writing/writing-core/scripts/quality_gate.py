@@ -10,7 +10,8 @@ Usage:
 HTML input (a .html file or --html) is reduced to prose in p, li, dd first.
 
 facts.json: {"facts": [...], "forbidden_claims": [...],
-             "terms": {"Preferred Term": ["avoided variant", ...]}}
+             "terms": {"Preferred Term": ["avoided variant", ...]},
+             "known_terms": ["RLS", ...]}
 Every artifact also gets the AI-tell warnings (references/ai-tells.md).
 Exit code 1 when any error is found; warnings never fail.
 """
@@ -23,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from readability import WORD_RE, bilingual_report, diagnostics, html_text, limits, read_input, resolve_lang, sentences  # noqa: E402
+from readability import WORD_RE, bilingual_report, diagnostics, html_text, is_german, limits, read_input, resolve_lang, sentences  # noqa: E402
 
 # Each required part is a regex that may match DE or EN wording.
 WHY = r"(?im)^#+\s*(why|warum|context|kontext|hintergrund|motivation|problem)\b"
@@ -130,6 +131,16 @@ AI_TELLS: dict[str, str] = {
         r"(?i)\blet'?s dive in\b|\bhere'?s the thing\b|\bdie wahrheit ist\b|\bund genau das\b",
     "'echter Mehrwert' / 'real value' claims value without naming it":
         r"(?i)\becht\w* Mehrwert\b|\breal value\b",
+    # Chat residue: a reply to the user left inside the artifact.
+    "chat residue (I hope this helps, Let me know if, Natürlich!, Ich hoffe, das hilft); cut it":
+        r"(?i)\bi hope this helps\b|\blet me know if\b|\bich hoffe,? (?:das|dies|es) hilft\b"
+        r"|^\s*natürlich[!,]|^\s*certainly[!,]",
+    # Copula avoidance: a stock verb where "is" or "has" says it.
+    "copula avoidance (serves as, stands as, boasts, stellt ... dar, fungiert als); use is or has":
+        r"(?i)\b(?:serves|stands|functions) as\b|\bboasts\b|\bfungiert als\b|\bstellt\b[^.;:\n]{1,60}?\bdar\b",
+    "vague attribution (experts argue, Experten sind sich einig); name the source or drop the claim":
+        r"(?i)\b(?:experts|observers|critics|industry reports) (?:argue|say|agree|believe|have (?:cited|noted))\b"
+        r"|\bexperten (?:sind sich einig|sagen|meinen|argumentieren)\b|\bbranchenberichte\b|\beinige kritiker\b",
 }
 
 # Three or more short comma items before "and/or": a list in running prose. Items
@@ -146,6 +157,80 @@ GENERIC_COMMIT = re.compile(
 )
 BOTTOM_LINE = re.compile(r"(?i)(bottom line|kurzfassung|fazit|tl;dr|kernaussage)")
 PERCENT = re.compile(r"(?i)(?<![\d.,])(\d+(?:[.,]\d+)?)\s?(?:%|prozent|percent)")
+
+
+STOP = {
+    "en": "the a an and or but of to in on at for with by from as is are was were be been it its this that these those "
+          "not no we you they he she i our your their his her has have had do does did will would can could should may "
+          "might must than then so if when while before after into over under about also more most very just".split(),
+    "de": "der die das den dem des ein eine einen einem einer eines und oder aber von zu in im auf an am für mit bei aus "
+          "als ist sind war waren wird werden wurde wurden nicht kein keine wir sie er es ich du ihr unser euer sich "
+          "auch noch nur wenn dann vor nach über unter um zum zur zur dass daß so wie hat haben hatte kann können soll "
+          "sollen muss müssen mehr sehr schon".split(),
+}
+DUP_JACCARD, DUP_MIN_WORDS = 0.6, 6
+# Acronyms a technical reader knows; keep short, extend per audience with known_terms.
+KNOWN_ACRONYMS = {"OK", "EU", "US", "UK", "PDF", "URL", "API", "HTML", "CSS", "HTTP", "HTTPS", "JSON", "ID", "UI", "AI",
+                  "USD", "EUR", "PR", "CI", "GB", "MB", "FAQ"}
+ACRONYM = re.compile(r"(?<![\w-])[A-Z]{2,6}\d*(?![\w-])")
+# A label of 1 to 3 content words directly before a number with a unit.
+FIGURE = re.compile(r"((?:[^\W\d_]+\s+){0,2}[^\W\d_]+)\s+(\d[\d.,]*)\s?(%|percent|prozent|usd|eur|\$|€|ms|gb|mb|days?|tage[n]?|hours?|stunden)(?![\w])", re.I)
+
+
+def content_words(sentence: str, language: str) -> set[str]:
+    stop = set(STOP["de" if is_german(language) else "en"])
+    return {w for w in (m.lower() for m in WORD_RE.findall(sentence)) if w not in stop and len(w) > 2 and not w.isdigit()}
+
+
+def check_repetition(text: str, language: str, warnings: list[str]) -> None:
+    """Restated sentences: token overlap of content words, both sides long enough
+    to carry a point. A warning shows both sentences shortened."""
+    sents = [(s, content_words(s, language)) for s in sentences(text)]
+    sents = [(s, w) for s, w in sents if len(w) >= DUP_MIN_WORDS]
+    for i, (a, wa) in enumerate(sents):
+        for b, wb in sents[i + 1:]:
+            if len(wa & wb) / len(wa | wb) >= DUP_JACCARD:
+                warnings.append(f"repetition: near-duplicate sentences, one home per statement: {a[:50]!r} / {b[:50]!r}")
+
+
+def check_figures(text: str, language: str, warnings: list[str]) -> None:
+    """The same label followed by different numbers with a unit. Low-recall on
+    purpose: a label of stopwords only never matches."""
+    stop = set(STOP["de" if is_german(language) else "en"])
+    seen: dict[tuple[str, str], tuple[str, str]] = {}
+    for m in FIGURE.finditer(text):
+        label_words = [w.lower() for w in m.group(1).split()]
+        while label_words and label_words[0] in stop:
+            label_words.pop(0)
+        # The label must be the content words right before the number.
+        tail = []
+        for w in reversed(label_words):
+            if w in stop:
+                break
+            tail.insert(0, w)
+        if not tail:
+            continue
+        key = (" ".join(tail), m.group(3).lower())
+        value = m.group(2).rstrip(".,").replace(",", ".")
+        if key in seen and seen[key][0] != value:
+            warnings.append(f"figures: {key[0]!r} is {seen[key][1]} and {m.group(2)} {m.group(3)}; one of them is wrong?")
+        seen.setdefault(key, (value, f"{m.group(2)} {m.group(3)}"))
+
+
+def check_acronyms(text: str, facts: dict | None, warnings: list[str]) -> None:
+    """Once per acronym: the reader cannot look it up in the writer's head. Explained
+    when its first use sits next to a parenthesis, is listed in known_terms or is a
+    preferred term, or is in the short built-in allowlist."""
+    known = KNOWN_ACRONYMS | set((facts or {}).get("known_terms", [])) | set(((facts or {}).get("terms") or {}))
+    done: set[str] = set()
+    for m in ACRONYM.finditer(text):
+        a = m.group()
+        if a in known or a in done:
+            continue
+        done.add(a)
+        before, after = text[: m.start()].rstrip(), text[m.end():].lstrip()
+        if not (after.startswith("(") or before.endswith("(")):
+            warnings.append(f"acronym: {a} is used without an expansion at first use; explain it or list it in known_terms")
 
 
 def words(text: str) -> int:
@@ -241,6 +326,10 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
         warnings.append(f"{artifact}: {total} words, default ceiling {rules['warn_words']}")
 
     check_claims(text, facts, errors, warnings)
+    if artifact != "commit":
+        check_repetition(text, language, warnings)
+        check_figures(text, language, warnings)
+        check_acronyms(text, facts, warnings)
     check_terms(text, facts, errors)
 
     diag = diagnostics(text, language) if rules.get("sentences") else {}

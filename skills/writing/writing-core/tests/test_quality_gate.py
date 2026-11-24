@@ -421,5 +421,91 @@ class BilingualTest(unittest.TestCase):
         self.assertTrue(any("no twin" in w for w in result["warnings"]))
 
 
+def warned(text, lang="en", facts=None, artifact="prose"):
+    return check(text, artifact, lang, facts)["warnings"]
+
+
+class RepetitionTest(unittest.TestCase):
+    def test_given_point_restated_in_other_words_when_checked_then_near_duplicate_warning(self):
+        text = ("The export job checks the audit permission before it creates the file. "
+                "Teams agree on the rollout date next week. "
+                "Before it creates the file, the export job checks the audit permission.")
+        self.assertTrue(any(w.startswith("repetition:") for w in warned(text)))
+
+    def test_given_identical_sentence_twice_when_checked_then_warning(self):
+        s = "The export job rejects unauthorized requests before any data is read."
+        self.assertTrue(any(w.startswith("repetition:") for w in warned(f"{s} Other things happen too. {s}")))
+
+    def test_given_two_different_sentences_on_same_topic_when_checked_then_no_warning(self):
+        text = ("The export job checks the audit permission before it creates the file. "
+                "The export job writes every result into a signed archive with a retention label.")
+        self.assertFalse(any(w.startswith("repetition:") for w in warned(text)))
+
+    def test_given_short_repeated_sentences_when_checked_then_no_warning(self):
+        self.assertFalse(any(w.startswith("repetition:") for w in warned("Thanks a lot. Thanks a lot.")))
+
+    def test_given_german_restatement_when_checked_then_warning(self):
+        text = ("Der Export prüft die Berechtigung des Audits vor dem Anlegen der Datei. "
+                "Wir sprechen nächste Woche über den Termin. "
+                "Vor dem Anlegen der Datei prüft der Export die Berechtigung des Audits.")
+        self.assertTrue(any(w.startswith("repetition:") for w in warned(text, "de")))
+
+
+class FigureConsistencyTest(unittest.TestCase):
+    def test_given_same_label_with_two_amounts_when_checked_then_warning(self):
+        text = "The annual license costs 919 USD for one seat. Later the annual license costs 920 USD."
+        self.assertTrue(any(w.startswith("figures:") for w in warned(text)))
+
+    def test_given_same_label_and_same_amount_when_checked_then_no_warning(self):
+        text = "The annual license costs 919 USD. Later the annual license costs 919 USD."
+        self.assertFalse(any(w.startswith("figures:") for w in warned(text)))
+
+    def test_given_different_labels_when_checked_then_no_warning(self):
+        text = "The setup fee is 919 USD. The monthly fee is 920 USD."
+        self.assertFalse(any(w.startswith("figures:") for w in warned(text)))
+
+
+class CurrentTellsTest(unittest.TestCase):
+    def test_given_chat_residue_when_checked_then_ai_tell(self):
+        for t, lang in (("Here is the plan. I hope this helps!", "en"), ("Let me know if you need more.", "en"),
+                        ("Natürlich! Hier ist der Plan.", "de"), ("Ich hoffe, das hilft dir weiter.", "de")):
+            self.assertTrue(any("chat residue" in w for w in warned(t, lang)), t)
+
+    def test_given_copula_avoidance_when_checked_then_ai_tell(self):
+        for t, lang in (("The library serves as a bridge between teams.", "en"), ("The town boasts a market.", "en"),
+                        ("Das Modul stellt eine zentrale Schnittstelle dar.", "de"), ("Es fungiert als Vermittler.", "de")):
+            self.assertTrue(any("copula" in w for w in warned(t, lang)), t)
+
+    def test_given_vague_attribution_when_checked_then_ai_tell(self):
+        for t, lang in (("Experts argue that the method scales.", "en"), ("Experten sind sich einig, dass es skaliert.", "de")):
+            self.assertTrue(any("vague attribution" in w for w in warned(t, lang)), t)
+
+    def test_given_plain_copula_and_named_source_when_checked_then_no_tell(self):
+        t = "The library is a bridge between teams. The ETH study measured a 20 percent cost increase."
+        self.assertFalse(any(w.startswith("ai-tell") for w in warned(t)))
+
+
+class AcronymTest(unittest.TestCase):
+    def test_given_unexplained_acronym_when_checked_then_warning_once(self):
+        ws = [w for w in warned("RLS guards every table. RLS also covers views.") if w.startswith("acronym:")]
+        self.assertEqual(len(ws), 1)
+
+    def test_given_expanded_acronym_when_checked_then_no_warning(self):
+        for t in ("Row-Level Security (RLS) guards every table.", "RLS (Row-Level Security) guards every table."):
+            self.assertFalse(any(w.startswith("acronym:") for w in warned(t)), t)
+
+    def test_given_known_terms_entry_when_checked_then_no_warning(self):
+        facts = {"known_terms": ["RLS"]}
+        self.assertFalse(any(w.startswith("acronym:") for w in warned("RLS guards every table.", facts=facts)))
+
+    def test_given_terms_key_when_checked_then_no_warning(self):
+        facts = {"terms": {"RLS": ["Zeilenrechte"]}}
+        self.assertFalse(any(w.startswith("acronym:") for w in warned("RLS guards every table.", facts=facts)))
+
+    def test_given_common_acronyms_when_checked_then_no_warning(self):
+        t = "OK, the EU and US teams send a PDF with the URL of the API."
+        self.assertFalse(any(w.startswith("acronym:") for w in warned(t)))
+
+
 if __name__ == "__main__":
     unittest.main()
