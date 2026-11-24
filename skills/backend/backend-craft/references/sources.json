@@ -1,0 +1,277 @@
+{
+  "sources": [
+    {
+      "id": "SRC-BACK-001",
+      "title": "Site Reliability Engineering, chapter 4: Service Level Objectives",
+      "url": "https://sre.google/sre-book/service-level-objectives/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2016",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability"],
+      "findings": [
+        "An SLI is a carefully defined quantitative measure of some aspect of the service level; an SLO is a target value or range for an SLI; an SLA is an agreement with users that includes consequences of meeting or missing the SLOs it contains (no explicit consequence means it is an SLO).",
+        "Most metrics are better thought of as distributions than averages; an average latency hides a long tail of much slower requests."
+      ],
+      "limits": "2016 book; describes Google-scale services.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-002",
+      "title": "Site Reliability Engineering, chapter 3: Embracing Risk",
+      "url": "https://sre.google/sre-book/embracing-risk/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2016",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability"],
+      "findings": [
+        "The error budget is the difference between the SLO and measured reliability over a window; while budget remains, new releases can be pushed.",
+        "Example: an SLO of 99.999 percent of queries gives an error budget of 0.001 percent; a problem failing 0.0002 percent spends 20 percent of the quarter's budget."
+      ],
+      "limits": "2016 book.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-003",
+      "title": "The Site Reliability Workbook, Appendix B: Example Error Budget Policy",
+      "url": "https://sre.google/workbook/error-budget-policy/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2018-02-19",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability"],
+      "findings": [
+        "If the service has exceeded its error budget for the preceding four-week window, halt all changes and releases other than P0 issues or security fixes until it is back within its SLO.",
+        "The policy is not a punishment; it gives the team permission to focus on reliability when data says reliability matters more than features."
+      ],
+      "limits": "An example policy; thresholds are illustrative.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-004",
+      "title": "The Site Reliability Workbook, chapter 5: Alerting on SLOs",
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2018",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability", "observability"],
+      "findings": [
+        "Alert on the rate at which the error budget is being spent (burn rate); multiple burn rates and windows page fast for high error rates and file a ticket for low but sustained ones.",
+        "Multiwindow burn-rate alerts give good precision and recall at the cost of more thresholds to manage."
+      ],
+      "limits": "Examples use Prometheus syntax.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-005",
+      "title": "Site Reliability Engineering, chapter 6: Monitoring Distributed Systems",
+      "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2016",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["observability"],
+      "findings": [
+        "The four golden signals are latency, traffic, errors, and saturation; track the latency of failed requests too, since a slow error is worse than a fast one.",
+        "Monitoring answers what is broken (the symptom) and why (the cause); the distinction keeps signal high and noise low."
+      ],
+      "limits": "2016 book.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-006",
+      "title": "Site Reliability Engineering, chapter 22: Addressing Cascading Failures",
+      "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2016",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability"],
+      "findings": [
+        "Always use randomized exponential backoff for retries, limit retries per request, consider a server-wide retry budget, and avoid retrying at several layers, which multiplies attempts.",
+        "Load shedding drops some traffic near overload (for example HTTP 503 above a number of in-flight requests); keep queues short relative to the thread pool so overload is rejected early; propagate deadlines and cancellations down the call stack."
+      ],
+      "limits": "2016 book; RPC examples are Google-internal.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-007",
+      "title": "Site Reliability Engineering, chapter 5: Eliminating Toil",
+      "url": "https://sre.google/sre-book/eliminating-toil/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2016",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["operations"],
+      "findings": [
+        "Toil is work tied to running a production service that tends to be manual, repetitive, automatable, tactical, devoid of enduring value, and that scales linearly as the service grows.",
+        "Overhead (meetings, HR) and grungy work with lasting value are not toil."
+      ],
+      "limits": "2016 book.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-008",
+      "title": "The Site Reliability Workbook, chapter 10: Postmortem Culture: Learning from Failure",
+      "url": "https://sre.google/workbook/postmortem-culture/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2018",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["operations"],
+      "findings": [
+        "Leaders model and enforce blameless behavior and blameless language in postmortems; blameful questions put people on the defensive and stifle collaboration.",
+        "A postmortem looks for the system change (training, tooling, process) that prevents recurrence rather than a person to blame."
+      ],
+      "limits": "Practitioner chapter.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-009",
+      "title": "Implementing Stripe-like Idempotency Keys in Postgres (Brandur Leach)",
+      "url": "https://brandur.org/idempotency-keys",
+      "publisher": "brandur.org",
+      "published": "2017-10-27",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["data", "api"],
+      "findings": [
+        "An idempotency key is a unique client-generated value sent with a request; the server records the request's state under it, resumes on retry with the same key, and returns the stored result once the request finished.",
+        "Split a request into atomic phases (local mutations in one transaction) between foreign state mutations, and store a recovery point after each so a retry resumes where it failed.",
+        "A non-idempotent foreign state mutation that fails indeterminately (timeout, connection reset) cannot be retried safely and is marked failed."
+      ],
+      "limits": "Postgres and Ruby examples; publication date read from the article.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-010",
+      "title": "Transactionally Staged Job Drains in Postgres (Brandur Leach)",
+      "url": "https://brandur.org/job-drain",
+      "publisher": "brandur.org",
+      "published": "2017-09-20",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["data", "queues"],
+      "findings": [
+        "Stage jobs in a table inside the same database transaction as the data change, so they stay invisible until commit; a separate enqueuer moves them to the job queue and deletes the rows.",
+        "This avoids jobs that run before their data is committed or that are lost when the transaction rolls back."
+      ],
+      "limits": "Postgres and Sidekiq examples; publication date read from the article.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-011",
+      "title": "Logs vs Structured Events (Charity Majors)",
+      "url": "https://charity.wtf/2019/02/05/logs-vs-structured-events/",
+      "publisher": "charity.wtf",
+      "published": "2019-02-05",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["observability"],
+      "findings": [
+        "Replace log lines and log levels with arbitrarily wide structured events that describe the request and its context, one event per request per service.",
+        "Disconnected metrics and loglevel:ERROR lines cannot give explorable, ad hoc data."
+      ],
+      "limits": "Opinionated practitioner post by an observability vendor's cofounder.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-012",
+      "title": "Observability: A Manifesto (Charity Majors, Honeycomb)",
+      "url": "https://www.honeycomb.io/blog/observability-a-manifesto",
+      "publisher": "Honeycomb",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["observability"],
+      "findings": [
+        "Observability is the power to ask new questions of a system without shipping new code or gathering new data; monitoring covers known unknowns, observability unknown unknowns.",
+        "It needs raw events rather than pre-aggregation, high-cardinality fields (user, request id, cart id) as group-by dimensions, and structured data."
+      ],
+      "limits": "Vendor blog; the page shows no reliable original publication date.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-013",
+      "title": "Please stop calling databases CP or AP (Martin Kleppmann)",
+      "url": "https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html",
+      "publisher": "Martin Kleppmann",
+      "published": "2015-05-11",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["data"],
+      "findings": [
+        "Linearizability (consistency in the CAP sense): if operation B starts after operation A completed, B sees the state as of A's completion or newer.",
+        "Stop labeling systems CP or AP and use more precise terminology for the trade-offs (linearizability, causal consistency, read your writes, monotonic reads). The diagrams preview Designing Data-Intensive Applications."
+      ],
+      "limits": "2015 blog post by the author of Designing Data-Intensive Applications.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-014",
+      "title": "Hermitage: Testing transaction isolation levels (Martin Kleppmann)",
+      "url": "https://github.com/ept/hermitage",
+      "publisher": "Martin Kleppmann (GitHub)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["data"],
+      "findings": [
+        "Test cases show which anomalies each database's isolation levels prevent, including lost update (P4), read skew (G-single), and write skew (G2-item, G2); default levels often allow them.",
+        "The SQL standard's isolation level definitions are flawed and databases implement the same names differently, so the anomaly, not the level name, is what to check."
+      ],
+      "limits": "Results per database version at test time; repository maintained irregularly.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-015",
+      "title": "How to do distributed locking (Martin Kleppmann)",
+      "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+      "publisher": "Martin Kleppmann",
+      "published": "2016-02-08",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["data"],
+      "findings": [
+        "A lock holder can pause (GC, network) past its lease and write after another client took the lock; include a fencing token, a number that increases on every acquisition, and have storage reject writes with an older token.",
+        "A lock used for correctness, not just efficiency, needs fencing; storage must check the token."
+      ],
+      "limits": "Blog post; part of the Redlock debate.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-BACK-016",
+      "title": "The Site Reliability Workbook, chapter 2: Implementing SLOs",
+      "url": "https://sre.google/workbook/implementing-slos/",
+      "publisher": "Google (O'Reilly)",
+      "published": "2018",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["reliability"],
+      "findings": [
+        "A system with monitoring but no formal objectives, no error budget, and an unspoken goal of 100 percent uptime is the starting state to move away from.",
+        "An error budget approach needs stakeholder-approved SLOs, agreement that they are achievable, a written error budget policy, and a process to refine the SLO."
+      ],
+      "limits": "Practitioner chapter.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}
