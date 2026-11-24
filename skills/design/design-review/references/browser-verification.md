@@ -100,15 +100,22 @@ node of its own.
 | `type.families` | more than 3 font families are rendered | the first face of each computed `font-family` |
 
 The Jev tier adds one visual craft question, `tell.sparse`: "Is the page noticeably
-sparse: large empty areas with little content?" It is asked of the page screenshots in the
-existing call, with the whitespace rules and one labeled NO and one labeled YES example
-(`assets/examples/sparse-no.png`, `sparse-yes.png`, synthetic). The shots end 24 px below the
-last content, because a short page that ends early is normal. It detects sparse only and
-never reports a cramped page: the spike's whitespace answer separated sparse pages from
-the rest but not cramped ones. Thresholds (fail from 0.75, pass up to 0.5, between goes
-to the model) come from 11 real pages and 3 references, twice each: 0.79 to 0.87 on two
-real sparse pages, 0.63 on a third, 0.58 on a noisy one, at most 0.53 on every page that is
-not sparse. That is a small sample tuned on its own pages, so treat a pass as weak evidence.
+sparse: large empty areas with little content?" It is a second Jev call of its own, with
+only that question, the whitespace rules, one labeled NO and one labeled YES example
+(`assets/examples/sparse-no.png`, `sparse-yes.png`, synthetic) and the three page shots cut
+24 px below the last content, because a short page that ends early is normal. It is not in the
+shared screenshot call: in a spike, rules plus labeled examples in the request pulled every
+other score down (the hierarchy scores fell and 21 of 22 pages were flagged), and the shared
+rules are calibrated without that context. The shared call stays byte for byte what it was in
+1.6.0, with uncut shots; cutting them moved no answer by more than 0.11 on 5 pages (2 of 65
+verdicts went from unsure to pass), which is still more than the shared rules were calibrated
+for. The sparse call costs about $0.0004 per page, a little more than the shared call.
+`tell.sparse` detects sparse only and never reports a cramped page: the spike's whitespace
+answer separated sparse pages from the rest but not cramped ones. Thresholds (fail from 0.75,
+pass up to 0.5, between goes to the model) come from 11 real pages, twice each, in the isolated
+call: 0.77 to 0.87 on two real sparse pages, 0.6 on a third, 0.58 on a noisy one, at most 0.49 on
+every page that is not sparse. That is a small sample tuned on its own pages, so treat a pass
+as weak evidence.
 
 Measured and dropped, so nobody re-adds them blindly: line length (14 of 14 findings were
 narrow cards or phone width, 0 percent real), line height (34 hits on ordinary Tailwind

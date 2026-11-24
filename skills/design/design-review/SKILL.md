@@ -63,7 +63,7 @@ is unsure. On 16 synthetic pages Jev scored such sentences 0.73 to 0.97 and
 product descriptions at most 0.44, except a how-to step inside a product
 (up to 0.81), so a fail needs 0.85. It also measures type and layout craft from the DOM (text under 12 px, near-duplicate font
 sizes, a lone last word in a heading or bold text, text edges a few pixels off one another, more
-than 3 font families) and asks Jev whether the page is noticeably sparse; the rules, thresholds and
+than 3 font families) and asks Jev, in a call of its own, whether the page is noticeably sparse; the rules, thresholds and
 the ones that were measured and dropped are in `references/browser-verification.md`.
 It writes `.design-loop/design-loop.json`
 (findings with rule, tier, confidence, evidence, cost) and exits 1 on a

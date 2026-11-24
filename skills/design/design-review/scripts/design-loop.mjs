@@ -14,10 +14,11 @@
 //            (more than 3). `type.widow` (`widowAudit`, a lone last word in a heading or bold text of 16 px
 //            or more) runs in the width sweep and reports bands, because it depends on wrapping.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
-//            a noul is a yes/no probability, a score a level; about $0.0001 per page. The shots end 24 px
-//            below the last content, so blank viewport is never read as empty. `tell.sparse` ("is the
-//            page noticeably sparse") travels with the whitespace rules and a labeled NO and YES example
-//            (assets/examples); it detects sparse only, never cramped.
+//            a noul is a yes/no probability, a score a level; about $0.0001 per page. `tell.sparse` ("is
+//            the page noticeably sparse") is a second Jev call of its own, so its context does not shift
+//            the shared questions: the whitespace rules, a labeled NO and YES example (assets/examples)
+//            and the shots cut 24 px below the last content, so blank viewport is never read as empty.
+//            It detects sparse only, never cramped.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
 //            layers hidden and clipping containers opened, and checked for clipped text, stacked
 //            labels, lines through boxes and small text: exactly from inline SVG geometry, then
@@ -93,7 +94,6 @@ export const VISUAL_RULES = [
   { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off, overlapping, squeezed, or too small to read?" },
   { id: "layout.dark", type: "noul", instructions: "Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?" },
   { id: "tell.misaligned-cards", type: "noul", instructions: "Look at each row of cards or tiles. Draw an imaginary horizontal line through a part of one card (its title, its divider, its footer or its button). Does that line miss the same part of a neighboring card by more than a few pixels? Empty space inside a card is not misalignment; only the position of the matching parts counts." },
-  { id: "tell.sparse", type: "noul", yes: 0.75, no: 0.5, instructions: "Is the page noticeably sparse: large empty areas with little content?" },
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
 ];
 
@@ -101,6 +101,10 @@ export const VISUAL_RULES = [
 // labeled NO and one labeled YES example (synthetic pages, assets/examples). The question asks
 // about sparse pages only. It never reports a cramped page: a spike on 22 shots found Jev's
 // whitespace answer separated sparse pages from the rest but not cramped ones.
+// Asked in its own Jev call, not in the shared one: a spike showed that rules plus labeled examples
+// in the request pull every other answer (hierarchy scores fell, 21 of 22 pages flagged), and the
+// shared rules are calibrated without that context. Thresholds: 11 pages twice each (2026-11-24).
+export const SPARSE_RULE = { id: "tell.sparse", type: "noul", yes: 0.75, no: 0.5, instructions: "Is the page noticeably sparse: large empty areas with little content?" };
 export const WHITESPACE_RULES = "Whitespace rules: padding and gaps follow one rhythm, and the space between groups is clearly larger than the space inside a group. A page is sparse when large empty areas strand a little content so that it feels unfinished. A short page that simply ends early, or a page with a few well-spaced groups, is not sparse. Only the question tell.sparse is asked about whitespace; cramped pages are not asked about.";
 const EXAMPLE_DIR = new URL("../assets/examples/", import.meta.url);
 export const sparseExamples = () => [
@@ -539,9 +543,8 @@ async function shoot(page, outDir, level) {
     const height = await page.evaluate(() => document.documentElement.scrollHeight);
     const path = join(outDir, s.name + ".png");
     const buffer = await page.screenshot({ fullPage: true, clip: { x: 0, y: 0, width: s.width, height: Math.min(Math.max(height, 280), MAX_SIDE) } });
-    const base64 = await page.evaluate(trimShot, [buffer.toString("base64"), 280]);
-    writeFileSync(path, Buffer.from(base64, "base64"));
-    shots.push({ ...s, path, base64 });
+    writeFileSync(path, buffer);
+    shots.push({ ...s, path, base64: buffer.toString("base64"), trimmed: await page.evaluate(trimShot, [buffer.toString("base64"), 280]) });
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
     for (const f of await page.evaluate(craftAudit)) audit.push({ key: "craft", ...f, viewport: s.width, scheme: s.scheme });
@@ -590,6 +593,7 @@ function auditFindings(audit) {
 // The page's three screenshots, labeled as the questions name them.
 const pageImages = (shots) => VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n))
   .map((s) => ({ key: LABEL[s.name], caption: `The ${LABEL[s.name]} screenshot (${s.width} px wide, ${s.scheme}):`, base64: s.base64 }));
+const trimmedImages = (shots) => pageImages(shots).map((img, i) => ({ ...img, base64: VISUAL_SHOTS.map((n) => shots.find((s) => s.name === n))[i].trimmed }));
 const DIAGRAM_CONTEXT = "A diagram from a web page, shot on its own at the size the reader sees it.";
 
 // One Jev call: text state, labeled images, typed questions.
@@ -743,14 +747,28 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
       const images = pageImages(shots);
       const r = await judge({
         rules, proven: new Set(dom.map((d) => d.rule)), keys, detail, evidence: { where: VISUAL_SHOTS.join(", ") },
-        jev: (rs) => askJev({ rules: rs, state: { headlines, whitespace_rules: WHITESPACE_RULES }, images: [...images, ...sparseExamples()], keys, fetch }),
-        model: (rs) => askModel({ rules: rs, intro: "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") + ". headlines: " + JSON.stringify(headlines) + "\n" + WHITESPACE_RULES, images, key: keys.gateway, model, fetch, env }),
+        jev: (rs) => askJev({ rules: rs, state: { headlines }, images, keys, fetch }),
+        model: (rs) => askModel({ rules: rs, intro: "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") + ". headlines: " + JSON.stringify(headlines), images, key: keys.gateway, model, fetch, env }),
       });
       tiers.visual = "ran";
       verdicts = r.verdicts;
       add(r);
     } catch (error) {
       tiers.visual = "failed: " + error.message; // fail open: the cheap tiers still stand
+    }
+    // tell.sparse alone, on shots that end below the last content, with its own context.
+    try {
+      const trimmed = trimmedImages(shots);
+      const r = await judge({
+        rules: [SPARSE_RULE], proven: new Set(), keys, detail, evidence: { where: VISUAL_SHOTS.join(", ") },
+        jev: (rs) => askJev({ rules: rs, state: { whitespace_rules: WHITESPACE_RULES }, images: [...trimmed, ...sparseExamples()], keys, fetch }),
+        model: (rs) => askModel({ rules: rs, intro: "You review a web page against a whitespace rule. Images in order: " + VISUAL_SHOTS.join(", ") + ", each ending just below the last content.\n" + WHITESPACE_RULES, images: trimmed, key: keys.gateway, model, fetch, env }),
+      });
+      tiers.sparse = "jev ran";
+      verdicts = { ...verdicts, ...r.verdicts };
+      add(r);
+    } catch (error) {
+      tiers.sparse = "failed: " + error.message; // fail open
     }
     for (const g of diagrams) {
       const images = [{ key: "diagram", caption: "The diagram:", base64: g.base64 }];
