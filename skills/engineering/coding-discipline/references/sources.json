@@ -1,0 +1,280 @@
+{
+  "sources": [
+    {
+      "id": "SRC-CODE-001",
+      "title": "Canon TDD (Kent Beck)",
+      "url": "https://newsletter.kentbeck.com/p/canon-tdd",
+      "publisher": "Kent Beck, Software Design: Tidy First?",
+      "published": "2023-12-11",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "tdd"
+      ],
+      "findings": [
+        "Steps: write a test list of behavior variants, turn exactly one item into a concrete automated test, make it pass, optionally refactor, repeat until the list is empty.",
+        "Named mistakes: tests without assertions written for coverage; converting the whole test list into tests up front; mixing implementation design into the test list."
+      ],
+      "limits": "Practitioner definition by the originator of TDD; no controlled study.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-002",
+      "title": "Test Desiderata (Kent Beck)",
+      "url": "https://testdesiderata.com/",
+      "publisher": "Kent Beck",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "testing"
+      ],
+      "findings": [
+        "Twelve properties that make tests valuable, among them isolated, composable, deterministic, fast, behavioral (sensitive to behavior changes), structure-insensitive (unchanged by structure changes), specific (cause of failure obvious), and predictive.",
+        "Properties trade off against each other; composability can make tests faster and more predictive at once."
+      ],
+      "limits": "Property list read on the page; the linked videos not watched.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-003",
+      "title": "Behavior Change = Revenue Versus Structure Change = Option (Kent Beck)",
+      "url": "https://newsletter.kentbeck.com/p/behavior-change-revenue-versus-structure",
+      "publisher": "Kent Beck, Software Design: Tidy First?",
+      "published": "2022-09-13",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "design",
+        "refactoring"
+      ],
+      "findings": [
+        "A change alters either the system's behavior or its structure; Beck suggests never changing both at the same time.",
+        "Behavior changes earn now and can reduce optionality; structure changes should always increase optionality and earn nothing directly."
+      ],
+      "limits": "Essay from the Tidy First? series; the book itself not read for this entry.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-004",
+      "title": "Definition Of Refactoring (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/DefinitionOfRefactoring.html",
+      "publisher": "martinfowler.com",
+      "published": "2004-09-01",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "refactoring"
+      ],
+      "findings": [
+        "Refactoring: a change to the internal structure of software that makes it easier to understand and cheaper to modify without changing its observable behavior."
+      ],
+      "limits": "Definition only.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-005",
+      "title": "Catalog of Refactorings (Martin Fowler)",
+      "url": "https://refactoring.com/catalog/",
+      "publisher": "martinfowler.com",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "reference",
+      "domains": [
+        "refactoring"
+      ],
+      "findings": [
+        "Online catalog of the named refactorings from Refactoring, 2nd edition (for example Extract Function, Rename Variable, Split Phase), tagged by kind."
+      ],
+      "limits": "Catalog names read; the mechanics of each entry are in the book.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-006",
+      "title": "An example of preparatory refactoring (Martin Fowler)",
+      "url": "https://martinfowler.com/articles/preparatory-refactoring-example.html",
+      "publisher": "martinfowler.com",
+      "published": "2015-01-05",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "refactoring"
+      ],
+      "findings": [
+        "Preparatory refactoring, after Kent Beck: for each desired change, make the change easy (which may be hard), then make the easy change."
+      ],
+      "limits": "One worked example.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-007",
+      "title": "Yagni (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/Yagni.html",
+      "publisher": "martinfowler.com",
+      "published": "2015-05-26",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "design"
+      ],
+      "findings": [
+        "A presumptive feature built before it is needed carries a cost of delay and a cost of carry even when the guess is right.",
+        "Citing Kohavi et al., only about one third of carefully analyzed features improved the metric they targeted, so a presumptive feature is more likely wrong than right."
+      ],
+      "limits": "Yagni does not apply to effort that makes the code easier to change, such as refactoring.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-008",
+      "title": "Code Smell (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/CodeSmell.html",
+      "publisher": "martinfowler.com",
+      "published": "2006-02-09",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "refactoring"
+      ],
+      "findings": [
+        "A code smell is a surface indication, quick to spot, that usually corresponds to a deeper problem; a smell is not always a problem."
+      ],
+      "limits": "Short bliki entry; the smell catalog is in the Refactoring book.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-009",
+      "title": "Beck Design Rules (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/BeckDesignRules.html",
+      "publisher": "martinfowler.com",
+      "published": "2015-03-02",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "design"
+      ],
+      "findings": [
+        "Kent Beck's four rules of simple design, in priority order: passes the tests, reveals intention, no duplication, fewest elements."
+      ],
+      "limits": "Fowler's phrasing; Beck's own formulation is in Extreme Programming Explained.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-010",
+      "title": "A Philosophy of Software Design, 2nd edition (John Ousterhout)",
+      "url": "https://web.stanford.edu/~ouster/cgi-bin/book.php",
+      "publisher": "John Ousterhout, Stanford University",
+      "published": "2021-07",
+      "accessed": "2026-11-24",
+      "type": "book",
+      "domains": [
+        "design"
+      ],
+      "findings": [
+        "Second edition (July 2021) adds the chapter Decide What Matters, expands General-Purpose Modules are Deeper, and compares the book with Clean Code, disagreeing on method length and the role of comments."
+      ],
+      "limits": "Book page read; deep modules, pass-through methods, and comments that describe what is not obvious are from the book's chapters, not the page.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-011",
+      "title": "Flag Argument (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/FlagArgument.html",
+      "publisher": "martinfowler.com",
+      "published": "2011-06-23",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "design"
+      ],
+      "findings": [
+        "A flag argument tells a function to carry out a different operation depending on its value; prefer separate, explicitly named functions, keeping any flagged implementation private."
+      ],
+      "limits": "Style guidance.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-012",
+      "title": "Parallel Change (Danilo Sato)",
+      "url": "https://martinfowler.com/bliki/ParallelChange.html",
+      "publisher": "martinfowler.com",
+      "published": "2014-05-13",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "design",
+        "api"
+      ],
+      "findings": [
+        "Parallel change (expand and contract) splits a backward-incompatible interface change into expand, migrate, and contract, so consumers keep working during the move."
+      ],
+      "limits": "Pattern description with one example.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-013",
+      "title": "Test Double (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/TestDouble.html",
+      "publisher": "martinfowler.com",
+      "published": "2006-01-17",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "testing"
+      ],
+      "findings": [
+        "Test double is the generic term for a stand-in for a production object; Meszaros's kinds are dummy, fake, stub, spy, and mock."
+      ],
+      "limits": "Vocabulary entry; trade-offs in Mocks Aren't Stubs.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-014",
+      "title": "Mocks Aren't Stubs (Martin Fowler)",
+      "url": "https://martinfowler.com/articles/mocksArentStubs.html",
+      "publisher": "martinfowler.com",
+      "published": "2007-01-02",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "testing"
+      ],
+      "findings": [
+        "Distinguishes state verification from behavior verification and classical from mockist TDD; a classicist uses real objects for easy collaborations and a double only for awkward ones."
+      ],
+      "limits": "Essay; argues trade-offs, no study.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-CODE-015",
+      "title": "Given When Then (Martin Fowler)",
+      "url": "https://martinfowler.com/bliki/GivenWhenThen.html",
+      "publisher": "martinfowler.com",
+      "published": "2013-08-21",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": [
+        "testing"
+      ],
+      "findings": [
+        "Given-When-Then, from Dan North and Chris Matts in Behavior-Driven Development, specifies a behavior as the state before, the behavior under test, and the expected changes."
+      ],
+      "limits": "Bliki entry.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}
