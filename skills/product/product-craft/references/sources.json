@@ -1,0 +1,260 @@
+{
+  "sources": [
+    {
+      "id": "SRC-PM-001",
+      "title": "Opportunity Solution Trees (Teresa Torres, Product Talk)",
+      "url": "https://www.producttalk.org/opportunity-solution-trees/",
+      "publisher": "Product Talk",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["discovery"],
+      "findings": [
+        "The tree's root is the desired outcome (a business need the team can influence), then the opportunity space (customer needs, pain points, desires), then the solution space, then assumption tests that evaluate the solutions.",
+        "An opportunity is a solution in disguise when there is only one way to address it; ask whether more than one way exists.",
+        "Work on one small target opportunity at a time and compare and contrast more than one solution for it when the solution is risky, the opportunity differentiates, or an innovative answer is needed."
+      ],
+      "limits": "Practitioner guide, revised over time; no publication date on the page.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-002",
+      "title": "The Four Big Risks (Marty Cagan, SVPG)",
+      "url": "https://www.svpg.com/four-big-risks/",
+      "publisher": "Silicon Valley Product Group",
+      "published": "2017-12-04",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["discovery"],
+      "findings": [
+        "Four risks: value (will customers buy it or users choose it), usability (can users figure it out), feasibility (can engineers build it with the time, skills, and technology at hand), business viability (does it work for the business).",
+        "Viability covers go-to-market and sales fit, partner contracts and legal compliance, cost of acquiring customers, monetization, and similar business constraints; it is the risk product managers most often underestimate."
+      ],
+      "limits": "Practitioner essay framed for product companies.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-003",
+      "title": "Product vs Feature Teams (Marty Cagan, SVPG)",
+      "url": "https://www.svpg.com/product-vs-feature-teams/",
+      "publisher": "Silicon Valley Product Group",
+      "published": "2019-08-29",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["discovery", "operating-model"],
+      "findings": [
+        "Product teams are cross-functional, measured by outcomes rather than output, and empowered to find the best way to solve the problem they were given.",
+        "Feature teams are handed roadmaps of prioritized features with dates; value and viability then belong to the stakeholder who requested the feature, not the team."
+      ],
+      "limits": "The author says his feature team nomenclature is non-standard.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-004",
+      "title": "Shape Up chapter 3: Set Boundaries (Ryan Singer, Basecamp)",
+      "url": "https://basecamp.com/shapeup/1.2-chapter-03",
+      "publisher": "Basecamp",
+      "published": "2019",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["shaping"],
+      "findings": [
+        "An appetite differs from an estimate: estimates start with a design and end with a number, appetites start with a number and end with a design.",
+        "Fixed time, variable scope: the fixed time box forces decisions about what is core and what is peripheral, at shaping and at building time."
+      ],
+      "limits": "Describes Basecamp's six-week cycle; the book says to adapt it.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-005",
+      "title": "Shape Up chapter 5: Risks and Rabbit Holes (Ryan Singer, Basecamp)",
+      "url": "https://basecamp.com/shapeup/1.4-chapter-05",
+      "publisher": "Basecamp",
+      "published": "2019",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["shaping"],
+      "findings": [
+        "One unanticipated hole in the concept can burn a large part of the time budget; shaping looks for rabbit holes, patches them, and declares areas out of bounds before the bet.",
+        "A de-risked pitch carries the solution elements, the patches for rabbit holes, and fences around what is out of bounds."
+      ],
+      "limits": "Practitioner method from one company.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-006",
+      "title": "Shape Up chapter 8: The Betting Table (Ryan Singer, Basecamp)",
+      "url": "https://basecamp.com/shapeup/2.2-chapter-08",
+      "publisher": "Basecamp",
+      "published": "2019",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["shaping", "delivery"],
+      "findings": [
+        "Circuit breaker: a team ships within the bet time or by default the project gets no extension, which caps runaway projects at their appetite.",
+        "A project that does not finish signals a shaping problem; the response is to reframe and re-pitch, not to extend."
+      ],
+      "limits": "Practitioner method from one company.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-007",
+      "title": "The New User Story Backlog Is a Map (Jeff Patton)",
+      "url": "https://jpattonassociates.com/the-new-backlog/",
+      "publisher": "Jeff Patton & Associates",
+      "published": "2008-10-08",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["discovery", "delivery"],
+      "findings": [
+        "A story map arranges the big user activities along the top as the backbone and hangs the detailed stories below them as ribs; the backbone is not prioritized, the ribs are.",
+        "The stories placed highest describe the smallest system with end-to-end functionality, Cockburn's walking skeleton, which is built first."
+      ],
+      "limits": "Original blog post; the later book (User Story Mapping, 2014) refines the method.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-008",
+      "title": "The Build Trap (Melissa Perri)",
+      "url": "https://melissaperri.com/blog/2014/08/05/the-build-trap",
+      "publisher": "Melissa Perri",
+      "published": "2014-08-05",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["discovery", "operating-model"],
+      "findings": [
+        "The build trap: a company keeps building and releasing to show it is working, schedules ideas from roadmap meetings, and stops analyzing what it builds and why.",
+        "Success gets measured by what was shipped rather than by the value it produced."
+      ],
+      "limits": "Blog post; the 2018 book Escaping the Build Trap expands it.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-009",
+      "title": "DORA capability catalog",
+      "url": "https://dora.dev/capabilities/",
+      "publisher": "DORA (Google Cloud)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "research",
+      "domains": ["delivery"],
+      "findings": [
+        "DORA lists technical, process, and cultural capabilities (for example continuous integration, trunk-based development, working in small batches, WIP limits, generative culture) that its research links to software delivery and organizational performance.",
+        "Each capability page describes how to implement it, common pitfalls, and how to measure it."
+      ],
+      "limits": "Catalog page; the evidence sits in the yearly DORA reports.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-010",
+      "title": "DORA capability: Working in small batches",
+      "url": "https://dora.dev/capabilities/working-in-small-batches/",
+      "publisher": "DORA (Google Cloud)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "research",
+      "domains": ["delivery"],
+      "findings": [
+        "Features should take no more than a few days to develop; any batch of code that takes longer than a week to complete and check is too big.",
+        "Pitfalls: pieces not small enough, and regrouping small batches before sending them to testing or release, which delays feedback."
+      ],
+      "limits": "Guidance page; thresholds are DORA's recommendation, not a measured cutoff.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-011",
+      "title": "DORA capability: Work in process limits",
+      "url": "https://dora.dev/capabilities/wip-limits/",
+      "publisher": "DORA (Google Cloud)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "research",
+      "domains": ["delivery"],
+      "findings": [
+        "Set a WIP limit per board column by team capacity; once reached, pull a new card only when one moves on.",
+        "Pitfalls: not counting invisible work outside the team's part of the value stream, limits much too big (people split across tasks), relaxing limits when people are idle."
+      ],
+      "limits": "Guidance page.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-012",
+      "title": "DORA capability: Generative organizational culture",
+      "url": "https://dora.dev/capabilities/generative-organizational-culture/",
+      "publisher": "DORA (Google Cloud)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "research",
+      "domains": ["operating-model"],
+      "findings": [
+        "A high-trust culture that emphasizes information flow predicts software delivery and organizational performance; the typology comes from Ron Westrum (pathological, bureaucratic, generative).",
+        "Generative cultures train messengers, share risks, encourage bridging, and treat failure as a reason to inquire; culture is measured with a six-item Likert survey."
+      ],
+      "limits": "Perceptual survey measure.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-013",
+      "title": "Team Topologies: Key Concepts",
+      "url": "https://teamtopologies.com/key-concepts",
+      "publisher": "Team Topologies",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["operating-model"],
+      "findings": [
+        "Four team types: stream-aligned (aligned to a flow of work, owns outcomes), enabling (helps others overcome obstacles, temporarily), complicated subsystem (specialist expertise), platform (internal product that accelerates stream-aligned teams).",
+        "Three interaction modes: collaboration for a defined period, X-as-a-Service, facilitation; team cognitive load is actively managed."
+      ],
+      "limits": "Practitioner model from the 2019 book by Skelton and Pais.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-014",
+      "title": "The Kanban Guide (May 2025)",
+      "url": "https://kanbanguides.org/english/",
+      "publisher": "Kanban Guides (Vacanti, Coleman)",
+      "published": "2025-05",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["delivery"],
+      "findings": [
+        "Four mandatory flow metrics: WIP (started, not finished), throughput (exact count of items finished per unit of time), work item age (time since start), cycle time (start to finish).",
+        "Members explicitly control WIP so the system pulls: new work starts only when there is a capacity signal; a service level expectation forecasts elapsed time with a probability (for example 85 percent in eight days), based on historical cycle time."
+      ],
+      "limits": "Minimal guide; other Kanban schools add practices.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-PM-015",
+      "title": "The SPACE of Developer Productivity (Forsgren, Storey, Maddila, Zimmermann, Houck, Butler; ACM Queue 19(1))",
+      "url": "https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/",
+      "publisher": "Microsoft Research / ACM Queue",
+      "published": "2021-02",
+      "accessed": "2026-11-24",
+      "type": "research",
+      "domains": ["operating-model", "measurement"],
+      "findings": [
+        "Developer productivity is more than activity levels or the efficiency of engineering systems and cannot be measured by a single metric or dimension.",
+        "The SPACE framework names several dimensions (satisfaction and well-being, performance, activity, communication and collaboration, efficiency and flow) to build better measures."
+      ],
+      "limits": "Read from the publication page and abstract; the ACM Queue full text refused automated fetching (HTTP 403), so the dimension names are the framework's acronym, not re-read from the full text.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    }
+  ]
+}

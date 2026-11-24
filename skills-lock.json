@@ -197,7 +197,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/product-craft/SKILL.md",
-      "version": "1.5.1"
+      "version": "1.6.0"
     },
     "renovate": {
       "source": "local",
@@ -209,7 +209,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/run-product-engineering/SKILL.md",
-      "version": "2.1.1"
+      "version": "2.2.0"
     },
     "scaffold-harness": {
       "source": "local",
