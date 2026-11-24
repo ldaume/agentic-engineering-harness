@@ -18,6 +18,16 @@ coordinator is `<coordinator>/`.
   for that repository's product and engineering truth.
 - Open another repository only when the map names a relationship to the work
   at hand. No match: stay where you are.
+- Before changing an interface another repository uses (API, schema, SDK,
+  event, CLI, file layout), read the map's Relationships rows and search the
+  sibling checkouts for its consumers; a vendored or generated client hides
+  the field name from a plain search. Add the replacement and migrate every
+  consumer you may change before the provider's removal merges, with the
+  consumer pull requests linked from the provider's. Remove the old shape only
+  once every deployed consumer reads the new one (for a released app, its
+  oldest supported version). A consumer you may not change keeps the old shape
+  alive and is recorded as open in its map row:
+  no break left for a later session.
 
 ## Boundaries
 

@@ -94,6 +94,15 @@ class WorkspaceTemplates(unittest.TestCase):
         self.assertIn("SYNC.md", text)
         self.assertIn("CONTEXT-MAP.md", text)
 
+    def test_given_an_interface_change_when_a_session_reads_the_root_then_it_reaches_every_consumer_first(self):
+        # Given the root instructions and the map a session follows before a cross-repository change
+        root, cmap = read(ROOT_AGENTS), read(CONTEXT_MAP)
+        # Then the root names the consumer rows and the same-horizon order
+        self.assertIn("no break left for a later session", root)
+        self.assertIn("oldest supported version", root)
+        # And the map row names the file in each consumer that reads the contract
+        self.assertIn("Consumer files", cmap)
+
     def test_given_a_lease_when_the_branch_gate_applies_then_lease_rows_are_the_one_default_branch_exception(self):
         # Given leases live in the tracked coordinator STATUS.md
         harness = read(SKILL_DIR / "templates" / "HARNESS.md")
