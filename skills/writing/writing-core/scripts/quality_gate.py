@@ -104,6 +104,24 @@ ARTIFACTS: dict[str, dict] = {
     "prose": {"sentences": True},
 }
 
+# A sentence start, or after a comma or colon: where an imperative begins.
+_START = r"(?:^|(?<=[.!?:;,]\s)|(?<=\())"
+UI_INSTRUCTION = (
+    # A quoted "click here" is a mention, as in a style guide, not an instruction.
+    r"(?im)(?<![\"'\u201e])\b(?:click|tap) here\b|(?<![\"'\u201e])\bhier (?:klicken|tippen)\b|\bklicken sie hier\b"
+    r"|\b(?:see|siehe) (?:below|above|unten|oben)\b"
+    rf"|(?:{_START}|\byou can )(?:swipe|scroll)(?: the \w+)? (?:sideways|horizontally|left and right|down|up)\b"
+    rf"|{_START}(?:click|tap|hover|swipe|scroll|pinch|zoom)(?: (?:on|over) (?:the|this|a|an|any) (?:image|picture|photo|chart|diagram|graphic|figure|table|map|bar|point|node))?"
+    r" to (?:see|view|enlarge|zoom|expand|read|show|reveal|explore)\b"
+    r"|\blässt sich\b[^.!?\n]{0,40}?\b(?:wischen|scrollen|zoomen)\b"
+    r"|\b(?:kann man|können sie|kannst du)\b[^.!?\n]{0,40}?\b(?:wischen|scrollen|zoomen)\b"
+    r"|\b(?:zum|für) (?:vergrößern|zoomen|anzeigen|weiterlesen)\b[^.!?\n]{0,30}?\b(?:tippen|klicken|wischen|scrollen)\b"
+    r"|\b(?:scrollen|wischen) sie (?:nach|seitlich|weiter|horizontal|waagerecht)\b"
+    r"|\b(?:nach (?:unten|oben|rechts|links)|seitlich|waagerecht|horizontal) (?:scrollen|wischen)\b"
+    r"|\bfahren sie mit der maus\b"
+    r"|\b(?:tippen|klicken) sie auf (?:das|die|den|ein|eine) (?:bild|diagramm|grafik|abbildung|tabelle|karte|foto)\b"
+)
+
 # Warnings, not errors: a contrast that corrects a belief the reader holds is
 # fine. Each name says what to do, references/ai-tells.md says why.
 AI_TELLS: dict[str, str] = {
@@ -141,6 +159,12 @@ AI_TELLS: dict[str, str] = {
     "vague attribution (experts argue, Experten sind sich einig); name the source or drop the claim":
         r"(?i)\b(?:experts|observers|critics|industry reports) (?:argue|say|agree|believe|have (?:cited|noted))\b"
         r"|\bexperten (?:sind sich einig|sagen|meinen|argumentieren)\b|\bbranchenberichte\b|\beinige kritiker\b",
+    # Operating the page itself. A how-to step inside a product ("Click Approve to
+    # publish", "Klicken Sie auf Speichern") stays quiet: the verbs need the page as
+    # object, a direction, or a reveal goal. design-review's design-loop.mjs carries
+    # the same patterns as UI_INSTRUCTION; change both together.
+    "UI operating instruction (swipe sideways, scroll down, click here, siehe unten); fix the design, put screen reader hints in aria-label":
+        UI_INSTRUCTION,
 }
 
 # Three or more short comma items before "and/or": a list in running prose. Items

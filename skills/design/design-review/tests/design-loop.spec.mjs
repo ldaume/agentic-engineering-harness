@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, diagramAudit } from "../scripts/design-loop.mjs";
+import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, TEXT_RULES, diagramAudit, uiInstructions } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -83,9 +83,9 @@ test("given unsure Jev answers, those rules escalate in one model call and its v
   const fetch = stubFetch({ p: 0.5, score: 3 });
   const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
   const nouls = VISUAL_RULES.filter((x) => x.type === "noul").length;
-  expect(r.escalated).toBe(nouls);
-  expect(fetch.calls.filter((c) => c.url.includes("chat/completions"))).toHaveLength(1);
-  expect(r.findings.filter((f) => f.tier === "llm")).toHaveLength(nouls);
+  expect(r.escalated).toBe(nouls + TEXT_RULES.length); // the page-text rule escalates in its own call
+  expect(modelCalls(fetch).filter((c) => c.images > 0)).toHaveLength(1);
+  expect(r.findings.filter((f) => f.tier === "llm" && !f.rule.startsWith("text."))).toHaveLength(nouls);
   expect(r.findings[0].evidence).toMatchObject({ where: "top of the desktop screenshot" });
   expect(r.cost_usd.llm).toBeCloseTo(0.001);
   expect(r.cost_usd.jev).toBeGreaterThan(0);
@@ -125,7 +125,7 @@ test("given confident Jev failures, they stand as findings without a model call 
   expect(r.findings.filter((f) => f.tier === "jev" && f.status === "fail").length).toBeGreaterThan(0);
   const detailed = stubFetch({ p: 0.9, score: 3 });
   const d = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch: detailed, outDir: out(), detail: true });
-  expect(detailed.calls.filter((c) => c.url.includes("chat/completions"))).toHaveLength(1);
+  expect(modelCalls(detailed).filter((c) => c.images > 0)).toHaveLength(1);
   expect(d.findings.some((f) => f.tier === "llm")).toBe(true);
 });
 
@@ -187,6 +187,8 @@ test("given a refused escalation model, no screenshot is sent to it and the unsu
 });
 
 // Diagrams: each one is shot on its own and asked the diagram rules.
+const modelCalls = (fetch) => fetch.calls.filter((c) => c.url.includes("chat/completions"))
+  .map((c) => ({ ...c, images: c.body.messages[0].content.filter((p) => p.type === "image_url").length }));
 const jevCalls = (fetch) => fetch.calls.filter((c) => c.url.includes("decision-model"));
 const diagramCalls = (fetch) => jevCalls(fetch).filter((c) => Object.keys(c.body.questions).every((id) => id.startsWith("diagram.")));
 const pngSize = (base64) => { const b = Buffer.from(base64, "base64"); return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) }; };
@@ -268,7 +270,7 @@ test("given unsure Jev answers about a diagram, those rules go to the model with
   await page.setContent(fixture("diagram-clean.html"));
   const fetch = stubFetch({ p: 0.5, score: 3 });
   const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
-  const asks = fetch.calls.filter((c) => c.url.includes("chat/completions") && c.body.messages[0].content[0].text.includes("diagram."));
+  const asks = fetch.calls.filter((c) => c.url.includes("chat/completions") && c.body.messages[0].content[0].text.includes("- diagram."));
   expect(asks).toHaveLength(1);
   expect(asks[0].body.messages[0].content.filter((p) => p.type === "image_url")).toHaveLength(1);
   const found = r.findings.filter((f) => f.rule.startsWith("diagram."));
@@ -364,4 +366,86 @@ test("given cards aligned at 1280 and 390 px but drifting in a band between, onl
   const f = r.findings.find((x) => x.rule === "layout.alignment");
   expect(f, JSON.stringify(r.findings)).toBeTruthy();
   expect(f.evidence.where.join()).toMatch(/\d+(-\d+)? px/);
+});
+
+// Page text that tells the reader how to operate the page. Synthetic sentences, the same
+// split as writing-core's gate tests: the page as object, a direction or a reveal goal
+// count; product behavior and how-to steps inside a product do not.
+const UI_INSTRUCTIONS = [
+  "Auf dem Handy lässt sich das Diagramm seitlich wischen.", "Die Tabelle lässt sich auf kleinen Bildschirmen waagerecht scrollen.",
+  "Zum Vergrößern auf das Bild tippen.", "Klicken Sie hier, um den Bericht zu öffnen.", "Scrollen Sie nach unten für die Details.",
+  "Weitere Zahlen siehe unten.", "Fahren Sie mit der Maus über einen Balken, um den Wert zu sehen.", "Auf dem Smartphone kann man die Grafik seitlich wischen.",
+  "On a phone, swipe the diagram sideways.", "Scroll horizontally to see the whole table.", "Tap to zoom.", "Click here for the full report.",
+  "Hover over a bar to see its value.", "Scroll down to the results.", "See below for the numbers.", "Click on the image to enlarge it.",
+];
+const UI_DESCRIPTIONS = [
+  "Der Nutzer klickt auf Freigeben, dann startet der Export.", "Die Liste scrollt automatisch zum neuen Eintrag.",
+  "Klicken Sie auf Speichern, um den Entwurf zu sichern.", "Bei Klick auf Exportieren erzeugt das System ein PDF.",
+  "Das Diagramm zeigt den Ablauf von links nach rechts.", "Die App erkennt Wischgesten und Zoomen mit zwei Fingern.",
+  "Der Speicher lässt sich später vergrößern.", "Der Bericht lässt sich als PDF exportieren.",
+  "The user clicks Approve and the export starts.", "The list scrolls to the newest item.", "Click Approve to publish the release.",
+  "Users swipe left to archive a message.", "Hover states use the accent color.", "Tap targets are at least 44 px.",
+  "Scrolling performance improved after the fix.", "The carousel lets shoppers swipe through products.", "See the runbook for the restore steps.",
+  'Link text names its target, never "click here".',
+];
+
+test("given sentences that tell the reader how to operate the page, the text check finds each; product UI described or instructed stays quiet", () => {
+  for (const t of UI_INSTRUCTIONS) expect(uiInstructions([t]), t).toHaveLength(1);
+  for (const t of UI_DESCRIPTIONS) expect(uiInstructions([t]), t).toEqual([]);
+});
+
+test("given a caption that tells the reader to swipe the diagram, the DOM tier flags it with the sentence and Jev is not asked the text rule", async ({ page }) => {
+  await page.setContent(fixture("text-instructions.html"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const f = r.findings.find((x) => x.rule === "text.ui-instructions");
+  expect(f).toMatchObject({ status: "fail", tier: "dom", evidence: { text: "Auf dem Handy lässt sich das Diagramm seitlich wischen." } });
+  expect(jevCalls(fetch).some((c) => c.body.questions["text.ui-instructions"])).toBe(false);
+});
+
+test("given page text the DOM check passes, Jev is asked the text rule on the visible text without screenshots and a confident no passes it", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.05, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const call = jevCalls(fetch).find((c) => c.body.questions["text.ui-instructions"]);
+  expect(Object.keys(call.body.questions)).toEqual(["text.ui-instructions"]);
+  expect(call.body.stateParts.some((p) => p.type === "file")).toBe(false);
+  expect(JSON.stringify(call.body.stateParts)).toContain("Tides at the north pier");
+  expect(jevCalls(fetch).find((c) => c.body.questions["visual.hierarchy"]).body.questions["text.ui-instructions"]).toBeUndefined();
+  expect(r.passed).toContain("text.ui-instructions");
+});
+
+test("given an unsure Jev answer on the page text, the model decides it from the text alone and its verdict becomes a finding", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.5, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const call = modelCalls(fetch).find((c) => /- text\.ui-instructions:/.test(c.body.messages[0].content[0].text));
+  expect(call.images).toBe(0);
+  expect(call.body.messages[0].content[0].text).toContain("Tides at the north pier");
+  expect(r.findings.find((f) => f.rule === "text.ui-instructions")).toMatchObject({ status: "fail", tier: "llm" });
+});
+
+test("given the text rule, its thresholds are the calibrated ones: a how-to step diluted in a long page reached 0.81, so a fail needs 0.85", () => {
+  const rule = TEXT_RULES.find((x) => x.id === "text.ui-instructions");
+  expect(decide(rule, { probability: 0.81 }).status).toBe("unsure");
+  expect(decide(rule, { probability: 0.86 }).status).toBe("fail");
+  expect(decide(rule, { probability: 0.33 }).status).toBe("pass");
+  expect(decide(rule, { probability: 0.44 }).status).toBe("unsure");
+});
+
+test("given only a TypeSafe key, the text question goes without assets or the image opt-in, which Jev rejects when no image is sent", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const calls = [];
+  const fetch = async (url, init) => {
+    const body = JSON.parse(init.body);
+    calls.push({ url, body, headers: init.headers });
+    const answers = Object.fromEntries(Object.entries(body.questions).map(([id, q]) => [id, q.type === "score" ? { score: 3 } : { probability: 0.05 }]));
+    return Response.json({ answers, usage: { input_tokens: 100 } });
+  };
+  const r = await review(page, { env: { TYPESAFE_API_KEY: "test" }, fetch, outDir: out() });
+  const text = calls.find((c) => c.body.questions["text.ui-instructions"]);
+  expect(text.body.assets).toBeUndefined();
+  expect(text.headers["TypeSafe-Danger-Zone-Images"]).toBeUndefined();
+  expect(calls.find((c) => c.body.questions["visual.hierarchy"]).headers["TypeSafe-Danger-Zone-Images"]).toBe("true");
+  expect(r.passed).toContain("text.ui-instructions");
 });

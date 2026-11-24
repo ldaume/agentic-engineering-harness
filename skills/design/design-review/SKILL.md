@@ -54,7 +54,14 @@ and is checked for clipped text, stacked labels, lines through boxes, and
 small text: exactly from the SVG geometry where it is inline SVG, otherwise
 by Jev and the model. On 7 synthetic diagrams Jev caught every clipped title,
 stacked label, and small text and passed the clean one, but stayed unsure on
-a line through an empty part of a box, which goes to the model. It writes `.design-loop/design-loop.json`
+a line through an empty part of a box, which goes to the model. The visible
+page text (headings, paragraphs, list items, captions, up to 80 blocks) is
+checked for sentences that tell the reader how to operate the page ("swipe the
+diagram sideways", "click here", "siehe unten"): exactly by pattern first,
+otherwise by one typed Jev question on the text alone and the model when Jev
+is unsure. On 16 synthetic pages Jev scored such sentences 0.73 to 0.97 and
+product descriptions at most 0.44, except a how-to step inside a product
+(up to 0.81), so a fail needs 0.85. It writes `.design-loop/design-loop.json`
 (findings with rule, tier, confidence, evidence, cost) and exits 1 on a
 failure. Run it before calling any UI change done, because the agent that
 built the page is the worst judge of how it looks; serve the page on
@@ -64,8 +71,8 @@ it found 21 of the 22 rule
 failures the reviewer found at about 2% of its cost, and half the pages
 needed no model beyond Jev.
 Tests with model calls stubbed: `tests/design-loop.spec.mjs` with the
-fixtures `tests/fixtures/generic.html` and `diagram-broken.html` (must be
-flagged) and `clean.html` and `diagram-clean.html` (must pass).
+fixtures `tests/fixtures/generic.html`, `diagram-broken.html` and
+`text-instructions.html` (must be flagged) and `clean.html` and `diagram-clean.html` (must pass).
 
 ## Load when
 

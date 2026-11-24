@@ -14,6 +14,10 @@
 //            layers hidden and clipping containers opened, and checked for clipped text, stacked
 //            labels, lines through boxes and small text: exactly from inline SVG geometry, then
 //            by Jev and the model like the page.
+//   text   - the visible page text (headings, paragraphs, list items, captions; capped) checked for
+//            sentences that tell the reader how to operate the page (swipe, scroll, click here):
+//            first exactly by pattern, then, when no pattern hit, as one typed Jev question on the
+//            text alone, with the model deciding when Jev is unsure.
 //   llm    - only the rules Jev was unsure about go to a vision model, in one call, which
 //            decides them and says where the problem is and what to change. --detail sends
 //            Jev's confident failures too, for their where and fix.
@@ -98,6 +102,49 @@ export const DIAGRAM_RULES = [
   { id: "diagram.small-text", type: "noul", instructions: "Is any text in the diagram too small to read comfortably at this size?" },
 ];
 const MAX_DIAGRAMS = 6;
+
+// Asked about the page text, in its own call without screenshots, so the visual rules keep the
+// question set they were calibrated on. Wording and thresholds from a spike on 16 synthetic
+// pages, three runs (2026-11-24), each page alone and inside 40 blocks of other content:
+// instructions scored 0.73 to 0.97 (one ambiguous "a tap on a box opens it" 0.16 to 0.29, a
+// miss); product behavior 0.01 to 0.44, except the how-to step "Click Approve to publish",
+// 0.66 to 0.81. So a fail needs 0.85 and the middle goes to the model.
+export const TEXT_RULES = [
+  { id: "text.ui-instructions", type: "noul", yes: 0.85, no: 0.35, instructions: "Does the page text contain a sentence that tells the reader how to operate this page or document itself (scroll, swipe, click, tap, zoom, hover, 'see below') instead of giving content? Describing how a product or app behaves, or a how-to step inside a product, does not count." },
+];
+const MAX_TEXT_BLOCKS = 80;
+
+// The exact tier for text.ui-instructions. writing-core's quality_gate.py carries the same
+// patterns as UI_INSTRUCTION; change both together. The verbs need the page as object, a
+// direction or a reveal goal, so "Click Approve to publish" inside product docs stays quiet.
+const START = String.raw`(?:^|(?<=[.!?:;,]\s)|(?<=\())`;
+const UI_INSTRUCTION = new RegExp([
+  String.raw`(?<!["'\u201e])\b(?:click|tap) here\b`, String.raw`(?<!["'\u201e])\bhier (?:klicken|tippen)\b`, String.raw`\bklicken sie hier\b`,
+  String.raw`\b(?:see|siehe) (?:below|above|unten|oben)\b`,
+  String.raw`(?:${START}|\byou can )(?:swipe|scroll)(?: the \w+)? (?:sideways|horizontally|left and right|down|up)\b`,
+  String.raw`${START}(?:click|tap|hover|swipe|scroll|pinch|zoom)(?: (?:on|over) (?:the|this|a|an|any) (?:image|picture|photo|chart|diagram|graphic|figure|table|map|bar|point|node))? to (?:see|view|enlarge|zoom|expand|read|show|reveal|explore)\b`,
+  String.raw`\blässt sich\b[^.!?\n]{0,40}?\b(?:wischen|scrollen|zoomen)\b`,
+  String.raw`\b(?:kann man|können sie|kannst du)\b[^.!?\n]{0,40}?\b(?:wischen|scrollen|zoomen)\b`,
+  String.raw`\b(?:zum|für) (?:vergrößern|zoomen|anzeigen|weiterlesen)\b[^.!?\n]{0,30}?\b(?:tippen|klicken|wischen|scrollen)\b`,
+  String.raw`\b(?:scrollen|wischen) sie (?:nach|seitlich|weiter|horizontal|waagerecht)\b`,
+  String.raw`\b(?:nach (?:unten|oben|rechts|links)|seitlich|waagerecht|horizontal) (?:scrollen|wischen)\b`,
+  String.raw`\bfahren sie mit der maus\b`,
+  String.raw`\b(?:tippen|klicken) sie auf (?:das|die|den|ein|eine) (?:bild|diagramm|grafik|abbildung|tabelle|karte|foto)\b`,
+].join("|"), "iu");
+
+// The sentences of the page text that match, each once.
+export function uiInstructions(blocks) {
+  const hits = blocks.flatMap((b) => b.split(/(?<=[.!?])\s+/)).filter((t) => UI_INSTRUCTION.test(t));
+  return [...new Set(hits)];
+}
+
+// Runs in the page: the visible text blocks a reader sees, innermost only so nothing counts twice.
+function pageText(max) {
+  const sel = "h1, h2, h3, p, li, dd, figcaption, caption";
+  return [...document.querySelectorAll(sel)]
+    .filter((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden" && !el.querySelector(sel))
+    .map((el) => el.textContent.trim().replace(/\s+/g, " ").slice(0, 300)).filter(Boolean).slice(0, max);
+}
 
 // A noul between these bounds is unsure and goes to the model; so is a score within BAND of
 // the first passing level. Jev's score confidence measures spread, not correctness, and
@@ -408,16 +455,18 @@ async function askJev({ rules, state, images, keys, fetch }) {
     for (const s of images) stateParts.push({ type: "text", text: s.caption }, { type: "file", mediaType: "image/png", data: { type: "data", data: s.base64 } });
     response = await fetch(GATEWAY + "/v4/ai/decision-model", {
       method: "POST",
-      headers: { Authorization: "Bearer " + keys.gateway, "Content-Type": "application/json", "ai-gateway-protocol-version": "0.0.1", "ai-decision-model-specification-version": "4", "ai-model-id": "typesafe-ai/jev", "TypeSafe-Danger-Zone-Images": "true" },
+      headers: { Authorization: "Bearer " + keys.gateway, "Content-Type": "application/json", "ai-gateway-protocol-version": "0.0.1", "ai-decision-model-specification-version": "4", "ai-model-id": "typesafe-ai/jev", ...(images.length && { "TypeSafe-Danger-Zone-Images": "true" }) },
       body: JSON.stringify({ stateParts, questions, providerOptions: { gateway: { ...PRIVACY, only: ["typesafe-ai"] } } }),
     });
   } else {
     const refs = images.map((s) => `shot-${s.key}-${crypto.randomUUID()}`);
     const assets = Object.fromEntries(images.map((s, i) => [refs[i], { type: "image", format: "png", data_base64: s.base64 }]));
+    // Jev rejects the image opt-in and an empty assets map on a text-only question.
+    const withImages = images.length ? { assets } : {};
     response = await fetch(TYPESAFE, {
       method: "POST",
-      headers: { Authorization: "Bearer " + keys.typesafe, "Content-Type": "application/json", "TypeSafe-Danger-Zone-Images": "true" },
-      body: JSON.stringify({ model: "jev-latest", state: { ...state, ...Object.fromEntries(images.map((s, i) => [s.key, refs[i]])) }, assets, questions }),
+      headers: { Authorization: "Bearer " + keys.typesafe, "Content-Type": "application/json", ...(images.length && { "TypeSafe-Danger-Zone-Images": "true" }) },
+      body: JSON.stringify({ model: "jev-latest", state: { ...state, ...Object.fromEntries(images.map((s, i) => [s.key, refs[i]])) }, ...withImages, questions }),
     });
   }
   if (!response.ok) throw new Error(`Jev ${response.status}: ${(await response.text()).slice(0, 200)}`);
@@ -514,18 +563,21 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   const notes = [];
   const diagrams = await shootDiagrams(page, outDir, notes);
   const dom = await page.evaluate(tellsAudit);
+  const text = await page.evaluate(pageText, MAX_TEXT_BLOCKS);
+  const textHits = uiInstructions(text);
   const headlines = await page.evaluate(() => [...document.querySelectorAll("h1, h2")].slice(0, 6).map((h) => h.textContent.trim().replace(/\s+/g, " ").slice(0, 120)));
   const findings = [
     ...dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { element: d.element, where: "desktop-light" }, detail: d.detail })),
     ...auditFindings(audit),
     ...diagrams.flatMap((g) => g.dom.map((d) => ({ rule: d.rule, status: "fail", tier: "dom", confidence: 1, evidence: { diagram: g.name, where: g.where, element: d.text }, detail: d.detail }))),
+    ...textHits.map((t) => ({ rule: "text.ui-instructions", status: "fail", tier: "dom", confidence: 1, evidence: { text: t, where: "page text" }, detail: "tells the reader how to operate the page; cut it and fix the design so the page shows it (a hint for screen readers goes in aria-label)" })),
   ];
   const cost = { jev: 0, llm: 0 };
   const keys = { gateway: env.AI_GATEWAY_API_KEY || env.VERCEL_AI_GATEWAY_API_KEY, typesafe: env.TYPESAFE_API_KEY };
   const dark = shots.find((s) => s.name === "desktop-dark").base64 !== shots.find((s) => s.name === "desktop-light").base64;
   if (!dark) notes.push("no dark scheme: the dark screenshots equal the light ones");
   const rules = VISUAL_RULES.filter((r) => dark || r.id !== "layout.dark");
-  const tiers = { dom: "ran", audit: `ran (${level})`, visual: "skipped: no model key", llm: "not needed", diagrams: diagrams.length ? `${diagrams.length} shot, dom ran` : "none found" };
+  const tiers = { dom: "ran", audit: `ran (${level})`, visual: "skipped: no model key", llm: "not needed", diagrams: diagrams.length ? `${diagrams.length} shot, dom ran` : "none found", text: textHits.length ? `dom flagged ${textHits.length}` : `dom clean (${text.length} blocks)` };
   const passed = [];
   let verdicts = {};
   let escalated = 0;
@@ -564,6 +616,20 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
         add(r, g.name + "/");
       } catch (error) {
         g.jev = { failed: error.message }; // fail open: the DOM findings for this diagram still stand
+      }
+    }
+    // A pattern hit is exact, so Jev is asked only about text the patterns passed.
+    if (!textHits.length && text.length) {
+      try {
+        const r = await judge({
+          rules: TEXT_RULES, proven: new Set(), keys, detail, evidence: { where: "page text" },
+          jev: (rs) => askJev({ rules: rs, state: { page_text: text }, images: [], keys, fetch }),
+          model: (rs) => askModel({ rules: rs, intro: "You review the visible text of a web page against a writing rule; there are no images. Page text, one block per line:\n" + text.join("\n"), images: [], key: keys.gateway, model, fetch, env }),
+        });
+        tiers.text += ", jev ran";
+        add(r);
+      } catch (error) {
+        tiers.text += ", jev failed: " + error.message; // fail open: the pattern tier still stands
       }
     }
     if (diagrams.length) tiers.diagrams = `${diagrams.length} shot, dom ${diagrams.some((g) => g.jev?.failed) ? "ran, jev failed on some" : "and jev ran"}`;

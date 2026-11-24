@@ -63,7 +63,9 @@ detail destroys the trust the rest of the text earned.
 6. Gate: from this skill's directory run `python3 scripts/quality_gate.py --artifact <type> --lang <de|en> FILE`
    with `--artifact slides` for deck text and `--artifact prose` for any other
    running text when no closer type is listed, and `--facts` holding the
-   audience `terms`; fix every error, judge each warning.
+   audience `terms`; fix every error, judge each warning. A page's diagram
+   captions and legends count as prose; a sentence telling readers how to
+   operate the page (swipe, scroll, click here) is a warning: fix the design.
 7. Return the finished artifact, without commentary unless asked.
 
 ## Language
