@@ -4,7 +4,10 @@
 //
 // Tiers, in order of cost:
 //   dom    - generic-look tells read from the DOM (`tellsAudit`): free, exact, with a selector.
-//   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow.
+//   audit  - `reading-audit.js` at 1280 and 390 px, light and dark: contrast, targets, overflow;
+//            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
+//            (title, text, divider, footnote) sit at different heights. The width sweep is 360 to 1592 px in 32 px steps (light). Jev asks the same of
+//            the screenshots as `tell.misaligned-cards`.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
@@ -59,6 +62,7 @@ const SHOTS = [
   { name: "phone-light", width: 390, scheme: "light" },
   { name: "phone-dark", width: 390, scheme: "dark" },
 ];
+const SWEEP = Array.from({ length: 39 }, (_, i) => 360 + 32 * i); // 360 to 1592 px
 const VISUAL_SHOTS = ["desktop-light", "phone-light", "desktop-dark"];
 const LABEL = { "desktop-light": "desktop", "phone-light": "phone", "desktop-dark": "dark" }; // the names the questions use
 
@@ -76,6 +80,7 @@ export const VISUAL_RULES = [
   { id: "tell.placeholder", type: "noul", instructions: "Does the page show placeholder content: names like Acme or Jane Doe, lorem ipsum, or invented round numbers like 10,000+?" },
   { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off, overlapping, squeezed, or too small to read?" },
   { id: "layout.dark", type: "noul", instructions: "Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?" },
+  { id: "tell.misaligned-cards", type: "noul", instructions: "Look at each row of cards or tiles. Draw an imaginary horizontal line through a part of one card (its title, its divider, its footer or its button). Does that line miss the same part of a neighboring card by more than a few pixels? Empty space inside a card is not misalignment; only the position of the matching parts counts." },
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
 ];
 
@@ -116,6 +121,54 @@ export function decide(rule, answer = {}) {
   if (p >= (rule.yes ?? YES)) return { status: "fail", confidence: p, probability: p };
   if (p <= (rule.no ?? NO)) return { status: "pass", confidence: 1 - p, probability: p };
   return { status: "unsure", confidence: Math.abs(p - 0.5) * 2, probability: p };
+}
+
+// Runs in the page. Cards in one visual row (3+ siblings, same width, same structure, 2+ block
+// children each) must line up part by part: the same child's top, a divider's included, may
+// differ by at most TOL px, unless the bottoms line up (a part that grows to fill the card).
+// A wrapped row is compared per visual row; fewer than 3 in a row is not a card row.
+// Limit: structure is compared by tag sequence, four levels deep; cards of different build are skipped.
+export function alignmentAudit() {
+  const TOL = 4;
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/).join(".") : "");
+  const kids = (el) => [...el.children].filter((c) => c.getClientRects().length > 0 && getComputedStyle(c).position !== "absolute" && getComputedStyle(c).position !== "fixed");
+  const block = (el) => !getComputedStyle(el).display.startsWith("inline");
+  const spread = (xs) => Math.round(Math.max(...xs) - Math.min(...xs));
+  const out = [];
+  const divider = (el) => el.tagName === "HR" || parseFloat(getComputedStyle(el).borderTopWidth) > 0;
+  const compare = (cards, depth, label) => {
+    const lists = cards.map((c) => kids(c).filter(block));
+    if (lists.some((l) => l.map((e) => e.tagName).join() !== lists[0].map((e) => e.tagName).join())) return;
+    // A wrapper with one child (li > a) is not a part: the parts are one level down.
+    if (lists[0].length === 1 && depth < 4) return compare(lists.map((l) => l[0]), depth + 1, label);
+    if (lists[0].length < 2) return;
+    for (let i = 0; i < lists[0].length; i++) {
+      const col = lists.map((l) => l[i].getBoundingClientRect());
+      const top = spread(col.map((r) => r.top));
+      // A divider is judged by its own top; equal bottoms (mt-auto) do not excuse it.
+      const grows = !lists.some((l) => divider(l[i])) && spread(col.map((r) => r.bottom)) <= TOL;
+      if (top > TOL && !grows) {
+        const text = lists[0][i].textContent.trim().replace(/\s+/g, " ").slice(0, 40);
+        out.push({ element: `${label} > ${name(lists[0][i])} (child ${i + 1})`, text, observed: `${top} px spread across ${cards.length} cards`, required: `within ${TOL} px` });
+        return; // everything below drifts with it
+      }
+      if (depth < 4) compare(lists.map((l) => l[i]), depth + 1, label);
+    }
+  };
+  for (const parent of document.body.querySelectorAll("*")) {
+    const items = kids(parent).filter(block);
+    const rows = new Map();
+    for (const el of items) {
+      const r = el.getBoundingClientRect();
+      const key = [...rows.keys()].find((t) => Math.abs(t - r.top) <= 2) ?? r.top;
+      rows.set(key, [...(rows.get(key) || []), el]);
+    }
+    for (const row of rows.values()) {
+      const w = row.map((e) => e.getBoundingClientRect().width);
+      if (row.length >= 3 && spread(w) <= 0.1 * Math.max(...w)) compare(row, 0, name(row[0]));
+    }
+  }
+  return out;
 }
 
 // Runs in the page (page.evaluate). Each tell is a default taken without a decision;
@@ -299,17 +352,44 @@ async function shoot(page, outDir, level) {
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
   }
+  // Card drift depends on how the text wraps, so it is measured over a width sweep (DOM only, light).
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  const widths = [...new Set([...SWEEP, ...SHOTS.map((s) => s.width)])].sort((a, b) => a - b);
+  for (const width of widths) {
+    await page.setViewportSize({ width, height: 800 });
+    for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: width, widths });
+  }
+  const last = SHOTS[SHOTS.length - 1];
+  await page.setViewportSize({ width: last.width, height: 800 });
+  await page.emulateMedia({ colorScheme: last.scheme, reducedMotion: "reduce" });
   return { shots, audit };
+}
+
+// Consecutive tested widths that fail become one band: "1024-1072 px".
+function bands(hit, widths) {
+  const out = [];
+  for (const w of widths.filter((x) => hit.includes(x))) {
+    const i = widths.indexOf(w);
+    if (out.length && widths[i - 1] === out[out.length - 1][1]) out[out.length - 1][1] = w;
+    else out.push([w, w]);
+  }
+  return out.map(([a, b]) => (a === b ? `${a} px` : `${a}-${b} px`));
 }
 
 function auditFindings(audit) {
   const seen = new Map();
   for (const f of audit) {
     const id = `${f.key}|${f.element}|${f.text}`;
+    if (f.key === "alignment") {
+      const hit = seen.get(id) ?? seen.set(id, { rule: "layout.alignment", status: "fail", tier: "audit", confidence: 1, hits: [], widths: f.widths, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required } }).get(id);
+      hit.hits.push(f.viewport);
+      hit.evidence.where = bands(hit.hits, hit.widths);
+      continue;
+    }
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
     seen.set(id, { rule: "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
-  return [...seen.values()];
+  return [...seen.values()].map(({ hits, widths, ...f }) => f);
 }
 
 // The page's three screenshots, labeled as the questions name them.

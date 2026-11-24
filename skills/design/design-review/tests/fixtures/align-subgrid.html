@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Process steps</title>
+<style>
+  body { margin: 0; padding: 16px; font: 16px/1.5 Georgia, serif; color: #1b1a17; background: #f6f1e7; }
+  h2 { margin: 0 0 12px; font-size: 20px; }
+  p { margin: 0; }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: auto auto auto auto; gap: 0 12px; }
+  .card { box-sizing: border-box; padding: 12px; border: 1px solid #b9ad94; grid-row: span 3; display: grid; grid-template-rows: subgrid; gap: 0; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; }
+  .card .why { margin-bottom: 12px; }
+  .card .note { border-top: 1px solid #b9ad94; padding-top: 8px; font-size: 16px; }
+</style>
+</head>
+<body>
+  <h2>Five steps</h2>
+  <div class="row">
+    <article class="card"><h3>1</h3><p class="why">Short purpose.</p><p class="note">One line.</p></article>
+    <article class="card"><h3>2</h3><p class="why">A much longer purpose text that wraps over several lines in a narrow card and pushes everything below it further down the page.</p><p class="note">A footnote that is long enough to wrap onto two or even three lines in this narrow column of the row.</p></article>
+    <article class="card"><h3>3</h3><p class="why">Short purpose.</p><p class="note">A footnote that is long enough to wrap onto two or even three lines in this narrow column of the row.</p></article>
+    <article class="card"><h3>4</h3><p class="why">A much longer purpose text that wraps over several lines in a narrow card and pushes everything below it further down the page.</p><p class="note">One line.</p></article>
+    <article class="card"><h3>5</h3><p class="why">A medium purpose text that wraps twice.</p><p class="note">A footnote that is long enough to wrap onto two or even three lines in this narrow column of the row.</p></article>
+  </div>
+</body>
+</html>

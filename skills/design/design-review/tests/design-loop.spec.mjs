@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, diagramAudit } from "../scripts/design-loop.mjs";
+import { tellsAudit, alignmentAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES, DIAGRAM_RULES, diagramAudit } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -295,4 +295,73 @@ test("given a diagram whose shot fails, the review leaves it out with a note and
   expect(r.diagrams).toEqual([]);
   expect(r.notes.some((n) => /^diagram-1 .*not checked: element is not attached/.test(n))).toBe(true);
   expect(r.shots).toHaveLength(4);
+});
+
+// Cards in one row: the same part of each card has to sit at the same height.
+const align = async (page, name) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setContent(fixture(name));
+  return page.evaluate(alignmentAudit);
+};
+
+test("given a row of cards whose texts wrap differently, the alignment check reports the part that drifts and its spread", async ({ page }) => {
+  const hits = await align(page, "align-drift.html");
+  expect(hits.length).toBeGreaterThan(0);
+  expect(hits[0].element).toContain("article.card");
+  expect(hits[0].observed).toMatch(/^\d+ px spread/);
+  expect(hits[0].required).toBe("within 4 px");
+});
+
+test("given the same row built with subgrid, the alignment check passes", async ({ page }) => {
+  expect(await align(page, "align-subgrid.html")).toEqual([]);
+});
+
+test("given cards with identical text, the alignment check passes", async ({ page }) => {
+  expect(await align(page, "align-equal.html")).toEqual([]);
+});
+
+test("given six cards wrapped into two aligned rows of three, the alignment check passes", async ({ page }) => {
+  expect(await align(page, "align-wrapped.html")).toEqual([]);
+});
+
+test("given a nav list of linked cards (li > a, flex column, mt-auto bordered footers), the alignment check reports the drifting divider", async ({ page }) => {
+  const hits = await align(page, "align-nav-drift.html");
+  expect(hits.length).toBeGreaterThan(0);
+  expect(hits[0].element).toContain("li");
+  expect(hits[0].element).toContain("span.note");
+});
+
+test("given the same linked cards built with nested subgrid, the alignment check passes", async ({ page }) => {
+  expect(await align(page, "align-nav-subgrid.html")).toEqual([]);
+});
+
+test("given the drifting row, the review reports layout.alignment from the audit tier with its viewports", async ({ page }) => {
+  await page.setContent(fixture("align-drift.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const f = r.findings.find((x) => x.rule === "layout.alignment");
+  expect(f, JSON.stringify(r.findings)).toBeTruthy();
+  expect(f.tier).toBe("audit");
+  expect(f.evidence.where.length).toBeGreaterThan(0);
+});
+
+test("given the visual rules, Jev is asked whether matching card parts sit at different heights, a yes failing as its own rule", async ({ page }) => {
+  await page.setContent(fixture("align-drift.html"));
+  const fetch = stubFetch({ p: 0.95, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out() });
+  const asked = fetch.calls.find((c) => c.url.includes("decision-model")).body.questions;
+  expect(asked["tell.misaligned-cards"].type).toBe("boolean");
+  expect(r.findings.some((f) => f.rule === "tell.misaligned-cards" && f.tier === "jev")).toBe(true);
+});
+
+test("given cards aligned at 1280 and 390 px but drifting in a band between, only the width sweep finds it and names the band", async ({ page }) => {
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.setContent(fixture("align-band.html"));
+    expect(await page.evaluate(alignmentAudit), `at ${width}`).toEqual([]);
+  }
+  await page.setContent(fixture("align-band.html"));
+  const r = await review(page, { env: {}, fetch: stubFetch(), outDir: out() });
+  const f = r.findings.find((x) => x.rule === "layout.alignment");
+  expect(f, JSON.stringify(r.findings)).toBeTruthy();
+  expect(f.evidence.where.join()).toMatch(/\d+(-\d+)? px/);
 });

@@ -63,6 +63,25 @@ which is about surviving user overrides. Diagram sources (`.mermaid`), script
 and style are skipped; background images are not composited. Worked tests:
 `tests/reading-audit.spec.mjs` with `tests/playwright.config.mjs` (`npx playwright test -c skills/design/design-review/tests`).
 
+## Card rows
+
+`scripts/design-loop.mjs` also runs `layout.alignment` (`alignmentAudit`) in the
+audit tier over a width sweep (every 32 px from 360 to 1592 px, light, plus
+the screenshot widths), because wrapping makes the drift width-dependent; `where` names
+the failing bands, e.g. `1024-1072 px`. In each viewport: for 3 or more same-width siblings in one visual
+row, each with 2 or more block children, the same child (title, text, divider,
+footnote) must sit within 4 px of its twin, or share a bottom edge. A wrapped
+row is compared per visual row; cards built differently are skipped. The usual
+fix is CSS subgrid (`grid-row: span N; grid-template-rows: subgrid`). The Jev tier asks the same
+question of the screenshots as `tell.misaligned-cards`, for pages with no DOM
+to measure; the DOM rule stays the exact check. Worked
+fixtures: `tests/fixtures/align-drift.html` (fails), `align-subgrid.html`,
+`align-equal.html` and `align-wrapped.html` (pass); `align-nav-drift.html` (linked cards
+in a list, a bordered footer pushed down with `margin-top: auto`, fails) and
+`align-nav-subgrid.html` (pass); `align-band.html` (aligned at 1280 and 390 px, drifts in
+a band between, found only by the sweep). A wrapper with one child is looked through, and a
+divider is judged by its own top: equal bottoms do not excuse it.
+
 ## Checklist
 
 - Desktop and mobile widths; the breakpoints the layout actually uses.
