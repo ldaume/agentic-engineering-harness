@@ -741,9 +741,146 @@
    "findings": [
     "Plain language standard: readers find what they need, understand it, and use it; principles are relevance, findability, clarity (sentences, paragraphs, structure), and succinctness."
    ],
-   "limits": "Cited by standard number. The iso.org page returned 403 on 2026-11-24 and the URL was not opened; the standard text was not seen. The numeric targets in the reference-page profile are local working values, not values from the standard.",
+   "limits": "Cited by standard number. The iso.org page returned 403 on 2026-11-24 and the URL was not opened; the standard text was not seen. It sets principles and asks to test with readers; the numeric targets in the reference-page profile are local working values, not values from the standard.",
    "evidence_level": "hypothesis",
    "revisit": "open the ISO 24495-1:2023 abstract when iso.org is reachable and confirm the URL"
+  },
+  {
+   "id": "SRC-WRITE-038",
+   "title": "DIN 8581-1:2024-05 Einfache Sprache - Anwendung für das Deutsche - Teil 1: Sprachspezifische Festlegungen",
+   "url": "https://www.dinmedia.de/de/norm/din-8581-1/377238273",
+   "publisher": "DIN Media",
+   "published": "2024-05",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "German plain-language standard (Einfache Sprache) for factual texts; builds on DIN ISO 24495-1, makes its recommendations specific to German and raises some to requirements.",
+    "Its target audience does not explicitly include readers with cognitive impairments; Leichte Sprache is not part of it."
+   ],
+   "limits": "Only the DIN Media catalog page was opened (2026-11-24); the standard text itself is paid and was not seen, so no rule inside it is quoted.",
+   "evidence_level": "verified",
+   "revisit": "yearly; check for a newer edition or Part 2"
+  },
+  {
+   "id": "SRC-WRITE-039",
+   "title": "ISO 24495-2:2025 Plain language - Part 2: Legal communication",
+   "url": "https://www.iso.org/standard/85774.html",
+   "publisher": "ISO",
+   "published": "2025-08",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "First edition (August 2025) of plain-language guidance for legal communication; builds on ISO 24495-1."
+   ],
+   "limits": "Known from search-result snippets of iso.org and resellers; the iso.org page and the standard text were not opened.",
+   "evidence_level": "supported",
+   "revisit": "open the iso.org page when reachable"
+  },
+  {
+   "id": "SRC-WRITE-040",
+   "title": "Rat für deutsche Rechtschreibung: Geschlechtergerechte Schreibung, Pressemitteilung vom 15.12.2023",
+   "url": "https://www.rechtschreibrat.com/DOX/rfdr_PM_2023-12-15_Geschlechtergerechte_Schreibung.pdf",
+   "publisher": "Rat für deutsche Rechtschreibung",
+   "published": "2023-12-15",
+   "accessed": "2026-11-24",
+   "type": "regulation",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "Word-internal gender characters (star, colon, underscore) are not admitted into the core orthography (Kernbestand); the Council handles them in a separate supplement on Sonderzeichen and keeps observing usage.",
+    "Whether such forms count as errors in schools and administration is for the responsible state bodies, and some bodies prohibit them."
+   ],
+   "limits": "Seen only through search-result summaries; the PDF itself was not opened, so wording and the decision date are second-hand. Press reports are consistent.",
+   "evidence_level": "supported",
+   "revisit": "open the Rat's supplement on Sonderzeichen and check for a newer decision"
+  },
+  {
+   "id": "SRC-WRITE-041",
+   "title": "Rat für deutsche Rechtschreibung: revised Amtliches Regelwerk binding since 1 July 2024",
+   "url": "https://www.rechtschreibrat.com/?p=6659",
+   "publisher": "Rat für deutsche Rechtschreibung",
+   "published": "2024-07-03",
+   "accessed": "2026-11-24",
+   "type": "regulation",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "The revised Amtliches Regelwerk with the new word list has been binding for schools and administration since 1 July 2024; implementation runs through transition periods coordinated by the state bodies."
+   ],
+   "limits": "Opened on 2026-11-24 and read through a summarizing fetch tool. Binding for schools and administration, not for private writers. No source found for a July 2025 date.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-042",
+   "title": "GOV.UK Writing to GOV.UK standards: Clear language",
+   "url": "https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/writing-guidelines/clear-language/",
+   "publisher": "UK Government Digital Service",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "style-guide",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "\"Try to split up sentences that are over 25 words long.\""
+   ],
+   "limits": "Opened on 2026-11-24. A prompt to check and split, not a hard rule; the older A to Z URL returned 404 and the sentence was not found in the A to Z page.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-043",
+   "title": "Schriver, K. A. (2017). Plain Language in the US Gains Momentum: 1940-2015. IEEE Transactions on Professional Communication 60(4), 343-383",
+   "url": "https://doi.org/10.1109/TPC.2017.2765118",
+   "publisher": "IEEE",
+   "published": "2017-12",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Review of US plain-language practice: readability formulas are often unreliable and invalid for judging text quality; reader-focused testing is the standard for knowing what is plain (as summarized by the Center for Plain Language)."
+   ],
+   "limits": "Read as a summary from the Center for Plain Language and a pre-publication draft listing; the published paper was not opened.",
+   "evidence_level": "supported",
+   "revisit": "open the published paper and the Center summary"
+  },
+  {
+   "id": "SRC-WRITE-044",
+   "title": "Wikipedia: Signs of AI writing",
+   "url": "https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing",
+   "publisher": "Wikipedia",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "community-guide",
+   "domains": [
+    "editorial",
+    "en",
+    "de"
+   ],
+   "findings": [
+    "Descriptive list of signs, not proof; indicators change across model generations and some older ones are much rarer in newer models.",
+    "Lists em-dash overuse (2022 to September 2026) under historical indicators, most useful in combination with other indicators; some newer models avoid em dashes."
+   ],
+   "limits": "Opened on 2026-11-24 (page text partly read through a summarizing fetch tool); no revision date is shown, the page says \"As of October 2026\". A living page: re-read before an audit.",
+   "evidence_level": "supported",
+   "revisit": "re-read before each audit"
   }
  ]
 }
