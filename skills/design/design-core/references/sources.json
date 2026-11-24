@@ -1327,7 +1327,7 @@
     "pageswap/pagereveal events customise or skip the transition; the pagereveal listener must be in a classic parser-blocking head script or marked blocking=render.",
     "In Chrome 126 limited to main-frame navigations."
    ],
-   "limits": "Browser-support widget is JS-rendered; Safari/Firefox status for cross-document comes only from a web search summary (secondary), see Could not verify.",
+   "limits": "Browser-support widget is JS-rendered. Cross-document status was later read from SRC-WEB-030 (2026-11-24): Chrome 126, Safari 18.2, Firefox not shipped, Baseline Limited.",
    "evidence_level": "supported",
    "revisit": "Interop 2026 cross-document outcome."
   },
@@ -1365,7 +1365,7 @@
     "animation-timeline with scroll() and view() binds animation progress to scroll position or element visibility, declaratively.",
     "MDN's own demo uses an @supports not (scroll-timeline: ...) block, i.e. feature detection and fallback are expected."
    ],
-   "limits": "Support matrix not captured; current status (Chrome 115+, Safari 26, Firefox flagged) is from secondary search results only.",
+   "limits": "MDN page; the support matrix was not captured here. Current Baseline status (Newly available since 2026-10-27: Chrome 115, Safari 26, Firefox 159) comes from SRC-WEB-030.",
    "evidence_level": "supported",
    "revisit": "Firefox shipping unflagged."
   },
@@ -1796,18 +1796,18 @@
    "url": "https://github.com/amzn/style-dictionary/releases",
    "publisher": "Style Dictionary (GitHub, formerly amzn)",
    "published": "unknown",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "domains": [
     "design-systems"
    ],
    "findings": [
-    "The current major is v5; the latest release shown is v5.7.0 (marked Latest, released \"16 Oct\", year not rendered in the extracted text), preceded by v5.6.1 on 10 Oct.",
+    "The current major is v5; the latest release is v5.8.0 (2026-11-03), preceded by v5.7.1 (2026-10-24), v5.7.0 (2026-10-16) and v5.6.1 (2026-10-10); read from the GitHub releases API on 2026-11-24.",
     "The repository now lives under the style-dictionary org (URLs redirect from amzn).",
     "Release notes show DTCG $root handling fixes, and an earlier security fix for prototype pollution in convertTokenData introduced in 4.3.0 (GHSA-vj5c-m527-mpff)."
    ],
-   "limits": "Release list only; year of v5.7.0 inferred as 2026 from page recency, not displayed.",
-   "evidence_level": "supported",
+   "limits": "Release list only. The notes of v5.4.4 to v5.8.0 do not mention the DTCG Resolver Module (no 'resolver' in any of the twelve latest release bodies), so resolver support is unverified.",
+   "evidence_level": "verified",
    "revisit": "any v6 announcement"
   },
   {
@@ -3117,18 +3117,18 @@
    "title": "Style Dictionary",
    "url": "https://github.com/style-dictionary/style-dictionary",
    "publisher": "Style Dictionary maintainers",
-   "published": "2026-10-16",
+   "published": "2026-11-03",
    "domains": [
     "design-systems",
     "tokens",
     "tooling"
    ],
    "findings": [
-    "Version 5.7.0, Apache-2.0."
+    "Version 5.8.0 (npm, published 2026-11-03), Apache-2.0."
    ],
-   "limits": "Full DTCG 2025.10 support not verified.",
+   "limits": "Full DTCG 2025.10 support and Resolver Module support not verified; npm version read with npm view.",
    "revisit": "Release notes claiming full DTCG 2025.10 support.",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "evidence_level": "verified"
   },
@@ -3137,18 +3137,18 @@
    "title": "Mermaid",
    "url": "https://github.com/mermaid-js/mermaid",
    "publisher": "Mermaid maintainers",
-   "published": "2026-10-13",
+   "published": "2026-11-11",
    "domains": [
     "diagrams",
     "tooling"
    ],
    "findings": [
-    "Version 12.2.0, MIT.",
+    "Mermaid 12.3.0 on npm (modified 2026-11-11), MIT; @mermaid-js/mermaid-cli 12.2.0 (2026-11-02).",
     "Syntax validity says nothing about whether a diagram is understandable or accessible."
    ],
-   "limits": "Rendering quality varies by host.",
+   "limits": "Rendering quality varies by host; versions read with npm view, license not re-read.",
    "revisit": "New major version.",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "tool",
    "evidence_level": "verified"
   },
@@ -3211,6 +3211,68 @@
    "limits": "Read the abstract, dates and the WCAG paragraph of the Federal Register text; the govinfo PDF of the same document is https://www.govinfo.gov/content/pkg/FR-2026-04-20/pdf/2026-07663.pdf. Comment period closed 2026-06-22; a final rule could change dates again. US public entities only; not a statement on private-sector ADA exposure.",
    "evidence_level": "verified",
    "revisit": "Final rule or further date extension."
+  },
+  {
+   "id": "SRC-WEB-030",
+   "title": "Web Platform Status API (webstatus.dev), Baseline status per feature",
+   "url": "https://api.webstatus.dev/v1/features/container-queries",
+   "publisher": "Web Platform DX community group",
+   "published": "2026-11-24",
+   "accessed": "2026-11-24",
+   "type": "tool",
+   "domains": [
+    "web",
+    "baseline",
+    "css"
+   ],
+   "findings": [
+    "Each feature id returns a Baseline status (limited, newly, widely) with low_date (newly since) and high_date (widely since) plus per-browser implementation status; 17 ids read on 2026-11-24.",
+    "Container queries (size) widely available since 2025-08-14; :has() 2026-06-19; text-wrap balance and light-dark() 2026-11-13; color-mix() and Oklab/OkLCh 2025-11-09; dialog 2024-09-14.",
+    "Newly available: popover (2025-01-27), same-document view transitions (2025-10-14), @scope (2026-03-24), contrast-color() (2026-04-10), field-sizing (2026-06-16), scroll-driven animations (2026-10-27).",
+    "Limited (Firefox missing): text-wrap pretty, cross-document view transitions, anchor positioning, customizable select."
+   ],
+   "limits": "A snapshot: the API changes daily. Baseline counts core browsers only, not assistive technology or your own browser mix. The oklch id does not exist; Oklab and OkLCh is `oklab`.",
+   "evidence_level": "verified",
+   "revisit": "Re-read each id before relying on a row older than a quarter."
+  },
+  {
+   "id": "SRC-PROD-031",
+   "title": "Design Tokens Resolver Module 2025.10 (Final Community Group Report)",
+   "url": "https://www.designtokens.org/tr/2025.10/resolver/",
+   "publisher": "Design Tokens Community Group",
+   "published": "2025-10-28",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "design-systems",
+    "tokens"
+   ],
+   "findings": [
+    "Final Community Group Report dated 28 October 2025; the status text calls it stable and intended for implementation, and says it is not a W3C Standard and not on the W3C Standards Track.",
+    "Defines resolver documents with sets and modifiers to resolve tokens in contexts such as light, dark and high contrast themes, sizing, and accessibility modes."
+   ],
+   "limits": "Read the abstract, status, table of contents and the context examples; did not read the resolution algorithm. Tool support is a separate question: Style Dictionary's recent release notes do not mention it.",
+   "evidence_level": "verified",
+   "revisit": "A superseding resolver report, or Style Dictionary announcing resolver support."
+  },
+  {
+   "id": "SRC-TOOL-008",
+   "title": "Mermaid CLI (@mermaid-js/mermaid-cli)",
+   "url": "https://www.npmjs.com/package/@mermaid-js/mermaid-cli",
+   "publisher": "Mermaid maintainers",
+   "published": "2026-11-02",
+   "accessed": "2026-11-24",
+   "type": "tool",
+   "domains": [
+    "diagrams",
+    "tooling"
+   ],
+   "findings": [
+    "Version 12.2.0 (npm, modified 2026-11-02); `mmdc` renders a Mermaid file to SVG, PNG or PDF and exits nonzero on a syntax error."
+   ],
+   "limits": "Version read with npm view; the exit-code behavior is the commonly documented one, not re-run in this session (supported). The CLI pins its own Mermaid version.",
+   "evidence_level": "supported",
+   "revisit": "New major version."
   }
  ]
 }

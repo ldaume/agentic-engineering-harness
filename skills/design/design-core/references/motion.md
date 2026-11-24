@@ -141,13 +141,13 @@ reduceMotion.addEventListener("change", () => applyMotionPreference(reduceMotion
   vestibular harm, and the variants above already meet it
   (context-dependent).
 
-## Platform status (as of 2026-10-21)
+## Platform status (as of 2026-11-24)
 
 | Feature | Status | Use as |
 |---|---|---|
-| Same-document view transitions | Baseline Newly available since 2025-10-14 (Firefox 144); Firefox lacks view transition types (verified) [SRC-WEB-008] | progressive enhancement; do not depend on types |
-| Cross-document view transitions | Chrome 126+, same-origin, both pages opt in; Safari and Firefox status from secondary sources only (supported) [SRC-WEB-009] | enhancement for MPAs; Interop 2026 focus area, so re-check (context-dependent) [SRC-WEB-010] |
-| Scroll-driven animations | shipped in Chromium; Safari 26 and Firefox (flagged) per secondary sources, mid-2026 (supported) [SRC-WEB-011] | decorative enhancement behind `@supports` |
+| Same-document view transitions | Baseline Newly available since 2025-10-14 (Firefox 144); Firefox lacks view transition types (verified) [SRC-WEB-008] [SRC-WEB-030] | progressive enhancement; do not depend on types |
+| Cross-document view transitions | Baseline Limited: Chrome 126+, Safari 18.2+, Firefox not shipped; same-origin, both pages opt in (verified) [SRC-WEB-030] [SRC-WEB-009]; Interop 2026 focus area, so re-check (context-dependent) [SRC-WEB-010] | enhancement for MPAs; navigation must work without it |
+| Scroll-driven animations | Baseline Newly available since 2026-10-27: Chrome 115, Safari 26, Firefox 159 (verified) [SRC-WEB-030] | progressive enhancement behind `@supports` with a complete fallback; reduced motion still respected |
 
 Content must be complete with the effect off, because unsupported browsers
 and reduced-motion users see that state (supported) [SRC-WEB-011]. Register

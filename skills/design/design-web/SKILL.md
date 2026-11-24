@@ -66,6 +66,9 @@ Order matters because each step constrains the next.
   design.
 - `references/performance.md` - when setting budgets, choosing images or
   fonts, adding a motion or 3D library, or when a page feels slow.
+- `references/baseline-css.md` - when a design leans on a modern CSS feature
+  (container queries, `:has()`, view transitions, anchor positioning) and
+  you need its Baseline status and fallback rule.
 - Motion: `design-core/references/motion.md` for every animated
   surface.
 
