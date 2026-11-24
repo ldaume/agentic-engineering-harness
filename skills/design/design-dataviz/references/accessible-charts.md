@@ -132,8 +132,9 @@ List what still needs a keyboard and screen-reader pass."
 
 ## Evidence gaps
 
-- chartability.fyi and chartability.com did not load; only the GitHub
-  repository was read [SRC-VIZ-012].
+- The Chartability workbook (https://chartability.github.io/POUR-CAF/) loaded
+  on 2026-11-24 and was read; chartability.fyi did not load and
+  chartability.com returned an empty page [SRC-VIZ-012].
 - Carbon's data-visualization palette page was not read [SRC-VIZ-014].
 - No source here tests screen-reader behavior of specific chart libraries
   beyond their own documentation.

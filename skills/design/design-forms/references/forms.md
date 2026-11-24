@@ -95,6 +95,20 @@ name@example.com."
   password managers generate and save (supported) [SRC-A11Y-020].
 - Allow paste; offer "Show password"; never block managers (3.3.8,
   verified) [SRC-A11Y-019].
+- Passkeys: mark the username field `autocomplete="username webauthn"` and
+  start a conditional WebAuthn request on load (`mediation: 'conditional'`,
+  empty `allowCredentials`, an `AbortController` to cancel it), so saved
+  passkeys and passwords appear in one autofill list and no separate passkey
+  button is needed (verified) [SRC-A11Y-028]. Feature-detect first:
+  `PublicKeyCredential.getClientCapabilities()` reporting
+  `conditionalGet === true`; the older
+  `PublicKeyCredential.isConditionalMediationAvailable()` is the fallback
+  check (supported). Without support the form stays a normal username and
+  password form.
+- Keep the password path and a recovery path (a reset link, or another
+  passkey provider) visible, because a lost device must not lock a person out.
+  The password path still has to meet 3.3.8 through paste and manager
+  support (3.3.8, verified) [SRC-A11Y-001] [SRC-A11Y-019].
 
 ## Multi-step forms and interruption
 
