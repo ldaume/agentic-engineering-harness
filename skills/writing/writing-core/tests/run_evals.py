@@ -9,6 +9,8 @@
         Send each prompt in routing-cases.json to a fresh headless session in an
         empty directory and report which skills it actually loaded. Costs model
         calls and needs the skills installed, so it is a release check, not CI.
+        Sessions run read-only, without browser or desktop tools, and stop at the
+        first step of the task itself, so a replay never builds or opens anything.
 """
 
 from __future__ import annotations
@@ -18,6 +20,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import threading
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -76,16 +79,68 @@ def loaded_skills(host: str, stdout: str) -> set[str]:
             command = str((event.get("item") or {}).get("command", ""))
             if re.search(r"\b(cat|sed|head|less|bat)\b", command):
                 found.update(SKILL_FILE.findall(command))
+                # `cat skills/{writing-core,writing-editorial}/SKILL.md` reads each name in the braces
+                for names in re.findall(r"\{([^}]*)\}/SKILL\.md", command):
+                    found.update(n for n in names.split(",") if re.fullmatch(r"(writing|design)-[a-z-]+", n))
     return found
 
 
-def run_host(host: str, prompt: str, cwd: str) -> str:
-    cmd = {
-        "claude": ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "4"],
-        "codex": ["codex", "exec", "--json", "--skip-git-repo-check", prompt],
+# A replay measures which skills load, never the task itself: no writes, no
+# browser or desktop, and the run stops once the task starts.
+DENIED = "Bash Write Edit NotebookEdit WebFetch mcp__claude-in-chrome mcp__computer-use mcp__plugin_playwright_playwright mcp__plugin_chrome-devtools-mcp_chrome-devtools"
+READS = {"Skill", "Read", "Glob", "Grep", "ToolSearch"}
+READ_COMMAND = re.compile(r"(cat|sed|head|tail|ls|pwd|rg|grep|find|nl|wc|git (status|log|show|rev-parse|diff))\b")
+
+
+def command(host: str, prompt: str) -> list[str]:
+    return {
+        "claude": ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "4",
+                   "--disallowedTools", DENIED],
+        "codex": ["codex", "exec", "--json", "--skip-git-repo-check", "--sandbox", "read-only", prompt],
     }[host]
+
+
+def task_started(host: str, event: dict) -> bool:
+    """True once the session does the task instead of reading skills: the skill
+    choice is visible by then, and anything later only costs and acts."""
+    if host == "claude":
+        message = event.get("message")
+        content = message.get("content") if isinstance(message, dict) else None
+        for part in content if isinstance(content, list) else []:
+            if isinstance(part, dict) and part.get("type") == "tool_use" and part.get("name") not in READS:
+                if "/skills/" not in str((part.get("input") or {}).get("command", "")):
+                    return True
+        return False
+    item = event.get("item") or {}
+    if item.get("type") != "command_execution":
+        return False
+    text = str(item.get("command", ""))
+    inner = re.sub(r"^\S*sh -lc ['\"]?", "", text)
+    # Reading instructions or code is still orientation; the sandbox blocks writes.
+    return "skills/" not in text and not READ_COMMAND.match(inner)
+
+
+def run_host(host: str, prompt: str, cwd: str) -> str:
     # stdin closed: `codex exec` otherwise waits for piped input and every case times out
-    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL).stdout
+    proc = subprocess.Popen(command(host, prompt), cwd=cwd, stdin=subprocess.DEVNULL,
+                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    lines = []
+    timer = threading.Timer(600, proc.kill)  # a hung session must not stall the whole replay
+    timer.start()
+    try:
+        for line in proc.stdout:
+            lines.append(line)
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(event, dict) and task_started(host, event):
+                break
+    finally:
+        timer.cancel()
+        proc.kill()
+        proc.wait(timeout=30)
+    return "".join(lines)
 
 
 def routing(host: str, only: set[str], cases_file: Path, cwd: str | None) -> int:
