@@ -1,0 +1,253 @@
+{
+  "sources": [
+    {
+      "id": "SRC-FE-001",
+      "title": "Cumulative Layout Shift (CLS) (web.dev)",
+      "url": "https://web.dev/articles/cls",
+      "publisher": "Google (web.dev)",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["performance"],
+      "findings": [
+        "Layout shifts within 500 ms of a discrete user input (tap, click, keypress) carry hadRecentInput and are excluded; scrolls and drags are not recent input.",
+        "When an interaction starts a slow request, reserve space and show a loading indicator right away so content does not move when the result arrives."
+      ],
+      "limits": "Chrome team guidance; the metric is defined by the Layout Instability spec.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-002",
+      "title": "Every Layout: Boxes (Heydon Pickering, Andy Bell)",
+      "url": "https://every-layout.dev/rudiments/boxes/",
+      "publisher": "Every Layout",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["css", "layout"],
+      "findings": [
+        "By default a box's size is its content plus padding and border (content-box); border-box makes the declared width include padding and border and is preferable for all boxes.",
+        "Apply box-sizing: border-box to all elements with the universal selector."
+      ],
+      "limits": "Practitioner book chapter.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-003",
+      "title": "Every Layout: The Stack (Heydon Pickering, Andy Bell)",
+      "url": "https://every-layout.dev/layouts/stack/",
+      "publisher": "Every Layout",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["css", "layout"],
+      "findings": [
+        "Components designed in isolation should not carry the margin that separates them; style the context instead.",
+        "The Stack injects margin between siblings from their common parent (.stack > * + * with margin-block-start), leaving no stray margin."
+      ],
+      "limits": "Practitioner book chapter.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-004",
+      "title": "Inclusive Components: Toggle Buttons (Heydon Pickering)",
+      "url": "https://inclusive-components.design/toggle-button/",
+      "publisher": "Inclusive Components",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["accessibility", "components"],
+      "findings": [
+        "A true toggle button is a button element with aria-pressed; its label names what is toggled and styles hook onto [aria-pressed].",
+        "Never change the pressed state and the label together; a label that flips between play and pause is a state change no assistive technology announces."
+      ],
+      "limits": "Practitioner pattern library; the book edition updates the examples.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-005",
+      "title": "Inclusive Components: Menus and Menu Buttons (Heydon Pickering)",
+      "url": "https://inclusive-components.design/menus-menu-buttons/",
+      "publisher": "Inclusive Components",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["accessibility", "components"],
+      "findings": [
+        "The ARIA menu and menuitem roles are for application menus; a site navigation of links should not use them, because menuitem overrides the link role and is not meant to contain interactive descendants."
+      ],
+      "limits": "Practitioner pattern library.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-006",
+      "title": "CUBE CSS (Andy Bell)",
+      "url": "https://cube.fyi/",
+      "publisher": "Piccalilli",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["css"],
+      "findings": [
+        "CUBE stands for Composition, Utility, Block, Exception: a methodology that extends the cascade rather than working against it, unlike approaches such as BEM."
+      ],
+      "limits": "The author calls the documentation a work in progress.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-007",
+      "title": "CUBE CSS: Composition (Andy Bell)",
+      "url": "https://cube.fyi/composition.html",
+      "publisher": "Piccalilli",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["css", "layout"],
+      "findings": [
+        "The composition layer provides high-level flexible layouts, decides how elements interact, and creates flow and rhythm (for example .flow > * + * with a margin token).",
+        "It does not provide visual treatment (color, font style), decoration, or force a pixel-perfect layout."
+      ],
+      "limits": "Practitioner methodology.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-008",
+      "title": "CUBE CSS: Exception (Andy Bell)",
+      "url": "https://cube.fyi/exception.html",
+      "publisher": "Piccalilli",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "practitioner",
+      "domains": ["css"],
+      "findings": [
+        "An exception is a deviation from a block's rules, such as a reversed or inactive state, expressed with a data attribute (data-state) that serves as a hook for both CSS and JavaScript."
+      ],
+      "limits": "Practitioner methodology.",
+      "evidence_level": "context-dependent",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-009",
+      "title": "HTML: A good basis for accessibility (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility/HTML",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["accessibility", "html"],
+      "findings": [
+        "Use semantic controls (button, a, form elements) where possible; a div button needs tabindex, a role, and key handling added back by hand.",
+        "Positive tabindex values for a custom tab order are nearly always a bad idea because they confuse the order."
+      ],
+      "limits": "Learning guide.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-010",
+      "title": "ARIA (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["accessibility"],
+      "findings": [
+        "Prefer the semantic HTML element over ARIA; the first rule of ARIA is to use a native element or attribute that has the semantics and behavior built in.",
+        "With ARIA you must reproduce the browser behavior in script; WebAIM found home pages with ARIA averaged 41 percent more detected errors."
+      ],
+      "limits": "Reference page; cites WebAIM Million.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-011",
+      "title": "Progressive enhancement (MDN Glossary)",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["architecture"],
+      "findings": [
+        "Progressive enhancement delivers a baseline of essential content and functionality to as many users as possible and layers richer behavior on capable browsers, using feature detection."
+      ],
+      "limits": "Glossary entry.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-012",
+      "title": "CSS logical properties and values (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["css", "i18n"],
+      "findings": [
+        "Logical properties map layout to the writing direction (block and inline, start and end) instead of physical left, right, top, and bottom, so content in right-to-left or vertical writing modes renders as intended."
+      ],
+      "limits": "Reference page.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-013",
+      "title": "Cascade layers (MDN Learn)",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["css"],
+      "findings": [
+        "For normal declarations later layers beat earlier ones and unlayered styles beat all layers; for !important the order reverses.",
+        "Layer order, set once, decides precedence before specificity does."
+      ],
+      "limits": "Learning guide.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-014",
+      "title": "<dialog>: The Dialog element (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["html", "accessibility"],
+      "findings": [
+        "Baseline widely available since March 2022; showModal() opens a modal dialog, moves focus to the first focusable element (or the autofocus target), and closes on Escape.",
+        "Provide an explicit close button; keyboard users expect Escape to close modal dialogs."
+      ],
+      "limits": "Reference page.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-FE-015",
+      "title": "Specificity (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity",
+      "publisher": "MDN Web Docs",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["css"],
+      "findings": [
+        "Specificity is the weight the cascade uses to pick the most relevant declaration; the page gives tips for avoiding and overriding !important, including isolating unavoidable overrides in a first imported layer."
+      ],
+      "limits": "Reference page.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    }
+  ]
+}
