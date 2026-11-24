@@ -1,6 +1,6 @@
 ---
 name: design-slides
-description: Use whenever building or revising a slide deck, presentation, talk, research readout, or decision deck, or a diagram - architecture or system map, C4 view, sequence or state diagram, Mermaid, D2, or Graphviz source - covering headlines, storyline, builds and animation, readability, diagram type, labels, and text alternatives (Präsentation, Folien, Foliensatz, Vortrag, Architekturdiagramm, Schaubild). Not for user-journey flowcharts (design-flows), dashboards or standalone charts (design-dataviz), or .pptx file mechanics. The product decision itself belongs to product-craft.
+description: Use whenever building or revising a slide deck, presentation, talk, or decision deck, or a diagram - architecture map, C4, sequence or state diagram, Mermaid, D2 (Präsentation, Folien, Vortrag, Architekturdiagramm, Schaubild). Not for user-journey flowcharts (design-flows), dashboards (design-dataviz), or .pptx mechanics; the product decision belongs to product-craft.
 license: MIT
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: run-product-engineering
-description: Runs an evidence-driven product engineering system from signals and ideas through triage, problem framing, discovery, bets, small-batch implementation, validation, release, observability, incidents, bug fixing, outcome review, and evolution. Use when a team coordinates an end-to-end product lifecycle, shapes how its product work flows, or connects discovery with delivery and operations.
+description: Runs an evidence-driven product engineering system end to end - triage, framing, discovery, bets, small-batch delivery, validation, release, incidents, and outcome review. Use when a team shapes how its product work flows or connects discovery with delivery and operations. A single bet decision belongs to product-craft; one release check to completion-gate.
+license: MIT
 ---
 
 # Run Product Engineering

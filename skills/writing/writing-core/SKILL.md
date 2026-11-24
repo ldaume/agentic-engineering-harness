@@ -1,6 +1,6 @@
 ---
 name: writing-core
-description: Use whenever asked to rewrite, edit, tighten, proofread, or translate a professional German or English text, or to make it sound natural or native (umschreiben, redigieren, kürzen, übersetzen, Text verbessern, natural US English, natives Deutsch), when text sounds generated or like AI slop, for the words on slides, pages, and docs, and for cross-format editorial, factual, or readability review. Loads the house style, DE/EN rules, and claim checks. Hand off email, Slack, summaries, marketing copy, product docs, PRs, and commits to the matching writing-* skill. Not for code changes.
+description: Use whenever asked to rewrite, edit, tighten, proofread, or translate a German or English text, or when it sounds generated or like AI slop (umschreiben, redigieren, kürzen, übersetzen, natives Deutsch), including the words on slides, pages, and docs. Loads house style and claim checks. Email, marketing, product docs, PRs, and commits go to their writing-* skill. Not for code.
 license: MIT
 ---
 

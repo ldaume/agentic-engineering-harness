@@ -1,6 +1,6 @@
 ---
 name: design-flows
-description: Use whenever designing, specifying, or reviewing a user flow or journey across screens - onboarding, sign-up, checkout, approvals, invites, account recovery, subscription changes, import and export, multi-role or collaborative workflows, AI-assisted workflows - including edge cases, error and recovery paths, interruptions, state models, and flow diagrams (User Flow, Nutzerfluss, Journey, Ablauf, Statechart, Onboarding). Not for a single form's validation, which design-forms owns.
+description: Use whenever designing or reviewing a user flow or journey across screens - onboarding, sign-up, checkout, approvals, invites, recovery, multi-role or AI-assisted workflows - with edge cases, error paths, and state models (User Flow, Nutzerfluss, Journey, Ablauf, Onboarding). Not for a single form's validation, which design-forms owns.
 license: MIT
 ---
 

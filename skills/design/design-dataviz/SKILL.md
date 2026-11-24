@@ -1,6 +1,6 @@
 ---
 name: design-dataviz
-description: Use whenever deciding what a chart, graph, table, KPI view, or dashboard should show and why - picking the chart for a decision question, designing a decision, operations, or executive dashboard, fixing a misleading axis, showing uncertainty, or making a chart accessible with alt text and a data table (Diagramm, Dashboard, Kennzahlen, Datenvisualisierung, Grafik, Auswertung). Not for chart code, palettes, or rendering - the dataviz or frontend-craft skill draws it; not for slides or architecture diagrams, which design-slides owns.
+description: Use whenever deciding what a chart, graph, table, KPI view, or dashboard should show - chart choice for a decision, dashboard design, misleading axes, uncertainty, accessible charts (Diagramm, Dashboard, Kennzahlen, Datenvisualisierung). Not for chart code or palettes (dataviz, frontend-craft), or slides and architecture diagrams (design-slides).
 license: MIT
 ---
 

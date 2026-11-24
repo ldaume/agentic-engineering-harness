@@ -1,6 +1,6 @@
 ---
 name: writing-engineering
-description: Use whenever writing a commit message, a pull request description, a Confluence technical page, developer or operational documentation, or an engineering decision summary (Commit-Message, PR-Beschreibung, technische Doku). Use it even for a one-line commit; it carries the subject rules, why-before-what, and honest validation reporting. Not for implementing or fixing code, or for deciding whether a change needs an ADR.
+description: Use whenever writing a commit message, pull request description, Confluence technical page, developer or operational documentation, or engineering decision summary, even a one-line commit (Commit-Message, PR-Beschreibung, technische Doku). Carries why-before-what and honest validation. Not for changing code, or for whether a change needs an ADR (documentation-and-adrs).
 license: MIT
 ---
 

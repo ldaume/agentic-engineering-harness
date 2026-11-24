@@ -1,6 +1,6 @@
 ---
 name: design-research
-description: Use whenever planning, running, or synthesizing user research or discovery - problem framing, interviews, observation, usability tests, task analysis, journey maps, service blueprints, accessibility research with disabled participants, research synthesis, opportunity mapping, experiment design, or deciding how many participants a study needs (Nutzerforschung, Interviewleitfaden, Usability-Test, Discovery, Synthese). Never invents quotes, rates, or results. Not for deciding which product bet to fund, which product-craft owns.
+description: Use whenever planning, running, or synthesizing user research or discovery - interviews, observation, usability tests, journey maps, service blueprints, synthesis, participant counts (Nutzerforschung, Interviewleitfaden, Usability-Test, Discovery). Never invents quotes or results. Not for deciding which product bet to fund, which product-craft owns.
 license: MIT
 ---
 

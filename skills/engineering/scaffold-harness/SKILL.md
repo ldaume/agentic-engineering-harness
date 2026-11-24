@@ -1,7 +1,7 @@
 ---
 name: scaffold-harness
 license: MIT
-description: Audits and upgrades one repository, or a workspace of several repositories with a coordinator, to a reliable, maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, choosing or switching a repository's operating level, setting up a workspace root, coordinator, context map, and member sync for multi-repository work, designing local/MCP/RAG context routing, controlling token bloat, or defining review and quality gates.
+description: Audits and upgrades a repository, or a multi-repository workspace with a coordinator, to a maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, operating levels, context routing, token bloat, or quality gates. Installing or updating Skills belongs to update-harness.
 ---
 
 # Scaffold Harness

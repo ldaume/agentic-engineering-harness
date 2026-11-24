@@ -1,6 +1,6 @@
 ---
 name: writing-editorial
-description: Use whenever drafting or revising an email, a Slack message, a decision request, a follow-up, or a summary for a PO, manager, C-level, or customer, in German or English (Mail schreiben, Slack-Nachricht, Zusammenfassung, Executive Summary, Management-Update). Use it even for a two-line mail or ping; it carries the point-context-ask structure, tone rules, and golden examples. Not for marketing copy, product status or roadmaps, PRs, or commits.
+description: Use whenever drafting or revising an email, Slack message, decision request, follow-up, or summary for a PO, manager, C-level, or customer, even a two-line ping (Mail schreiben, Slack-Nachricht, Zusammenfassung, Management-Update). Carries point-context-ask and tone. Not for marketing copy (writing-marketing), product status (writing-product), PRs, or commits.
 license: MIT
 ---
 

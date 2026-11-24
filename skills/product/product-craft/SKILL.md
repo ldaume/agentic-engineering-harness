@@ -1,6 +1,6 @@
 ---
 name: product-craft
-description: Shapes evidence-driven product investments, value-defined issues, honest Now/Next/Later/Never roadmaps, discovery, UX, architecture, delivery, and learning. Use when turning signals into bets, deciding whether or when work deserves investment, planning product work, or coordinating product and engineering trade-offs without backlog or milestone theater. Writing the roadmap, status, or brief document itself belongs to writing-product. Running user research belongs to design-research.
+description: Shapes evidence-driven product bets, value-defined issues, and honest Now/Next/Later/Never roadmaps. Use when turning signals into bets, deciding whether or when work deserves investment, or trading off product and engineering without backlog theater. Writing the roadmap or status document belongs to writing-product; running user research to design-research.
 license: MIT
 ---
 

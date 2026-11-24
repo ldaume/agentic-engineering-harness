@@ -1,6 +1,6 @@
 ---
 name: writing-product
-description: Use whenever writing or revising a product status report or update, an adaptive Now/Next/Later or FaST-compatible roadmap, a progress update, a problem brief, bet brief, experiment card, product decision record, or outcome review (Statusbericht, Roadmap, Fortschritt, Problem Brief). Carries the outcome, evidence, uncertainty, risk, and learning structure instead of ticket activity, velocity, or ceremony. Not for deciding what to build; that is a product decision, not a document.
+description: Use whenever writing or revising a product status report, Now/Next/Later roadmap, progress update, problem or bet brief, experiment card, product decision record, or outcome review (Statusbericht, Roadmap, Fortschritt, Problem Brief). Outcome and evidence instead of ticket activity. Not for deciding what to build, which product-craft owns.
 license: MIT
 ---
 
