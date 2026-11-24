@@ -2,6 +2,8 @@
 name: design-slides
 description: Use whenever building or revising a slide deck, presentation, talk, or decision deck, or a diagram - architecture map, C4, sequence or state diagram, Mermaid, D2 (Präsentation, Folien, Vortrag, Architekturdiagramm, Schaubild). Not for user-journey flowcharts (design-flows), dashboards (design-dataviz), or .pptx mechanics; the product decision belongs to product-craft.
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Slides and Diagrams
@@ -82,9 +84,6 @@ flowcharts belong to `design-flows`.
   ledger against the source, every visible state, technical deep dives.
 - `references/diagrams.md` - any diagram: architecture, C4, system map,
   sequence, state, data model, or choosing a diagram-as-code format.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Gates
 

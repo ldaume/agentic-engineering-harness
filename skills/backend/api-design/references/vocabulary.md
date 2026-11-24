@@ -2,12 +2,12 @@
 
 The terms API designers use to judge a contract, so a review names the gap the
 way the field does and points at something a reader can see in the OpenAPI or
-GraphQL schema, the handler, or a recorded request and response. Load before
-judging an API change. A term is admitted only with a registered source and an
-observable marker; evidence and access dates are in `sources.json`. Check:
-`exact` (a pattern in the schema or a response a script can match; none ships
-here yet, so no rule ids), `jev` (a typed question), `judge` (a person or model
-decides).
+GraphQL schema, the handler, or a recorded request and response. Authors and
+check scripts use it; reviews do not load it by default. A term is admitted
+only with a registered source and an observable marker; evidence and access
+dates are in `sources.json`. Check: `exact` (a pattern in the schema or a
+response a script can match; none ships here yet, so no rule ids), `jev` (a
+typed question), `judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

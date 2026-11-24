@@ -2,13 +2,13 @@
 
 The terms agent builders use to judge a design, so a review names the gap the
 way the field does and points at something visible in the plan, config, tool
-definitions, or run traces. Load before judging an agent or workflow. Security
-terms (prompt injection, lethal trifecta, excessive agency, token passthrough,
-resource consumption limit) live in `shift-left-security`; this file adds the
-design, context, evaluation, and MCP terms. The field moves fast, so every
-source in `sources.json` is due for a re-read in 2027-05. Check: `exact` (a pattern a script
-could match; none ships here yet, so no rule ids) or `judge` (a person or
-model decides).
+definitions, or run traces. Authors and check scripts use it; reviews do not
+load it by default. Security terms (prompt injection, lethal trifecta,
+excessive agency, token passthrough, resource consumption limit) live in
+`shift-left-security`; this file adds the design, context, evaluation, and MCP
+terms. The field moves fast, so every source in `sources.json` is due for a
+re-read in 2027-05. Check: `exact` (a pattern a script could match; none ships
+here yet, so no rule ids) or `judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

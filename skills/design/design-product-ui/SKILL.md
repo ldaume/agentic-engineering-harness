@@ -2,6 +2,8 @@
 name: design-product-ui
 description: Use whenever designing or reworking screens of a SaaS product, app, or admin tool - navigation, settings, tables and bulk actions, permissions, search, empty states, and AI interfaces where people review or undo AI output (SaaS-Oberfläche, App-Screens, Navigation, KI-Interface). Not for websites (design-web) or dashboards (design-dataviz); frontend-craft builds it.
 license: MIT
+metadata:
+  vocabulary: design-core
 ---
 
 # Product Interfaces
@@ -43,9 +45,6 @@ hides the information or action the task needs.
   notifications, progressive disclosure, multi-user context.
 - `references/ai-native-interfaces.md` - when AI generates, proposes, or
   applies content or actions.
-- `design-core/references/vocabulary.md` - before judging or reviewing
-  visual quality; name each finding by its term and marker, so the author
-  sees the defect the way the field names it.
 
 ## Rules that change the result
 

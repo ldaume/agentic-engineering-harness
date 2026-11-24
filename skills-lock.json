@@ -17,31 +17,31 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/backend/api-design/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.3.1"
     },
     "backend-craft": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/backend/backend-craft/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "build-autonomous-agents": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/build-autonomous-agents/SKILL.md",
-      "version": "3.2.0"
+      "version": "3.2.1"
     },
     "coding-discipline": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/coding-discipline/SKILL.md",
-      "version": "1.6.0"
+      "version": "1.6.1"
     },
     "completion-gate": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/completion-gate/SKILL.md",
-      "version": "1.10.0"
+      "version": "1.10.1"
     },
     "deliver-dependency-upgrades": {
       "source": "local",
@@ -53,79 +53,79 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-core/SKILL.md",
-      "version": "1.6.0"
+      "version": "1.6.1"
     },
     "design-dataviz": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-dataviz/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "design-flows": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-flows/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "design-forms": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-forms/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "design-product-ui": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-product-ui/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "design-research": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-research/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.3.1"
     },
     "design-review": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-review/SKILL.md",
-      "version": "1.11.0"
+      "version": "1.11.1"
     },
     "design-slides": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-slides/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "design-systems": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-systems/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "design-web": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-web/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "documentation-and-adrs": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
-      "version": "1.7.0"
+      "version": "1.7.1"
     },
     "estimate-with-uncertainty": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/estimate-with-uncertainty/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "frontend-craft": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/frontend/frontend-craft/SKILL.md",
-      "version": "1.10.0"
+      "version": "1.10.1"
     },
     "gitea-actions": {
       "source": "local",
@@ -149,7 +149,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/integrate-product-compliance/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "learn-agentic-engineering": {
       "source": "local",
@@ -161,7 +161,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/infrastructure/manage-infrastructure-as-code/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "meilisearch": {
       "source": "local",
@@ -179,7 +179,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/plain-numbers/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     "playwright-best-practices": {
       "source": "local",
@@ -197,7 +197,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/product-craft/SKILL.md",
-      "version": "1.6.0"
+      "version": "1.6.1"
     },
     "renovate": {
       "source": "local",
@@ -209,7 +209,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/run-product-engineering/SKILL.md",
-      "version": "2.2.0"
+      "version": "2.2.1"
     },
     "scaffold-harness": {
       "source": "local",
@@ -233,7 +233,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/shift-left-security/SKILL.md",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "start-gate": {
       "source": "local",
@@ -245,7 +245,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.9.0"
+      "version": "1.9.1"
     },
     "update-harness": {
       "source": "local",
@@ -257,37 +257,37 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/write-a-skill/SKILL.md",
-      "version": "1.9.0"
+      "version": "1.9.1"
     },
     "writing-core": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-core/SKILL.md",
-      "version": "1.8.0"
+      "version": "1.8.1"
     },
     "writing-editorial": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-editorial/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "writing-engineering": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-engineering/SKILL.md",
-      "version": "1.3.0"
+      "version": "1.3.1"
     },
     "writing-marketing": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-marketing/SKILL.md",
-      "version": "1.2.0"
+      "version": "1.2.1"
     },
     "writing-product": {
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-product/SKILL.md",
-      "version": "1.4.0"
+      "version": "1.4.1"
     }
   }
 }

@@ -2,13 +2,14 @@
 
 The terms documentation writers and architects use to judge how a document is
 built and whether a decision record is complete, so a review names the gap the
-way the field does and points at something visible in the file. Load before
-judging a doc or an ADR. Prose terms (bottom line up front, restating, target
-as built) live in `writing-core`; PR and commit prose in `writing-engineering`.
-A term is admitted only with a registered source and an observable marker;
-evidence and access dates are in `sources.json`. Check: `exact` (a pattern in
-files or git data a script could match; none ships here yet, so no rule ids),
-`jev` (a typed question), `judge` (a person or model decides).
+way the field does and points at something visible in the file. Authors and
+check scripts use it; reviews do not load it by default. Prose terms (bottom
+line up front, restating, target as built) live in `writing-core`; PR and
+commit prose in `writing-engineering`. A term is admitted only with a
+registered source and an observable marker; evidence and access dates are in
+`sources.json`. Check: `exact` (a pattern in files or git data a script could
+match; none ships here yet, so no rule ids), `jev` (a typed question), `judge`
+(a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

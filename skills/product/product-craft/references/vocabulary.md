@@ -3,12 +3,13 @@
 The terms product and delivery practitioners use to judge a bet, a roadmap, a
 plan, or a delivery system, so a review names the gap the way the field does
 and points at something a reader can see in the brief, the board, the roadmap,
-or the deployment data. Shared by `product-craft` and `run-product-engineering`.
-Load before judging a bet, a roadmap, or how work flows. A term is admitted
-only with a registered source and an observable marker; evidence and access
-dates are in `sources.json`. Check: `exact` (a count from version control,
-deployment, or board data a script can compute; none ships here yet, so no
-rule ids), `jev` (a typed question), `judge` (a person or model decides).
+or the deployment data. Shared by `product-craft` and
+`run-product-engineering`. Authors and check scripts use it; reviews do not
+load it by default. A term is admitted only with a registered source and an
+observable marker; evidence and access dates are in `sources.json`. Check:
+`exact` (a count from version control, deployment, or board data a script can
+compute; none ships here yet, so no rule ids), `jev` (a typed question),
+`judge` (a person or model decides).
 
 ## Discovery and bets
 

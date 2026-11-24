@@ -164,10 +164,14 @@ templates and examples out of the common path when only one branch needs them.
 
 ## 4a. Name the Expert Vocabulary
 
-A Skill that judges quality (a review, audit, gate, or craft standard) names
-each defect in the terms its field's practitioners use, because a defect named
-that way, with something a reader can see, is one the author can fix and a
-check can later catch; "feels off" is neither.
+A Skill that judges quality (a review, audit, gate, or craft standard) keeps
+its field's terms in a vocabulary for authors and check scripts, because a
+term with something a reader can see is one a check can later catch; "feels
+off" is neither. Reviews do not load it by default: in two evaluations on
+2026-11-24 (the latest: 4 Skills, 24 artifacts, 5 runs) a loaded vocabulary cut recall on
+defects outside it from 0.96 to 0.87 and their correct naming from 0.67 to
+0.18, because reviewers forced its terms onto everything. The vocabulary pays
+off through exact checks, whose rule ids name its rows.
 
 - Keep the terms in `references/vocabulary.md`, one table row per term:
   `| Term | Definition | Source | Marker | Check |`, definitions in your own
@@ -183,9 +187,10 @@ check can later catch; "feels off" is neither.
 - Check is `exact` (DOM, file, or geometry), `jev` (a typed question), or
   `judge`. Name the rule id of an `exact` row once a check script ships it; a
   row without one is the backlog for the next check.
-- Stay under 40 terms and 80 lines, and load the file through one pointer at
-  the judging step, because it costs context only when it is used. A family
-  keeps one vocabulary; its other Skills point to it instead of copying it.
+- Stay under 40 terms and 80 lines. Add no pointer that tells a reviewer to
+  load it or to name each finding by its term. A family keeps one vocabulary;
+  its other Skills declare `metadata.vocabulary: <owning skill>` in the
+  frontmatter instead of copying it.
 - A vendor-tool or house-process Skill has no field vocabulary of its own:
   declare `metadata.vocabulary: vendor` or `house` in the frontmatter.
 
@@ -254,8 +259,8 @@ Then:
 1. Run `python3 scripts/audit-skills.py`, and
    `python3 scripts/check-knowledge.py --vocabulary` where the catalog ships
    it (`--root DIR` for another catalog, such as a private one): the changed
-   Skill's vocabulary passes with no errors, or it carries a pointer or an
-   exemption.
+   Skill's vocabulary passes with no errors, or its metadata names a
+   sibling's vocabulary or an exemption.
 2. Run the provenance check for new or materially changed Skills.
 3. Run an isolated `npx skills add ...` test covering every changed Skill.
 4. When activation behavior changed, run a trigger eval: about 20 realistic

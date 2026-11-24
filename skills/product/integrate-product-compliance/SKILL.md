@@ -58,10 +58,8 @@ outcome. A compliance label is not a reason to maximize controls or artifacts.
 
 ## 3. Map Risk, Controls, and Evidence
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging scope,
-controls, evidence, or release policy, and name each gap by its term (for
-example missing control tailoring, or a certificate offered as validation), so
-the finding points at a visible marker.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 Use the target's existing identifiers and GRC system. For each affected risk or
 control record:

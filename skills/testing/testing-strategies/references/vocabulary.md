@@ -2,12 +2,12 @@
 
 The terms test engineers use to judge a test suite or a test plan, so a review
 names the gap the way the field does and points at something a reader can see
-in the tests, the CI run, or a coverage or mutation report. Load before judging
-which tests a change needs or reviewing existing ones. A term is admitted only
-with a registered source and an observable marker; evidence and access dates
-are in `sources.json`. Check: `exact` (a pattern in the tests or a report a
-script can match; none ships here yet, so no rule ids), `jev` (a typed
-question), `judge` (a person or model decides).
+in the tests, the CI run, or a coverage or mutation report. Authors and check
+scripts use it; reviews do not load it by default. A term is admitted only with
+a registered source and an observable marker; evidence and access dates are in
+`sources.json`. Check: `exact` (a pattern in the tests or a report a script can
+match; none ships here yet, so no rule ids), `jev` (a typed question), `judge`
+(a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

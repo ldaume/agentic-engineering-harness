@@ -2,6 +2,8 @@
 name: writing-marketing
 description: Use whenever writing or revising a hero section, landing page, homepage, service or product page, CTA, or marketing email or newsletter (Hero schreiben, Landingpage, Website-Texte, Marketing-Mail). Value-first narrative with evidence discipline; prefer it over generic copywriting skills. Not for page layout or visual design, which design-web owns.
 license: MIT
+metadata:
+  vocabulary: writing-core
 ---
 
 # Marketing & UX Writing
@@ -56,9 +58,9 @@ From this skill's directory, run
 --lang <de|en> FILE` with type one of `marketing_email|hero|landing_page|website_content`.
 If the file is missing (this skill was installed alone), check the
 artifact's checklist in its reference by hand. Fix every error; judge each
-warning, because warnings are heuristics, not rules. Load
-`writing-core/references/vocabulary.md` before judging and name each defect by
-its term; a finding's `rules` id points at its row.
+warning, because warnings are heuristics, not rules. A
+gate finding's `rules` id names its row in
+`writing-core/references/vocabulary.md`.
 
 ## Done when
 

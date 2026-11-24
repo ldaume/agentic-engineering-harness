@@ -130,9 +130,8 @@ re-checking.
 
 ## Red Flags
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging a doc or
-an ADR and name each gap by its term (mode mixing, missing confirmation, an
-edited-in-place ADR), not by "feels off".
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 - doc repeats code or config verbatim
 - decision has no alternatives or consequences

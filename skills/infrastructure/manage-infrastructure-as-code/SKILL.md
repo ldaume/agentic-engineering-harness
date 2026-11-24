@@ -179,9 +179,8 @@ Retain the source revision, reviewed plan summary, policy results, approval,
 apply identity and result, runtime verification, and exception or recovery
 evidence in the target's existing systems.
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
-plan, state setup, or drift check and name each gap by its term, such as
-snowflake server, routine targeting, or a policy test that never runs.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 Complete only when desired and actual state agree within declared tolerances,
 material effects were reviewed, state and secrets stayed protected, runtime

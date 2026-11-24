@@ -29,7 +29,7 @@ research stay listed in each skill's "Evidence gaps". `scripts/check-knowledge.p
 fails the build when a citation has no registry entry.
 `design-core/references/vocabulary.md` holds the family's expert vocabulary
 (40 terms, each with a source, an observable marker, and how it is checked);
-every `design-*` skill loads it before judging, and
+authors and check scripts use it, reviews do not load it by default, and
 `scripts/check-knowledge.py --vocabulary` validates it.
 
 An award is evidence of a jury's judgment of craft, not of usability,

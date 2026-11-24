@@ -292,9 +292,8 @@ The central leadership question is:
 
 ## Red Flags
 
-Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
-bet, a roadmap, or a plan and name each gap by its term, so the author can look
-it up and fix it.
+`references/vocabulary.md` lists the field's terms for authors and check
+scripts; a review does not load it.
 
 Stop and reframe when you see:
 

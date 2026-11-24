@@ -1,15 +1,15 @@
 # Frontend Engineering Vocabulary
 
-The terms frontend engineers use to judge markup, CSS, and runtime behavior,
-so a review names the gap the way the field does and points at something a
-reader can see in the DOM, the stylesheet, or a field performance report. Load
-before judging frontend code. Design terms (type, layout, contrast, focus,
-motion, layout shift) belong to `design-core`'s vocabulary when it is
-installed; this file keeps only the engineering terms. A term is admitted only
-with a registered source and an observable marker; evidence and access dates
-are in `sources.json`. Check: `exact` (a DOM, CSS, or report pattern a script
-can match; none ships here yet, so no rule ids), `jev` (a typed question),
-`judge` (a person or model decides).
+The terms frontend engineers use to judge markup, CSS, and runtime behavior, so
+a review names the gap the way the field does and points at something a reader
+can see in the DOM, the stylesheet, or a field performance report. Authors and
+check scripts use it; reviews do not load it by default. Design terms (type,
+layout, contrast, focus, motion, layout shift) belong to `design-core`'s
+vocabulary when it is installed; this file keeps only the engineering terms. A
+term is admitted only with a registered source and an observable marker;
+evidence and access dates are in `sources.json`. Check: `exact` (a DOM, CSS, or
+report pattern a script can match; none ships here yet, so no rule ids), `jev`
+(a typed question), `judge` (a person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

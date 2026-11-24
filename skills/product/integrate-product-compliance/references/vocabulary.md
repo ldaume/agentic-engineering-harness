@@ -1,9 +1,9 @@
 # Compliance Vocabulary
 
 The terms control and assurance practitioners use to judge a product's
-compliance integration, so a review names the gap the way NIST, PCI SSC,
-ENISA, and ENX name it and points at something visible in a mapping, config, plan, or
-report. Load before judging scope, controls, evidence, or release policy.
+compliance integration, so a review names the gap the way NIST, PCI SSC, ENISA,
+and ENX name it and points at something visible in a mapping, config, plan, or
+report. Authors and check scripts use it; reviews do not load it by default.
 Application-security terms (least privilege, provenance) live in
 `shift-left-security`. ISO/IEC 27001 pages return 403 to automated fetches, so
 no ISO term is admitted (Statement of Applicability, risk treatment, and

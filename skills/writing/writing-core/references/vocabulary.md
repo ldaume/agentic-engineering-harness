@@ -2,12 +2,13 @@
 
 The terms editors, content designers, and technical writers use to judge a
 text, so a review names the defect the way the field does and points at
-something a reader can see in the words. Load before judging, editing, or
-gating any text; the other `writing-*` skills point here instead of keeping a
-copy. A term is admitted only with a registered source and an observable
-marker. Check: `exact` (the rule id is the one `scripts/quality_gate.py`
-reports under `rules`, or the diagnostic it reports), `jev` (a typed question
-in `scripts/jev_questions.json`), `judge` (a person or model decides).
+something a reader can see in the words. Authors and check scripts use it;
+reviews do not load it by default. The other `writing-*` skills name it in
+their metadata instead of keeping a copy. A term is admitted only with a
+registered source and an observable marker. Check: `exact` (the rule id is the
+one `scripts/quality_gate.py` reports under `rules`, or the diagnostic it
+reports), `jev` (a typed question in `scripts/jev_questions.json`), `judge` (a
+person or model decides).
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|

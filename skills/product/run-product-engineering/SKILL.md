@@ -2,6 +2,8 @@
 name: run-product-engineering
 description: Runs an evidence-driven product engineering system end to end - triage, framing, discovery, bets, small-batch delivery, validation, release, incidents, and outcome review. Use when a team shapes how its product work flows or connects discovery with delivery and operations. A single bet decision belongs to product-craft; one release check to completion-gate.
 license: MIT
+metadata:
+  vocabulary: product-craft
 ---
 
 # Run Product Engineering
@@ -162,10 +164,6 @@ Use upstream **diagnosing-bugs** for the debugging loop. Do not let an agent
 invent a root cause without a feedback loop.
 
 ## 7. Review Outcome and Evolve
-
-Load [`product-craft/references/vocabulary.md`](../product-craft/references/vocabulary.md)
-before judging a bet, a flow, or delivery performance and name each gap by its
-term (discovery, flow metrics, DORA metrics, team types).
 
 At the agreed observation boundary, compare the actual outcome with the bet,
 cost, risk, and externalities. End with one explicit decision:
