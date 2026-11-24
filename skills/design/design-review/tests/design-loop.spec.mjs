@@ -5,7 +5,7 @@ import { readFileSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tellsAudit, decide, review, firstJson, loadChromium, VISUAL_RULES } from "../scripts/design-loop.mjs";
+import { tellsAudit, decide, review, firstJson, loadChromium, checkModel, VISUAL_RULES } from "../scripts/design-loop.mjs";
 
 const fixture = (name) => readFileSync(fileURLToPath(new URL(`fixtures/${name}`, import.meta.url)), "utf8");
 const out = () => mkdtempSync(join(tmpdir(), "design-loop-"));
@@ -135,4 +135,23 @@ test("given the project the agent works in has Playwright, the runner uses that 
   writeFileSync(join(pkg, "package.json"), JSON.stringify({ name: "playwright", main: "index.js" }));
   writeFileSync(join(pkg, "index.js"), "module.exports = { chromium: 'from-project' };");
   expect(await loadChromium(project)).toBe("from-project");
+});
+
+test("given an escalation model from a restricted-jurisdiction family or an unlisted provider, the review refuses it unless that exact id is approved", async () => {
+  expect(() => checkModel("anthropic/claude-haiku-5.5", {})).not.toThrow();
+  expect(() => checkModel("google/gemini-3-flash", {})).not.toThrow();
+  for (const id of ["deepseek/deepseek-v4-flash-vision-exp", "alibaba/qwen3.8-flash", "anthropic/qwen-proxy", "unknownco/vision-1"]) {
+    expect(() => checkModel(id, {}), id).toThrow(/approv/);
+  }
+  expect(checkModel("alibaba/qwen3.8-flash", { OWNER_APPROVED_MODELS: "alibaba/qwen3.8-flash" })).toBe("alibaba/qwen3.8-flash");
+  expect(() => checkModel("alibaba/qwen3.8-flash", { OWNER_APPROVED_MODELS: "alibaba/qwen3.7-flash" })).toThrow();
+});
+
+test("given a refused escalation model, no screenshot is sent to it and the unsure rules stay unsure", async ({ page }) => {
+  await page.setContent(fixture("clean.html"));
+  const fetch = stubFetch({ p: 0.5, score: 3 });
+  const r = await review(page, { env: { AI_GATEWAY_API_KEY: "test" }, fetch, outDir: out(), model: "deepseek/deepseek-v4-flash-vision-exp" });
+  expect(fetch.calls.filter((c) => c.url.includes("chat/completions"))).toHaveLength(0);
+  expect(r.tiers.llm).toMatch(/^failed: .*approv/);
+  expect(r.findings.every((f) => f.status === "unsure" || f.tier !== "llm")).toBe(true);
 });
