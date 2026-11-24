@@ -1,6 +1,8 @@
 ---
 name: agent-sync
 description: Proactively evolves a repository's harness artifacts from durable evidence across sessions and tools. Use when starting or completing a session, when repeated friction reveals missing context or checks, when a lesson should outlive the current task, or when instructions, Skills, Rules, Hooks, MCP, or learnings may be stale.
+metadata:
+  vocabulary: house
 ---
 
 # Agent Sync
