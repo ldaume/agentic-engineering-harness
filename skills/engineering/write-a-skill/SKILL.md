@@ -272,7 +272,12 @@ Then:
    without the Skill (the RED baseline that shows the failure it fixes),
    with a one-line instruction instead of the Skill (the no-guidance
    control), and with the Skill. Keep the Skill only for the difference it
-   makes over both; a Skill that does not beat the control is cost.
+   makes over both; a Skill that does not beat the control is cost. Before
+   rolling one content change out to many Skills, measure it on two to four
+   of them with seeded cases, half of them outside what the change covers,
+   because a well-sourced addition can still lower recall on what it leaves
+   out: a review vocabulary loaded by default cut correct naming of
+   uncovered defects from 0.67 to 0.18.
 6. Review the result for missed steps, false activation, wasted work, a rule
    whose reason is missing or wrong, and
    premature completion.
