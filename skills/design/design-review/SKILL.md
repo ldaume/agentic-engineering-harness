@@ -42,6 +42,24 @@ be fixed and checked.
 - A green automated run never closes the review; the manual list in
   `references/browser-verification.md` stays open until someone checks it.
 
+## Design loop after every UI change
+
+`scripts/design-loop.mjs <url>` screenshots the page at 1280 and 390 px, light
+and dark, then checks it cheapest first: generic-look tells from the DOM, the
+reading audit, typed Jev questions on the screenshots, and a vision model
+only for the rules Jev is unsure about. It writes `.design-loop/design-loop.json`
+(findings with rule, tier, confidence, evidence, cost) and exits 1 on a
+failure. Run it before calling any UI change done, because the agent that
+built the page is the worst judge of how it looks; serve the page on
+127.0.0.1. Keys and limits: the script header. Measured on 8 pages against a
+vision-model reviewer with the same rules (thresholds tuned on those pages):
+it found 21 of the 22 rule
+failures the reviewer found at about 2% of its cost, and half the pages
+needed no model beyond Jev.
+Tests with model calls stubbed: `tests/design-loop.spec.mjs` with the
+fixtures `tests/fixtures/generic.html` (must be flagged) and
+`tests/fixtures/clean.html` (must pass).
+
 ## Load when
 
 - `references/review-method.md` - always: dimensions, finding format,
@@ -54,4 +72,5 @@ be fixed and checked.
 
 Every finding has location, observation, impact, evidence, confidence,
 severity, recommendation, and validation; the automated gate ran or its
-absence is stated; the manual checks are done or assigned.
+absence is stated; the design loop ran on every changed page or screen; the
+manual checks are done or assigned.

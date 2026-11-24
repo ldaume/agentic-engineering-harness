@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Harbor tide table</title>
+<style>
+  :root { --ink: #1b1a17; --paper: #f6f1e7; --rule: #b9ad94; --accent: #0b5d4b; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #ece6da; --paper: #15140f; --rule: #5d5646; --accent: #6fd3b6; } }
+  body { margin: 0; color: var(--ink); background: var(--paper); font: 18px/1.6 Georgia, "Iowan Old Style", serif; }
+  header, main { max-width: 40rem; padding: 0 16px; margin: 0 auto; }
+  header { padding-top: 48px; border-bottom: 2px solid var(--rule); }
+  h1 { font: 700 40px/1.1 "Courier New", monospace; letter-spacing: -0.02em; margin: 0 0 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  th, td { text-align: left; padding: 10px 4px; border-bottom: 1px solid var(--rule); }
+  a { color: var(--accent); }
+  .next { font-size: 28px; font-weight: 700; color: var(--accent); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Tides at the north pier</h1>
+    <p>High and low water for the next three days, from the harbor gauge.</p>
+  </header>
+  <main>
+    <p>Next high water: <span class="next">14:12, 4.1 m</span></p>
+    <table>
+      <thead><tr><th>Day</th><th>High</th><th>Low</th></tr></thead>
+      <tbody>
+        <tr><td>Tuesday</td><td>14:12 (4.1 m)</td><td>20:31 (0.7 m)</td></tr>
+        <tr><td>Wednesday</td><td>02:40, 14:58</td><td>08:47, 21:15</td></tr>
+        <tr><td>Thursday</td><td>03:22, 15:41</td><td>09:30, 21:58</td></tr>
+      </tbody>
+    </table>
+    <p>Readings come from the gauge every ten minutes. Times are local. <a href="#method">How the forecast is made</a>.</p>
+  </main>
+</body>
+</html>

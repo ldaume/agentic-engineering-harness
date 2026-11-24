@@ -65,7 +65,7 @@ jobs:
       - name: Run reference form in a real browser
         run: npx playwright test -c skills/design/design-forms/tests
 
-      - name: Run reading-page audit tests in a real browser
+      - name: Run design-review audit and design loop tests in a real browser
         run: npx playwright test -c skills/design/design-review/tests
 
       - name: Install catalog for supported clients

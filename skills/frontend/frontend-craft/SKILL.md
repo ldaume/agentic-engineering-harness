@@ -242,6 +242,11 @@ and suggestions that name the act of their button.
   handled to WCAG 2.2 AA?
 - Does the implementation follow existing tokens and component patterns?
 - Is every new dependency justified?
+- Did the design loop run on every changed page or screen and come back with
+  no failing finding, or with each one fixed or recorded with its reason?
+  `design-review/scripts/design-loop.mjs` takes the screenshots and runs the
+  cheap checks first, so the agent sees what a reviewer would before it
+  says done.
 
 ## Red Flags
 
