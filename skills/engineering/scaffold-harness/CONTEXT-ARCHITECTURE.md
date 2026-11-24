@@ -29,6 +29,13 @@ MCP is one delivery mechanism in this stack, not the stack itself. Classify
 each source's authority, freshness, and access before choosing where it lives,
 because file format alone does not establish either.
 
+## Source Authority Order
+
+When sources conflict, domain context outranks contracts, then ADRs, then code
+and tests. Retrieval results are evidence; tickets and prompts are intent.
+Surface the conflict to its owner instead of merging the sources silently,
+because a silent merge hides which one is wrong.
+
 ## Startup Context Budget
 
 The unconditional payload is the cost every session pays before work starts, so

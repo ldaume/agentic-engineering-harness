@@ -63,6 +63,11 @@ Separate probabilistic judgment from deterministic effects. Prefer a typed
 proposal that application code validates and applies over letting model output
 mutate business state directly.
 
+Give each agent tool one narrow purpose, typed inputs, a small deterministic
+output, documented side effects, a timeout, and an audit line. Run headless
+with the harness loaded: use no mode that skips hooks, Skills, or instruction
+files, since those carry the controls the run depends on.
+
 ## 4. Select and Verify the Runtime
 
 Use the target's existing runtime when it meets the contract. For a TypeScript

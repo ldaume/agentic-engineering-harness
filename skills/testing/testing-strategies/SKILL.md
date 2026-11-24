@@ -91,6 +91,12 @@ level, so check those two before adding another level.
 - Delete or rewrite tests that only assert implementation trivia.
 - Track flaky tests as product risk, not background noise.
 
+## Gate Order
+
+Order gates cheapest first: format, lint, typecheck, focused unit, affected
+integration, build, then e2e or deploy smoke. Stop at the first red, because a
+later gate on a broken earlier one only costs time and hides the cause.
+
 ## Review Checklist
 
 - Does the test fail for the bug or risk it claims to cover?
