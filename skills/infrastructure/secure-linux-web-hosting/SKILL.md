@@ -1,6 +1,9 @@
 ---
 name: secure-linux-web-hosting
 description: Guides secure setup and review of Linux web servers for self-hosted apps, static sites, reverse proxies, SSH, firewalls, TLS, backups, updates, logs, and basic hardening. Use when provisioning a VPS, hardening a server, configuring Nginx/Caddy/Traefik, deploying web apps, or reviewing self-hosting security.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Secure Linux Web Hosting

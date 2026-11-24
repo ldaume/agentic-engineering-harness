@@ -1,6 +1,9 @@
 ---
 name: gitea-tea
 description: Uses the tea CLI to inspect and operate Gitea repositories, issues, pull requests, releases, branches, labels, and workflow-adjacent metadata from the terminal. Use when the user mentions tea, gitea cli, terminal-based Gitea operations, PR inspection, issue triage, release checks, or repository automation against Gitea.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Gitea Tea

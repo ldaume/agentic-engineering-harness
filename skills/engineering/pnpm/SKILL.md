@@ -1,6 +1,9 @@
 ---
 name: pnpm
 description: Handles pnpm package management, workspaces, lockfiles, scripts, catalogs, overrides, patches, Corepack, and dependency troubleshooting. Use when running pnpm commands, configuring pnpm workspaces, fixing strict dependency resolution, managing packageManager versions, or updating dependencies in Node.js projects.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # pnpm

@@ -8,7 +8,9 @@ cannot be re-checked because it lacks an access date or revisit trigger.
 
 from __future__ import annotations
 
+import contextlib
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
@@ -105,6 +107,107 @@ class CheckKnowledge(unittest.TestCase):
         for registry in sorted((ROOT / "skills").rglob("references/sources.json")):
             errors, _ = ck.check(registry.parents[2], catalog=catalog)
             self.assertEqual(errors, [], registry)
+
+
+HEADER = "| Term | Definition | Source | Marker | Check |\n|---|---|---|---|---|\n"
+ROW = "| Measure | Characters per line. | [SRC-A11Y-001] | Median characters per line of body text. | exact `wcag.lineLength` |\n"
+
+
+def skill(root: Path, name: str, frontmatter: str = "", body: str = "", vocabulary: str | None = None) -> Path:
+    directory = root / "design" / name
+    (directory / "references").mkdir(parents=True, exist_ok=True)
+    (directory / "SKILL.md").write_text(f"---\nname: {name}\ndescription: x\n{frontmatter}---\n\n{body}\n")
+    if vocabulary is not None:
+        (directory / "references" / "vocabulary.md").write_text(vocabulary)
+    return directory
+
+
+class CheckVocabulary(unittest.TestCase):
+    def setUp(self) -> None:
+        self.root = Path(tempfile.mkdtemp())
+        self.known = {"SRC-A11Y-001"}
+
+    def check(self, directory: Path) -> tuple[list[str], list[str]]:
+        return ck.check_vocabulary(directory, self.known)
+
+    def test_given_complete_rows_when_checked_then_no_findings(self) -> None:
+        errors, warnings = self.check(skill(self.root, "design-core", vocabulary=HEADER + ROW))
+        self.assertEqual((errors, warnings), ([], []))
+
+    def test_given_row_missing_a_cell_when_checked_then_error(self) -> None:
+        row = "| Leading | Baseline distance. | [SRC-A11Y-001] | | jev |\n"
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + row))
+        self.assertTrue(any("Leading" in e and "cell" in e for e in errors), errors)
+
+    def test_given_unknown_source_when_checked_then_error(self) -> None:
+        row = ROW.replace("SRC-A11Y-001", "SRC-A11Y-404")
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + row))
+        self.assertTrue(any("SRC-A11Y-404" in e for e in errors), errors)
+
+    def test_given_row_without_source_when_checked_then_error(self) -> None:
+        row = ROW.replace("[SRC-A11Y-001]", "Butterick")
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + row))
+        self.assertTrue(any("source" in e for e in errors), errors)
+
+    def test_given_bad_check_value_when_checked_then_error(self) -> None:
+        row = ROW.replace("exact `wcag.lineLength`", "DOM")
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + row))
+        self.assertTrue(any("Check" in e for e in errors), errors)
+
+    def test_given_more_than_forty_rows_when_checked_then_error(self) -> None:
+        rows = "".join(ROW.replace("Measure", f"Term {i}") for i in range(41))
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + rows))
+        self.assertTrue(any("41 terms" in e for e in errors), errors)
+
+    def test_given_more_than_eighty_lines_when_checked_then_error(self) -> None:
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + ROW + "\n" * 80))
+        self.assertTrue(any("lines" in e for e in errors), errors)
+
+    def test_given_duplicate_term_when_checked_then_error(self) -> None:
+        errors, _ = self.check(skill(self.root, "design-core", vocabulary=HEADER + ROW + ROW.replace("Measure", "measure")))
+        self.assertTrue(any("duplicate" in e for e in errors), errors)
+
+    def test_given_exact_row_without_rule_id_when_checked_then_warning(self) -> None:
+        row = ROW.replace("exact `wcag.lineLength`", "exact")
+        errors, warnings = self.check(skill(self.root, "design-core", vocabulary=HEADER + row))
+        self.assertEqual(errors, [])
+        self.assertTrue(any("Measure" in w and "rule id" in w for w in warnings), warnings)
+
+    def test_given_skill_without_vocabulary_or_exemption_when_checked_then_warning(self) -> None:
+        errors, warnings = self.check(skill(self.root, "design-web"))
+        self.assertEqual(errors, [])
+        self.assertTrue(any("vocabulary" in w for w in warnings), warnings)
+
+    def test_given_vendor_exemption_when_checked_then_no_findings(self) -> None:
+        directory = skill(self.root, "gitea-tea", frontmatter="metadata:\n  vocabulary: vendor\n")
+        self.assertEqual(self.check(directory), ([], []))
+
+    def test_given_pointer_to_a_sibling_vocabulary_when_checked_then_no_findings(self) -> None:
+        skill(self.root, "design-core", vocabulary=HEADER + ROW)
+        directory = skill(self.root, "design-web", body="Load `design-core/references/vocabulary.md` before judging.")
+        self.assertEqual(self.check(directory), ([], []))
+
+    def test_given_pointer_to_a_missing_vocabulary_when_checked_then_warning(self) -> None:
+        directory = skill(self.root, "design-web", body="Load `design-nope/references/vocabulary.md` before judging.")
+        _, warnings = self.check(directory)
+        self.assertTrue(any("vocabulary" in w for w in warnings), warnings)
+
+    def test_given_source_accessed_over_a_year_ago_when_checked_then_warning(self) -> None:
+        old = {**SOURCE, "accessed": "2025-11-01"}
+        fresh = {**SOURCE, "id": "SRC-A11Y-002", "accessed": "2026-11"}
+        warnings = ck.stale_sources(family([old, fresh], ""), today=ck.date(2026, 11, 24))
+        self.assertEqual(len(warnings), 1)
+        self.assertIn("SRC-A11Y-001", warnings[0])
+
+    def test_given_errors_when_run_without_strict_then_exit_zero(self) -> None:
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(ck.main(["--vocabulary"]), 0)
+
+    def test_given_the_catalog_when_checked_then_every_vocabulary_file_is_valid(self) -> None:
+        known = set(ck.catalog_levels(ROOT / "skills"))
+        for vocabulary in sorted((ROOT / "skills").rglob("references/vocabulary.md")):
+            errors, _ = ck.check_vocabulary(vocabulary.parents[1], known)
+            self.assertEqual(errors, [], vocabulary)
 
 
 if __name__ == "__main__":

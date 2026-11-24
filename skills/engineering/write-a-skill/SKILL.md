@@ -1,6 +1,9 @@
 ---
 name: write-a-skill
 description: Creates, refactors, packages, and verifies portable Agent Skills. Use when changing SKILL.md, skill descriptions, bundled references or scripts, repository indexes, install behavior, or activation quality across Claude Code, Codex, Cursor, Antigravity or Gemini CLI, pi, and the skills CLI.
+license: MIT
+metadata:
+  vocabulary: house
 ---
 
 # Write A Skill
@@ -159,6 +162,33 @@ scaffolding that an agent would otherwise regenerate.
 Prefer one directly referenced resource over a chain of references. Keep
 templates and examples out of the common path when only one branch needs them.
 
+## 4a. Name the Expert Vocabulary
+
+A Skill that judges quality (a review, audit, gate, or craft standard) names
+each defect in the terms its field's practitioners use, because a defect named
+that way, with something a reader can see, is one the author can fix and a
+check can later catch; "feels off" is neither.
+
+- Keep the terms in `references/vocabulary.md`, one table row per term:
+  `| Term | Definition | Source | Marker | Check |`, definitions in your own
+  words.
+- Admit a term only with a primary source registered in the family's
+  `references/sources.json` (with `accessed` and `revisit`) and an observable
+  marker. No marker, no term: a term nobody can observe turns review back
+  into taste.
+- Take sources from active practitioners and maintained references whose
+  current work sets practice; fame alone does not qualify. List retired or
+  disproven rules (the three-click rule, "the fold") under "Not admitted"
+  with the reason, so the next author does not add them back.
+- Check is `exact` (DOM, file, or geometry), `jev` (a typed question), or
+  `judge`. Name the rule id of an `exact` row once a check script ships it; a
+  row without one is the backlog for the next check.
+- Stay under 40 terms and 80 lines, and load the file through one pointer at
+  the judging step, because it costs context only when it is used. A family
+  keeps one vocabulary; its other Skills point to it instead of copying it.
+- A vendor-tool or house-process Skill has no field vocabulary of its own:
+  declare `metadata.vocabulary: vendor` or `house` in the frontmatter.
+
 ## 5. Write for Execution
 
 - Lead with the action and its purpose.
@@ -221,7 +251,10 @@ readers who already have the repository.
 
 Then:
 
-1. Run `python3 scripts/audit-skills.py`.
+1. Run `python3 scripts/audit-skills.py`, and
+   `python3 scripts/check-knowledge.py --vocabulary` where the catalog ships
+   it: the changed Skill's vocabulary passes with no errors, or it carries a
+   pointer or an exemption.
 2. Run the provenance check for new or materially changed Skills.
 3. Run an isolated `npx skills add ...` test covering every changed Skill.
 4. When activation behavior changed, run a trigger eval: about 20 realistic

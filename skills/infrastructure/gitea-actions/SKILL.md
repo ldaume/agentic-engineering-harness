@@ -1,6 +1,9 @@
 ---
 name: gitea-actions
 description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner, GITEA_TOKEN permissions, self-hosted runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Gitea Actions

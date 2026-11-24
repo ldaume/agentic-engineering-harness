@@ -1,6 +1,9 @@
 ---
 name: ansible-automation
 description: Designs, reviews, and troubleshoots Ansible inventories, playbooks, roles, variables, vault usage, idempotency, and server automation. Use when managing infrastructure with Ansible, writing playbooks, organizing roles, handling SSH inventories, templating configs, or making repeatable operations safe.
+license: MIT
+metadata:
+  vocabulary: vendor
 ---
 
 # Ansible Automation

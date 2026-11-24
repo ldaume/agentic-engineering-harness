@@ -74,6 +74,9 @@ Order matters because each step constrains the next.
   you need its Baseline status and fallback rule.
 - Motion: `design-core/references/motion.md` for every animated
   surface.
+- `design-core/references/vocabulary.md` - before judging or reviewing
+  visual quality; name each finding by its term and marker, so the author
+  sees the defect the way the field names it.
 
 ## Gates
 
