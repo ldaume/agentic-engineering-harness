@@ -33,7 +33,11 @@ do not restate them.
    [SRC-VIZ-005].
 5. **Title the message, label directly.** The title states the finding, the
    subtitle states subject, place, and period; labels sit on the data instead
-   of a distant legend (supported) [SRC-VIZ-006] [SRC-VIZ-014].
+   of a distant legend (supported) [SRC-VIZ-006] [SRC-VIZ-014]. Annotate the
+   one point that matters (the peak, the break, the target crossing) on the
+   chart, and grey the rest, so the reader does not hunt for it (supported
+   for highlighting one series [SRC-VIZ-006]; the annotation itself is a
+   hypothesis).
 6. **Add the context the number needs** - target, prior period, benchmark,
    uncertainty - because a lone number cannot say whether to act
    (context-dependent) [SRC-VIZ-016].
@@ -89,7 +93,9 @@ Charts on a slide: pick the chart here, the slide structure in
   3:1 and chart text at 4.5:1 (verified) [SRC-VIZ-008], for example with
   `design-systems/scripts/contrast.py` when installed; an axe
   scan of the page the chart sits in, through `frontend-craft`'s test setup.
-- Manual: the message matches the data; no truncated bar axis; the task test
+- Manual: the title states the finding, labels sit on the data instead of in
+  a legend where they fit, and the point that matters is annotated; the
+  message matches the data; no truncated bar axis; the task test
   in step 8; a keyboard and screen-reader pass with the Chartability
   critical heuristics (supported) [SRC-VIZ-012]. Automation cannot judge
   whether a chart answers the question.

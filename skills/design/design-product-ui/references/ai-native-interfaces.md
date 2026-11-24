@@ -23,6 +23,48 @@ proposes, judge it, correct it, reject it, and undo it after the fact.
    "Thinking..." [SRC-FLOW-014].
 8. Keep provenance: which output came from the AI, from which input, when,
    and who accepted it.
+9. Show which data the AI read or used for this output (files, records,
+   sources, tools called), so a person can check the basis and spot data that
+   should not have been used (hypothesis, from the oversight preprints)
+   [SRC-FLOW-025].
+10. Disclose cost and latency where they change the decision: a long run, a
+    metered action, or a paid call gets an estimate before it starts and a
+    stop control while it runs (hypothesis).
+
+## Streaming and partial output
+
+- While output streams, keep Stop beside it. After stop, failure, or timeout,
+  offer Retry and Keep partial output; never discard text a person has
+  already read or copied (hypothesis).
+- Mark partial output as incomplete and keep it out of any downstream action
+  (save, send, apply) until it is complete or the person accepts it.
+- Announce the state change politely to assistive technology ("Generating",
+  "Stopped, partial answer kept") without moving focus (4.1.3, verified)
+  [SRC-A11Y-001].
+
+## Agent autonomy
+
+State per action class what the agent may do without asking, what needs
+confirmation, and what it never does (supported) [SRC-FLOW-010]
+[SRC-FLOW-014]. For each level, design:
+
+- how control returns: a visible Pause or Take over that works mid-run;
+- how a person inspects what it did: a log of actions with inputs and
+  results, not only a summary (supported) [SRC-FLOW-025];
+- how an action is reversed: an undo or a named compensating step, shown
+  before the action runs when it cannot be undone.
+
+Widen autonomy only after people show they catch errors at the current level
+(hypothesis) [SRC-FLOW-024].
+
+## Designing for agents as users
+
+Agents already navigate and fill product interfaces, unreliably. The cheap
+near-term step is the accessibility basics: descriptive labels (no icon-only
+buttons or "click here"), predictable patterns, structure that matches the
+visual grouping, semantic HTML (supported, context-dependent on whether the
+product wants agent access) [SRC-FLOW-030]. Intentional friction in regulated
+actions stays, and an agent gets no weaker checkpoint than a person.
 
 ## Confidence and explanations
 
@@ -34,9 +76,9 @@ high-stakes decisions consider a forcing step, knowing people rate it worse
 
 ## States to design
 
-idle, generating (with progress), proposal ready, partially accepted,
-applied, rejected, failed, undone, stale (the source changed since the
-proposal).
+idle, generating (with progress), streaming, stopped with partial output,
+proposal ready, partially accepted, applied, rejected, failed, undone, stale
+(the source changed since the proposal), agent paused, agent acting.
 
 ## Example
 
@@ -62,4 +104,7 @@ people catch the error, how long review takes, and whether undo is found.
 ## Evidence gaps
 
 No controlled study of diff-review interfaces; agent-supervision evidence is
-2025-2026 preprints with small samples [SRC-FLOW-024] [SRC-FLOW-025].
+2025-2026 preprints with small samples [SRC-FLOW-024] [SRC-FLOW-025]. NN/g
+now has agents-as-users guidance [SRC-FLOW-030] and a 2024 generative UI
+forecast [SRC-FLOW-031], both opinion, not measured. Streaming, stop, and
+keep-partial patterns, and cost disclosure, rest on practice, not a study.
