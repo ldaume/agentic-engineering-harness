@@ -1,6 +1,8 @@
 ---
 name: start-gate
 description: Pre-work gate for code changes - inspect the working tree, preserve foreign work in progress, get the default branch current, and claim an isolated branch or worktree before the first edit. Use when starting a task, resuming a session, picking up an issue, or when the state of the checkout is unknown.
+metadata:
+  vocabulary: house
 ---
 
 # Start Gate
