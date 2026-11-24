@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from readability import WORD_RE, diagnostics, read_input, sentences  # noqa: E402
+from readability import WORD_RE, bilingual_report, diagnostics, html_text, limits, read_input, resolve_lang, sentences  # noqa: E402
 
 # Each required part is a regex that may match DE or EN wording.
 WHY = r"(?im)^#+\s*(why|warum|context|kontext|hintergrund|motivation|problem)\b"
@@ -245,7 +245,9 @@ def check(text: str, artifact: str, language: str, facts: dict | None = None) ->
 
     diag = diagnostics(text, language) if rules.get("sentences") else {}
     if diag.get("long_sentences"):
-        warnings.append(f"readability: {diag['long_sentences']} sentence(s) over 25 words")
+        warnings.append(f"readability: {diag['long_sentences']} sentence(s) over {limits(language)[1]} words")
+    if diag and diag["avg_sentence_words"] > limits(language)[0]:
+        warnings.append(f"readability: mean sentence length {diag['avg_sentence_words']} words, target at most {limits(language)[0]}")
 
     if rules.get("sentences"):
         for sentence in sentences(text):
@@ -262,14 +264,26 @@ def main(argv: list[str]) -> int:
 
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--artifact", required=True, choices=sorted(ARTIFACTS))
-    parser.add_argument("--lang", default="en")
+    parser.add_argument("--lang", help="de or en (default: suffix of --lang-class, else en)")
     parser.add_argument("--facts", help="JSON file with facts, forbidden_claims and terms")
     parser.add_argument("--html", action="store_true", help="parse HTML (automatic for .html files)")
-    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de")
+    parser.add_argument("--lang-class", help="keep one language of a bilingual page, e.g. l-de; \"auto\" gates every language class")
     parser.add_argument("file", nargs="?", default="-")
     args = parser.parse_args(argv)
-    text = read_input(args.file, args.html, args.lang_class)
     facts = json.loads(Path(args.facts).read_text(encoding="utf-8")) if args.facts else None
+    if args.lang_class == "auto":
+        raw = sys.stdin.read() if args.file == "-" else Path(args.file).read_text(encoding="utf-8")
+        report = bilingual_report(raw)
+        langs = {l: check(html_text(raw, report["prefix"] + l), args.artifact, l, facts) for l in report["languages"]}
+        merged = {
+            "artifact": args.artifact, "languages": langs, "diagnostics": report["languages"],
+            "errors": [f"{l}: {e}" for l, r in langs.items() for e in r["errors"]],
+            "warnings": [f"{l}: {w}" for l, r in langs.items() for w in r["warnings"]] + report["parity"],
+        }
+        print(json.dumps(merged, indent=2, ensure_ascii=False))
+        return 1 if merged["errors"] else 0
+    args.lang = resolve_lang(args.lang, args.lang_class)
+    text = read_input(args.file, args.html, args.lang_class)
     result = check(text, args.artifact, args.lang, facts)
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 1 if result["errors"] else 0
