@@ -682,6 +682,104 @@
       "limits": "LLM10 at https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/ read by title.",
       "evidence_level": "verified",
       "revisit": "next API Top 10 edition"
+    },
+    {
+      "id": "SRC-SEC-037",
+      "title": "OWASP Application Security Verification Standard (ASVS) 5.0.0",
+      "url": "https://owasp.org/www-project-application-security-verification-standard/",
+      "publisher": "OWASP Foundation",
+      "published": "2025-05-30",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "verification",
+        "design"
+      ],
+      "findings": [
+        "ASVS 5.0.0 is the stable release, published 30 May 2025: a basis for testing application security controls, usable as a metric, as build guidance, and as procurement requirements."
+      ],
+      "limits": "Project page read; individual requirements in the PDF and CSV not read for this entry.",
+      "evidence_level": "verified",
+      "revisit": "next ASVS release"
+    },
+    {
+      "id": "SRC-SEC-038",
+      "title": "OWASP Authorization Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "guidance",
+      "domains": [
+        "authz"
+      ],
+      "findings": [
+        "Enforce least privilege horizontally and vertically; define trust boundaries at design time.",
+        "Deny by default: an application must decide, and when no rule matches it denies; prefer explicit configuration over framework defaults.",
+        "Check authorization on every request; a guessed or tampered lookup id must not grant access (CWE-639, IDOR); masking or randomizing ids is not sufficient by itself."
+      ],
+      "limits": "Living document without a version date.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-SEC-039",
+      "title": "OWASP SQL Injection Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "guidance",
+      "domains": [
+        "input"
+      ],
+      "findings": [
+        "Primary defenses: parameterized queries for dynamic data, and a strict allowlist of fixed application-owned values for parts that cannot be parameterized (table, column, sort direction).",
+        "Concatenating untrusted values into the query before preparing it defeats parameterization; manual escaping is error-prone and strongly discouraged."
+      ],
+      "limits": "Living document without a version date.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-SEC-040",
+      "title": "OWASP Cross Site Scripting Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+      "publisher": "OWASP Cheat Sheet Series",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "guidance",
+      "domains": [
+        "input",
+        "web"
+      ],
+      "findings": [
+        "Encode output for the context it lands in; some contexts (inside script, style, event handlers, eval) stay dangerous even with encoding.",
+        "Prefer safe text sinks (textContent, value, setAttribute with a safe name) over unsafe sinks such as innerHTML; sanitize HTML that must be rendered."
+      ],
+      "limits": "Living document without a version date; framework escape hatches covered only in general terms.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-SEC-041",
+      "title": "OWASP API Security Top 10 2023: API1 Broken Object Level Authorization",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/",
+      "publisher": "OWASP",
+      "published": "2023",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "api",
+        "authz"
+      ],
+      "findings": [
+        "Every endpoint that receives an object id and acts on the object needs an object-level check that the caller may perform that action on that object.",
+        "Comparing the session user id with the id parameter covers only a subset of cases; reaching a function the caller should not reach is the separate class BFLA (API5)."
+      ],
+      "limits": "2023 edition is the current one at access.",
+      "evidence_level": "verified",
+      "revisit": "next API Top 10 edition"
     }
   ]
 }
