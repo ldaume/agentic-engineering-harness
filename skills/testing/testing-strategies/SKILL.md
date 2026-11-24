@@ -99,6 +99,10 @@ later gate on a broken earlier one only costs time and hides the cause.
 
 ## Review Checklist
 
+Load [`references/vocabulary.md`](references/vocabulary.md) before judging a
+test plan or suite and name each gap by its term, so the author can look it up
+and fix it.
+
 - Does the test fail for the bug or risk it claims to cover?
 - Does it still pass if internals are refactored safely?
 - Is setup smaller than the behavior under test?
