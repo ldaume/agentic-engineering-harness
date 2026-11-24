@@ -1,6 +1,6 @@
 ---
 name: write-a-skill
-description: Creates, refactors, packages, and verifies portable Agent Skills. Use when changing SKILL.md, skill descriptions, bundled references or scripts, repository indexes, install behavior, or activation quality across Cursor, Codex, Claude Code, Gemini, and the skills CLI.
+description: Creates, refactors, packages, and verifies portable Agent Skills. Use when changing SKILL.md, skill descriptions, bundled references or scripts, repository indexes, install behavior, or activation quality across Claude Code, Codex, Cursor, Antigravity or Gemini CLI, pi, and the skills CLI.
 ---
 
 # Write A Skill
@@ -20,8 +20,8 @@ validation commands, naming conventions, and public-source policy.
 
 Identify every agent host that must discover or execute the Skill. Inspect its
 effective project, user, global, bundled, and plugin scopes rather than
-assuming the active host represents Claude Code, Codex, Cursor, Gemini, Pi,
-CI, or a later runtime.
+assuming the active host represents Claude Code, Codex, Cursor, Antigravity
+or Gemini CLI, pi, CI, or a later runtime.
 
 Before creating a new Skill, use `update-harness` to check project, bundled,
 and plugin owners and public candidates. Create only when no suitable owned
@@ -70,6 +70,42 @@ For portable Skills, `name` and `description` are the discovery contract:
 - preserve the portable contract when a host offers extra frontmatter,
   commands, UI metadata, or a native creator
 
+**Hard limits.** The portable `SKILL.md` carries only the six spec fields:
+`name` (at most 64 characters of `a-z`, `0-9` and `-`, no leading or trailing
+hyphen, equal to the directory name), `description` (1 to 1024 characters),
+and optionally `license`, `compatibility` (at most 500 characters), `metadata`
+and `allowed-tools`. claude.ai uploads and the Skills API reject any other
+field, so a host-only field such as Claude Code's `when_to_use`, `paths` or
+`disable-model-invocation` goes into a target-local copy, never the portable
+file. Write the description in the third person, without XML tags, and keep
+`claude` and `anthropic` out of the name.
+
+**The listing is a shared budget.** Every installed Skill competes for one
+listing: Claude Code gives it about 1% of the context window and, on
+overflow, drops the descriptions of the least-invoked Skills while keeping
+their names; it also cuts `description` plus `when_to_use` at 1,536
+characters. Codex starts with about 2% of the context (8,000 characters when
+the window is unknown) and shortens descriptions first. So:
+
+- put the trigger in the first sentence, in about 150 characters of task
+  words, because that is what survives shortening; a "Use whenever ..." opening
+  is fine, capitals and shouting are not
+- aim for about 350 characters and stay under about 500; a long description
+  costs every other Skill its place in the listing
+- name the closest neighbouring Skill and what is left to it ("Not for X;
+  `other-skill` owns it"); naming neighbours measurably improves selection
+  among similar Skills, and selection collapses when similar Skills crowd
+- after adding or growing a Skill, check the live listing on the target host
+  (Claude Code: `/context` and `/skill-doctor`) and confirm it still shows
+  with its description
+
+**Host discovery differs.** Codex, Antigravity or Gemini CLI, and pi read
+`.agents/skills` (project, walking up the tree) and `~/.agents/skills`; pi
+does not load a Skill without a description. Claude Code reads
+`.claude/skills` and `~/.claude/skills` and does not scan `.agents/skills`,
+so a shared catalog reaches it through symlinks or an installer. Check the
+target host's docs before assuming a path.
+
 Do not duplicate the description as a metadata trigger list. Use metadata only
 for information a real client or repository consumer reads.
 
@@ -94,6 +130,20 @@ harness. Either way it stays out of the portable Skill: the description is
 the contract, the host wiring is target-local.
 
 ## 4. Budget the Information
+
+First decide whether it is a Skill at all. Knowledge an agent needs on almost
+every task (a house rule, a command, a map of the repository) belongs in a
+compressed index in the always-loaded instruction file (`AGENTS.md`,
+`CLAUDE.md`, `GEMINI.md`): a Skill is chosen per task and is skipped often
+enough that a rule needed every time loses. A procedure needed only sometimes
+belongs in a Skill. A rule that must hold every time, whatever the agent
+decides, belongs in a hook or a check.
+
+Keep the body under about 500 lines and 5,000 tokens, and put the standing
+rules (the ones that apply to the whole task) in the first screen: after
+compaction Claude Code re-attaches only the first 5,000 tokens of an invoked
+Skill and never re-reads the file. Keep references one level deep, and give a
+reference over 100 lines a table of contents.
 
 Keep in `SKILL.md`:
 
@@ -124,6 +174,12 @@ templates and examples out of the common path when only one branch needs them.
 - State the desired behavior positively; reserve prohibitions for hard
   boundaries and pair them with the safe action.
 - Cut background knowledge the model already has.
+- Use one term per concept throughout, and leave out time-sensitive text
+  ("as of this month"); a dated fact goes into a referenced file with its
+  date.
+- Ask for an outcome, not for reasoning in a fixed or verbatim format; some
+  models refuse to reproduce their reasoning, and the format adds nothing the
+  outcome check does not.
 - Remove duplicated, stale, speculative, and behavior-neutral prose.
 
 The body is ready when every line changes activation, execution, verification,
@@ -168,9 +224,16 @@ Then:
 1. Run `python3 scripts/audit-skills.py`.
 2. Run the provenance check for new or materially changed Skills.
 3. Run an isolated `npx skills add ...` test covering every changed Skill.
-4. Exercise the description against realistic positive and near-miss prompts
-   when activation behavior changed.
-5. Run the Skill on a representative task when its execution behavior changed.
+4. When activation behavior changed, run a trigger eval: about 20 realistic
+   prompts, half of them near-misses that a neighbouring Skill or no Skill
+   should take, each run 3 times in a fresh session, with a held-out part you
+   do not tune the description against. Record the result before the change
+   too, so a drop is visible.
+5. When execution behavior changed, run a representative task three ways:
+   without the Skill (the RED baseline that shows the failure it fixes),
+   with a one-line instruction instead of the Skill (the no-guidance
+   control), and with the Skill. Keep the Skill only for the difference it
+   makes over both; a Skill that does not beat the control is cost.
 6. Review the result for missed steps, false activation, wasted work, a rule
    whose reason is missing or wrong, and
    premature completion.

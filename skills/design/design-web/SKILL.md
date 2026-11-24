@@ -1,6 +1,6 @@
 ---
 name: design-web
-description: Use whenever designing, structuring, or reviewing a website rather than an app - marketing site, landing page, homepage, editorial or magazine site, e-commerce storefront, docs site - for information architecture, layout, typography, visual direction, motion, award-style inspiration, or Core Web Vitals (Website gestalten, Landingpage-Layout, Webdesign, Seitenstruktur, Ladezeit). Not for the copy itself (writing-marketing writes it), app or SaaS screens (design-product-ui), or building the code (frontend-craft).
+description: Use whenever designing, structuring, or reviewing a website rather than an app - marketing site, landing page, editorial, storefront, docs site - for structure, layout, typography, visual direction, or Core Web Vitals (Webdesign, Landingpage-Layout, Seitenstruktur). Not for the copy (writing-marketing), app screens (design-product-ui), or code (frontend-craft).
 license: MIT
 ---
 

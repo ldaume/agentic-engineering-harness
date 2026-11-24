@@ -977,9 +977,10 @@
    "findings": [
     "Context or motivation behind an instruction helps Claude deliver more targeted responses.",
     "Tell Claude what to do instead of what not to do.",
-    "Newer models are more responsive to the system prompt; emphasis such as \"CRITICAL: You MUST use this tool when...\" can now overtrigger, so use plain wording such as \"Use this tool when...\"."
+    "Newer models are more responsive to the system prompt; emphasis such as \"CRITICAL: You MUST use this tool when...\" can now overtrigger, so use plain wording such as \"Use this tool when...\".",
+    "For the newest models, blanket instructions to verify at the end or to use a subagent to verify cause over-verification; constrain the scope and say when to delegate."
    ],
-   "limits": "Opened on 2026-11-24 (full text saved and searched for the quoted lines). Vendor guidance for Claude models; it changes with each model generation.",
+   "limits": "Opened on 2026-11-24 (full text saved and searched for the quoted lines). Vendor guidance for Claude models; it changes with each model generation. The over-verification finding comes from a research pass on 2026-11-24 and was not re-quoted.",
    "evidence_level": "verified",
    "revisit": "re-read before each audit"
   },
@@ -1020,10 +1021,10 @@
    ],
    "findings": [
     "Context files do not generally improve task success and raise inference cost by over 20 percent on average.",
-    "The result held for LLM-generated and developer-committed files; agents follow the instructions, but repository overviews did not help.",
+    "The result held for LLM-generated and developer-committed files; developer-written files gained 2.4 percent, not significant; agents follow the instructions, but repository overviews did not help.",
     "Context files are useful for non-standard practices; evaluate any change before deployment."
    ],
-   "limits": "Abstract opened on 2026-11-24 (v3, revised 2026-09-29); the body was not read, so a claim that hand-written files do better than LLM-written ones is not made here; the abstract reports no gain for either. Coding-agent benchmark, not a writing study.",
+   "limits": "Abstract and v3 (revised 2026-09-29) opened on 2026-11-24; the +2.4 percent figure and its non-significance come from a research pass on the same day. Coding-agent benchmark with several coding agents, not a writing study.",
    "evidence_level": "verified",
    "revisit": "yearly"
   },
@@ -1200,6 +1201,70 @@
    "limits": "Second-hand: the original post was not found or opened on 2026-11-24. A vendor statement about the state of the art in mid-2025; it can change.",
    "evidence_level": "supported",
    "revisit": "revisit before any llms.txt advice"
+  },
+  {
+   "id": "SRC-WRITE-061",
+   "title": "How Claude remembers your project (Claude Code documentation)",
+   "url": "https://code.claude.com/docs/en/memory",
+   "publisher": "Anthropic",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "vendor-documentation",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Target under 200 lines per CLAUDE.md file; longer files consume more context and reduce adherence.",
+    "If two instructions contradict each other, Claude may pick one arbitrarily.",
+    "CLAUDE.md is context, not enforced configuration; an instruction that must run at a fixed point belongs in a hook.",
+    "Block-level HTML comments in CLAUDE.md files are stripped before the content is injected."
+   ],
+   "limits": "Opened on 2026-11-24 and searched for the quoted lines. Host documentation for Claude Code; other hosts differ.",
+   "evidence_level": "verified",
+   "revisit": "re-read before each audit"
+  },
+  {
+   "id": "SRC-WRITE-062",
+   "title": "Custom instructions with AGENTS.md (Codex documentation)",
+   "url": "https://developers.openai.com/codex/guides/agents-md",
+   "publisher": "OpenAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "vendor-documentation",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Codex concatenates AGENTS.md files from the project root to the working directory and stops adding files once the combined size reaches project_doc_max_bytes, 32 KiB by default."
+   ],
+   "limits": "Taken from a research pass on 2026-11-24; the default can be changed in Codex configuration.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-063",
+   "title": "Jaroslawicz et al. (2025). How Many Instructions Can LLMs Follow at Once? (IFScale) arXiv:2507.11538",
+   "url": "https://arxiv.org/abs/2507.11538",
+   "publisher": "arXiv",
+   "published": "2025",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Instruction-following accuracy falls as the number of simultaneous instructions grows.",
+    "Earlier instructions are followed more reliably than later ones."
+   ],
+   "limits": "Taken from a research pass on 2026-11-24; benchmark of keyword-inclusion instructions in a report task, not of agent context files.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
   }
  ]
 }

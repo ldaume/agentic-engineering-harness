@@ -1,6 +1,6 @@
 ---
 name: frontend-craft
-description: Guides frontend, UX, UI, responsive design, microcopy, accessibility, feedback states, and AI-assisted product surfaces with production-grade taste. Use when designing, building, reviewing, or polishing screens, React islands/components, Tailwind UI, mobile flows, loading/empty/error states, or user-facing copy. It implements and polishes; deciding a flow, form behavior, or product UI pattern, or running a UX audit, belongs to the design-* skills when installed.
+description: Builds and polishes frontend screens with production-grade taste - React components, Tailwind UI, responsive layouts, accessibility, loading, empty and error states, microcopy. Use when implementing, reviewing, or polishing UI code. Deciding a flow, form behavior, or product UI pattern, or running a UX audit, belongs to the design-* skills when installed.
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: design-forms
-description: Use whenever designing, building, fixing, or reviewing a form or an input-heavy interaction - sign-up, login, checkout, settings forms, multi-step forms, validation and error messages, submit buttons, autosave and drafts, destructive actions, undo, optimistic UI, double submits (Formular, Validierung, Fehlermeldung, Registrierung, Checkout). Decides validation timing, error recovery, focus, and status announcements, and ships browser tests for them. Not for whole user flows across screens, which design-flows owns.
+description: Use whenever designing, building, fixing, or reviewing a form or input-heavy interaction - sign-up, login, checkout, settings, multi-step forms, validation and error messages, autosave, undo, double submits (Formular, Validierung, Fehlermeldung, Registrierung). Ships browser tests. Not for whole flows across screens, which design-flows owns.
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: design-core
-description: Use whenever a UI or UX task has no clearer owner, or spans several surfaces - framing a design problem, choosing between design options, writing a design decision record, defining motion or animation, scoring design quality, or refreshing UI/UX evidence (Designentscheidung, UX-Konzept, Motion, Animation). Routes flows, forms, product UI, websites, dashboards, slides and diagrams, design systems, research, and reviews to their design-* owner. Not for writing code; frontend-craft builds the screen.
+description: Use whenever a UI or UX task has no clearer owner or spans several surfaces - framing a design problem, choosing between options, a design decision record, motion or animation (Designentscheidung, UX-Konzept, Motion). Routes flows, forms, product UI, websites, dashboards, slides, design systems, research, and reviews to their design-* owner. Not for code; frontend-craft builds the screen.
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: design-review
-description: Use whenever auditing, critiquing, or verifying an existing interface, website, user flow, form, dashboard, slide deck, or diagram - UX audit, accessibility audit, heuristic review, design critique, visual QA, browser verification with Playwright and axe, and turning findings into a prioritized improvement backlog (UX-Audit, Design-Review, Barrierefreiheit prüfen, Usability-Review). Every finding names an observation, impact, evidence, and how to validate it. Not for reviewing code correctness, which code review owns. Fixing what it finds belongs to frontend-craft.
+description: Use whenever auditing or critiquing an existing interface, website, flow, form, dashboard, or deck - UX audit, accessibility audit, heuristic review, visual QA, Playwright and axe checks - into a prioritized backlog (UX-Audit, Design-Review, Barrierefreiheit prüfen). Not for code correctness, which code review owns; frontend-craft fixes the findings.
 license: MIT
 ---
 

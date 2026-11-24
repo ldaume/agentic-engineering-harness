@@ -1,6 +1,6 @@
 ---
 name: design-product-ui
-description: Use whenever designing or reworking screens of a SaaS product, app, admin tool, or internal tool - navigation and information architecture, settings, tables and bulk actions, permissions, notifications, search and command palettes, keyboard-first workflows, information density, loading and empty states, undo versus confirm, and AI-native interfaces where people review, correct, reject, or undo AI output (SaaS-Oberfläche, App-Screens, Navigation, Einstellungen, KI-Interface). Not for marketing sites or landing pages (design-web) or dashboards and charts (design-dataviz). Implementation belongs to frontend-craft.
+description: Use whenever designing or reworking screens of a SaaS product, app, or admin tool - navigation, settings, tables and bulk actions, permissions, search, empty states, and AI interfaces where people review or undo AI output (SaaS-Oberfläche, App-Screens, Navigation, KI-Interface). Not for websites (design-web) or dashboards (design-dataviz); frontend-craft builds it.
 license: MIT
 ---
 

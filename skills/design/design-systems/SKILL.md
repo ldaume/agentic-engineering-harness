@@ -1,6 +1,6 @@
 ---
 name: design-systems
-description: Use whenever creating, extending, or auditing a design system - design tokens and their naming, color, typography, spacing and motion tokens, theming and dark mode, component specifications with states, keyboard and screen reader behavior, documentation, versioning, deprecation, migration, and design-to-code alignment (Designsystem, Design Tokens, Komponentenbibliothek, Theming). Checks token color pairs against WCAG contrast. Not for building one screen, which frontend-craft owns.
+description: Use whenever creating, extending, or auditing a design system - tokens and naming, color, type, spacing, theming and dark mode, component specs with states and keyboard behavior, versioning, migration (Designsystem, Design Tokens, Komponentenbibliothek, Theming). Checks token contrast. Not for building one screen, which frontend-craft owns.
 license: MIT
 ---
 
