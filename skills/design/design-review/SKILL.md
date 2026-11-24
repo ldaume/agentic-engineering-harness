@@ -47,7 +47,14 @@ be fixed and checked.
 `scripts/design-loop.mjs <url>` screenshots the page at 1280 and 390 px, light
 and dark, then checks it cheapest first: generic-look tells from the DOM, the
 reading audit, typed Jev questions on the screenshots, and a vision model
-only for the rules Jev is unsure about. It writes `.design-loop/design-loop.json`
+only for the rules Jev is unsure about. The page screenshots stop at 1568 px,
+so each diagram (a large `svg`, `canvas`, `figure`, or `[role=img]`, up to 6)
+gets its own shot with sticky layers hidden and clipping containers opened,
+and is checked for clipped text, stacked labels, lines through boxes, and
+small text: exactly from the SVG geometry where it is inline SVG, otherwise
+by Jev and the model. On 7 synthetic diagrams Jev caught every clipped title,
+stacked label, and small text and passed the clean one, but stayed unsure on
+a line through an empty part of a box, which goes to the model. It writes `.design-loop/design-loop.json`
 (findings with rule, tier, confidence, evidence, cost) and exits 1 on a
 failure. Run it before calling any UI change done, because the agent that
 built the page is the worst judge of how it looks; serve the page on
@@ -57,8 +64,8 @@ it found 21 of the 22 rule
 failures the reviewer found at about 2% of its cost, and half the pages
 needed no model beyond Jev.
 Tests with model calls stubbed: `tests/design-loop.spec.mjs` with the
-fixtures `tests/fixtures/generic.html` (must be flagged) and
-`tests/fixtures/clean.html` (must pass).
+fixtures `tests/fixtures/generic.html` and `diagram-broken.html` (must be
+flagged) and `clean.html` and `diagram-clean.html` (must pass).
 
 ## Load when
 
