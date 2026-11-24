@@ -17,6 +17,12 @@
 //            or more) runs in the width sweep and reports bands, because it depends on wrapping.
 //            Per screenshot viewport and scheme, `measuredAudit`: `render.hidden-at-rest` (before any scrolling),
 //            `render.broken-image` and, last because it scrolls and restores, `render.text-occluded`.
+//            Vocabulary rules (design-core `references/vocabulary.md`), also audit tier: per screenshot viewport and scheme
+//            `vocabAudit` (`type.heading-ladder`, `layout.proximity`, `type.tabular-figures`, `wcag.non-text-contrast`,
+//            `wcag.text-spacing`); at 320 px `reflowAudit` (`wcag.reflow`); with reduced motion emulated `motionAudit`
+//            (`motion.reduced`); `shiftAudit` on the loaded page (`perf.layout-shift`); `focusAudit` tabbing through it
+//            (`wcag.focus-visible`, `wcag.focus-not-obscured`). Only `wcag.reflow` and `wcag.non-text-contrast` fail the run;
+//            the other eight are advisory until a real page confirms them.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
 //            a noul is a yes/no probability, a score a level; about $0.0001 per page. `tell.sparse` ("is
 //            the page noticeably sparse") is a second Jev call of its own, so its context does not shift
@@ -582,6 +588,244 @@ export function measuredAudit(phase) {
   return found;
 }
 
+// The exact checks behind ten design-core vocabulary terms. Each in-page function sends only itself
+// to page.evaluate, so its constants and helpers live inside it. Findings: { rule, element, text, observed, required }.
+//   vocabAudit  per viewport and scheme: type.heading-ladder, layout.proximity, type.tabular-figures,
+//               wcag.non-text-contrast, wcag.text-spacing (injects the WCAG 1.4.12 override and removes it again).
+//   reflowAudit at 320 px wide: wcag.reflow.  motionAudit with reduced motion emulated: motion.reduced.
+//   shiftAudit  after a load, waits 1 s: perf.layout-shift.  focusAudit(page) tabs through the page:
+//               wcag.focus-visible and wcag.focus-not-obscured.
+export function vocabAudit() {
+  const T = { ladderSize: 1.05, ladderWeight: 200, proxRatio: 0.75, tabular: 0.5, nonText: 3, cap: 12 };
+  const visible = (el) => { if (!el.isConnected) return false; const r = el.getBoundingClientRect(); if (r.width < 1 || r.height < 1) return false; const s = getComputedStyle(el); return s.visibility !== "hidden" && s.display !== "none" && !el.closest("[hidden],[aria-hidden=true]") && (el.checkVisibility ? el.checkVisibility() : true); };
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "");
+  const textOf = (el) => (el.innerText || el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 40);
+  const out = [];
+  const add = (rule, el, text, observed, required) => { if (out.filter((f) => f.rule === rule).length < T.cap) out.push({ rule, element: typeof el === "string" ? el : name(el), text, observed, required }); };
+  const canvas = document.createElement("canvas"); canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  const parse = (s) => { try { ctx.clearRect(0, 0, 1, 1); ctx.fillStyle = "#000"; ctx.fillStyle = s; ctx.fillRect(0, 0, 1, 1); const d = ctx.getImageData(0, 0, 1, 1).data; return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 }; } catch { return null; } };
+  const COLOR = /(rgba?\([^)]*\)|oklab\([^)]*\)|oklch\([^)]*\)|color\([^)]*\)|hsla?\([^)]*\)|#[0-9a-fA-F]{3,8})/g;
+  const ownBg = (el) => { const s = getComputedStyle(el), bi = s.backgroundImage; if (bi && bi !== "none") { if (/url\(/.test(bi) && !/gradient/.test(bi)) return { unknown: true }; const cols = (bi.match(COLOR) || []).map(parse).filter((c) => c && c.a > 0.05); if (cols.length) { const n = cols.length, m = (k) => cols.reduce((a, c) => a + c[k], 0) / n; return { r: m("r"), g: m("g"), b: m("b"), a: 1 }; } } const c = parse(s.backgroundColor); return c && c.a > 0.02 ? c : null; };
+  const effBg = (el) => { const layers = []; for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const b = ownBg(e); if (b?.unknown) return null; if (b) { layers.push(b); if (b.a >= 0.99) break; } } let acc = { r: 255, g: 255, b: 255 }; for (const b of layers.reverse()) acc = { r: acc.r * (1 - b.a) + b.r * b.a, g: acc.g * (1 - b.a) + b.g * b.a, b: acc.b * (1 - b.a) + b.b * b.a }; return acc; };
+  const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  const over = (fg, bg) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a) });
+
+  // type.heading-ladder: a lower level rendered larger, or as heavy at the same size, than a higher one.
+  const hs = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6,[role=heading]")].filter(visible);
+  const lvl = (h) => (h.getAttribute("role") === "heading" ? +h.getAttribute("aria-level") || 2 : +h.tagName[1]);
+  const by = {};
+  for (const h of hs) { const s = getComputedStyle(h); (by[lvl(h)] ??= []).push({ h, size: parseFloat(s.fontSize), weight: +s.fontWeight || 400 }); }
+  const med = (a) => [...a].sort((x, y) => x - y)[a.length >> 1];
+  const stat = Object.fromEntries(Object.entries(by).map(([l, a]) => [l, { size: med(a.map((x) => x.size)), weight: med(a.map((x) => x.weight)), a }]));
+  const levels = Object.keys(stat).map(Number).sort((a, b) => a - b);
+  for (const b of levels) for (const a of levels) {
+    if (a >= b) continue;
+    const A = stat[a], B = stat[b];
+    const bigger = B.size > A.size * T.ladderSize;
+    const heavier = B.size >= A.size / T.ladderSize && B.weight >= A.weight + T.ladderWeight;
+    if (!bigger && !heavier) continue;
+    const h = B.a.find((x) => (bigger ? x.size > A.size * T.ladderSize : x.weight >= A.weight + T.ladderWeight)).h;
+    add("type.heading-ladder", h, textOf(h), `h${b} ${B.size} px, weight ${B.weight}; h${a} ${A.size} px, weight ${A.weight}`, `h${b} no larger or heavier than h${a}`);
+    break;
+  }
+
+  // layout.proximity: a heading nearer the block above it than the content below it.
+  const ink = (el, side) => { // visual bottom (1) or top (0) of an element's content
+    const s = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    const painted = s.backgroundColor !== "rgba(0, 0, 0, 0)" || s.backgroundImage !== "none" || s.boxShadow !== "none" || ["Top", "Right", "Bottom", "Left"].some((d) => parseFloat(s["border" + d + "Width"]) > 0 && s["border" + d + "Style"] !== "none");
+    if (painted || /^(IMG|SVG|CANVAS|VIDEO|TABLE|HR|INPUT|BUTTON|SELECT|TEXTAREA|IFRAME)$/i.test(el.tagName)) return side ? r.bottom : r.top;
+    let v = null;
+    const take = (y) => { v = v === null ? y : side ? Math.max(v, y) : Math.min(v, y); };
+    for (const n of el.childNodes) {
+      if (n.nodeType === 3 && n.textContent.trim()) { const g = document.createRange(); g.selectNodeContents(n); const q = g.getBoundingClientRect(); if (q.height) take(side ? q.bottom : q.top); }
+      else if (n.nodeType === 1 && visible(n)) take(ink(n, side));
+    }
+    return v === null ? (side ? r.bottom : r.top) : v;
+  };
+  for (const h of [...document.querySelectorAll("h2,h3,h4,h5,h6,[role=heading]")].filter(visible)) {
+    const prev = h.previousElementSibling, next = h.nextElementSibling;
+    if (!prev || !next || !visible(prev) || !visible(next)) continue;
+    if (/^(absolute|fixed)$/.test(getComputedStyle(prev).position) || /^(absolute|fixed)$/.test(getComputedStyle(next).position)) continue;
+    const r = h.getBoundingClientRect(), pr = prev.getBoundingClientRect(), nr = next.getBoundingClientRect();
+    if (pr.bottom > r.top + 1 || nr.top < r.bottom - 1 || pr.right <= r.left || pr.left >= r.right || nr.right <= r.left || nr.left >= r.right) continue; // side by side, not stacked
+    const hSize = parseFloat(getComputedStyle(h).fontSize), pSize = parseFloat(getComputedStyle(prev).fontSize);
+    if (pr.height <= pSize * 1.7 && pSize < hSize) continue; // a one-line kicker above the heading belongs to it
+    const above = r.top - ink(prev, 1), below = ink(next, 0) - r.bottom;
+    if (above < below * T.proxRatio) add("layout.proximity", h, textOf(h), `${above.toFixed(0)} px above, ${below.toFixed(0)} px below`, "more space above a heading than below it");
+  }
+
+  // type.tabular-figures: a numeric table column whose digits differ in width.
+  const NUM = /^[\s+\-\u2212\u2013\u20ac$\u00a3\u00a5(]*\d[\d.,:'\s]*[%\u20ac$\u00a3\u00a5)]?\s*[A-Za-z%]{0,3}\)?$/;
+  const digit = (cell, ch) => { const s = getComputedStyle(cell); const sp = document.createElement("span"); sp.textContent = ch; sp.style.cssText = `position:fixed;left:-9999px;top:0;white-space:nowrap;visibility:hidden;font-kerning:none;letter-spacing:${s.letterSpacing};font-family:${s.fontFamily};font-size:${s.fontSize};font-weight:${s.fontWeight};font-style:${s.fontStyle};font-stretch:${s.fontStretch};font-variant-numeric:${s.fontVariantNumeric};font-feature-settings:${s.fontFeatureSettings}`; cell.append(sp); const w = sp.getBoundingClientRect().width; sp.remove(); return w; };
+  for (const t of document.querySelectorAll("table")) {
+    if (!visible(t)) continue;
+    const cols = {};
+    for (const row of t.rows) [...row.cells].forEach((c, i) => { if (c.tagName === "TD" && NUM.test(c.textContent.trim()) && visible(c)) (cols[i] ??= []).push(c); });
+    for (const cells of Object.values(cols)) {
+      if (cells.length < 2) continue;
+      const w = ["1", "0", "8"].map((d) => digit(cells[0], d));
+      const spread = Math.max(...w) - Math.min(...w);
+      if (spread > T.tabular) add("type.tabular-figures", cells[0], cells.slice(0, 3).map((x) => x.textContent.trim()).join(" | "), `digits differ by ${spread.toFixed(2)} px each`, "equal-width digits: font-variant-numeric: tabular-nums");
+    }
+  }
+
+  // wcag.non-text-contrast: an input whose border, fill and shadow all sit under 3:1 against what is behind it.
+  const sel = 'input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset]):not([type=range]):not([type=color]):not([type=file]):not([type=image]),textarea,select,[role=textbox],[role=combobox],[role=searchbox]';
+  for (const el of document.querySelectorAll(sel)) {
+    if (!visible(el) || el.disabled || el.getAttribute("aria-disabled") === "true") continue;
+    const r = el.getBoundingClientRect(); if (r.width < 24 || r.height < 16) continue;
+    const parentBg = el.parentElement ? effBg(el.parentElement) : { r: 255, g: 255, b: 255 };
+    if (!parentBg) continue;
+    const s = getComputedStyle(el);
+    const fill = ownBg(el);
+    if (fill?.unknown) continue;
+    let best = fill ? ratio(over(fill, parentBg), parentBg) : 0;
+    for (const d of ["Top", "Right", "Bottom", "Left"]) if (parseFloat(s["border" + d + "Width"]) >= 1 && s["border" + d + "Style"] !== "none") { const c = parse(s["border" + d + "Color"]); if (c && c.a > 0.02) best = Math.max(best, ratio(over(c, parentBg), parentBg)); }
+    if (s.boxShadow !== "none") { const m = s.boxShadow.match(COLOR); const c = m && parse(m[0]); if (c && c.a > 0.3) best = Math.max(best, ratio(over(c, parentBg), parentBg)); }
+    for (let w = el.parentElement, i = 0; w && i < 2 && best < T.nonText; w = w.parentElement, i++) { // a wrapper may draw the boundary
+      if (w.getBoundingClientRect().height > r.height * 2.5) break;
+      const ws = getComputedStyle(w), pb = w.parentElement && effBg(w.parentElement);
+      for (const d of ["Top", "Right", "Bottom", "Left"]) if (pb && parseFloat(ws["border" + d + "Width"]) >= 1 && ws["border" + d + "Style"] !== "none") { const c = parse(ws["border" + d + "Color"]); if (c) best = Math.max(best, ratio(over(c, pb), pb)); }
+    }
+    if (best < T.nonText) add("wcag.non-text-contrast", el, (el.placeholder || el.getAttribute("aria-label") || "").slice(0, 40), `${best.toFixed(2)}:1`, `>= ${T.nonText}:1`);
+  }
+
+  // wcag.text-spacing: text newly clipped or spilling out of its box under the WCAG 1.4.12 override. HTML text only.
+  const snap = () => {
+    const clipped = new Set(), spill = new Set();
+    for (const el of document.body.querySelectorAll("*")) {
+      if (!visible(el) || el.closest("svg")) continue;
+      const own = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim().length > 1);
+      if (!own.length) continue;
+      const s = getComputedStyle(el);
+      if (/(hidden|clip)/.test(s.overflowY + s.overflowX) && s.textOverflow !== "ellipsis" && (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1)) clipped.add(el);
+      let box = null, cut = false;
+      for (let p = el; p && p !== document.body; p = p.parentElement) {
+        const q = getComputedStyle(p);
+        if (/(hidden|clip|auto|scroll)/.test(q.overflowY)) { cut = true; break; }
+        if (q.backgroundColor !== "rgba(0, 0, 0, 0)" || ["Top", "Bottom"].some((d) => parseFloat(q["border" + d + "Width"]) > 0 && q["border" + d + "Style"] !== "none")) { box = p; break; }
+      }
+      if (!box || cut) continue;
+      const b = box.getBoundingClientRect();
+      if (own.some((n) => { const g = document.createRange(); g.selectNodeContents(n); return g.getBoundingClientRect().bottom > b.bottom + 1; })) spill.add(el);
+    }
+    return { clipped, spill, wide: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1 };
+  };
+  const before = snap();
+  const st = document.createElement("style");
+  st.textContent = "*{line-height:1.5 !important;letter-spacing:.12em !important;word-spacing:.16em !important} p{margin-bottom:2em !important}";
+  document.head.append(st);
+  const after = snap();
+  st.remove();
+  for (const el of after.clipped) if (!before.clipped.has(el)) add("wcag.text-spacing", el, textOf(el), "text clipped by its box", "text survives line height 1.5, letter spacing 0.12em, word spacing 0.16em");
+  for (const el of after.spill) if (!before.spill.has(el)) add("wcag.text-spacing", el, textOf(el), "text spills out of its box", "text survives line height 1.5, letter spacing 0.12em, word spacing 0.16em");
+  if (after.wide && !before.wide) add("wcag.text-spacing", "document", "", "horizontal scroll appears", "text survives line height 1.5, letter spacing 0.12em, word spacing 0.16em");
+  return out;
+}
+
+// Runs at 320 px wide (setViewportSize first). Content in a scrolling or clipping box of its own is exempt.
+export function reflowAudit() {
+  const de = document.documentElement;
+  if (de.scrollWidth <= de.clientWidth + 1) return [];
+  const w = de.clientWidth;
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "");
+  let worst = null;
+  for (const el of document.body.querySelectorAll("*")) {
+    const r = el.getBoundingClientRect();
+    if (r.right <= w + 1 || r.width < 2 || getComputedStyle(el).display === "none") continue;
+    let clipped = false;
+    for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) if (/(auto|scroll|hidden|clip)/.test(getComputedStyle(p).overflowX) && p.getBoundingClientRect().right <= w + 1) { clipped = true; break; }
+    if (!clipped && (!worst || r.right > worst.right)) worst = { el, right: r.right };
+  }
+  return [{ rule: "wcag.reflow", element: worst ? name(worst.el) : "document", text: worst ? (worst.el.innerText || "").trim().replace(/\s+/g, " ").slice(0, 40) : "", observed: `${de.scrollWidth} px wide at 320 px`, required: "no horizontal scroll at 320 px" }];
+}
+
+// Runs with prefers-reduced-motion: reduce emulated. A running animation of position, size, rotation or scale
+// (opacity and colour are soft enough to stay) means the page ignores the request.
+export function motionAudit() {
+  const out = [];
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "");
+  const MOVE = /^(transform|translate|rotate|scale|top|left|right|bottom|margin|inset|backgroundPosition|background-position|offset)/;
+  for (const a of document.getAnimations()) {
+    if (a.playState !== "running") continue;
+    const e = a.effect, tgt = e?.target;
+    if (!(tgt instanceof Element) || tgt.getBoundingClientRect().width < 1 || getComputedStyle(tgt).display === "none") continue;
+    let props = [];
+    try { props = [...new Set(e.getKeyframes().flatMap((k) => Object.keys(k)))].filter((p) => !["offset", "easing", "composite", "computedOffset"].includes(p)); } catch { /* unreadable keyframes */ }
+    if (!props.some((p) => MOVE.test(p)) && a.timeline?.constructor?.name !== "ScrollTimeline") continue;
+    if (out.length < 12) out.push({ rule: "motion.reduced", element: name(tgt), text: (tgt.innerText || "").trim().replace(/\s+/g, " ").slice(0, 40), observed: `${a.animationName || "animation"} still runs (${props.filter((p) => MOVE.test(p)).join(", ") || "scroll timeline"})`, required: "no transform or scroll animation under prefers-reduced-motion: reduce" });
+  }
+  if (getComputedStyle(document.documentElement).scrollBehavior === "smooth") out.push({ rule: "motion.reduced", element: "html", text: "", observed: "scroll-behavior: smooth", required: "scroll-behavior: auto under prefers-reduced-motion: reduce" });
+  return out;
+}
+
+// Cumulative Layout Shift of the page so far (buffered entries) plus one and a half more seconds, as the largest session window.
+export function shiftAudit() {
+  const MAX = 0.1;
+  return new Promise((resolve) => {
+    const entries = [];
+    const o = new PerformanceObserver((l) => entries.push(...l.getEntries()));
+    o.observe({ type: "layout-shift", buffered: true });
+    setTimeout(() => {
+      o.disconnect();
+      let best = 0, cur = 0, first = 0, last = 0;
+      for (const e of entries) { if (e.hadRecentInput) continue; if (cur && (e.startTime - last > 1000 || e.startTime - first > 5000)) cur = 0; if (!cur) first = e.startTime; cur += e.value; last = e.startTime; best = Math.max(best, cur); }
+      const worst = entries.filter((e) => !e.hadRecentInput).sort((a, b) => b.value - a.value)[0];
+      const n = worst?.sources?.[0]?.node;
+      const el = n && n.nodeType === 1 ? n : null;
+      resolve(best > MAX ? [{ rule: "perf.layout-shift", element: el ? el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "") : "page", text: el ? (el.innerText || "").trim().replace(/\s+/g, " ").slice(0, 40) : "", observed: `CLS ${best.toFixed(3)}`, required: `<= ${MAX}` }] : []);
+    }, 1500); // a frame may paint late on a busy machine
+  });
+}
+
+// Tabs through the page (up to 40 stops, keyboard focus) and reports, per stop, a focus that changes nothing a reader
+// can see (own style, the parent's and its children's) and a focus fully behind a fixed or sticky layer. Leaves nothing focused.
+export async function focusAudit(page, max = 40) {
+  const out = { visible: [], obscured: [], stops: 0 };
+  await page.evaluate(() => { document.activeElement?.blur?.(); scrollTo(0, 0); });
+  const seen = new Set();
+  for (let i = 0; i < max; i++) {
+    await page.keyboard.press("Tab");
+    const stop = await page.evaluate(() => {
+      const el = document.activeElement;
+      if (!el || el === document.body || el === document.documentElement) return null;
+      el.__focusStop ??= Math.random().toString(36).slice(2);
+      const name = el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0].slice(0, 24) : "");
+      const text = (el.innerText || el.getAttribute("aria-label") || el.value || "").trim().replace(/\s+/g, " ").slice(0, 40);
+      const sig = (n) => { const s = getComputedStyle(n); const ow = parseFloat(s.outlineWidth); return [s.outlineStyle === "none" || !ow ? "none" : s.outlineStyle + s.outlineWidth + s.outlineColor + s.outlineOffset, s.boxShadow, s.borderTopColor, s.borderRightColor, s.borderBottomColor, s.borderLeftColor, s.borderTopWidth, s.backgroundColor, s.backgroundImage === "none" ? "" : s.backgroundImage.slice(0, 60), s.color, s.textDecorationLine, s.transform, s.filter, s.opacity].join("|"); };
+      const scope = () => { const p = el.parentElement; return [el, p, p?.parentElement, ...(p ? [...p.querySelectorAll("*")].slice(0, 40) : [])].filter(Boolean).map(sig).join("#"); };
+      const focused = scope();
+      const box = el.getBoundingClientRect();
+      const vis = { left: Math.max(box.left, 0), top: Math.max(box.top, 0), right: Math.min(box.right, innerWidth - 1), bottom: Math.min(box.bottom, innerHeight - 1) }; // the part of the box on screen
+      const points = vis.right > vis.left && vis.bottom > vis.top ? [[.5, .5], [.15, .15], [.85, .15], [.15, .85], [.85, .85]].map(([fx, fy]) => [vis.left + (vis.right - vis.left) * fx, vis.top + (vis.bottom - vis.top) * fy]) : [];
+      let covered = 0, layer = "";
+      for (const [x, y] of points) {
+        const hit = document.elementFromPoint(x, y);
+        if (!hit || hit === el || el.contains(hit) || hit.contains(el)) continue;
+        for (let l = hit; l && l !== document.documentElement; l = l.parentElement) {
+          const pos = getComputedStyle(l).position;
+          if ((pos === "fixed" || pos === "sticky") && !l.contains(el)) { covered++; layer = l.tagName.toLowerCase() + (typeof l.className === "string" && l.className.trim() ? "." + l.className.trim().split(/\s+/)[0] : ""); break; }
+        }
+      }
+      el.blur();
+      const unchanged = focused === scope();
+      el.focus({ focusVisible: true });
+      return { id: el.__focusStop, name, text, unchanged, covered, total: points.length, layer, tiny: box.width < 2 || box.height < 2 };
+    });
+    if (!stop || seen.has(stop.id)) break;
+    seen.add(stop.id);
+    out.stops++;
+    if (stop.tiny) continue;
+    if (stop.unchanged) out.visible.push({ rule: "wcag.focus-visible", element: stop.name, text: stop.text, observed: "no outline, shadow, border or color change on keyboard focus", required: "a visible focus indicator" });
+    if (stop.total && stop.covered === stop.total) out.obscured.push({ rule: "wcag.focus-not-obscured", element: stop.name, text: stop.text, observed: `fully behind ${stop.layer}`, required: "focused element not hidden by a fixed or sticky layer" });
+  }
+  await page.evaluate(() => { document.activeElement?.blur?.(); scrollTo(0, 0); });
+  return out;
+}
+
 // Runs in the page on one diagram element (locator.evaluate). Exact geometry checks on inline
 // SVG, so no model is needed for these: text past the smallest box around it (or past the
 // foreignObject that clips it), text boxes on top of each other, and a stroke-only line that
@@ -770,6 +1014,7 @@ async function shoot(page, outDir, level) {
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
     for (const f of await page.evaluate(craftAudit)) audit.push({ key: "craft", ...f, viewport: s.width, scheme: s.scheme });
+    for (const f of await page.evaluate(vocabAudit)) audit.push({ key: "vocab", ...f, viewport: s.width, scheme: s.scheme });
     for (const f of await page.evaluate(measuredAudit, "late")) audit.push({ key: "render", ...f, viewport: s.width, scheme: s.scheme }); // last: it scrolls and restores
   }
   // Card drift depends on how the text wraps, so it is measured over a width sweep (DOM only, light).
@@ -780,6 +1025,10 @@ async function shoot(page, outDir, level) {
     for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: width, widths });
     for (const f of await page.evaluate(widowAudit)) audit.push({ key: "widow", ...f, viewport: width, widths });
   }
+  await page.setViewportSize({ width: 320, height: 256 }); // WCAG 1.4.10: reflow at 320 CSS px
+  for (const f of await page.evaluate(reflowAudit)) audit.push({ key: "reflow", ...f, viewport: 320, scheme: "light" });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  for (const f of await page.evaluate(motionAudit)) audit.push({ key: "motion", ...f, viewport: 1280, scheme: "light" }); // reduced motion is emulated above
   const last = SHOTS[SHOTS.length - 1];
   await page.setViewportSize({ width: last.width, height: 800 });
   await page.emulateMedia({ colorScheme: last.scheme, reducedMotion: "reduce" });
@@ -797,6 +1046,10 @@ function bands(hit, widths) {
   return out.map(([a, b]) => (a === b ? `${a} px` : `${a}-${b} px`));
 }
 
+// Vocabulary rules no real page has confirmed yet (zero real hits on 14 pages, caught on synthetic and mutated pages):
+// reported, never failing the run, like tell.icon-tile. wcag.reflow and wcag.non-text-contrast hit real defects and fail.
+const ADVISORY = new Set(["type.heading-ladder", "layout.proximity", "type.tabular-figures", "wcag.text-spacing", "motion.reduced", "perf.layout-shift", "wcag.focus-visible", "wcag.focus-not-obscured"]);
+
 function auditFindings(audit) {
   const seen = new Map();
   for (const f of audit) {
@@ -808,7 +1061,7 @@ function auditFindings(audit) {
       continue;
     }
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
-    seen.set(id, { rule: f.rule ?? "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
+    seen.set(id, { rule: f.rule ?? "wcag." + f.key, status: ADVISORY.has(f.rule) ? "advisory" : "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
   // A lone last word that appears only between the screenshot widths is not what a reader of the shots sees: the sweep does not report it.
   return [...seen.values()].filter((f) => f.rule !== "type.widow" || SHOTS.some((s) => f.hits.includes(s.width))).map(({ hits, widths, ...f }) => f);
@@ -932,13 +1185,17 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
   const started = Date.now();
   mkdirSync(outDir, { recursive: true });
   writeFileSync(join(outDir, ".gitignore"), "*\n"); // screenshots and report never reach a commit
+  const shift = await page.evaluate(shiftAudit); // first: a later resize or scroll must not count as a shift of the load
   const { shots, audit } = await shoot(page, outDir, level);
+  for (const f of shift) audit.push({ key: "shift", ...f, viewport: 1280, scheme: "light" });
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.emulateMedia({ colorScheme: "light" });
   // A diagram far down a long page never reaches the 1568 px screenshots: each gets its own shot.
   const notes = [];
   const diagrams = await shootDiagrams(page, outDir, notes);
   const dom = [...await page.evaluate(tellsAudit), ...await page.evaluate(measuredAudit, "slop")];
+  const focus = await focusAudit(page); // keyboard tabbing: last among the DOM checks, it moves focus and scroll
+  for (const f of [...focus.visible, ...focus.obscured]) audit.push({ key: "focus", ...f, viewport: 1280, scheme: "light" });
   const text = await page.evaluate(pageText, MAX_TEXT_BLOCKS);
   const textHits = uiInstructions(text);
   const headlines = await page.evaluate(() => [...document.querySelectorAll("h1, h2")].slice(0, 6).map((h) => h.textContent.trim().replace(/\s+/g, " ").slice(0, 120)));
