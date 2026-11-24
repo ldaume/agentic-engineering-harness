@@ -8,8 +8,16 @@
 //            plus `layout.alignment` (`alignmentAudit`): cards in one row whose matching parts
 //            (title, text, divider, footnote) sit at different heights. The width sweep is 360 to 1592 px in 32 px steps (light). Jev asks the same of
 //            the screenshots as `tell.misaligned-cards`.
+//            Type and layout craft (`craftAudit`, per screenshot viewport and scheme): `type.small-text`
+//            (under 12 px), `type.scale-near-duplicate` (sizes under 10 percent apart, each used twice),
+//            `layout.edge-near-miss` (text edges 1 to 6 px apart in one landmark) and `type.families`
+//            (more than 3). `type.widow` (`widowAudit`, a lone last word in a heading or bold text of 16 px
+//            or more) runs in the width sweep and reports bands, because it depends on wrapping.
 //   jev    - typed questions on the screenshots (TypeSafe Jev, images are an opt-in beta):
-//            a noul is a yes/no probability, a score a level; about $0.0001 per page.
+//            a noul is a yes/no probability, a score a level; about $0.0001 per page. The shots end 24 px
+//            below the last content, so blank viewport is never read as empty. `tell.sparse` ("is the
+//            page noticeably sparse") travels with the whitespace rules and a labeled NO and YES example
+//            (assets/examples); it detects sparse only, never cramped.
 //   diagrams - each large svg, canvas, figure or [role=img] (up to 6) is shot on its own, sticky
 //            layers hidden and clipping containers opened, and checked for clipped text, stacked
 //            labels, lines through boxes and small text: exactly from inline SVG geometry, then
@@ -85,8 +93,20 @@ export const VISUAL_RULES = [
   { id: "layout.phone", type: "noul", instructions: "Does the phone screenshot show content that is cut off, overlapping, squeezed, or too small to read?" },
   { id: "layout.dark", type: "noul", instructions: "Does the dark screenshot show unreadable text, or a mix where some parts turned dark and others stayed light?" },
   { id: "tell.misaligned-cards", type: "noul", instructions: "Look at each row of cards or tiles. Draw an imaginary horizontal line through a part of one card (its title, its divider, its footer or its button). Does that line miss the same part of a neighboring card by more than a few pixels? Empty space inside a card is not misalignment; only the position of the matching parts counts." },
+  { id: "tell.sparse", type: "noul", yes: 0.75, no: 0.5, instructions: "Is the page noticeably sparse: large empty areas with little content?" },
   { id: "ui.disabled", type: "noul", instructions: "Is there a greyed-out or disabled action with no visible reason why it cannot be used?" },
 ];
+
+// Context for tell.sparse, sent with the page screenshots: the rule in the house words and one
+// labeled NO and one labeled YES example (synthetic pages, assets/examples). The question asks
+// about sparse pages only. It never reports a cramped page: a spike on 22 shots found Jev's
+// whitespace answer separated sparse pages from the rest but not cramped ones.
+export const WHITESPACE_RULES = "Whitespace rules: padding and gaps follow one rhythm, and the space between groups is clearly larger than the space inside a group. A page is sparse when large empty areas strand a little content so that it feels unfinished. A short page that simply ends early, or a page with a few well-spaced groups, is not sparse. Only the question tell.sparse is asked about whitespace; cramped pages are not asked about.";
+const EXAMPLE_DIR = new URL("../assets/examples/", import.meta.url);
+export const sparseExamples = () => [
+  { key: "sparse_example_answer_no", file: "sparse-no.png", caption: "tell.sparse example, answer NO (a filled page with balanced whitespace; synthetic, unrelated to the page under test):" },
+  { key: "sparse_example_answer_yes", file: "sparse-yes.png", caption: "tell.sparse example, answer YES (one short line in a large empty panel; synthetic, unrelated to the page under test):" },
+].map(({ file, ...e }) => ({ ...e, base64: readFileSync(new URL(file, EXAMPLE_DIR)).toString("base64") }));
 
 // Asked about each diagram on its own shot. Wording and thresholds from a spike on 7 synthetic
 // diagrams, two runs (2026-11-24): one clean, one with every defect, one per single defect.
@@ -214,6 +234,105 @@ export function alignmentAudit() {
       const w = row.map((e) => e.getBoundingClientRect().width);
       if (row.length >= 3 && spread(w) <= 0.1 * Math.max(...w)) compare(row, 0, name(row[0]));
     }
+  }
+  return out;
+}
+
+// Runs in the page. Type and layout craft, measured from the DOM (a spike on 8 app pages and 3
+// clean references kept only rules whose findings were mostly real and that flagged no clean
+// page). The probes are the text leaves: visible elements with a text node of their own.
+//   type.small-text           rendered text under 12 px (aria-hidden and hidden text excluded)
+//   type.scale-near-duplicate adjacent font sizes under 10 percent apart, each used by 2+ texts
+//   layout.edge-near-miss     text left edges 1 to 6 px apart inside one landmark, each shared by 2+ texts
+//   type.families             more than 3 font families rendered (first face of each computed stack)
+// Left alone because the spike showed no signal: line length, line height, a spacing grid, the count
+// of edges or weights, and the Jev questions on hierarchy, focal point and grouping (see
+// references/browser-verification.md).
+export function craftAudit() {
+  const SMALL_PX = 12, NEAR_RATIO = 1.1, EDGE_NEAR = [1, 6], MAX_FAMILIES = 3; // inside: page.evaluate sends only this function
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0] : "");
+  const px = (n) => `${+n.toFixed(1)} px`;
+  const leaves = [];
+  const walk = (el) => {
+    const cs = getComputedStyle(el);
+    const box = el.getBoundingClientRect();
+    if (["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE", "IFRAME", "svg", "SVG"].includes(el.tagName) || cs.display === "none" || cs.visibility === "hidden" || +cs.opacity < 0.05 || el.getAttribute("aria-hidden") === "true") return;
+    const own = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim());
+    if (own.length && box.width > 2 && box.height > 2) {
+      const range = document.createRange();
+      let first = null;
+      for (const n of own) { range.selectNodeContents(n); first ||= [...range.getClientRects()].find((r) => r.width > 0); }
+      leaves.push({ el, text: own.map((n) => n.textContent).join(" ").trim().replace(/\s+/g, " "), size: parseFloat(cs.fontSize), family: cs.fontFamily.split(",")[0].replace(/["']/g, "").trim(), first, inline: cs.display === "inline", align: cs.textAlign });
+    }
+    for (const c of el.children) walk(c);
+  };
+  walk(document.body);
+  const out = [];
+  const found = (rule, el, text, observed, required) => out.push({ rule, element: name(el), text: text.slice(0, 40), observed, required });
+
+  for (const l of leaves) if (l.size < SMALL_PX && l.text.length > 1) found("type.small-text", l.el, l.text, px(l.size), `>= ${SMALL_PX} px`);
+
+  const bySize = new Map();
+  for (const l of leaves) { const s = Math.round(l.size * 2) / 2; bySize.set(s, [...(bySize.get(s) || []), l]); }
+  const sizes = [...bySize.keys()].sort((a, b) => a - b);
+  for (let i = 1; i < sizes.length; i++) {
+    const [lo, hi] = [bySize.get(sizes[i - 1]), bySize.get(sizes[i])];
+    const ratio = sizes[i] / sizes[i - 1];
+    if (ratio < NEAR_RATIO && lo.length >= 2 && hi.length >= 2) found("type.scale-near-duplicate", lo[0].el, `${lo[0].text.slice(0, 18)} / ${hi[0].text.slice(0, 18)}`, `${sizes[i - 1]} px (${lo.length} texts) and ${sizes[i]} px (${hi.length} texts), ratio ${ratio.toFixed(2)}`, `a ratio of at least ${NEAR_RATIO.toFixed(2)} between sizes in use, or one size`);
+  }
+
+  const families = [...new Set(leaves.map((l) => l.family))];
+  if (families.length > MAX_FAMILIES) found("type.families", document.body, families.join(", ").slice(0, 40), `${families.length} font families: ${families.join(", ")}`, `at most ${MAX_FAMILIES}`);
+
+  // A landmark is the nearest main, nav, aside, header, footer or section that has a heading.
+  const LANDMARK = "main, nav, aside, header, footer, [role=main], [role=complementary], section:has(h1, h2, h3, h4, h5, h6)";
+  const regions = new Map();
+  for (const l of leaves) {
+    if (!l.first || l.inline || ["center", "right", "end"].includes(l.align) || l.el.closest("button, [role=button], [role=tab], th, td, label, input, select")) continue;
+    const region = l.el.closest(LANDMARK) || document.body;
+    regions.set(region, [...(regions.get(region) || []), { x: Math.round(l.first.left * 2) / 2, l }]);
+  }
+  for (const edges of regions.values()) {
+    const clusters = [];
+    for (const e of edges.sort((a, b) => a.x - b.x)) {
+      const c = clusters[clusters.length - 1];
+      if (c && e.x - c.x < 0.75) c.items.push(e); else clusters.push({ x: e.x, items: [e] });
+    }
+    const shared = clusters.filter((c) => c.items.length >= 2);
+    for (let i = 1; i < shared.length; i++) {
+      const gap = shared[i].x - shared[i - 1].x;
+      if (gap >= EDGE_NEAR[0] && gap <= EDGE_NEAR[1]) found("layout.edge-near-miss", shared[i].items[0].l.el, shared[i].items[0].l.text, `left edges ${shared[i - 1].x} and ${shared[i].x} px, ${gap} px apart (${shared[i - 1].items.length} and ${shared[i].items.length} texts)`, `one shared edge, or a step of more than ${EDGE_NEAR[1]} px`);
+    }
+  }
+  return out;
+}
+
+// Runs in the page, in the width sweep because it depends on how text wraps: the last line of a
+// heading (h1 to h6, role=heading) or of bold text (weight 600 or more) of 16 px or more holds one
+// word. Measured with Range rects of every word; a heading of fewer than 3 words is skipped.
+export function widowAudit() {
+  const name = (el) => el.tagName.toLowerCase() + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0] : "");
+  const strong = (el) => { const cs = getComputedStyle(el); return parseFloat(cs.fontSize) >= 16 && +cs.fontWeight >= 600; };
+  const isHead = (el) => /^H[1-6]$/.test(el.tagName) || el.getAttribute("role") === "heading";
+  const candidates = [...document.body.querySelectorAll("*")].filter((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden" && !el.closest("svg, [aria-hidden=true]")
+    && (isHead(el) || ([...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && strong(el))));
+  const out = [];
+  for (const el of candidates) {
+    if (candidates.some((o) => o !== el && o.contains(el))) continue; // judged as part of the outer heading or bold block
+    const range = document.createRange();
+    const words = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      for (const m of n.textContent.matchAll(/\S+/g)) {
+        range.setStart(n, m.index); range.setEnd(n, m.index + m[0].length);
+        const r = [...range.getClientRects()].find((x) => x.width > 0);
+        if (r) words.push({ word: m[0], top: r.top });
+      }
+    }
+    if (words.length < 3) continue;
+    const last = words[words.length - 1];
+    const sameLine = words.filter((w) => Math.abs(w.top - last.top) < 3);
+    if (sameLine.length === 1) out.push({ rule: "type.widow", element: name(el), text: el.innerText.trim().replace(/\s+/g, " ").slice(0, 40), observed: `last line is the single word "${last.word}"`, required: "two or more words on the last line" });
   }
   return out;
 }
@@ -362,6 +481,31 @@ async function fitShot([base64, max]) {
   return c.toDataURL("image/png").split(",")[1];
 }
 
+// Runs in the page: a page shorter than the viewport still shoots 800 px tall, and a blank
+// strip would read as "sparse". The shot ends 24 px below the last row that differs from the
+// bottom row (but keeps `min` px, which Jev needs). A page that ends in a footer, a dev badge or a
+// gradient is not trimmed: that is the safe direction.
+async function trimShot([base64, min]) {
+  const img = new Image();
+  img.src = "data:image/png;base64," + base64;
+  await img.decode();
+  const c = document.createElement("canvas");
+  c.width = img.width; c.height = img.height;
+  const ctx = c.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+  const { data } = ctx.getImageData(0, 0, c.width, c.height);
+  const stride = c.width * 4;
+  const bottom = data.subarray((c.height - 1) * stride);
+  let y = c.height - 1;
+  while (y > 0 && data.subarray(y * stride, (y + 1) * stride).every((v, i) => v === bottom[i])) y--;
+  const height = Math.min(c.height, Math.max(min, y + 24));
+  if (height === c.height) return base64;
+  const out = document.createElement("canvas");
+  out.width = c.width; out.height = height;
+  out.getContext("2d").drawImage(c, 0, 0);
+  return out.toDataURL("image/png").split(",")[1];
+}
+
 // A diagram that cannot be shot is left out with a note, so the rest of the review still runs.
 async function shootDiagrams(page, outDir, notes) {
   const diagrams = [];
@@ -394,10 +538,13 @@ async function shoot(page, outDir, level) {
     await page.emulateMedia({ colorScheme: s.scheme, reducedMotion: "reduce" });
     const height = await page.evaluate(() => document.documentElement.scrollHeight);
     const path = join(outDir, s.name + ".png");
-    const buffer = await page.screenshot({ path, fullPage: true, clip: { x: 0, y: 0, width: s.width, height: Math.min(Math.max(height, 280), MAX_SIDE) } });
-    shots.push({ ...s, path, base64: buffer.toString("base64") });
+    const buffer = await page.screenshot({ fullPage: true, clip: { x: 0, y: 0, width: s.width, height: Math.min(Math.max(height, 280), MAX_SIDE) } });
+    const base64 = await page.evaluate(trimShot, [buffer.toString("base64"), 280]);
+    writeFileSync(path, Buffer.from(base64, "base64"));
+    shots.push({ ...s, path, base64 });
     const r = await page.evaluate(`(${AUDIT})(${JSON.stringify({ level })})`);
     for (const [key, list] of Object.entries(r.findings)) for (const f of list) audit.push({ key, ...f, viewport: s.width, scheme: s.scheme });
+    for (const f of await page.evaluate(craftAudit)) audit.push({ key: "craft", ...f, viewport: s.width, scheme: s.scheme });
   }
   // Card drift depends on how the text wraps, so it is measured over a width sweep (DOM only, light).
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
@@ -405,6 +552,7 @@ async function shoot(page, outDir, level) {
   for (const width of widths) {
     await page.setViewportSize({ width, height: 800 });
     for (const f of await page.evaluate(alignmentAudit)) audit.push({ key: "alignment", ...f, viewport: width, widths });
+    for (const f of await page.evaluate(widowAudit)) audit.push({ key: "widow", ...f, viewport: width, widths });
   }
   const last = SHOTS[SHOTS.length - 1];
   await page.setViewportSize({ width: last.width, height: 800 });
@@ -426,15 +574,15 @@ function bands(hit, widths) {
 function auditFindings(audit) {
   const seen = new Map();
   for (const f of audit) {
-    const id = `${f.key}|${f.element}|${f.text}`;
-    if (f.key === "alignment") {
-      const hit = seen.get(id) ?? seen.set(id, { rule: "layout.alignment", status: "fail", tier: "audit", confidence: 1, hits: [], widths: f.widths, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required } }).get(id);
+    const id = `${f.key}|${f.rule}|${f.element}|${f.text}`;
+    if (f.key === "alignment" || f.key === "widow") { // width dependent: the failing widths become bands
+      const hit = seen.get(id) ?? seen.set(id, { rule: f.rule ?? "layout.alignment", status: "fail", tier: "audit", confidence: 1, hits: [], widths: f.widths, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required } }).get(id);
       hit.hits.push(f.viewport);
       hit.evidence.where = bands(hit.hits, hit.widths);
       continue;
     }
     if (seen.has(id)) { seen.get(id).evidence.where.push(`${f.viewport} ${f.scheme}`); continue; }
-    seen.set(id, { rule: "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
+    seen.set(id, { rule: f.rule ?? "wcag." + f.key, status: "fail", tier: "audit", confidence: 1, evidence: { element: f.element, text: f.text, observed: f.observed, required: f.required, where: [`${f.viewport} ${f.scheme}`] } });
   }
   return [...seen.values()].map(({ hits, widths, ...f }) => f);
 }
@@ -445,7 +593,7 @@ const pageImages = (shots) => VISUAL_SHOTS.map((n) => shots.find((s) => s.name =
 const DIAGRAM_CONTEXT = "A diagram from a web page, shot on its own at the size the reader sees it.";
 
 // One Jev call: text state, labeled images, typed questions.
-async function askJev({ rules, state, images, keys, fetch }) {
+export async function askJev({ rules, state, images, keys, fetch }) {
   const questions = Object.fromEntries(rules.map((r) => [r.id, r.type === "score"
     ? { type: "score", instructions: r.instructions, criteria: r.criteria }
     : { type: keys.gateway ? "boolean" : "noul", instructions: r.instructions }]));
@@ -595,8 +743,8 @@ export async function review(page, { env = process.env, fetch = globalThis.fetch
       const images = pageImages(shots);
       const r = await judge({
         rules, proven: new Set(dom.map((d) => d.rule)), keys, detail, evidence: { where: VISUAL_SHOTS.join(", ") },
-        jev: (rs) => askJev({ rules: rs, state: { headlines }, images, keys, fetch }),
-        model: (rs) => askModel({ rules: rs, intro: "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") + ". headlines: " + JSON.stringify(headlines), images, key: keys.gateway, model, fetch, env }),
+        jev: (rs) => askJev({ rules: rs, state: { headlines, whitespace_rules: WHITESPACE_RULES }, images: [...images, ...sparseExamples()], keys, fetch }),
+        model: (rs) => askModel({ rules: rs, intro: "You review a web page against design rules. Images in order: " + VISUAL_SHOTS.join(", ") + ". headlines: " + JSON.stringify(headlines) + "\n" + WHITESPACE_RULES, images, key: keys.gateway, model, fetch, env }),
       });
       tiers.visual = "ran";
       verdicts = r.verdicts;
