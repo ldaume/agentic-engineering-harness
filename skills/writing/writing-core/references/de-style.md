@@ -70,6 +70,23 @@ stammen nicht daraus.
 - Datum und Zahl im Zielformat: "21. Oktober", "bis morgen 12 Uhr", "1.500".
 - E-Mail-Anrede: nach "Hi Anna," klein weiterschreiben.
 
+## Standards und Pflichten
+
+- DIN SPEC 33429:2025-03 gibt Empfehlungen für Deutsche Leichte Sprache,
+  also für Texte für Menschen mit Lernschwierigkeiten (supported)
+  [SRC-WRITE-054]. Wer dafür schreibt, nimmt sie als Maßstab, nicht diese Datei.
+- DIN ISO 24495-2, deutsche Fassung 2025-12 "Einfache Sprache - Teil 2:
+  Juristische Kommunikation", für Rechtstexte (supported) [SRC-WRITE-055];
+  Teil 1 steht in diesem Skill als Profil.
+- Das BFSG verlangt seit 2025-06-28 verständliche Produktinformationen für
+  digitale Verbraucherprodukte im Anwendungsbereich (supported) [SRC-WRITE-056];
+  den Anwendungsbereich im Einzelfall rechtlich prüfen.
+- Deutsch auf Deutsch entwerfen: Ein Entwurf, der auf Englisch geschrieben und
+  dann übersetzt wird, trägt englische Struktur ins Deutsche. Das ist eine
+  Praxisregel (hypothesis); die Studie zu CHI 2025 zeigt nur, dass KI-Vorschläge
+  Schreibstile angleichen (supported) [SRC-WRITE-057], nicht, dass Übersetzungen
+  englische Struktur übernehmen.
+
 ## Ton
 
 - Direkt, ruhig, respektvoll. "Mein Vorschlag ist ..." statt "Hiermit möchte

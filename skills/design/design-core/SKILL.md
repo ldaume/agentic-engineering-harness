@@ -13,9 +13,11 @@ because a screen designed from "make it nicer" optimizes the wrong thing.
 
 ## Route first
 
-Load the owner of the artifact, because each carries its own golden path and
-the core alone stays generic. One primary owner per task; add a second only
-when the task really has two deliverables.
+Load the owner of the artifact now, in this turn, because each carries its own
+golden path and the core alone stays generic. Being named alone ("use
+design-core") is the same request: route by the artifact, then follow both.
+One primary owner per task; add a second only when the task really has two
+deliverables.
 
 | Task | Owner | Often with |
 |---|---|---|
@@ -28,6 +30,7 @@ when the task really has two deliverables.
 | slides, deck, diagram, architecture or system map | `design-slides` | `writing-core` for the words |
 | tokens, components, theming, component specs | `design-systems` | - |
 | audit or critique of an existing UI, flow, deck | `design-review` | the artifact's owner |
+| building or polishing the screen in code | `frontend-craft` | the owner that decided it |
 
 Implementing the result is `frontend-craft`'s job; this family decides what to
 build and how to verify it. Words on the screen, slide, or page belong to

@@ -10,12 +10,21 @@ Write for reader change, not for text production: a text is good when it asks
 the least cognitive work of its reader without losing meaning, uncertainty, or
 precision.
 
-Hand off when the artifact has an owner, because each owner carries the golden
-path for that format: email, Slack, PO and executive summaries to
-`writing-editorial`; marketing email, hero, landing and web pages to
-`writing-marketing`; status, roadmaps, FaST, progress and product briefs
-to `writing-product`; Confluence and technical docs, PRs and commits
-to `writing-engineering`.
+## Route first
+
+When the artifact has an owner, load it now, in this turn, before the first
+sentence, because each owner carries the golden path for that format and this
+core alone stays generic. Being named alone ("use writing-core") is the same
+request: route by the artifact, then follow both.
+
+| Artifact | Load |
+|---|---|
+| email, Slack, decision request, follow-up, PO or executive summary | `writing-editorial` |
+| hero, landing or web page, marketing email, campaign copy | `writing-marketing` |
+| status update, roadmap, FaST, progress report, product brief | `writing-product` |
+| PR description, commit message, Confluence or technical doc | `writing-engineering` |
+| a text that carries percentages, counts, or metrics | `plain-numbers` as well |
+| a rewrite, translation, or review with no owner above | this core alone |
 
 ## Frame before drafting
 
@@ -24,7 +33,9 @@ artifact, language, primary audience and what it already knows, intent, the
 reader's desired change (decide, understand, act), facts and evidence, real
 unknowns, tone, channel, and the terms this audience uses daily, English or German
 (their emails, tickets, wiki, code, the standard they work by; not instinct),
-because a term the writer translates is one the reader must translate back. Ask only when a missing answer would change the
+because a term the writer translates is one the reader must translate back. Every term, acronym or internal name this audience may not know is
+explained at first use or kept in a glossary, because the writer's own
+vocabulary is invisible to the writer. Ask only when a missing answer would change the
 artifact, because most gaps are recoverable from context and a question costs
 the user a round trip.
 
@@ -87,6 +98,8 @@ Load only what the task needs:
   the AI-tell pass, and the audience-term rule. Load for every draft.
 - `references/editorial-model.md`: the FRAME to SHIP loop, edit passes, the
   universal golden paths per artifact family.
+- `references/agent-readers.md`: writing for agents (AGENTS.md, Skill
+  descriptions, subagent briefs, prompts). Load when the reader is a model.
 - `references/de-style.md`, `references/en-style.md`: house style per language.
 - `references/verification.md`: claim classes, fact checks, test fixtures.
 - `references/quality-model.md`: 0 to 4 rubric, gate thresholds, readability
@@ -110,7 +123,7 @@ in CI. `tests/run_evals.py routing --host claude|codex` replays
 host actually loads; run it after changing any description.
 
 `references/sources.json` is the evidence registry for all five writing
-skills (47 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
+skills (57 sources checked on 2026-10-21 and 2026-11-24, each with access date, findings,
 limits, evidence level, and a revisit trigger); rules cite it as
 `[SRC-WRITE-NNN]`, and the catalog's `scripts/check-knowledge.py` fails on a
 citation without an entry.

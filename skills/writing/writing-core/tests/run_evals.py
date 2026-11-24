@@ -84,7 +84,8 @@ def run_host(host: str, prompt: str, cwd: str) -> str:
         "claude": ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "4"],
         "codex": ["codex", "exec", "--json", "--skip-git-repo-check", prompt],
     }[host]
-    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=600).stdout
+    # stdin closed: `codex exec` otherwise waits for piped input and every case times out
+    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL).stdout
 
 
 def routing(host: str, only: set[str], cases_file: Path, cwd: str | None) -> int:
