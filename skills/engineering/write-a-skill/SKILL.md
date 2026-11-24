@@ -253,8 +253,9 @@ Then:
 
 1. Run `python3 scripts/audit-skills.py`, and
    `python3 scripts/check-knowledge.py --vocabulary` where the catalog ships
-   it: the changed Skill's vocabulary passes with no errors, or it carries a
-   pointer or an exemption.
+   it (`--root DIR` for another catalog, such as a private one): the changed
+   Skill's vocabulary passes with no errors, or it carries a pointer or an
+   exemption.
 2. Run the provenance check for new or materially changed Skills.
 3. Run an isolated `npx skills add ...` test covering every changed Skill.
 4. When activation behavior changed, run a trigger eval: about 20 realistic

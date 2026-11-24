@@ -1,6 +1,8 @@
 ---
 name: scaffold-monorepo
 description: Scaffolds a pnpm TypeScript monorepo with verify gates, knip, pre-commit hooks, pinned CI, and Renovate using current toolchain versions at scaffold time. Use when creating a new monorepo, bootstrapping apps/packages layout, or aligning a greenfield repo with progressive-pragmatic craftsmanship golden paths for GitHub Actions or Gitea Actions.
+metadata:
+  vocabulary: vendor
 ---
 
 # Scaffold Monorepo

@@ -1,0 +1,279 @@
+{
+  "sources": [
+    {
+      "id": "SRC-COMP-001",
+      "title": "OSCAL: Open Security Controls Assessment Language",
+      "url": "https://pages.nist.gov/OSCAL/",
+      "publisher": "NIST",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "OSCAL is a NIST-led effort with industry that offers open machine-readable formats in XML, JSON, and YAML to automate security and compliance work."
+      ],
+      "limits": "Landing page; the model details are on the layer page.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-002",
+      "title": "OSCAL layers and models",
+      "url": "https://pages.nist.gov/OSCAL/learn/concepts/layer/",
+      "publisher": "NIST",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "specification",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "The control layer holds the catalog (a framework's controls) and the profile (a selected and tailored baseline).",
+        "The implementation layer holds component definitions and the system security plan, which records how a system implements controls.",
+        "The assessment layer holds the assessment plan, assessment results (findings, evidence, scope), and the plan of action and milestones for findings to fix."
+      ],
+      "limits": "Describes the data models, not whether a target or assessor accepts them.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-003",
+      "title": "NIST SP 800-53 Rev. 5 Security and Privacy Controls",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "publisher": "NIST",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "The publication is a catalog of security and privacy controls in 20 families, applied within organization-wide risk management.",
+        "It separates functionality (strength of control mechanisms) from assurance (confidence that the control delivers the capability)."
+      ],
+      "limits": "Abstract page only; the full catalog was not read.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-004",
+      "title": "NIST SP 800-53B Control Baselines",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/b/upd1/final",
+      "publisher": "NIST",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "Provides low, moderate, and high impact security baselines and a privacy baseline.",
+        "Gives tailoring guidance for control selection and describes overlays that adapt baselines to a community, technology, or environment."
+      ],
+      "limits": "Abstract page only; written for US federal agencies.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-005",
+      "title": "NIST SP 800-137 Information Security Continuous Monitoring",
+      "url": "https://csrc.nist.gov/pubs/sp/800/137/final",
+      "publisher": "NIST",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "A continuous monitoring program gives ongoing visibility of assets and risks and shows whether controls keep working within the organization's risk tolerance, so it can act quickly when they fall short."
+      ],
+      "limits": "Abstract page only.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-006",
+      "title": "NIST SP 800-37 Rev. 2 Risk Management Framework",
+      "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
+      "publisher": "NIST",
+      "published": "2018-12",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance"
+      ],
+      "findings": [
+        "The framework steps are categorize, select and implement controls, assess, authorize, and monitor continuously.",
+        "Controls can be system-specific, common across systems, or hybrid, with accountability for inherited controls."
+      ],
+      "limits": "Abstract page only.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-007",
+      "title": "PCI SSC Glossary",
+      "url": "https://www.pcisecuritystandards.org/glossary/",
+      "publisher": "PCI Security Standards Council",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "payments"
+      ],
+      "findings": [
+        "The cardholder data environment is the people, processes, and system components that store, process, or transmit cardholder data or sensitive authentication data, plus components with unrestricted connectivity to them.",
+        "Segmentation separates systems that handle cardholder data from those that do not.",
+        "A targeted risk analysis is a risk analysis for one requirement, used where the requirement allows flexibility (such as frequency) or where the customized approach must show the objective is met."
+      ],
+      "limits": "The glossary points to the standard's appendices for compensating controls and the customized approach instead of defining them.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-008",
+      "title": "Just Published: PCI DSS v4.0.1",
+      "url": "https://blog.pcisecuritystandards.org/just-published-pci-dss-v4-0-1",
+      "publisher": "PCI Security Standards Council",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "payments"
+      ],
+      "findings": [
+        "PCI DSS v4.0.1 is a limited revision that adds a customized approach objective under Requirement 3 and does not change the effective date of the future-dated requirements (31 March 2025).",
+        "Version 4.0 retired on 31 December 2024."
+      ],
+      "limits": "Publication notice, not the standard.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-009",
+      "title": "PCI SSC FAQ 1220: official validation documentation",
+      "url": "https://www.pcisecuritystandards.org/faqs/1220/",
+      "publisher": "PCI Security Standards Council",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "payments"
+      ],
+      "findings": [
+        "A compliance certificate is not accepted as proof of PCI DSS validation; only the official ROC, AOC, SAQ, and ASV attestation templates are.",
+        "An organization using other documents must also be able to give the same information on the official forms."
+      ],
+      "limits": "One FAQ.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-010",
+      "title": "PCI SSC FAQ 1331: SAQ eligibility and requirement applicability",
+      "url": "https://www.pcisecuritystandards.org/faqs/1331",
+      "publisher": "PCI Security Standards Council",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "payments"
+      ],
+      "findings": [
+        "SAQs are reporting tools for merchants under set conditions; payment brands and acquirers may add rules.",
+        "SAQ eligibility criteria should not guide which requirements apply in a Report on Compliance unless the compliance-accepting entity reviewed and agreed to it."
+      ],
+      "limits": "One FAQ; it does not define scope.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-011",
+      "title": "TISAX Participant Handbook",
+      "url": "https://portal.enx.com/handbook/tisax-participant-handbook.html",
+      "publisher": "ENX Association",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "automotive"
+      ],
+      "findings": [
+        "Assessment levels set how deeply an auditor checks: AL 1 only checks that a self-assessment exists, AL 2 adds a plausibility check, evidence review, and an interview, AL 3 adds on-site verification and observation.",
+        "Assessment objectives, chosen by the partner's data type, decide which ISA requirements apply and map to a level.",
+        "The assessment scope lies within the ISMS scope and may be smaller."
+      ],
+      "limits": "Only the first 100000 characters of the page were read.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-012",
+      "title": "ENX: Information Security Assessment (ISA)",
+      "url": "https://www.enx.com/en-US/TISAX/ISA/",
+      "publisher": "ENX Association",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "automotive"
+      ],
+      "findings": [
+        "The ISA is the requirements catalog behind TISAX, maintained by ENX and published by VDA; versions are yearly from 2027, with assessments ordered in a year using that year's version."
+      ],
+      "limits": "Page does not describe levels or catalog structure.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-013",
+      "title": "ENX: TISAX",
+      "url": "https://www.enx.com/en-US/TISAX/",
+      "publisher": "ENX Association",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": [
+        "compliance",
+        "automotive"
+      ],
+      "findings": [
+        "TISAX is a shared automotive framework for verifying an organization's information security management; labels reflect objectives such as information security, data protection, or prototype protection and are valid for three years.",
+        "Assessment depth varies with the required protection level."
+      ],
+      "limits": "Results are shared in the ENX portal, not public.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-COMP-014",
+      "title": "Cybersecurity Certification Framework (ENISA)",
+      "url": "https://www.enisa.europa.eu/topics/product-security-and-certification/cybersecurity-certification-framework",
+      "publisher": "ENISA",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "regulator",
+      "domains": [
+        "compliance",
+        "certification"
+      ],
+      "findings": [
+        "Under the Cybersecurity Act (Regulation (EU) 2019/881), EU certification is a formal evaluation of ICT products, services, or processes by an independent accredited body against defined criteria, ending in a certificate of conformance.",
+        "Each EU scheme specifies one or more assurance levels (basic, substantial, high), chosen by the risk of the intended use.",
+        "EUCC, for ICT products and based on Common Criteria, is published; EUCS (cloud), EU5G, and others are under development."
+      ],
+      "limits": "Overview page of the EU framework; scheme details live in the implementing acts and scheme documents, which were not fetched.",
+      "evidence_level": "supported",
+      "revisit": "2027-05"
+    }
+  ]
+}
