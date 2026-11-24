@@ -1,0 +1,190 @@
+{
+  "sources": [
+    {
+      "id": "SRC-API-001",
+      "title": "RFC 9457 Problem Details for HTTP APIs",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html",
+      "publisher": "IETF",
+      "published": "2023-07",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["errors"],
+      "findings": [
+        "A problem details object, media type application/problem+json, carries type (a URI naming the problem type), title (a short summary that does not change between occurrences), status, detail (this occurrence), instance, and extension members.",
+        "Obsoletes RFC 7807."
+      ],
+      "limits": "Standards Track; defines the format, not which errors an API should have.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-002",
+      "title": "RFC 9110 HTTP Semantics",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "publisher": "IETF",
+      "published": "2022-06",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["http"],
+      "findings": [
+        "A method is idempotent when several identical requests have the same intended effect as one; PUT, DELETE, and the safe methods are idempotent, and a client should not automatically retry a non-idempotent request unless it knows the semantics are idempotent.",
+        "Conditional requests (If-Match with an entity tag) let a client update only the version it read, answered with 412 Precondition Failed otherwise; 422 Unprocessable Content means well-formed content with semantically invalid instructions."
+      ],
+      "limits": "Internet Standard (STD 97); defines semantics, not API style.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-003",
+      "title": "AIP-121 Resource-oriented design",
+      "url": "https://google.aip.dev/121",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-01-26",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design"],
+      "findings": [
+        "Resource-oriented APIs expose many resources with few methods each: the standard methods Get, List, Create, Update, Delete, plus custom methods.",
+        "The resource schema must be the same across every method that takes or returns it; every resource supports Get, and List unless it is a singleton."
+      ],
+      "limits": "Google's house design guide, widely adopted beyond Google.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-004",
+      "title": "AIP-122 Resource names",
+      "url": "https://google.aip.dev/122",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-01-26",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design"],
+      "findings": [
+        "Collection identifiers in resource names are plural nouns in concise American English, lowercase-first camelCase, and unique within one name."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-005",
+      "title": "AIP-134 Standard methods: Update",
+      "url": "https://google.aip.dev/134",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-01-24",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design"],
+      "findings": [
+        "Update should support partial update with PATCH and a field mask; full replacement with PUT is strongly discouraged because adding fields later makes it backwards incompatible.",
+        "The update response is the resource itself."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-006",
+      "title": "AIP-155 Request identification",
+      "url": "https://google.aip.dev/155",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-05-06",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design", "reliability"],
+      "findings": [
+        "A request_id (a UUID is recommended) must guarantee idempotency; on a duplicate the server should return the earlier successful response, because the client most likely missed it.",
+        "The request ID belongs on the request, not on the resource, and should be optional."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-007",
+      "title": "AIP-158 Pagination",
+      "url": "https://google.aip.dev/158",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-02-18",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design"],
+      "findings": [
+        "List methods take an optional page_size (documented default, coerced down to a maximum) and an opaque page_token, and return next_page_token, omitted on the last page.",
+        "All other request parameters must match the call that issued the page token."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-008",
+      "title": "AIP-180 Backwards compatibility",
+      "url": "https://google.aip.dev/180",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-07-23",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["compatibility"],
+      "findings": [
+        "Existing interfaces, methods, messages, fields, enums, and enum values must not be removed within a major version; renaming equals remove plus add, so add the new component and keep the old one."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-009",
+      "title": "AIP-154 Resource freshness validation",
+      "url": "https://google.aip.dev/154",
+      "publisher": "Google API Improvement Proposals",
+      "published": "2019-07-24",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design", "concurrency"],
+      "findings": [
+        "Resources may carry an etag that clients send back on update or delete; a mismatch is rejected with ABORTED (HTTP 409) since 2021, previously FAILED_PRECONDITION."
+      ],
+      "limits": "Google's house design guide.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-010",
+      "title": "Zalando RESTful API and Event Guidelines",
+      "url": "https://opensource.zalando.com/restful-api-guidelines/",
+      "publisher": "Zalando SE",
+      "published": "unknown",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["design", "errors", "compatibility"],
+      "findings": [
+        "API first (rule 100): define the API in OpenAPI before coding it and get early review from peers and client developers.",
+        "Every endpoint must be able to return RFC 9457 Problem JSON for 4xx and 5xx (rule 176), must not expose stack traces (rule 177), and batch or bulk requests answer 207 with per-item status rather than 200 for a partial failure (rule 152).",
+        "Must not break backward compatibility (rule 106): prefer compatible extensions over versioning; clients must accept compatible extensions, ignore unknown fields, and tolerate new enum values (rule 108).",
+        "Prefer cursor-based over offset-based pagination (rule 160); the cursor is opaque."
+      ],
+      "limits": "Company guideline, continuously updated; rule numbers are Zalando's.",
+      "evidence_level": "supported",
+      "revisit": "2027-11"
+    },
+    {
+      "id": "SRC-API-011",
+      "title": "OpenAPI Specification v3.1.1",
+      "url": "https://spec.openapis.org/oas/v3.1.1.html",
+      "publisher": "OpenAPI Initiative",
+      "published": "2024-10-24",
+      "accessed": "2026-11-24",
+      "type": "standard",
+      "domains": ["contracts"],
+      "findings": [
+        "The Schema Object is a superset of JSON Schema Draft 2020-12; keyword semantics follow JSON Schema unless stated otherwise, and the data types include \"null\".",
+        "An operationId must be unique among all operations in the API and is case-sensitive; tools may use it to identify the operation."
+      ],
+      "limits": "Specification; 3.1.1 is a patch release of 3.1.",
+      "evidence_level": "verified",
+      "revisit": "2027-11"
+    }
+  ]
+}
