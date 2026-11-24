@@ -1,6 +1,8 @@
 ---
 name: update-harness
 description: Checks, installs, updates, and cleans a repository's managed Agent Skills against its skills-lock.json. Use for Skill installation, version checks and updates, duplicate or conflicting project Skill cleanup, a Renovate or bot Skill update, or a missing Skill a task needs.
+metadata:
+  vocabulary: house
 ---
 
 # Update Harness

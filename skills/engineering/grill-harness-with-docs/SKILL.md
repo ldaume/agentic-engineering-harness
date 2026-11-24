@@ -1,6 +1,8 @@
 ---
 name: grill-harness-with-docs
 description: Grounds agent work in authoritative evidence, establishes shared understanding, critiques resolved material decisions and changes with a fresh agent, and resolves genuinely open decisions with a human. Use for resolved material work needing independent critique or for any product, domain, engineering, architecture, operations, security, compliance, or harness topic with unresolved intent, semantics, authority, consequential trade-offs, or material risk.
+metadata:
+  vocabulary: house
 ---
 
 # Grill Work With Evidence

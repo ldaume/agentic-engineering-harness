@@ -1,6 +1,8 @@
 ---
 name: learn-agentic-engineering
 description: Acts as a self-directed Agentic Engineering mentor for software developers from first agent-assisted tasks to a living repository harness, and explains what the levels up to L7 require. Use when learning a concept, asking questions, practicing in a real repository, assessing maturity, planning a learning path, preparing coaching, diagnosing confusion or blockers, or seeking cause-and-effect guidance about context, DDD, TDD, Rules, AGENTS.md, Skills, Hooks, MCP, memory, orchestration, evals, governance, and human oversight.
+metadata:
+  vocabulary: house
 ---
 
 # Learn Agentic Engineering
