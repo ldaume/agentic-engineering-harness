@@ -77,8 +77,11 @@ penalizes lists and necessary terms: judge, do not chase the number.
   is a local working value); Flesch Reading Ease at least about 50.
 - The gate applies the language's own limits and warns, never fails.
 - One statement per sentence; a paragraph of at most 3 to 4 sentences.
-- Three or more enumerated things become a list; no chains of commas or
-  semicolons (the gate warns on both).
+- Three or more parallel, independent items (options, steps, requirements,
+  findings) become a list. Causes, trade-offs and arguments stay in sentences,
+  one claim per sentence. No bold label in front of each bullet unless readers
+  look items up by that label. No chains of commas or semicolons (the gate
+  warns on a chain of four or more short items and on two or more semicolons).
 - A heading or subhead at least every 150 to 300 words.
 - Report the values per section before and after the edit:
   `python3 scripts/readability.py --lang de --lang-class l-de --sections PAGE.html`.
@@ -118,7 +121,7 @@ judge it.
 | Progress | no goal, current state, next; percent complete | - | uncertainty change |
 | Product docs | no problem, evidence, unknowns | - | smallest artifact |
 | PO, executive summary | - | over 300 words, no bottom-line label in 40 words, long sentences | decision relevance |
-| Any artifact | a forbidden claim from `--facts` | a percentage no fact contains | no invented fact |
+| Any artifact | a forbidden claim from `--facts`, a preferred-term variant | a percentage no fact contains, near-duplicate sentences, one label with two figures, an acronym without expansion, chat residue, copula avoidance, vague attribution | no invented fact, no restated or contradicted claim |
 
 `scripts/quality_gate.py --artifact <type>` implements the deterministic part.
 Known types: business_email, marketing_email, slack, hero, landing_page,

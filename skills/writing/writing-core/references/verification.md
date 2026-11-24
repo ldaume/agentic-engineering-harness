@@ -29,6 +29,31 @@ give the model the verified facts, the unknowns, the terms, and the output
 contract, then draft (hypothesis; a working method, not a measured
 result).
 
+## Claim ledger pass
+
+Before a text counts as done, list each claim once with its source: a file and
+line, a merged change, a measurement, a document. Then read the ledger, not the
+text, for two things:
+
+- Duplicates: one claim in two places in other words. Keep one home.
+- Contradictions: two claims that cannot both hold (a figure, a date, a
+  decided against an open status). Fix the one the source does not back.
+
+Claims must rest on facts or code in both directions. Overclaiming says more
+than the code, data or merged change shows. Underclaiming describes as planned,
+partial or missing what is already implemented and merged. Both are errors.
+Check each claim about a system against the current state, not memory: read a
+claim about code from the code at the current default branch, and a status from
+the tracker or the merge, not from an earlier draft.
+
+## Receiver cost of AI-assisted drafts
+
+Before sending an AI-assisted draft, check that it moves the reader's task
+forward and does not shift work downstream: a reader who must verify, complete
+or decode it pays for the writer's shortcut. Polish without substance costs
+trust. HBR named the pattern "workslop" in a survey-based article by BetterUp
+Labs and the Stanford Social Media Lab (survey; supported) [SRC-WRITE-053].
+
 ## Never invent
 
 Facts, customer evidence, metrics, percentages, decisions, test execution,

@@ -257,7 +257,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-core/SKILL.md",
-      "version": "1.3.1"
+      "version": "1.4.0"
     },
     "writing-editorial": {
       "source": "local",

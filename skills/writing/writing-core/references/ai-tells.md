@@ -14,9 +14,15 @@ use. This file and the gate's `ai-tell` warnings close that gap.
 Tells are probabilistic and decay with each model generation: Wikipedia's
 list of signs is descriptive, not proof, and says older indicators are much
 rarer in newer models (supported) [SRC-WRITE-044]. Edit for the reader, not
-for a detector, and re-read the live list before an audit. The German tell
-list in this file is practitioner observation, not a measured result
-(hypothesis).
+for a detector, and re-read the live list before an audit. German chat
+residue and phrases carried over from English are listed on German Wikipedia's
+WP:AKI page (supported) [SRC-WRITE-048]; the remaining German tells in this
+file are practitioner observation, not a measured result (hypothesis).
+
+Do not overcorrect. Perfect grammar, formal or "fancy" prose and transition
+words alone are weak evidence, because many careful human writers produce them
+(supported) [SRC-WRITE-044]. Never roughen a text to look human: remove a tell
+only where it costs the reader something.
 
 ## The pass
 
@@ -27,7 +33,8 @@ because a line edit tightens a tell instead of removing it.
    text, `prose` for any other running text) and a `terms` map (below). Fix
    every `term` error; judge every `ai-tell` warning.
 2. Read the text once more for the tells a regex cannot see: closers,
-   triads, staging, inflated significance.
+   triads, staging, inflated significance, and the structural tells below
+   (restating, contradiction, bloat, unknown vocabulary, unanchored claims).
 3. For each hit, state the point directly. Do not patch the phrase; rewrite
    the sentence around what it claims.
 
@@ -67,7 +74,9 @@ Start with the point.
 
 **Stock words.** `delve`, `tapestry`, `testament to`, `landscape`,
 `seamless`, `game changer`, `unlock the potential`, `at its core`, `echter
-Mehrwert`. Replace with the specific claim or cut. The catalog's
+Mehrwert`. Wikipedia marks the 2023 and 2024 word lists as historical: newer
+models use them less (supported) [SRC-WRITE-044]. They stay in the gate
+because they still occur. Replace with the specific claim or cut. The catalog's
 `scripts/audit-skills.py` keeps the longer English list for Skill text.
 
 **Em dash.** Wikipedia's "Signs of AI writing" lists em-dash overuse as a
@@ -77,6 +86,106 @@ with other indicators (supported) [SRC-WRITE-044]. Keep the rule against the
 dash as a universal connector, but there is no ban: a dash for rhythm is
 fine. Third-party humanizer or copywriting Skills that ban the em dash
 outright are stale on this point; this rule wins.
+
+**Copula avoidance.** A stock verb where "is" or "has" says it: "serves as",
+"stands as", "boasts", "stellt ... dar", "fungiert als", "dient als". The gate
+warns (supported) [SRC-WRITE-044] [SRC-WRITE-048].
+
+- Before: "The library serves as a bridge between the two teams."
+- After: "The library connects the two teams."
+- Before: "Das Modul stellt eine zentrale Schnittstelle dar."
+- After: "Das Modul ist die Schnittstelle zwischen Export und Archiv."
+
+**Shallow -ing tail.** A participle clause that comments instead of adding a
+fact: "..., highlighting its importance", "..., ensuring a seamless
+experience", German "..., wobei X hervorgehoben wird". Cut the tail or turn it
+into its own sentence with a fact.
+
+- Before: "The job retries twice, ensuring reliability."
+- After: "The job retries twice and then reports the failure."
+
+**Vague attribution.** "Experts argue", "observers have cited", "Experten
+sind sich einig", "Branchenberichte zeigen". Name the source and its date, or
+drop the claim (supported) [SRC-WRITE-044] [SRC-WRITE-048].
+
+- Before: "Experten sind sich einig, dass der Ansatz skaliert."
+- After: "In der Studie der ETH Zürich stieg der Aufwand um mehr als 20 Prozent."
+
+**Inflated significance.** "a pivotal moment", "a lasting legacy" about something ordinary. State what changed and for whom.
+
+**Challenges and outlook ending.** "Despite these challenges, X remains well
+positioned for the future." A closing that restates and promises. End on the
+last fact, or on the open risk with its owner.
+
+**Chat residue.** "I hope this helps", "Let me know if", "Natürlich!", "Ich
+hoffe, das hilft", letter-style greetings and knowledge-cutoff disclaimers
+inside the artifact. This is a reply to the user left in the text; delete it
+(supported) [SRC-WRITE-044] [SRC-WRITE-048].
+
+**Formatting tells.** Title Case headings where sentence case is the norm, bold labels in front of every bullet, emoji in headings or
+list entries, Markdown symbols in a plain-text channel. Use sentence case,
+bold only for what readers scan for, no emoji in headings
+(supported) [SRC-WRITE-044] [SRC-WRITE-048].
+
+**Phrases carried over from English.** "nicht nur ..., sondern auch" as a
+stiff parallel, participle clauses ("hervorhebend", "betonend"), a "sowohl ...
+als auch" triad, "Es ist wichtig zu beachten, dass". Write the German
+sentence the German reader would say (supported) [SRC-WRITE-048].
+
+## Structural tells
+
+These need a reader, not a regex; the gate only helps with the first (it warns
+on near-duplicate sentences and on one label with two figures).
+
+**Restating.** The same point again in another paragraph or section, in other
+or identical words: an intro that previews the body, a summary that repeats it,
+a recommendation that repeats the finding. Rule: each statement has one home.
+Keep the home where the reader needs it and cut or link the rest.
+
+- Before: "Der Export prüft vorab die Berechtigung. [...] Wie erwähnt, wird vor dem Anlegen der Datei die Berechtigung geprüft."
+- After: state it once, in the section on the export.
+- Before: "The migration is safe. [...] In short, the migration carries no risk."
+- After: "The migration is safe: it only adds a nullable column." Then nothing more.
+
+**Self-contradiction.** Two claims that cannot both hold: a figure ("919 USD"
+and "920 USD" for one item), a date, or a status ("decided" in one place and
+"still open" in another). Read the claim ledger (`verification.md`) for the
+pairs; fix the one the source does not back. The gate warns on one label with
+two figures, nothing more.
+
+- Before: "Das Konzept ist beschlossen. [...] Offen bleibt, ob wir das Konzept umsetzen."
+- After: "Das Konzept ist beschlossen; offen ist der Starttermin."
+
+**Bloat.** Intros that announce ("In this section we will look at"),
+summaries of summaries, stacked hedges ("might potentially perhaps"), and
+sentences about the text itself ("As described above", "This document
+explains"). Cut test: for each paragraph ask whether the reader loses anything
+if it goes. If not, cut it. If the answer is only "it sounds complete", cut it.
+
+**Vocabulary the reader cannot know.** Internal words, acronyms and code names
+used as if the reader knew them. Rule: every term, acronym or internal name the
+target group may not know is explained at first use or sits in a glossary. The
+gate warns once per acronym with no expansion in parentheses at first use. Its
+built-in allowlist (OK, EU, US, UK, PDF, URL, API, HTML, CSS, HTTP, HTTPS, JSON,
+ID, UI, AI, USD, EUR, PR, CI, GB, MB, FAQ) assumes an English technical
+audience; add the audience's own terms to `known_terms` in the facts file.
+
+- Before: "RLS schützt jede Tabelle."
+- After: "Row-Level Security (RLS) schützt jede Tabelle."
+- Before: "Project Atlas ships the DCC fix."
+- After: "The fix for the Data Change Console (DCC) ships this week."
+
+**Unanchored claim.** A claim about a system that neither the code nor a
+source backs, in either direction. Overclaiming says more than the code, data
+or merged change shows; underclaiming calls planned, partial or missing what is
+already implemented and merged. Both are errors. Name the evidence for each
+claim (file and line, merged change, measurement, source) and check it against
+the current default branch, not memory (`verification.md`).
+
+- Before: "Alle Exporte werden verschlüsselt." (the code encrypts only the archive)
+- After: "Das Archiv wird verschlüsselt (`export/archive.py`); die Vorschau nicht."
+- Before: "Retries are planned." (the retry loop merged last week)
+- After: "The job retries twice (`jobs/runner.py`, merged)."
 
 ## Terms the audience uses
 

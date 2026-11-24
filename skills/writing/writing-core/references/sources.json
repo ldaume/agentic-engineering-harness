@@ -389,10 +389,10 @@
   {
    "id": "SRC-WRITE-020",
    "title": "GOV.UK A to Z style guide",
-   "url": "https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style",
+   "url": "https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/style-guides/a-to-z-style-guide/",
    "publisher": "GOV.UK (GDS)",
    "published": "unknown",
-   "accessed": "2026-10-21",
+   "accessed": "2026-11-24",
    "type": "style-guide",
    "domains": [
     "editorial",
@@ -401,7 +401,7 @@
    "findings": [
     "All GOV.UK content should be written in plain English with language the audience understands; \"words to avoid\" list exists."
    ],
-   "limits": "UK English, government audience. The content design \"writing for GOV.UK\" URL only redirected and its target page was not opened.",
+   "limits": "UK English, government audience. The old gov.uk/guidance/style-guide URL moved; the page was opened on its current host on 2026-11-24 (title, heading and index confirmed, entries not read in full).",
    "evidence_level": "verified",
    "revisit": "open the writing-guidelines target page"
   },
@@ -940,6 +940,207 @@
    "limits": "Project page opened on 2026-11-24; the template file was not read.",
    "evidence_level": "verified",
    "revisit": "on a new MADR release"
+  },
+  {
+   "id": "SRC-WRITE-048",
+   "title": "Wikipedia (de): Anzeichen für KI-generierte Inhalte (WP:AKI)",
+   "url": "https://de.wikipedia.org/wiki/Wikipedia:Anzeichen_f%C3%BCr_KI-generierte_Inhalte",
+   "publisher": "Wikipedia",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "reference",
+   "domains": [
+    "editorial",
+    "de"
+   ],
+   "findings": [
+    "Lists German indicators: chat residue (\"Ich hoffe, das hilft\", \"Natürlich!\", letter-style greetings, knowledge-cutoff phrases, placeholders), stiff \"nicht nur ..., sondern auch\" parallels and participle clauses carried over from English, vague authorities (\"Branchenberichte\", \"Einige Kritiker\"), stock verb phrases (\"steht als\", \"dient als Zeugnis\"), bold emphasis, emoji before headings, Markdown residue.",
+    "The page says no indicator is conclusive alone; only fabricated sources or chat residue justify quick deletion."
+   ],
+   "limits": "Opened on 2026-11-24 through a summarizing fetch tool; wording of section names not checked verbatim. A living page: re-read before an audit.",
+   "evidence_level": "supported",
+   "revisit": "re-read before each audit"
+  },
+  {
+   "id": "SRC-WRITE-049",
+   "title": "Prompting best practices (Claude developer documentation)",
+   "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+   "publisher": "Anthropic",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "vendor-documentation",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Context or motivation behind an instruction helps Claude deliver more targeted responses.",
+    "Tell Claude what to do instead of what not to do.",
+    "Newer models are more responsive to the system prompt; emphasis such as \"CRITICAL: You MUST use this tool when...\" can now overtrigger, so use plain wording such as \"Use this tool when...\"."
+   ],
+   "limits": "Opened on 2026-11-24 (full text saved and searched for the quoted lines). Vendor guidance for Claude models; it changes with each model generation.",
+   "evidence_level": "verified",
+   "revisit": "re-read before each audit"
+  },
+  {
+   "id": "SRC-WRITE-050",
+   "title": "Effective context engineering for AI agents",
+   "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+   "publisher": "Anthropic",
+   "published": "2025",
+   "accessed": "2026-11-24",
+   "type": "vendor-documentation",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Aim for the smallest possible set of high-signal tokens; minimal does not have to mean short.",
+    "Hardcoded rule-heavy prompts are brittle and vague guidance gives no signal; aim between them.",
+    "Curate diverse, canonical examples instead of a laundry list of edge cases."
+   ],
+   "limits": "Opened on 2026-11-24 through a summarizing fetch tool; publication date not confirmed beyond the year. Vendor engineering guidance, not a controlled study.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-051",
+   "title": "Gloaguen et al. (2026). Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents? arXiv:2602.11988",
+   "url": "https://arxiv.org/abs/2602.11988",
+   "publisher": "ETH Zurich (arXiv)",
+   "published": "2026",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Context files do not generally improve task success and raise inference cost by over 20 percent on average.",
+    "The result held for LLM-generated and developer-committed files; agents follow the instructions, but repository overviews did not help.",
+    "Context files are useful for non-standard practices; evaluate any change before deployment."
+   ],
+   "limits": "Abstract opened on 2026-11-24 (v3, revised 2026-09-29); the body was not read, so a claim that hand-written files do better than LLM-written ones is not made here; the abstract reports no gain for either. Coding-agent benchmark, not a writing study.",
+   "evidence_level": "verified",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-052",
+   "title": "GPT-5 prompting guide (OpenAI Cookbook)",
+   "url": "https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_prompting_guide",
+   "publisher": "OpenAI",
+   "published": "unknown",
+   "accessed": "2026-11-24",
+   "type": "vendor-documentation",
+   "domains": [
+    "engineering",
+    "agents",
+    "en"
+   ],
+   "findings": [
+    "Contradictory instructions cost reasoning effort because the model tries to reconcile them; removing contradictions and ambiguities improved results.",
+    "An emphatic \"Be THOROUGH\" prompt that worked on older models made GPT-5 over-use tools until the emphasis was softened."
+   ],
+   "limits": "Opened on 2026-11-24 through a summarizing fetch tool; the page is marked archived and may reference outdated models.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-053",
+   "title": "Niederhoffer et al. (2025). AI-Generated \"Workslop\" Is Destroying Productivity. Harvard Business Review",
+   "url": "https://hbr.org/2025/09/ai-generated-workslop-is-destroying-productivity",
+   "publisher": "Harvard Business Review (BetterUp Labs, Stanford Social Media Lab)",
+   "published": "2025-09-22",
+   "accessed": "2026-11-24",
+   "type": "article",
+   "domains": [
+    "editorial",
+    "en"
+   ],
+   "findings": [
+    "Names \"workslop\": AI-generated work that looks polished but lacks substance and shifts the work to the receiver; based on a survey of US workers."
+   ],
+   "limits": "Only the title, authors and date were confirmed on 2026-11-24; the page excerpt cut off before the survey results, so figures are not cited. Survey, not an experiment.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-054",
+   "title": "DIN SPEC 33429:2025-03 Empfehlungen für Deutsche Leichte Sprache",
+   "url": "https://dinmedia.de/de/technische-regel/din-spec-33429/387728031",
+   "publisher": "DIN Media",
+   "published": "2025-03",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "de"
+   ],
+   "findings": [
+    "Current DIN SPEC (60 pages) with recommendations for writing, translating and designing texts in German Easy Language (Leichte Sprache), including language rules and the qualifications of writers and reviewers; replaces the 2023-04 draft."
+   ],
+   "limits": "Metadata confirmed through a web search on 2026-11-24; the document text was not opened.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-055",
+   "title": "DIN ISO 24495-2:2025-12 Einfache Sprache - Teil 2: Juristische Kommunikation",
+   "url": "https://www.dinmedia.de/de/norm/din-iso-24495-2/396285658",
+   "publisher": "DIN Media",
+   "published": "2025-12",
+   "accessed": "2026-11-24",
+   "type": "standard",
+   "domains": [
+    "de"
+   ],
+   "findings": [
+    "German edition of ISO 24495-2:2025 (legal communication), builds on part 1, with checklist annex and German examples."
+   ],
+   "limits": "Metadata and table of contents confirmed through a web search on 2026-11-24; the text was not opened.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-056",
+   "title": "Barrierefreiheitsstärkungsgesetz (BFSG)",
+   "url": "https://www.gesetze-im-internet.de/bfsg/",
+   "publisher": "Bundesministerium der Justiz",
+   "published": "2021",
+   "accessed": "2026-11-24",
+   "type": "law",
+   "domains": [
+    "marketing",
+    "de"
+   ],
+   "findings": [
+    "German law implementing Directive (EU) 2019/882 on accessibility requirements for products and services; § 7 sets information duties of the manufacturer."
+   ],
+   "limits": "The page was opened on 2026-11-24 but lists only headings; the application date 2025-06-28 and the wording of the understandability duty were not confirmed from it. Whether a given product is in scope needs legal review.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
+  },
+  {
+   "id": "SRC-WRITE-057",
+   "title": "Agarwal, Naaman, Vashistha (2025). AI Suggestions Homogenize Writing Toward Western Styles and Diminish Cultural Nuances. CHI 2025, arXiv:2409.11360",
+   "url": "https://arxiv.org/abs/2409.11360",
+   "publisher": "ACM CHI (arXiv)",
+   "published": "2025",
+   "accessed": "2026-11-24",
+   "type": "paper",
+   "domains": [
+    "editorial",
+    "de",
+    "en"
+   ],
+   "findings": [
+    "Controlled experiment with 118 participants from India and the US: suggestions from a Western-centric writing assistant moved Indian participants toward Western writing styles and cut their cultural nuance."
+   ],
+   "limits": "Abstract opened on 2026-11-24. It studies style homogenization from AI suggestions, not translation: it does not test English drafts translated into German.",
+   "evidence_level": "supported",
+   "revisit": "yearly"
   }
  ]
 }
