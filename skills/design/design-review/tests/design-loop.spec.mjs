@@ -914,3 +914,9 @@ test("given rules no real page has confirmed yet, the review reports them as adv
   expect(await status("wcag-reflow-bad.html", "wcag.reflow")).toBe("fail");
   expect(await status("non-text-contrast-bad.html", "wcag.non-text-contrast")).toBe("fail");
 });
+
+test("given the URL answers with an HTTP error, the loop refuses to review the error page", () => {
+  expect(() => loop.assertLoaded({ status: () => 404 }, "http://127.0.0.1:1/page.html")).toThrow(/HTTP 404.*page\.html/);
+  expect(() => loop.assertLoaded(null, "file:///page.html")).not.toThrow();
+  expect(() => loop.assertLoaded({ status: () => 200 }, "http://127.0.0.1:1/page.html")).not.toThrow();
+});
