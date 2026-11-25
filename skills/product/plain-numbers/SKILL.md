@@ -25,7 +25,10 @@ meeting"). Then apply to every number:
 3. State how numbers on one page relate: part of, extra to, or a different set.
    Name the set each comes from ("26 of 43, part of the 85, not extra").
 4. Define each term a cold reader cannot know on first use, or use an everyday
-   word instead. Names for internal tools, processes, and jargon count.
+   word instead. Names for internal tools, processes, and jargon count. A
+   statistical coefficient (correlation, exponent, sigma, a prior) is jargon:
+   in running text replace it with an example from the data and keep the
+   number for the method section.
 5. Put each caveat in its own sentence. An aside in brackets is skipped.
 6. State the goal once. Use a measurable bound instead of a vague word:
    "at most 250 characters", not "short".
