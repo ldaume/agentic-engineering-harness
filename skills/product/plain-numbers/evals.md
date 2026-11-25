@@ -68,6 +68,20 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
   move it to the upper end." A figure for the future is a range with its basis
   and what would change it.
 
+## Statistical coefficient in running text
+
+- Text: "Mehr Story Points heißen tendenziell mehr Code, mit vielen
+  Ausnahmen (0,40 auf einer Skala bis 1)." Also "The client's features cost about
+  2.3 times as much at the same size (95%: 0.97 to 5.06)."
+- Misread as: unclear. The owner asked what "0.40 on a scale to 1" means; a
+  correlation coefficient means nothing to a manager. The second reads as a
+  proven effect, but the interval starts below 1 (no effect is inside it).
+- Fix: replace the coefficient with an example from the data ("an item with 3
+  points often changes more lines than one with 5") and say the interval in
+  words ("on average more expensive, about 2.3 times; with 8 features this is
+  not certain: from the same cost to five times as much"). Formulas,
+  coefficients, exponents and priors go to the method section only.
+
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.

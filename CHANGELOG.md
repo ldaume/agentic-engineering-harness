@@ -6,6 +6,8 @@ current versions live in [`skills-lock.json`](./skills-lock.json). See
 
 ## Recent releases
 
+- `plain-numbers` 1.4.2: a statistical coefficient (correlation, exponent, sigma, prior) counts as jargon; running text replaces it with an example from the data, and a new eval case shows a correlation of 0.40 and an interval that contains no effect, both misread by the owner on a cost page.
+
 - `design-review` 1.11.2: the design loop stops with an error when the URL answers with HTTP 400 or above, instead of reviewing the server's error page; a 404 from a stale local server had been scored as a sparse, generic page on three pages in a row.
 
 - `write-a-skill` 1.9.2: the verify step asks to measure one content change on two to four Skills, with seeded cases half outside what the change covers, before rolling it out to many; a review vocabulary loaded by default had cut correct naming of uncovered defects from 0.67 to 0.18.
