@@ -1318,13 +1318,19 @@ async function main(argv) {
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
-    await page.goto(args.url, { waitUntil: "networkidle" });
+    assertLoaded(await page.goto(args.url, { waitUntil: "networkidle" }), args.url);
     const report = await review(page, { outDir: args.out, level: args.level, model: args.model, detail: args.detail });
     console.log(JSON.stringify(report, null, 2));
     process.exitCode = report.findings.some((f) => f.status === "fail") ? 1 : 0;
   } finally {
     await browser.close();
   }
+}
+
+// A server that answers 404 still renders a page, and every tier would review that error page as if it were the target.
+export function assertLoaded(response, url) {
+  const status = response?.status();
+  if (status >= 400) throw new Error(`HTTP ${status} for ${url}: nothing to review; check the URL and that the server serves this file`);
 }
 
 function sameFile(a, b) { try { return realpathSync(a) === realpathSync(b); } catch { return false; } }
