@@ -112,6 +112,7 @@ Fast Check:
 ```bash
 python3 scripts/audit-skills.py
 python3 scripts/verify-plain-punctuation.py
+python3 scripts/check-version-bumps.py --base origin/main
 python3 -m unittest discover -s tests
 python3 -m unittest discover -s skills/engineering/completion-gate/tests
 python3 -m unittest discover -s skills/engineering/scaffold-harness/tests

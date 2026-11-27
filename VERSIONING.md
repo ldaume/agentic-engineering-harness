@@ -31,7 +31,11 @@ require version bumps for unrelated Skills.
 ## Release Sequence
 
 1. Review the changed Skill's behavior contract and provenance.
-2. Update only its version in `skills-lock.json`.
+2. Update only its version in `skills-lock.json`, above the version on the
+   current base and past every existing tag:
+   `scripts/check-version-bumps.py` refuses a pull request otherwise, because
+   two changes raising the same Skill to the same version merge without a
+   conflict and leave one of them outside the tag.
 3. Run the Fast Check from [`AGENTS.md`](./AGENTS.md) plus the checks
    that list requires for a new or changed Skill (provenance, install,
    activation).
