@@ -218,13 +218,13 @@ class TermGateTest(unittest.TestCase):
     """The audience's own term wins over a translation the writer invented."""
 
     def test_given_avoided_variant_when_checked_then_error_names_the_preferred_term(self):
-        facts = {"terms": {"Knowledge Store": ["Wissensspeicher"]}}
-        result = check("Der Wissensspeicher liefert Treffer.", "slides", "de", facts)
-        self.assertTrue(any("Knowledge Store" in e and "Wissensspeicher" in e for e in result["errors"]))
+        facts = {"terms": {"Feature Flag": ["Funktionsschalter"]}}
+        result = check("Der Funktionsschalter steuert die Suche.", "slides", "de", facts)
+        self.assertTrue(any("Feature Flag" in e and "Funktionsschalter" in e for e in result["errors"]))
 
     def test_given_preferred_term_when_checked_then_clean(self):
-        facts = {"terms": {"Knowledge Store": ["Wissensspeicher"]}}
-        result = check("Der Knowledge Store liefert Treffer.", "slides", "de", facts)
+        facts = {"terms": {"Feature Flag": ["Funktionsschalter"]}}
+        result = check("Das Feature Flag schaltet die Suche.", "slides", "de", facts)
         self.assertEqual(result["errors"], [])
 
     def test_given_variant_inside_a_longer_word_when_checked_then_still_caught(self):
