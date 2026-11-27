@@ -23,7 +23,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/backend/backend-craft/SKILL.md",
-      "version": "1.4.1"
+      "version": "1.5.0"
     },
     "build-autonomous-agents": {
       "source": "local",
@@ -245,7 +245,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.9.1"
+      "version": "1.10.0"
     },
     "update-harness": {
       "source": "local",
