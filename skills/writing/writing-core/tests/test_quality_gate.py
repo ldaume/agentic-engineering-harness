@@ -448,6 +448,13 @@ class RepetitionTest(unittest.TestCase):
                 "The export job writes every result into a signed archive with a retention label.")
         self.assertFalse(any(w.startswith("repetition:") for w in warned(text)))
 
+    def test_given_one_sentence_repeated_in_every_section_when_checked_then_one_warning_with_count(self):
+        s = "Without reprint and self-publishing houses the list keeps most of its titles."
+        text = " ".join(f"{s} Section {n} has its own facts here." for n in range(6))
+        repeated = [w for w in warned(text) if w.startswith("repetition:")]
+        self.assertEqual(len(repeated), 1)
+        self.assertIn("6 sentences", repeated[0])
+
     def test_given_short_repeated_sentences_when_checked_then_no_warning(self):
         self.assertFalse(any(w.startswith("repetition:") for w in warned("Thanks a lot. Thanks a lot.")))
 

@@ -266,13 +266,22 @@ def content_words(sentence: str, language: str) -> set[str]:
 
 def check_repetition(text: str, language: str, warnings: list[str]) -> None:
     """Restated sentences: token overlap of content words, both sides long enough
-    to carry a point. A warning shows both sentences shortened."""
+    to carry a point. A warning shows two of the sentences shortened. One
+    warning per group, because a sentence repeated in n sections otherwise
+    yields n*(n-1)/2 warnings: 69 on one reference page, burying the rest."""
     sents = [(s, content_words(s, language)) for s in sentences(text)]
     sents = [(s, w) for s, w in sents if len(w) >= DUP_MIN_WORDS]
+    grouped: set[int] = set()
     for i, (a, wa) in enumerate(sents):
-        for b, wb in sents[i + 1:]:
-            if len(wa & wb) / len(wa | wb) >= DUP_JACCARD:
-                warnings.append(f"repetition: near-duplicate sentences, one home per statement: {a[:50]!r} / {b[:50]!r}")
+        if i in grouped:
+            continue
+        group = [j for j in range(i + 1, len(sents)) if j not in grouped
+                 and len(wa & sents[j][1]) / len(wa | sents[j][1]) >= DUP_JACCARD]
+        if not group:
+            continue
+        grouped.update(group)
+        count = f" ({len(group) + 1} sentences)" if len(group) > 1 else ""
+        warnings.append(f"repetition: near-duplicate sentences, one home per statement{count}: {a[:50]!r} / {sents[group[0]][0][:50]!r}")
 
 
 def check_figures(text: str, language: str, warnings: list[str]) -> None:
