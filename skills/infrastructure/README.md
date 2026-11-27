@@ -5,7 +5,6 @@ Infrastructure, CI/CD, server operations, deployment, and self-hosting skills.
 | Skill                                                           | Triggers                                                            |
 | --------------------------------------------------------------- | ------------------------------------------------------------------- |
 | [gitea-actions](./gitea-actions/SKILL.md)                       | Gitea Actions, act_runner, CI workflows, runner labels, tokens      |
-| [github-self-hosted-runners](./github-self-hosted-runners/SKILL.md) | Self-hosted GitHub runner fleets, JIT runners, slots, burst servers |
 | [gitea-tea](./gitea-tea/SKILL.md)                               | tea CLI, Gitea PRs, issues, releases, repo operations               |
 | [multi-stage-dockerfile](./multi-stage-dockerfile/SKILL.md)     | Dockerfile, multi-stage builds, image size, container hardening     |
 | [ansible-automation](./ansible-automation/SKILL.md)             | Ansible playbooks, inventories, roles, vault, idempotent automation |
