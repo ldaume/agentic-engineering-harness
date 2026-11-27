@@ -159,9 +159,9 @@ acrobatics that slow compilation or hide intent are a design smell.
   reads alone.
 - Data changes that affect access control need targeted tests.
 - A list that decides something per item from the item's whole detail repeats
-  every wait inside that detail once per item. External reads awaited per item
-  outside the cache cost seconds per build of a list polled every few seconds,
-  against under one second for the database. Route every external read on a
+  every wait inside that detail once per item, so on a list polled every few
+  seconds one external read awaited per item outside the cache can outweigh
+  every database query of the build. Route every external read on a
   polled path through the process's stale-while-revalidate cache, or add one,
   and pin it with a test that reads the page twice within the cache's
   freshness window and finds no external call the second time. A read that
