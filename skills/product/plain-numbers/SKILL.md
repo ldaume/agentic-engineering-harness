@@ -17,13 +17,13 @@ Name the reader first (for example "a manager at the client who joins the
 meeting"). Then apply to every number:
 
 1. One idea per sentence. Meaning first, then the number with its raw counts:
-   "The prepared answer matched what the desk did in 85 of 227 requests (37%)."
+   "The drafted answer matched what the team sent in 80 of 200 requests (40%)."
    A statement about change names its baseline (from what) and, where known,
    its target (to what): "still at today's level", never "has not changed yet".
 2. State what it does not mean when a likely misreading exists. A match rate is
    not fewer requests; a sample share is not a population share.
 3. State how numbers on one page relate: part of, extra to, or a different set.
-   Name the set each comes from ("26 of 43, part of the 85, not extra").
+   Name the set each comes from ("26 of 40, part of the 80, not extra").
 4. Define each term a cold reader cannot know on first use, or use an everyday
    word instead. Names for internal tools, processes, and jargon count. A
    statistical coefficient (correlation, exponent, sigma, a prior) is jargon:

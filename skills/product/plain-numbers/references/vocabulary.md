@@ -10,7 +10,7 @@ rules yet, so every row is `judge` until one does.
 
 | Term | Definition | Source | Marker | Check |
 |---|---|---|---|---|
-| Denominator | The whole a share is taken from, stated next to the share. | [SRC-WRITE-071] [SRC-WRITE-070] | A percentage with no "of N" and no raw counts ("37%" instead of "85 of 227 (37%)"). | judge |
+| Denominator | The whole a share is taken from, stated next to the share. | [SRC-WRITE-071] [SRC-WRITE-070] | A percentage with no "of N" and no raw counts ("40%" instead of "80 of 200 (40%)"). | judge |
 | Natural frequency | A count out of a stated whole instead of a conditional probability or a bare rate. | [SRC-WRITE-071] | A rate or probability that only a reader with the formula can turn back into cases. | judge |
 | Absolute change | The size of a change in the unit itself, given before any relative change. | [SRC-WRITE-071] [SRC-WRITE-070] | "+25%" or "a quarter fewer" with no from and to values. | judge |
 | Percentage point | The difference between two percentages, which is not the relative change between them. | [SRC-WRITE-070] [SRC-WRITE-071] | "rose 5%" where the share went from 20% to 25% (5 points, 25% more). | judge |

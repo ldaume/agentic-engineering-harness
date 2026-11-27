@@ -179,7 +179,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/plain-numbers/SKILL.md",
-      "version": "1.4.3"
+      "version": "1.4.4"
     },
     "playwright-best-practices": {
       "source": "local",
@@ -263,7 +263,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/writing/writing-core/SKILL.md",
-      "version": "1.8.1"
+      "version": "1.8.2"
     },
     "writing-editorial": {
       "source": "local",
