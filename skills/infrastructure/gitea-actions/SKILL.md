@@ -1,6 +1,6 @@
 ---
 name: gitea-actions
-description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner or gitea-runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner or gitea-runner, GITEA_TOKEN permissions, self-hosted Gitea runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures. Not for self-hosted GitHub runner fleets; `github-self-hosted-runners` owns those.
+description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner or gitea-runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner or gitea-runner, GITEA_TOKEN permissions, self-hosted Gitea runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures. Not for self-hosted GitHub Actions runner fleets.
 license: MIT
 metadata:
   vocabulary: vendor
