@@ -47,7 +47,7 @@ Before designing or changing UI:
 ## Read First
 
 1. Repo agent instructions (`AGENTS.md`, `CLAUDE.md`, etc.)
-2. Domain glossary (`CONTEXT.md`) and current product/design docs
+2. Domain glossary (`GLOSSARY.md`) and current product/design docs
 3. Existing components, tokens, message catalogs, routes, and tests
 4. Package manifest before importing any dependency
 5. Accessibility, i18n, and design-system conventions already present

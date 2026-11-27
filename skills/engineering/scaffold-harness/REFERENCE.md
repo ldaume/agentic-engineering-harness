@@ -52,7 +52,7 @@ Higher delegation is useful only when the lower level is reliable.
 | Concern | Preferred owner |
 |---|---|
 | Stable agent behavior, scope, permissions | `AGENTS.md` or local equivalent |
-| Domain language and invariants | `CONTEXT.md` |
+| Domain language and invariants | `GLOSSARY.md` |
 | Contexts, sources, and relationships | `CONTEXT-MAP.md` |
 | Harness evolution and oversight | `HARNESS.md` |
 | Current workflow or engagement state | Status document |
@@ -192,3 +192,63 @@ Before adding an artifact, answer:
 8. Does this duplicate or conflict with an installed workflow or style profile?
 9. What authority, freshness, standing context load, or output-routing layer
    does it add?
+
+## Agent-Ready Audit
+
+Load this when a repository must work for a person who brings their own coding
+agent and none of the author's tools: a new contributor on Claude Code, Codex,
+Cursor, or Gemini CLI, with only the clone. It applies equally to a repository
+that already has a harness and to one that must stay outside any coordinator;
+it adds nothing that ties the repository to one.
+
+Run the checks in order; each one names what the script reports and what an
+agent has to judge.
+
+1. **Every entrypoint loads.** Each host must reach `AGENTS.md` from wherever
+   a session starts. Claude Code reads `CLAUDE.md`, not `AGENTS.md`, so a root
+   without `CLAUDE.md` starts with no rules even when every app has one. Put a
+   `CLAUDE.md` containing only `@AGENTS.md` at the root and beside every nested
+   `AGENTS.md`. Script: `bridge`.
+2. **Repository Skills are visible on every host.** Skills shipped in
+   `.agents/skills` are invisible to Claude Code, which reads `.claude/skills`.
+   Add one relative symlink per Skill (`.claude/skills/team-review ->
+   ../../.agents/skills/team-review`) and a line in the Skills README that a new
+   Skill gets its link. Before tracking the links, search the repository's
+   automation for code that writes into or refuses `.claude/` paths, since a
+   sandbox or packaging rule may reject them. Script: `skill-link`.
+3. **No Skill hides behind a built-in.** A Skill named like a host's built-in
+   command (`review`, `security-review`, `init`) competes with it. When
+   automation or documentation finds the Skill by its name, a rename breaks
+   them; name the built-in `/command` in the description and say what this
+   Skill does instead. Rename only when `git grep -n <name>` finds no
+   reference in code, automation, or documentation. Script:
+   `name`, against a dated list of built-ins; extend the list when a host adds
+   commands.
+4. **Preconditions are stated.** A Skill that needs an MCP tool, a credential,
+   or a service says so in its description, together with what a session
+   without it does (stop and say which tool is missing, or take a named
+   fallback). Judged: read each repository Skill.
+5. **Newcomer gotchas are written down.** Collect what a first run trips over
+   that no configuration reveals: an access switch a deployed sign-in needs, an
+   API allowlist that answers 403 for anything not on it, a seed step, a port
+   another service holds. Put each into the `AGENTS.md` of the app it affects.
+   Judged: ask the maintainers, read recent onboarding issues.
+6. **Unwritten rules have one home.** A rule explained only in conversation
+   (for example, that each step in the interface maps onto one state of a core
+   lifecycle) goes into the glossary, `GLOSSARY.md`. A `CONTEXT.md` that still
+   holds a glossary is the same file under its old name: `git mv` it to
+   `GLOSSARY.md`, update its references, and leave a two-line stub. Then sharpen the `AGENTS.md` pointer so it names the case,
+   "read the glossary before changing a lifecycle step", because a bare "see
+   the glossary" is not followed. Script: prints a note when no glossary
+   exists and a rename note for `CONTEXT.md`; write one only for confirmed
+   language.
+7. **The bare case holds.** An agent with only the repository can follow every
+   instruction: each referenced file and command exists, and nothing assumes a
+   tool, Skill, path, or service from one person's machine or a private
+   coordinator. Script: `missing` and `machine-path`. Judged: every command
+   and Skill named in instructions runs or loads from the clone, or the text
+   says where to get it.
+
+Done when `scripts/verify-agent-ready.py` exits 0 and a fresh session on a
+second host, started at the root with only the clone, finds the rules, the
+Skills, and the glossary, and names the first command it would run.

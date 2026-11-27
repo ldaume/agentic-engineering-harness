@@ -35,7 +35,7 @@ Before running this gate:
 scripts; a review does not load it.
 
 - [ ] Solves the **actual** problem, not an adjacent one
-- [ ] Fits existing architecture (read `AGENTS.md`, `CONTEXT.md`, relevant ADRs)
+- [ ] Fits existing architecture (read `AGENTS.md`, `GLOSSARY.md`, relevant ADRs)
 - [ ] Readable; better naming over explanatory comments
 - [ ] Language and terminology match the target repository and intended audience
 - [ ] No new dead code; no orphaned docs

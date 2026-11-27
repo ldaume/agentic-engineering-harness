@@ -80,7 +80,7 @@ Learn:
 - TDD makes behavior and changeability visible
 - a seam is a boundary where behavior can be controlled or observed in
   isolation
-- `CONTEXT.md`, `CONTEXT-MAP.md`, ADRs, and `LEARNINGS.md` have different
+- `GLOSSARY.md`, `CONTEXT-MAP.md`, ADRs, and `LEARNINGS.md` have different
   owners and lifecycles
 - instructions should route to canonical detail instead of duplicating it
 

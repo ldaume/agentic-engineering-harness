@@ -41,7 +41,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/completion-gate/SKILL.md",
-      "version": "1.11.0"
+      "version": "1.11.1"
     },
     "deliver-dependency-upgrades": {
       "source": "local",
@@ -95,7 +95,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/design/design-slides/SKILL.md",
-      "version": "1.2.1"
+      "version": "1.2.2"
     },
     "design-systems": {
       "source": "local",
@@ -113,7 +113,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/documentation-and-adrs/SKILL.md",
-      "version": "1.7.1"
+      "version": "1.8.0"
     },
     "estimate-with-uncertainty": {
       "source": "local",
@@ -125,7 +125,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/frontend/frontend-craft/SKILL.md",
-      "version": "1.10.1"
+      "version": "1.10.2"
     },
     "gitea-actions": {
       "source": "local",
@@ -155,7 +155,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/learn-agentic-engineering/SKILL.md",
-      "version": "2.0.1"
+      "version": "2.0.2"
     },
     "manage-infrastructure-as-code": {
       "source": "local",
@@ -197,7 +197,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/product/product-craft/SKILL.md",
-      "version": "1.6.1"
+      "version": "1.6.2"
     },
     "renovate": {
       "source": "local",
@@ -215,7 +215,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/engineering/scaffold-harness/SKILL.md",
-      "version": "3.3.1"
+      "version": "3.4.0"
     },
     "scaffold-monorepo": {
       "source": "local",

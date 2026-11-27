@@ -502,7 +502,7 @@ Follow the installed `scaffold-harness` capability gate when present.
 |---|---|
 | Whose work an artifact is, who may change or merge it, and why code is not owned that way | `HARNESS.md` (Whose work is it) |
 | Agent behavior and scope | `AGENTS.md` |
-| Domain language | `CONTEXT.md` |
+| Domain language | `GLOSSARY.md` |
 | Source routing | `CONTEXT-MAP.md` |
 | Git working-tree start/finish hygiene (branch gate, worktree default, ordinary names, review-surface attribution, return to default branch) | `HARNESS.md` (Git Working Tree Hygiene); ADR when accepted |
 | Accepted trade-offs | ADR |

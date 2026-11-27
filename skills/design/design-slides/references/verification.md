@@ -32,7 +32,7 @@ Template:
 ```text
 Source: <repository> at <commit>
 | Slide | Claim | Source | Verdict |
-| 4 | Nine stages from idea to observing | docs/CONTEXT.md:12-30 | holds |
+| 4 | Nine stages from idea to observing | docs/GLOSSARY.md:12-30 | holds |
 | 10 | Budget per loop defaults to 100 | config/defaults.py:41 | corrected (was 50) |
 ```
 

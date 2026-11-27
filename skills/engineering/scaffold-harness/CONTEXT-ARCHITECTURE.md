@@ -15,7 +15,7 @@ stay at least as strong.
 | Concern | Typical owner |
 |---|---|
 | Stable agent scope, language, permissions, and routing | Concise `AGENTS.md` or local equivalent |
-| Domain language, invariants, and confirmed distinctions | `CONTEXT.md` or canonical domain source |
+| Domain language, invariants, and confirmed distinctions | `GLOSSARY.md` or canonical domain source |
 | Source authority and relationships | `CONTEXT-MAP.md` |
 | Accepted consequential decision | ADR |
 | Repeated probabilistic procedure | Skill |
