@@ -1,60 +1,58 @@
 # Misreading Cases
 
-Real misreadings from reader tests and reviews. Check new text against them.
-Format: text, misreading, fix. Origin of the first four: a weekly project page,
-2026-10-08, generalized.
+Misreadings seen in reader tests and reviews, generalized; every figure below
+is invented. Check new text against them. Format: text, misreading, fix.
 
 ## Match rate read as workload
 
-- Text: "37% of change requests got a prepared answer that matched what the desk
-  did."
-- Misread as: 37% fewer tickets reach a person.
-- Fix: "A prepared answer matched what the desk did in 85 of 227 requests (37%).
-  A person still checks every answer, so this saves time per request. It does
-  not reduce the number of requests."
+- Text: "40% of support requests got a drafted answer that matched what the
+  team sent."
+- Misread as: 40% fewer requests reach a person.
+- Fix: "A drafted answer matched what the team sent in 80 of 200 requests
+  (40%). A person still checks every answer, so this saves time per request.
+  It does not reduce the number of requests."
 
 ## Subset read as additive
 
-- Text: "60% where the board marks a suggestion likely right", shown next to the
-  37%.
-- Misread as: an extra 60% on top of the 37%.
-- Fix: "26 of the 43 suggestions marked likely right are among the 85 matches,
-  not extra." Name the set each figure comes from; sample sizes (422, 227, 96)
-  differ, so say which set each count covers and why.
+- Text: "65% where the tool marks a draft likely right", shown next to the 40%.
+- Misread as: an extra 65% on top of the 40%.
+- Fix: "26 of the 40 drafts marked likely right are among the 80 matches, not
+  extra." Name the set each figure comes from; when sample sizes differ, say
+  which set each count covers and why.
 
 ## Number without its meaning
 
-- Text: "72% of misses: the desk's answer was in none of the 10 most similar
-  earlier tickets."
+- Text: "70% of misses: the team's answer was in none of the 10 most similar
+  earlier requests."
 - Misread as: not understood.
-- Fix: lead with the meaning: "72% of the misses had no earlier case to learn
-  from: in none of the 10 most similar earlier tickets was the desk's answer
-  present." Name the set the 72% is taken from.
+- Fix: lead with the meaning: "70% of the misses had no earlier case to learn
+  from: none of the 10 most similar earlier requests held the team's answer."
+  Name the set the 70% is taken from.
 
 ## Method overstated
 
 - Text: "replayed with only what was known on its own day."
 - Misread as: a clean past-dated test.
-- Fix: state what was cut and what was read in today's state: "Tickets were
+- Fix: state what was cut and what was read in today's state: "Requests were
   cut to the state at creation. Status and assignee fields were read as of
   today."
 
 ## Point estimate judged against a target
 
-- Text: "Subgroup rate: 60% (26 of 43). Target 50%: Reached."
-- Misread as: the target is met. The 95% interval, 46 to 74%, still includes
-  50%, so the sample cannot tell. A person caught it by checking the math.
-- Fix: "Likely, not proven: 26 of 43 (60%, 95% interval 46 to 74%) against a
-  proposed 50% target. An independent replication gave 22 of 37 (43 to 74%).
-  A stricter self-set 70% target was missed."
+- Text: "Subgroup rate: 60% (24 of 40). Target 50%: Reached."
+- Misread as: the target is met. The 95% interval, about 45 to 74%, still
+  includes 50%, so the sample cannot tell.
+- Fix: "Likely, not proven: 24 of 40 (60%, 95% interval about 45 to 74%)
+  against a proposed 50% target." Add a replication or a stricter target only
+  with its own interval.
 
 ## Change without a baseline
 
 - Text: "The outcome this work is about has not changed yet."
 - Misread as: unclear. The reader asked "changed from what to what?"
 - Fix: state the current value as the baseline, why it cannot have moved yet,
-  and what is not measured: "Still at today's level: a median of 15.5 hours to
-  a real answer, 45 of 96 the same working day. Nothing is live yet, so it
+  and what is not measured: "Still at today's level: a median of 12 hours to
+  a real answer, 50 of 100 the same working day. Nothing is live yet, so it
   cannot have moved. Reopened requests are not measured."
 
 ## Point estimate for the future
@@ -71,32 +69,30 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
 ## Statistical coefficient in running text
 
 - Text: "Mehr Story Points heißen tendenziell mehr Code, mit vielen
-  Ausnahmen (0,40 auf einer Skala bis 1)." Also "The client's features cost about
-  2.3 times as much at the same size (95%: 0.97 to 5.06)."
-- Misread as: unclear. The owner asked what "0.40 on a scale to 1" means; a
-  correlation coefficient means nothing to a manager. The second reads as a
-  proven effect, but the interval starts below 1 (no effect is inside it).
+  Ausnahmen (0,4 auf einer Skala bis 1)." Also "Team B's items cost about
+  twice as much at the same size (95%: 0.9 to 4.5)."
+- Misread as: unclear. A correlation coefficient means nothing to a manager.
+  The second reads as a proven effect, but the interval starts below 1 (no
+  effect is inside it).
 - Fix: replace the coefficient with an example from the data ("an item with 3
   points often changes more lines than one with 5") and say the interval in
-  words ("on average more expensive, about 2.3 times; with 8 features this is
-  not certain: from the same cost to five times as much"). Formulas,
+  words ("on average more expensive, about twice; with few items this is not
+  certain: from the same cost to four times as much"). Formulas,
   coefficients, exponents and priors go to the method section only.
 
 ## Partial cost read as the whole cost
 
-- Text: "Cost together about 90 $ of model cost, from 2.57 $ to about 20 $
-  per item", with "the builder's cost is not included" only further down.
-- Misread as: an item costs a few dollars in total. The figure covered only
-  the planning and review agents; the coding model, most of the cost, was
-  missing.
-- Fix: name the part in the headline itself: "about 92 USD agent cost, without
-  the coding model". Drop "a few dollars per item" and give the missing part
-  as an estimate with its basis, or say it is unknown.
+- Text: a headline gives one cost component as "the cost per order", and a
+  footnote further down says the largest component is not included.
+- Misread as: the headline figure is the full cost.
+- Fix: name the part in the headline itself ("shipping cost per order,
+  without production"). Give the missing part as an estimate with its basis,
+  or say it is unknown.
 
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.
-- Undefined terms (pull request, merged, go-ahead, desk).
+- Undefined terms (pull request, merged, go-ahead, internal team names).
 - Relation between sample sizes left unexplained.
 - A goal stated twice, in different words.
 - A vague rule ("short") where a bound ("at most 250 characters") belongs.

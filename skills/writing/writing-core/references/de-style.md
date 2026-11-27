@@ -49,8 +49,8 @@ stammen nicht daraus.
   (Mails, Tickets, Wiki, Code, der Standard, nach dem sie arbeitet); dort
   nachsehen, nicht nach Gefühl wählen, und als `terms` in facts.json an das
   Gate geben. Einen Begriff einmal erklären, wenn die Gruppe ihn vielleicht
-  nicht kennt. Wer "Knowledge Store" oder "Rate Limit" eindeutscht
-  ("Wissensspeicher", "Abfragelimit"), zwingt den Leser zum Rückübersetzen;
+  nicht kennt. Wer "Feature Flag" oder "Rate Limit" eindeutscht
+  ("Funktionsschalter", "Abfragelimit"), zwingt den Leser zum Rückübersetzen;
   das ist so falsch wie Denglisch (`references/ai-tells.md`, Terms the
   audience uses).
 - Erfundene Mischformen nicht:
