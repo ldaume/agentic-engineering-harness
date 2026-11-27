@@ -53,6 +53,15 @@ receives an injected instruction. Run it and keep the red run (command and
 failing assertion) for the PR. Each fixed vulnerability leaves one
 regression test behind.
 
+When the threat is an account reaching data it must not, sweep every route
+instead of choosing a few: enumerate the router, call each route as that
+account with the ids of a record it could otherwise see, and assert the
+answer equals the one for ids that exist nowhere and that no state changed.
+Compare whole answers, not status codes or a search for the secret: an
+endpoint that echoes the caller's id fools a text search, and a refusal
+whose body differs still tells the record exists. Remove the control once
+and watch the sweep go red on every route it guards.
+
 Done when every threat from step 2 has a test whose red run is recorded.
 
 ## 4. Shift down: reuse the safe default

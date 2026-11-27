@@ -1,6 +1,6 @@
 ---
 name: gitea-actions
-description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner, GITEA_TOKEN permissions, self-hosted runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures.
+description: Designs, debugs, secures, and reviews Gitea Actions workflows, act_runner or gitea-runner setups, runner labels, tokens, secrets, variables, cache, artifacts, and GitHub Actions compatibility. Use when working with .gitea/workflows, Gitea CI, act_runner or gitea-runner, GITEA_TOKEN permissions, self-hosted Gitea runners, workflow migration, sparse-checkout CI helpers, docker/build-push-action on Gitea, step summaries, or Gitea-specific CI failures. Not for self-hosted GitHub Actions runner fleets.
 license: MIT
 metadata:
   vocabulary: vendor
@@ -17,7 +17,9 @@ Before changing workflows:
 
 1. Read `AGENTS.md`, existing `.gitea/workflows/*.yml`, runner docs, deployment
    docs, and repo variables/secrets conventions.
-2. Detect the Gitea version, act_runner version, runner labels, container mode,
+2. Detect the Gitea version, runner version (act_runner was renamed
+   gitea-runner in v1.0.0, with a new binary, repository, and config
+   placeholders), runner labels, container mode,
    and whether jobs run on Docker, host shell, or custom images.
 3. Verify which GitHub Actions syntax is actually supported by the installed
    Gitea version before copying examples.
@@ -60,6 +62,31 @@ Before changing workflows:
 - Avoid privileged runners by default.
 - Treat runner filesystem state as disposable unless explicitly managed.
 - Document any required host mounts or Docker-in-Docker assumptions.
+- Know which labels run on the host: a label is `name[:schema[:args]]`, and
+  `host` is the default schema, so a bare label runs the job directly on the
+  runner machine as the runner's user. Use `docker://<image>` for isolation;
+  keep host labels for trusted repositories.
+- With an empty `container.docker_host` the runner mounts the Docker socket
+  into job containers, which is root on the host. Set it to `"-"` or use the
+  dind image unless jobs truly need the host daemon.
+
+When one host runs several jobs at once (`runner.capacity` above its default
+of 1, or several runners on one machine):
+
+- Jobs in containers share the host's Docker daemon. Prune with an age
+  filter (`docker system prune --filter until=2h`), because a plain prune
+  removes a parallel job's freshly created container. Each concurrent job
+  takes a subnet from the daemon's pool; raise `default-address-pools` or set
+  `container.network` before raising capacity.
+- Host-label jobs, and jobs sharing a mounted volume, share `HOME` and tool
+  installs. Give each runner its own `HOME` and tool homes, use
+  `tool_cache_mode: shared` (one volume per capacity slot), or install tools
+  pinned on the host. On-demand installers such as rustup have no lock
+  between processes and break when two jobs install into one home.
+- All jobs leave through one public address. Expect rate limits from Docker
+  Hub and GitHub when many jobs pull images or actions at once: use a registry
+  mirror, and set `cache.offline_mode: true` so cached actions are reused
+  instead of fetched per job (a moved tag then stays at the cached commit).
 
 ## Token And Secret Rules
 
