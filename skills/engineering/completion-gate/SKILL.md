@@ -109,7 +109,10 @@ reaches a deployed environment, it is done when that environment has been
 checked - by you, in the same session, not by whoever notices later:
 
 - [ ] The deployment finished and is serving the commit that was merged
-- [ ] The surface the change touched was used and did what it should
+- [ ] The surface the change touched was used and did what it should. When
+      using it takes an act reserved to a person (a production account, a
+      real password, an approval), say so instead of promising it: hand them
+      the exact steps and watch the logs while they run them
 - [ ] The platform's error reporting shows nothing new in the window since
       that deploy - a failure logged where nobody looks is an unnoticed
       outage, not a handled one
