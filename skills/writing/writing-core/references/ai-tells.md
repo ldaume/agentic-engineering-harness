@@ -189,8 +189,8 @@ audience; add the audience's own terms to `known_terms` in the facts file.
 
 - Before: "RLS schützt jede Tabelle."
 - After: "Row-Level Security (RLS) schützt jede Tabelle."
-- Before: "Project Atlas ships the DCC fix."
-- After: "The fix for the Data Change Console (DCC) ships this week."
+- Before: "Project Atlas ships the BRX fix."
+- After: "The fix for the Billing Rules Exporter (BRX) ships this week."
 
 **Unanchored claim.** A claim about a system that neither the code nor a
 source backs, in either direction. Overclaiming says more than the code, data
@@ -208,9 +208,9 @@ the current default branch, not memory (`verification.md`).
 
 The term the target group uses daily wins over a translation the writer
 invents, in both directions, whether English or German. For an IT audience
-an established anglicism stays: "Knowledge Store", "Rate Limit", "Retry",
+an established anglicism stays: "Feature Flag", "Rate Limit", "Retry",
 "Row-Level Security", "Service Account", "Secrets", "Drift", "Quota", not
-"Wissensspeicher", "Abfragelimit", "Wiederholungsversuch", "Zeilenrechte",
+"Funktionsschalter", "Abfragelimit", "Wiederholungsversuch", "Zeilenrechte",
 "Dienstkonto", "Geheimnisse", "Abweichungen", "Kontingent". An established
 German term stays where the group uses it: "Mandantentrennung" (not an
 invented "Kundentrennung", not "Tenant Isolation" for German IT readers),
@@ -224,7 +224,7 @@ term once when the group may not know it, then keep using it. Collect the
 terms and pass them to the gate:
 
 ```json
-{"terms": {"Knowledge Store": ["Wissensspeicher"], "Rate Limit": ["Abfragelimit"]}}
+{"terms": {"Feature Flag": ["Funktionsschalter"], "Rate Limit": ["Abfragelimit"]}}
 ```
 
 The gate matches a variant inside longer words, so inflections and compounds
