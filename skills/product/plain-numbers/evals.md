@@ -82,6 +82,17 @@ Format: text, misreading, fix. Origin of the first four: a weekly project page,
   not certain: from the same cost to five times as much"). Formulas,
   coefficients, exponents and priors go to the method section only.
 
+## Partial cost read as the whole cost
+
+- Text: "Cost together about 90 $ of model cost, from 2.57 $ to about 20 $
+  per item", with "the builder's cost is not included" only further down.
+- Misread as: an item costs a few dollars in total. The figure covered only
+  the planning and review agents; the coding model, most of the cost, was
+  missing.
+- Fix: name the part in the headline itself: "about 92 USD agent cost, without
+  the coding model". Drop "a few dollars per item" and give the missing part
+  as an estimate with its basis, or say it is unknown.
+
 ## Cold-reader findings to check for
 
 - Bare numbers side by side invite adding them up.
