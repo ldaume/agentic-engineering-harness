@@ -23,7 +23,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/backend/backend-craft/SKILL.md",
-      "version": "1.6.1"
+      "version": "1.6.2"
     },
     "build-autonomous-agents": {
       "source": "local",
