@@ -449,7 +449,7 @@ class RepetitionTest(unittest.TestCase):
         self.assertFalse(any(w.startswith("repetition:") for w in warned(text)))
 
     def test_given_one_sentence_repeated_in_every_section_when_checked_then_one_warning_with_count(self):
-        s = "Without reprint and self-publishing houses the list keeps most of its titles."
+        s = "Every weekly report repeats the same long reminder about the shared calendar."
         text = " ".join(f"{s} Section {n} has its own facts here." for n in range(6))
         repeated = [w for w in warned(text) if w.startswith("repetition:")]
         self.assertEqual(len(repeated), 1)
