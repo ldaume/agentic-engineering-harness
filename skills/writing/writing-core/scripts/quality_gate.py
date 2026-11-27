@@ -268,7 +268,7 @@ def check_repetition(text: str, language: str, warnings: list[str]) -> None:
     """Restated sentences: token overlap of content words, both sides long enough
     to carry a point. A warning shows two of the sentences shortened. One
     warning per group, because a sentence repeated in n sections otherwise
-    yields n*(n-1)/2 warnings: 69 on one reference page, burying the rest."""
+    yields n*(n-1)/2 warnings, which bury the ones worth reading."""
     sents = [(s, content_words(s, language)) for s in sentences(text)]
     sents = [(s, w) for s, w in sents if len(w) >= DUP_MIN_WORDS]
     grouped: set[int] = set()
