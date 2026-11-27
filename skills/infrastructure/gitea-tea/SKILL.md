@@ -46,6 +46,18 @@ Use `tea --help` and subcommand help for the installed version; flags vary.
 - For releases, verify tag existence and changelog source before publishing.
 - For automation, wrap `tea` in small scripts only when the command is repeated.
 
+## Workflow Dispatch
+
+```bash
+tea api -X POST "/repos/<owner>/<repo>/actions/workflows/<file>.yml/dispatches" \
+  -d '{"ref":"main","inputs":{"<name>":"<value>"}}'
+```
+
+Send inputs as a JSON body. `-f "inputs[<name>]=<value>"` delivers none, and
+the run silently falls back to its defaults, often a dry or check run, which
+then reads like a real result. Confirm the run's inputs in its log before
+trusting its outcome.
+
 ## Review And Triage Flow
 
 1. List the relevant issues or PRs.

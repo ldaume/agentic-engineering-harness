@@ -1,6 +1,7 @@
 ---
 name: deliver-dependency-upgrades
 description: Assess and deliver dependency version changes from a bot signal through source-backed impact analysis, adaptation, protected integration, rollout, observation, rollback, and linked feature-opportunity capture. Use when a dependency bump must pass through its bounded production lifecycle. Do not use for updater configuration, managed Skill pins, isolated CI repair, or release-note summaries.
+license: MIT
 metadata:
   vocabulary: house
 ---
@@ -95,6 +96,13 @@ checkers - in the registry. When one excludes the new major, decide `defer`,
 name the blocking peer, and say what would lift it: a release whose peer range
 includes the major, or a stable API the wrapper is waiting on.
 
+A `defer` holds only as long as something rechecks it. Install a scheduled
+check that fails or announces when the blocker lifts, for example a strict-peer
+resolution of the new major against the latest blockers in a throwaway
+manifest (`pnpm install --lockfile-only --config.strict-peer-dependencies=true`),
+because the deferred change's own CI is usually green either way and nothing
+else will say when the wait is over.
+
 Size the change against the deployed baseline, not the pinned one. An
 undeployed pin turns the next deploy into the sum of every skipped step, and
 the version numbers in the change request describe only the last one. Where
@@ -106,6 +114,13 @@ actual outcome.
 Trace actual repository usage before judging impact. Identify affected bounded
 contexts, repositories, call sites, configuration, data or migration paths,
 tests, deployment behavior, observability, and operational recovery.
+
+A runtime or toolchain bump changes every place that provides that runtime,
+not only the files the bot touched: base images, CI images, self-hosted runner
+hosts provisioned from another repository, install scripts, developer setup,
+and tests that pin versions. List each one and make the new version available
+there before the merge. The host provisioned elsewhere is the one a review
+catches late, when the first job on it fails.
 
 State technical value and product or operational value separately. Do not claim
 value for a capability without an evidenced current use. Implement a small,
@@ -152,6 +167,11 @@ in Git and evidence. Run repository-owned tests, builds, security checks,
 migration checks, integration checks, and deployment validation that apply to
 the affected behavior. Bind results to the exact source, head, result tree,
 artifacts, and images.
+
+Keep the source compatible with the rollback target until the new version runs
+live. Leave formatter, linter, and syntax targets on the old version, because a
+formatter that targets the new runtime can rewrite syntax the old one cannot
+parse, and rollback then stops being an image revert.
 
 Publish through the repository's protected pull-request path. Do not push the
 default branch directly. Run an independent fresh-context review against the
