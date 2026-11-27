@@ -48,6 +48,13 @@ pnpm patch <package>
 - Keep dev tools in the narrowest sensible workspace.
 - Do not bypass peer dependency warnings without understanding runtime impact.
 - Use `pnpm why` before deleting or deduplicating dependencies.
+- Before adopting a new major of a tool others wrap (TypeScript, ESLint, a
+  framework), ask which wrapper blocks it: in an empty directory write a
+  `package.json` with the new major next to the latest wrappers and run
+  `pnpm install --lockfile-only --config.strict-peer-dependencies=true`.
+  An unmet peer fails the run and names the package and its range, which a
+  repository install with warnings never makes visible. Run it again on a
+  schedule to learn when the blocker lifts.
 
 ## Red Flags
 
