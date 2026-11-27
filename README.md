@@ -44,7 +44,7 @@ complete prompts for one repository and for a workspace are under
 
 | Part | What it gives you | Built by |
 |---|---|---|
-| [Skills catalog](#catalog) | 48 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
+| [Skills catalog](#catalog) | 49 Skills for engineering, product, design, writing, frontend, backend, infrastructure, and testing. Each one works on its own. | [Install](#install) |
 | Repository harness | Agent instructions, context, checks, and an [operating level](#operating-levels) from L1 to L7, stored as Markdown in the repository | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md) 3.3.1 |
 | Multi-repository workspace | A working root and a coordinator repository that every agent session reads before it works | [`scaffold-harness`](./skills/engineering/scaffold-harness/SKILL.md#multi-repository-workspace) 3.3.1 |
 | Upkeep | Instructions, Skills, and routing that stay current from what each session learns | [`agent-sync`](./skills/engineering/agent-sync/SKILL.md) 2.2.1 |
@@ -303,7 +303,7 @@ resolved by reusing an existing Skill or writing a project-local one with
 | [Writing](./skills/writing/README.md) | `writing-core`, `writing-editorial`, `writing-marketing`, `writing-product`, `writing-engineering` |
 | [Frontend](./skills/frontend/README.md) | `frontend-craft` |
 | [Backend](./skills/backend/README.md) | `api-design`, `backend-craft`, `meilisearch` |
-| [Infrastructure](./skills/infrastructure/README.md) | `manage-infrastructure-as-code`, `ansible-automation`, `gitea-actions`, `gitea-tea`, `multi-stage-dockerfile`, `secure-linux-web-hosting` |
+| [Infrastructure](./skills/infrastructure/README.md) | `manage-infrastructure-as-code`, `ansible-automation`, `gitea-actions`, `github-self-hosted-runners`, `gitea-tea`, `multi-stage-dockerfile`, `secure-linux-web-hosting` |
 | [Testing](./skills/testing/README.md) | `testing-strategies`, `playwright-best-practices` |
 
 [`skills-lock.json`](./skills-lock.json) is the complete versioned catalog.
