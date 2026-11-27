@@ -37,7 +37,7 @@ from a provider to every consumer before it changes the contract.
 | How agents work here | `<coordinator>/HARNESS.md` |
 | Admission, fan-out, write-back | `<coordinator>/SYNC.md` |
 | What is in flight, who holds which checkout | `<coordinator>/STATUS.md` |
-| Shared domain terms | `<coordinator>/CONTEXT.md`, when confirmed terms exist |
+| Shared domain terms | `<coordinator>/GLOSSARY.md`, when confirmed terms exist |
 | A member's product, code, and checks | that member's `AGENTS.md` |
 
 The map is not a backlog. Work items belong to the repository that owns them.

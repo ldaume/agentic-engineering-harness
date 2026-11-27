@@ -8,7 +8,7 @@
 | How must agents work in this repository? | `AGENTS.md` |
 | How does this harness evolve and where are its boundaries? | `HARNESS.md` |
 | How should repository prose sound? | `VOICE.md` |
-| What do core harness terms mean? | `CONTEXT.md` |
+| What do core harness terms mean? | `GLOSSARY.md` |
 | What do the operating levels mean for people? | `docs/LEVELS.md` |
 | How is a repository harness assessed and upgraded? | `skills/engineering/scaffold-harness/SKILL.md` |
 | What is the harness target state? | `skills/engineering/scaffold-harness/REFERENCE.md` |

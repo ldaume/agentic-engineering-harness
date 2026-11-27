@@ -1,7 +1,7 @@
 ---
 name: scaffold-harness
 license: MIT
-description: Audits and upgrades a repository, or a multi-repository workspace with a coordinator, to a maturity-appropriate Agentic Engineering harness without overwriting local truth. Use when bootstrapping or repairing agent instructions, operating levels, context routing, token bloat, or quality gates. Installing or updating Skills belongs to update-harness.
+description: Makes a repository agent-ready for any coding agent and host, or audits and upgrades a repository or multi-repository workspace to a maturity-appropriate harness without overwriting local truth. Use when other people's Claude Code, Codex, or Cursor must work in a repo, in a harness or outside one, or to bootstrap or repair agent instructions, operating levels, context routing, token bloat, or quality gates. Installing Skills belongs to update-harness; authoring them to write-a-skill.
 metadata:
   vocabulary: house
 ---
@@ -11,14 +11,25 @@ metadata:
 Build the smallest harness that makes delegated work reliable. Ideal means
 fit for the repository and its current maturity, not the largest artifact set.
 
+## Agent-Ready Audit
+
+When any coding agent on any host must work in the repository, for people
+without the author's tools and without joining a coordinator, run this instead
+of steps 1-5, with or without a harness: run
+`python3 <this Skill's directory>/scripts/verify-agent-ready.py <repository>`,
+fix each finding, then work through **Agent-Ready Audit** in
+[REFERENCE.md](./REFERENCE.md), which also moves a glossary still named
+`CONTEXT.md` to `GLOSSARY.md`. Done when the script exits 0 and a fresh session
+given only the clone finds the rules, Skills, and glossary.
+
 ## 1. Ground the Repository
 
 Inspect before proposing files:
 
 - instruction entrypoints and bridges: `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`,
   `.cursor/rules/`, or local equivalents
-- repository and domain sources: `README.md`, `CONTEXT.md`, ADRs, specs,
-  architecture docs, code, and tests
+- repository and domain sources: `README.md`, `GLOSSARY.md` (older:
+  `CONTEXT.md`), ADRs, specs, architecture docs, code, and tests
 - package manager, scripts, CI, infrastructure desired state and state backend,
   deployment, drift detection, observability, security controls, compliance
   policy, and evidence
@@ -355,10 +366,11 @@ The scaffold is complete only when:
 | Root instructions | [templates/AGENTS.md](./templates/AGENTS.md) |
 | Claude Code bridge | [templates/CLAUDE.md](./templates/CLAUDE.md) |
 | Review-surface attribution check | [scripts/verify-agent-attribution.py](./scripts/verify-agent-attribution.py), tested by [tests/test_verify_agent_attribution.py](./tests/test_verify_agent_attribution.py) |
+| Agent-ready check | [scripts/verify-agent-ready.py](./scripts/verify-agent-ready.py), tested by [tests/test_verify_agent_ready.py](./tests/test_verify_agent_ready.py) |
 | Gemini CLI bridge | [templates/GEMINI.md](./templates/GEMINI.md) |
 | Google Antigravity bridge | [templates/.agents/rules/harness.md](./templates/.agents/rules/harness.md) |
 | Harness contract | [templates/HARNESS.md](./templates/HARNESS.md) |
-| Domain language | [templates/CONTEXT.md](./templates/CONTEXT.md) |
+| Domain language | [templates/GLOSSARY.md](./templates/GLOSSARY.md) |
 | Durable learnings | [templates/LEARNINGS.md](./templates/LEARNINGS.md) |
 | Tool entrypoints | [templates/TOOLS.md](./templates/TOOLS.md) |
 | Local tool state ignore | [templates/.gitignore](./templates/.gitignore) |

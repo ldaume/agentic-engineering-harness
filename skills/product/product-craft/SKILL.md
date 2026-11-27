@@ -41,7 +41,7 @@ Before shaping product work:
 Before acting in a repo, read current local sources instead of trusting memory:
 
 1. `AGENTS.md` or the repo's agent instructions
-2. `CONTEXT.md` or the repo's domain glossary
+2. `GLOSSARY.md` or the repo's domain glossary
 3. `LEARNINGS.md` or equivalent learning log, newest entries first
 4. Relevant ADRs, plans, product docs, roadmap docs, or design docs
 5. Existing code and tests around the surface being changed

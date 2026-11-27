@@ -13,7 +13,11 @@ Use this when a decision or workflow must survive beyond the current chat.
 Before writing docs:
 
 1. Read existing documentation structure: `docs/`, `docs/adr/`, `README.md`,
-   `AGENTS.md`, `CONTEXT.md`, runbooks, and contributing docs.
+   `AGENTS.md`, `GLOSSARY.md`, runbooks, and contributing docs.
+   The glossary is `GLOSSARY.md`. A `CONTEXT.md` that still holds a glossary
+   is the same file under its old name: read it as the glossary and, in a
+   repository you may change, `git mv` it to `GLOSSARY.md`, update its
+   references and leave a two-line stub that points to it.
 2. Follow local naming, numbering, status, and index conventions.
 3. Update existing docs before creating new ones when the topic already exists.
 4. Do not create an ADR for trivial implementation details.

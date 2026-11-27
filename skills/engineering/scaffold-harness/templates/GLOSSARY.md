@@ -1,4 +1,4 @@
-# Domain Context
+# Glossary
 
 This file contains confirmed domain language and invariants. It is not a spec,
 task log, or implementation guide.
