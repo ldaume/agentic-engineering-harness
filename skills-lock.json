@@ -245,7 +245,7 @@
       "source": "local",
       "sourceType": "path",
       "skillPath": "skills/testing/testing-strategies/SKILL.md",
-      "version": "1.9.1"
+      "version": "1.10.0"
     },
     "update-harness": {
       "source": "local",

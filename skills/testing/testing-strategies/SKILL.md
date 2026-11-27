@@ -64,6 +64,11 @@ level, so check those two before adding another level.
   that work to complete before asserting. A sleep that passes at 95 ms and
   fails at 100 ms is not a flaky test; it is a deterministic race the machine's
   speed decides, and calling it flakiness sends the fix to the wrong place.
+- Set a framework's per-test timeout once, in the config every suite reads,
+  and size it for the slowest CI host that runs it. On a busy shared runner
+  with a cold module cache, a test file's first import can outlast the
+  default, so a test the change never touched times out. Raising the limit
+  in that one test leaves the next file to fail the next merge.
 - A negative assertion needs an instrument that would notice the positive.
   "Nothing was fetched" proves nothing when the fake signals the breach by
   throwing and the code under test catches a failure as an ordinary outcome.
