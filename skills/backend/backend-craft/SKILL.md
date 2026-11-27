@@ -150,6 +150,13 @@ acrobatics that slow compilation or hide intent are a design smell.
   green. Bound the value where your code writes it, tolerate it where a
   provider or a model writes it, and pin both with a test that writes past
   every limit through the real write path and reads the record back.
+- A schema script or an integration test run that writes takes whatever
+  `DATABASE_URL` the developer's env file holds, so one pulled or handed-over
+  production connection string sends DDL, fixture inserts, and cleanup deletes
+  to production, from a pre-commit hook too. A rule in the docs did not stop
+  it. Make the script and the test config refuse a non-local host unless the
+  approved deploy route sets an explicit flag, pin that with a test, and leave
+  reads alone.
 - Data changes that affect access control need targeted tests.
 
 ## PocketBase Rules
