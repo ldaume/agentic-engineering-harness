@@ -44,6 +44,9 @@ Before changing an API:
 - Keep auth and ownership checks at the strongest available boundary.
 - Make pagination, filtering, sorting, and limits explicit.
 - Keep idempotency clear for create/update/retry paths.
+  Fingerprint what the client sent, not the parsed body with its defaults:
+  otherwise a new optional field changes the fingerprint at the deploy and a
+  client's valid retry with the same key is refused as a conflict.
 - Avoid leaking provider errors or internal stack details.
 
 ## REST Rules
