@@ -6,7 +6,9 @@ current versions live in [`skills-lock.json`](./skills-lock.json). See
 
 ## Recent releases
 
-- `backend-craft` 1.5.0: an external read awaited per item on a polled list path goes through the process's stale-while-revalidate cache, pinned by a test that reads twice within its freshness window, while a read that gates a write or a merge stays fresh; a slow path is measured before any fix with one log line splitting wall time into CPU, database, external waits, and named steps; a new red flag names the awaited call per item. Evidence: such reads cost seconds per build of a list polled every few seconds, against under one second for the database.
+- `backend-craft` 1.6.0: an external read awaited per item on a polled list path goes through the process's stale-while-revalidate cache, pinned by a test that reads twice within its freshness window, while a read that gates a write or a merge stays fresh; a slow path is measured before any fix with one log line splitting wall time into CPU, database, external waits, and named steps; a new red flag names the awaited call per item. Evidence: such reads cost seconds per build of a list polled every few seconds, against under one second for the database.
+
+- `backend-craft` 1.5.0: schema scripts and test runs refuse a hosted database URL read from an env file.
 
 - `plain-numbers` 1.4.2: a statistical coefficient (correlation, exponent, sigma, prior) counts as jargon; running text replaces it with an example from the data, and a new eval case shows a correlation of 0.40 and an interval that contains no effect, both misread by the owner on a cost page.
 
