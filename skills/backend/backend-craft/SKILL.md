@@ -153,8 +153,8 @@ acrobatics that slow compilation or hide intent are a design smell.
 - A schema script or an integration test run that writes takes whatever
   `DATABASE_URL` the developer's env file holds, so one pulled or handed-over
   production connection string sends DDL, fixture inserts, and cleanup deletes
-  to production, from a pre-commit hook too. A rule in the docs did not stop
-  it. Make the script and the test config refuse a non-local host unless the
+  to production, from a pre-commit hook too. A written rule does not stop a
+  tool that simply loads the file. Make the script and the test config refuse a non-local host unless the
   approved deploy route sets an explicit flag, pin that with a test, and leave
   reads alone.
 - Data changes that affect access control need targeted tests.
