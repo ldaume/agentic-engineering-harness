@@ -158,6 +158,15 @@ acrobatics that slow compilation or hide intent are a design smell.
   approved deploy route sets an explicit flag, pin that with a test, and leave
   reads alone.
 - Data changes that affect access control need targeted tests.
+- A list that decides something per item from the item's whole detail repeats
+  every wait inside that detail once per item. External reads awaited per item
+  outside the cache cost seconds per build of a list polled every few seconds,
+  against under one second for the database. Route every external read on a
+  polled path through the process's stale-while-revalidate cache, or add one,
+  and pin it with a test that reads the page twice within the cache's
+  freshness window and finds no external call the second time. A read that
+  gates a write or a merge reads fresh; the cached answer is for display and
+  polling.
 
 ## PocketBase Rules
 
@@ -230,6 +239,12 @@ Choose checks by risk:
 - e2e or smoke tests for critical user-facing paths
 - build checks for deployment-sensitive changes
 
+For a slow path, measure before any fix: log one line per unit of work that
+splits its wall time into CPU, database, external waits, and named steps
+(counts and times, no values), deploy that line, and read production. The
+time no part accounts for is the lead; an index or a cache chosen before that
+guesses at the cause.
+
 ## Red Flags
 
 `references/vocabulary.md` lists the field's terms for authors and check
@@ -246,3 +261,4 @@ Stop and revise when you see:
 - non-idempotent workers
 - workflow side effects without provenance
 - secrets printed in logs or returned in API responses
+- an external call awaited per item in a list build
