@@ -121,6 +121,26 @@ class AgentReadyTests(unittest.TestCase):
         # Then nothing is reported
         self.assertEqual(self.find(self.root), [])
 
+    def test_template_folders_are_not_instruction_files_of_this_repository(self):
+        # Given a bridged root and a Skill template AGENTS.md (no CLAUDE.md beside it) naming a missing file
+        self.bridged()
+        self.write("skills/demo/templates/workspace/AGENTS.md", "See `docs/gone.md`.\n")
+        # Then the template is not audited
+        self.assertEqual(self.find(self.root), [])
+
+    def test_a_well_known_host_directory_that_does_not_exist_yet_is_a_hint_not_a_finding(self):
+        # Given CLAUDE.md names `.claude/skills/`, which exists only after install
+        self.bridged("Skills link into `.claude/skills/` on Claude Code.\n")
+        # Then no finding is reported
+        self.assertEqual(self.find(self.root), [])
+
+    def test_an_existing_directory_with_a_trailing_slash_passes_and_a_missing_one_is_reported(self):
+        # Given a real directory `docs/` and a missing `plans/`
+        self.write("docs/a.md")
+        self.bridged("See `docs/` and `plans/`.\n")
+        # Then only the missing one is reported
+        self.assertEqual(self.find(self.root), [("missing", "AGENTS.md", "plans/")])
+
     def test_a_claude_file_linked_to_agents_reports_each_finding_once(self):
         # Given CLAUDE.md as a symlink to an AGENTS.md that names a missing file
         self.write("AGENTS.md", "Run `scripts/gone.sh`.\n")

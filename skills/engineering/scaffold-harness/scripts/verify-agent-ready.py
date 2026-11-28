@@ -11,7 +11,10 @@ Findings (exit 1):
   skill-link    a Skill in .agents/skills without a .claude/skills entry
   name          a repository Skill named like a host's built-in command whose
                 frontmatter does not name that /command as its neighbour
-  missing       a path named in AGENTS.md or CLAUDE.md that does not exist
+  missing       a path named in AGENTS.md or CLAUDE.md that does not exist (a
+                directory counts with its trailing slash; a path under a host
+                directory such as .claude/ or .agents/ is not checked, it may
+                exist only after install)
   machine-path  a home-directory path (~, /Users/, /home/) from one person's machine
 A missing glossary (GLOSSARY.md, or the older CONTEXT.md) is printed as a note
 and does not fail: write one only for confirmed domain language. A glossary
@@ -34,7 +37,12 @@ BUILT_INS = {
     "permissions", "plan", "quit", "resume", "review", "security-review",
     "status", "tools",
 }
-SKIP_DIRS = {".git", "node_modules", "vendor", "dist", "build", ".venv"}
+# "templates" holds files this repository ships for others to copy, not its own
+# instructions; a Skill's templates/ folder is never an instruction root here.
+SKIP_DIRS = {".git", "node_modules", "vendor", "dist", "build", ".venv", "templates"}
+# Directories a host creates or this audit recommends creating: an instruction
+# file may name them before they exist (a hint, not a finding).
+HOST_DIRS = {".claude", ".agents", ".codex", ".cursor", ".gemini"}
 BACKTICKS = re.compile(r"`([^`\n]+)`")
 NOT_A_PATH = re.compile(r"[<>*{}$:|=@()\[\]]|^-|^https?:")
 EXTENSION = re.compile(r"\.[A-Za-z][A-Za-z0-9]{0,5}$")
@@ -67,12 +75,14 @@ def bridged(agents):
 
 
 def looks_like_path(token):
-    # ponytail: a token needs a slash and a file extension or trailing slash, so
-    # git refs, config keys, slash commands, and bare file names in prose pass;
-    # an extensionless directory reference is not checked.
-    if NOT_A_PATH.search(token.lstrip("~")) or "/" not in token.strip("/"):
+    # ponytail: a token needs a trailing slash (a directory) or a slash and a file
+    # extension, so git refs, config keys, slash commands, and bare file names in
+    # prose pass; an extensionless directory reference without a slash is not checked.
+    if NOT_A_PATH.search(token.lstrip("~")):
         return False
-    return token.endswith("/") or bool(EXTENSION.search(token))
+    if token.endswith("/"):
+        return token.strip("/") != ""
+    return "/" in token.strip("/") and bool(EXTENSION.search(token))
 
 
 def referenced_paths(text):
@@ -117,6 +127,8 @@ def findings(root):
             if token.startswith(HOME):
                 found.append(("machine-path", relative, token))
             elif token.startswith("/"):
+                continue
+            elif token.split("/")[0] in HOST_DIRS:
                 continue
             elif not ((path.parent / token).exists() or (root / token).exists()):
                 found.append(("missing", relative, token))
